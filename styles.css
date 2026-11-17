@@ -78,25 +78,6 @@ body {
   transition: all 0.2s ease;
 }
 
-#mobile-switch-link {
-  width: auto;
-  border-radius: 999px;
-  padding: 0 14px;
-  gap: 6px;
-  text-decoration: none;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--text-main);
-  background: rgba(14, 18, 27, 0.85);
-  border-color: rgba(245, 158, 11, 0.3);
-}
-
-#mobile-switch-link:hover {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: var(--accent-gold);
-  color: var(--accent-gold-light);
-}
-
 .ctrl-btn:hover {
   color: var(--accent-gold-light);
   border-color: var(--border-gold);
@@ -1026,33 +1007,48 @@ body {
   }
 
   #envelope-wrapper {
-    width: 280px;
-    height: 185px;
+    width: 270px;
+    height: 180px;
   }
   
   .env-letter {
-    width: 92vw;
-    padding: 18px 16px 14px 16px;
+    width: min(340px, 92vw) !important;
+    padding: 16px 14px 12px 14px !important;
+  }
+
+  .env-letter.unfolded {
+    width: min(350px, 92vw) !important;
+    max-height: 82vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
   .letter-recipient {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
   }
 
   .letter-body {
-    font-size: 0.785rem;
-    gap: 5px;
-    line-height: 1.5;
+    font-size: 0.775rem;
+    gap: 4px;
+    line-height: 1.45;
+  }
+
+  .letter-sign strong {
+    font-size: 1.2rem;
   }
 
   .letter-seal {
-    width: 32px;
-    height: 32px;
-    font-size: 0.7rem;
+    width: 30px;
+    height: 30px;
+    font-size: 0.68rem;
   }
 
   .floating-meme-card {
-    width: 130px !important;
+    width: clamp(95px, 26vw, 115px) !important;
+  }
+
+  #teacher-img {
+    width: min(150px, 38vw) !important;
   }
 
   #main-greeting .main-title {
@@ -1068,5 +1064,10 @@ body {
     height: clamp(240px, 38vh, 320px);
     padding: 12px 16px;
     gap: 12px;
+  }
+
+  .lightbox-content img {
+    max-width: 95vw;
+    max-height: 80vh;
   }
 }

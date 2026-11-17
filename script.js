@@ -363,6 +363,14 @@ window.addEventListener('mousemove', (e) => {
   mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
 }, { passive: true });
 
+// Hỗ trợ cảm ứng vuốt trên màn hình điện thoại di động
+window.addEventListener('touchmove', (e) => {
+  if (e.touches && e.touches[0]) {
+    mouseX = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+  }
+}, { passive: true });
+
 let targetProgress = 0;
 let currentProgress = 0;
 let lastTriggerStage = -1;
@@ -391,8 +399,10 @@ function initAnimationLoop() {
   const finalTribute = document.getElementById('final-tribute');
 
   function animate(time) {
-    // Lerp mượt mà 60fps
-    currentProgress += (targetProgress - currentProgress) * 0.055;
+    // Lerp mượt mà 60fps (thích ứng phản hồi cảm ứng nhanh trên điện thoại)
+    const isMobile = window.innerWidth <= 768;
+    const lerpRate = isMobile ? 0.08 : 0.055;
+    currentProgress += (targetProgress - currentProgress) * lerpRate;
     if (Math.abs(targetProgress - currentProgress) < 0.0001) {
       currentProgress = targetProgress;
     }
@@ -603,7 +613,13 @@ function initAnimationLoop() {
       if (itemProgress < 0.15) op = mapRange(itemProgress, 0, 0.15, 0, 1);
       else if (itemProgress > 0.85) op = mapRange(itemProgress, 0.85, 1, 1, 0);
 
-      item.el.style.transform = `translate(${d.baseX + swayX}vw, calc(${currentY}vh + ${floatY}px)) rotate(${dynamicRot}deg) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${scaleBreath})`;
+      // Cân chỉnh toạ độ baseX và biên độ lắc để không bị tràn hoặc che khuất ảnh cô trên màn hình dọc điện thoại
+      const targetBaseX = isMobile 
+        ? (d.baseX > 50 ? (58 + (d.baseX - 62) * 0.35) : (2 + (d.baseX - 5) * 0.35))
+        : d.baseX;
+      const actualSwayX = isMobile ? swayX * 0.45 : swayX;
+
+      item.el.style.transform = `translate(${targetBaseX + actualSwayX}vw, calc(${currentY}vh + ${floatY}px)) rotate(${dynamicRot}deg) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${scaleBreath})`;
       item.el.style.opacity = op;
       item.el.style.pointerEvents = op > 0.2 ? 'auto' : 'none';
     });
