@@ -1141,6 +1141,12 @@
         </div>
 
         <div class="admin-actions-bar">
+          <button id="btn-share-sync" class="admin-tool-btn" style="background: rgba(245, 158, 11, 0.2); border-color: var(--accent-gold); color: var(--accent-gold-light); font-weight: 700;" title="Tạo link gửi qua Zalo/Messenger để đồng bộ sang điện thoại">
+            📲 Tạo Link Đồng Bộ Sang ĐT
+          </button>
+          <button id="btn-import-code" class="admin-tool-btn" title="Nhập mã đồng bộ hoặc dán link từ thiết bị khác">
+            📥 Nhập Mã Đồng Bộ
+          </button>
           <button id="btn-sync-main" class="admin-tool-btn" title="Cập nhật trực tiếp dữ liệu sang web chính">
             🔄 Buộc Đồng bộ Tất cả
           </button>
@@ -1317,26 +1323,103 @@
       } catch (e) {}
     }
 
+    // Đồng bộ tự động từ wishes.json trên server/repository
+    async function syncWishesFromRemote() {
+      try {
+        const res = await fetch('wishes.json?_t=' + Date.now(), { cache: 'no-store' });
+        if (res.ok) {
+          const remoteWishes = await res.json();
+          if (Array.isArray(remoteWishes)) {
+            const deletedIds = getDeletedIds();
+            const localWishes = getWishes();
+            const wishMap = new Map();
+
+            // 1. Thêm danh sách từ server
+            remoteWishes.forEach(w => {
+              if (w && w.id && !deletedIds.includes(w.id)) {
+                wishMap.set(w.id, w);
+              }
+            });
+
+            // 2. Thêm danh sách cục bộ đã gửi trên máy này
+            localWishes.forEach(w => {
+              if (w && w.id && !deletedIds.includes(w.id)) {
+                wishMap.set(w.id, w);
+              }
+            });
+
+            saveWishes(Array.from(wishMap.values()));
+            renderFeed();
+          }
+        }
+      } catch (e) {
+        console.warn('Sync remote wishes fallback', e);
+      }
+    }
+
+    // Xử lý tự động nạp lời chúc khi mở qua Link Đồng Bộ (?sync=... hoặc ?import=...)
+    function handleUrlImport() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const importData = urlParams.get('sync') || urlParams.get('import');
+        if (importData) {
+          const decoded = decodeURIComponent(escape(atob(importData)));
+          const parsed = JSON.parse(decoded);
+          const list = Array.isArray(parsed) ? parsed : (parsed.wishes || []);
+          if (list.length > 0) {
+            const deletedIds = getDeletedIds();
+            const existingWishes = getWishes();
+            const wishMap = new Map();
+            existingWishes.forEach(w => wishMap.set(w.id, w));
+            let addedCount = 0;
+            list.forEach(w => {
+              if (w && w.id && !deletedIds.includes(w.id)) {
+                if (!wishMap.has(w.id)) {
+                  wishMap.set(w.id, w);
+                  addedCount++;
+                }
+              }
+            });
+            saveWishes(Array.from(wishMap.values()));
+            const toast = document.getElementById('toast');
+            if (toast) {
+              toast.textContent = `Tuyệt vời! Đã đồng bộ thành công ${addedCount} lời chúc mới từ thiết bị khác sang đây!`;
+              toast.className = 'toast-msg success';
+              toast.style.display = 'block';
+            }
+            window.history.replaceState({}, document.title, window.location.pathname);
+            renderFeed();
+          }
+        }
+      } catch (e) {
+        console.warn('URL sync import error', e);
+      }
+    }
+
     // Khởi tạo
     document.addEventListener('DOMContentLoaded', async () => {
       recordVisitor("Khách truy cập (Vào trang)");
       initSyncChannel();
 
-      // Nạp dữ liệu ban đầu từ wishes.json nếu chưa khởi tạo
-      if (!localStorage.getItem('co_duyen_anh_initialized')) {
-        try {
-          const res = await fetch('wishes.json');
-          if (res.ok) {
-            const fileWishes = await res.json();
-            if (Array.isArray(fileWishes)) {
-              saveWishes(fileWishes);
-            }
-          }
-        } catch (e) {}
-        localStorage.setItem('co_duyen_anh_initialized', 'true');
-      }
+      // Xử lý nạp từ liên kết chia sẻ nếu có
+      handleUrlImport();
 
+      // Render ngay dữ liệu có sẵn
       renderFeed();
+
+      // Tự động đồng bộ với dữ liệu wishes.json trên server/repository
+      await syncWishesFromRemote();
+
+      // Tự động kiểm tra và đồng bộ khi quay lại tab
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          syncWishesFromRemote();
+        }
+      });
+
+      // Tự động kiểm tra định kỳ mỗi 15 giây
+      setInterval(syncWishesFromRemote, 15000);
+
       initTabs();
       initMultiPhotoUpload();
       initWishForm();
@@ -1730,6 +1813,76 @@
         a.click();
         URL.revokeObjectURL(url);
       });
+
+      // Tạo Link Chia Sẻ / Đồng Bộ trực tiếp sang điện thoại (hoặc thiết bị khác)
+      const btnShareSync = document.getElementById('btn-share-sync');
+      if (btnShareSync) {
+        btnShareSync.addEventListener('click', () => {
+          const wishes = getWishes();
+          if (wishes.length === 0) {
+            alert('Chưa có lời chúc nào trong danh sách để đồng bộ!');
+            return;
+          }
+          const cleanData = wishes.map(w => ({
+            id: w.id,
+            author: w.author,
+            wish: w.wish,
+            time: w.time
+          }));
+          const base64 = btoa(unescape(encodeURIComponent(JSON.stringify(cleanData))));
+          const syncUrl = window.location.origin + window.location.pathname + '?sync=' + base64;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(syncUrl).then(() => {
+              alert('ĐÃ SAO CHÉP LINK ĐỒNG BỘ!\n\nHãy gửi link này qua Zalo/Messenger rồi bấm mở trên điện thoại (hoặc thiết bị khác), toàn bộ lời chúc sẽ được đồng bộ ngay tức thì!');
+            }).catch(() => {
+              prompt('Hãy sao chép đường link bên dưới và gửi sang điện thoại để đồng bộ:', syncUrl);
+            });
+          } else {
+            prompt('Hãy sao chép đường link bên dưới và gửi sang điện thoại để đồng bộ:', syncUrl);
+          }
+        });
+      }
+
+      // Nhập mã đồng bộ từ thiết bị khác
+      const btnImportCode = document.getElementById('btn-import-code');
+      if (btnImportCode) {
+        btnImportCode.addEventListener('click', () => {
+          const input = prompt('Dán link đồng bộ hoặc mã JSON từ thiết bị khác vào đây:');
+          if (!input) return;
+          try {
+            let raw = input.trim();
+            if (raw.includes('?sync=') || raw.includes('?import=')) {
+              const param = raw.split('sync=')[1] || raw.split('import=')[1];
+              raw = decodeURIComponent(escape(atob(param.split('&')[0])));
+            }
+            const parsed = JSON.parse(raw);
+            const list = Array.isArray(parsed) ? parsed : (parsed.wishes || []);
+            if (list.length === 0) {
+              alert('Không tìm thấy dữ liệu lời chúc hợp lệ trong mã!');
+              return;
+            }
+            const deletedIds = getDeletedIds();
+            const existing = getWishes();
+            const wishMap = new Map();
+            existing.forEach(w => wishMap.set(w.id, w));
+            let count = 0;
+            list.forEach(w => {
+              if (w && w.id && !deletedIds.includes(w.id)) {
+                if (!wishMap.has(w.id)) {
+                  wishMap.set(w.id, w);
+                  count++;
+                }
+              }
+            });
+            saveWishes(Array.from(wishMap.values()));
+            renderFeed();
+            renderAdminDashboard();
+            alert(`Thành công! Đã đồng bộ thêm ${count} lời chúc mới vào hệ thống!`);
+          } catch (err) {
+            alert('Mã không hợp lệ. Vui lòng kiểm tra lại!');
+          }
+        });
+      }
     }
 
     function renderAdminDashboard() {

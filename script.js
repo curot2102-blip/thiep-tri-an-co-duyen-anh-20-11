@@ -487,27 +487,58 @@ function getDeletedIds() {
 }
 
 async function initWishesData() {
-  const isInit = localStorage.getItem('co_duyen_anh_initialized');
-  if (!isInit) {
-    try {
-      const res = await fetch('wishes.json');
-      if (res.ok) {
-        const fileWishes = await res.json();
-        if (Array.isArray(fileWishes)) {
-          const currentLocal = localStorage.getItem('co_duyen_anh_wishes');
-          if (!currentLocal) {
-            localStorage.setItem('co_duyen_anh_wishes', JSON.stringify(fileWishes));
-          }
-        }
-      }
-    } catch (e) {
-      console.warn('Wishes fetch fallback', e);
-    }
-    localStorage.setItem('co_duyen_anh_initialized', 'true');
-  }
-
+  // Render dữ liệu hiện có ngay lập tức để không bị độ trễ
   renderSubLetters();
   renderContributedPhotos();
+
+  // Luôn luôn đồng bộ mới nhất từ server/wishes.json (loại bỏ triệt để cấm tải lại)
+  await syncWishesFromRemote();
+
+  // Tự động kiểm tra và đồng bộ khi người dùng quay lại tab
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      syncWishesFromRemote();
+    }
+  });
+
+  // Tự động đồng bộ ngầm định kỳ mỗi 15 giây
+  setInterval(syncWishesFromRemote, 15000);
+}
+
+async function syncWishesFromRemote() {
+  try {
+    const res = await fetch('wishes.json?_t=' + Date.now(), { cache: 'no-store' });
+    if (res.ok) {
+      const remoteWishes = await res.json();
+      if (Array.isArray(remoteWishes)) {
+        const deletedIds = getDeletedIds();
+        let localWishes = [];
+        try {
+          const raw = localStorage.getItem('co_duyen_anh_wishes');
+          if (raw) localWishes = JSON.parse(raw);
+        } catch (e) {}
+
+        // Hợp nhất (Merge) thông minh: Ưu tiên gom đủ lời chúc từ cả remote và local
+        const wishMap = new Map();
+        remoteWishes.forEach(w => {
+          if (w && w.id && !deletedIds.includes(w.id)) {
+            wishMap.set(w.id, w);
+          }
+        });
+        localWishes.forEach(w => {
+          if (w && w.id && !deletedIds.includes(w.id)) {
+            wishMap.set(w.id, w);
+          }
+        });
+
+        const merged = Array.from(wishMap.values());
+        localStorage.setItem('co_duyen_anh_wishes', JSON.stringify(merged));
+        renderSubLetters();
+      }
+    }
+  } catch (e) {
+    // Nếu ngoại tuyến, tiếp tục sử dụng dữ liệu offline từ localStorage
+  }
 }
 
 function renderSubLetters() {
@@ -918,7 +949,7 @@ function initAnimationLoop() {
       if (stageBadge) stageBadge.textContent = 'Giai đoạn 4: Vũ trụ Meme Cô Duyên Anh';
     } else if (p < 0.76) {
       currentStage = 5;
-      if (stageBadge) stageBadge.textContent = 'Giai đoạn 5: Thước phim Kỷ yếu & Kỷ niệm 35mm';
+      if (stageBadge) stageBadge.textContent = 'Giai đoạn 5: Cuộn phim Kỷ yếu & Kỷ niệm 35mm';
     } else if (p < 0.90) {
       currentStage = 6;
       if (stageBadge) stageBadge.textContent = 'Giai đoạn 6: Những lá thư tri ân từ học trò';
@@ -956,32 +987,38 @@ function initAnimationLoop() {
     let unfoldProgress = 0;
     let letterZ = 2;
 
-    if (p <= 0.035) {
-      // Khi phong bì chưa mở hẳn: lá thư ẩn gọn trong phong bì
+    if (p <= 0.045) {
+      // Khi phong bì chưa mở hẳn: lá thư ẩn kín 100%, tuyệt đối không thò mép
       letterOpacity = 0;
-      letterY = 20;
+      letterY = 25;
       letterScale = 0.65;
       unfoldProgress = 0;
       letterZ = 2;
-      if (letter) letter.classList.remove('unfolded');
-    } else if (p <= 0.075) {
-      // Nắp mở ra, lá thư trượt êm ái lên trên khỏi miệng phong bì
-      letterOpacity = mapRange(p, 0.035, 0.06, 0, 1);
-      letterY = mapRange(p, 0.035, 0.075, 20, -120);
-      letterScale = mapRange(p, 0.035, 0.075, 0.65, 0.75);
+      if (letter) {
+        letter.style.visibility = 'hidden';
+        letter.classList.remove('unfolded');
+      }
+    } else if (p <= 0.085) {
+      // Nắp mở ra, lá thư mới xuất hiện và trượt êm ái lên trên khỏi miệng phong bì
+      if (letter) letter.style.visibility = 'visible';
+      letterOpacity = mapRange(p, 0.045, 0.065, 0, 1);
+      letterY = mapRange(p, 0.045, 0.085, 25, -140);
+      letterScale = mapRange(p, 0.045, 0.085, 0.65, 0.78);
       unfoldProgress = 0;
-      letterZ = p > 0.065 ? 65 : 2;
+      letterZ = p > 0.07 ? 65 : 2;
       if (letter) letter.classList.remove('unfolded');
     } else if (p <= 0.15) {
       // Lá thư mở bung 3D, phóng to và lướt về trung tâm màn hình mượt mà
-      unfoldProgress = mapRange(p, 0.075, 0.15, 0, 1);
-      letterY = mapRange(p, 0.075, 0.15, -120, 0);
-      letterScale = mapRange(p, 0.075, 0.15, 0.75, 1.0);
+      if (letter) letter.style.visibility = 'visible';
+      unfoldProgress = mapRange(p, 0.085, 0.15, 0, 1);
+      letterY = mapRange(p, 0.085, 0.15, -140, 0);
+      letterScale = mapRange(p, 0.085, 0.15, 0.78, 1.0);
       letterOpacity = 1;
       letterZ = 65;
       if (letter) letter.classList.add('unfolded');
     } else if (p <= 0.20) {
       // Lá thư dừng ở trung tâm màn hình để người đọc thưởng thức, bồng bềnh nhẹ nhàng
+      if (letter) letter.style.visibility = 'visible';
       unfoldProgress = 1;
       letterY = Math.sin(time * 0.002) * 4;
       letterScale = 1.0;
@@ -992,6 +1029,7 @@ function initAnimationLoop() {
       if (letter) letter.classList.add('unfolded');
     } else if (p <= 0.25) {
       // Chuyển tiếp mượt sang giai đoạn chữ tri ân
+      if (letter) letter.style.visibility = 'visible';
       unfoldProgress = 1;
       letterY = mapRange(p, 0.20, 0.25, 0, -30);
       letterScale = mapRange(p, 0.20, 0.25, 1.0, 1.35);
@@ -1000,7 +1038,10 @@ function initAnimationLoop() {
       if (letter) letter.classList.add('unfolded');
     } else {
       letterOpacity = 0;
-      if (letter) letter.classList.remove('unfolded');
+      if (letter) {
+        letter.style.visibility = 'hidden';
+        letter.classList.remove('unfolded');
+      }
     }
 
     if (letterSecTop && letterSecBottom) {
@@ -1018,8 +1059,8 @@ function initAnimationLoop() {
     // Phong bì (env-part) trôi xuống và mờ dần rất êm dịu
     if (p <= 0.20) {
       envHidden = false;
-      const envDropY = mapRange(p, 0.075, 0.15, 0, 240);
-      const envOpacity = mapRange(p, 0.075, 0.13, 1, 0);
+      const envDropY = mapRange(p, 0.085, 0.15, 0, 240);
+      const envOpacity = mapRange(p, 0.085, 0.13, 1, 0);
       envParts.forEach(el => {
         if (el.id === 'flap') {
           el.style.transform = `translateY(${envDropY}px) rotateX(${flapAngle}deg)`;
