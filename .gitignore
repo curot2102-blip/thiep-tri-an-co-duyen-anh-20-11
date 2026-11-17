@@ -7,3 +7,5 @@ images/DSC*
 desktop.ini
 .DS_Store
 find_unused.js
+*.md
+
