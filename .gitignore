@@ -1,0 +1,9 @@
+# Git ignore for lightweight mobile web deployment
+# Exclude heavy RAW DSLR photos and unused duplicates (~138MB)
+images/\[2008.Stu\]*
+images/DSC*
+*.pptx
+*.docx
+desktop.ini
+.DS_Store
+find_unused.js

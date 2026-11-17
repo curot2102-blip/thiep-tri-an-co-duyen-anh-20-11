@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Thiệp Tri Ân 20/11 & Vũ Trụ Kỷ Niệm Cô Duyên Anh</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Thanh đo tiến trình cuộn trên cùng -->
+  <div id="scroll-progress-bar"></div>
+
+  <!-- Nút điều khiển âm thanh & hỗ trợ nhanh -->
+  <div id="quick-controls">
+    <a href="mobile.html" id="mobile-switch-link" class="ctrl-btn" title="Chuyển sang giao diện Di Động">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+      </svg>
+      <span>Bản Di Động</span>
+    </a>
+    <button id="sound-btn" class="ctrl-btn" title="Bật / Tắt âm thanh" aria-label="Toggle Sound">
+      <svg id="sound-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      </svg>
+      <svg id="sound-icon-off" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <line x1="23" y1="9" x2="17" y2="15"></line>
+        <line x1="17" y1="9" x2="23" y2="15"></line>
+      </svg>
+    </button>
+    <div id="stage-badge">Giai đoạn 1: Mở phong bì thư</div>
+  </div>
+
+  <!-- SCENE CỐ ĐỊNH CHỨA TOÀN BỘ CHUYỂN ĐỘNG ANTIGRAVITY -->
+  <div id="scene">
+
+    <!-- LỚP 1: BỤI SAO & BỤI VÀNG VŨ TRỤ -->
+    <div id="dust-container"></div>
+
+    <!-- LỚP 2: CÁC ICON HỌC ĐƯỜNG & BIỂU TƯỢNG BAY LƠ LỬNG -->
+    <div id="icons-container"></div>
+
+    <!-- LỚP 3: CÁC THẺ MEME VÀ ẢNH CỦA CÔ DUYÊN ANH TRÔI LƠ LỬNG -->
+    <div id="memes-container"></div>
+
+    <!-- LỚP 4: PHONG BÌ THƯ 3D VÀ BỨC TÂM THƯ (CẤU TRÚC PHẲNG CHUẨN XÁC) -->
+    <div id="envelope-wrapper">
+      <!-- 1. Mặt lưng phong bì -->
+      <div class="env-part env-back"></div>
+
+      <!-- 2. Bức thư bên trong - Nằm gọn trong phong bì, rút lên và mở phẳng 3D -->
+      <div class="env-letter" id="letter">
+        <div class="paper-crease crease-1" id="crease-1"></div>
+        <div class="paper-crease crease-2" id="crease-2"></div>
+        
+        <div class="letter-section letter-sec-top" id="letter-sec-top">
+          <div class="letter-stamp">20.11</div>
+          <div class="letter-header">Kính gửi,</div>
+          <div class="letter-recipient">Cô Duyên Anh Yêu Quý 💖</div>
+        </div>
+
+        <div class="letter-section letter-sec-middle" id="letter-sec-middle">
+          <div class="letter-body">
+            <p>Nhân ngày Nhà giáo Việt Nam 20/11, chúng em xin gửi đến Cô lời chúc sức khỏe, hạnh phúc và vạn sự như ý!</p>
+            <p>Cảm ơn Cô vì đã luôn kiên nhẫn, tận tâm truyền dạy tri thức và luôn thấu hiểu, bao dung cho học trò.</p>
+            <p>Em nhớ những tiếng chửi yêu thương của Cô. Những lần Cô "chửi" khiến chúng em ngày càng trưởng thành hơn!</p>
+            <p>Dù chúng em có lúc nghịch ngợm khiến Cô phải "đau đầu" (và tạo ra cả một bầu trời meme huyền thoại)... thì trong lòng chúng em, Cô mãi luôn là người giáo viên tuyệt vời, ấm áp và đáng yêu nhất!</p>
+          </div>
+        </div>
+
+        <div class="letter-section letter-sec-bottom" id="letter-sec-bottom">
+          <div class="letter-sign">
+            <span>Kính yêu,</span>
+            <strong>Những đứa học trò của Cô ✿</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Các nắp phong bì che phía trước lá thư -->
+      <div class="env-part env-left"></div>
+      <div class="env-part env-right"></div>
+      <div class="env-part env-bottom"></div>
+      <div class="env-part env-flap" id="flap"></div>
+
+      <!-- Chỉ dẫn cuộn chuột -->
+      <div id="scroll-hint">
+        <div class="mouse-icon">
+          <div class="wheel"></div>
+        </div>
+        <span>Cuộn xuống để mở thư ↓</span>
+      </div>
+    </div>
+
+    <!-- LỚP 5: CHỮ CHÚC MỪNG CHÍNH (HIỆN RA ĐỘC LẬP SAU KHI ĐỌC THƯ, KHÔNG CHỒNG MEME) -->
+    <div id="main-greeting">
+      <div class="sub-title">Tri Ân Ngày Nhà Giáo Việt Nam 20/11</div>
+      <h1 class="main-title">Chúc Cô Duyên Anh 20/11 vui vẻ!</h1>
+      <p class="greeting-desc">Chào mừng Cô đến với Vũ Trụ Kỷ Niệm & Những Khoảnh Khắc Meme Bất Hủ!</p>
+    </div>
+
+    <!-- LỚP 6: TRUNG TÂM KỶ NIỆM (HÌNH CÔ DUYÊN ANH TÁCH NỀN VÀ KHUNG HOA) -->
+    <div id="teacher-centerpiece">
+      <div class="portrait-glow"></div>
+      <img src="images/tách người.png" alt="Cô Duyên Anh" id="teacher-img">
+      <div class="portrait-caption">
+        <h3>Cô Duyên Anh</h3>
+        <p>Người lái đò tận tâm & Đầy ắp tiếng cười</p>
+      </div>
+    </div>
+
+        <!-- LỚP 7: ĐẠI THƯỚC PHIM KỶ YẾU & KỶ NIỆM THANH XUÂN 35MM (31 KHUNG HÌNH GIỮ NGUYÊN TỈ LỆ) -->
+    <div id="film-stage">
+      <div class="film-strip-outer">
+        <div class="film-strip-track" id="film-track">
+          <!-- Dải răng cưa trên -->
+          <div class="film-sprockets top">
+            <span class="film-meta-text">KODAK VISION3 500T &bull; 20.11 &bull; KỶ YẾU & KỶ NIỆM CÔ DUYÊN ANH</span>
+          </div>
+
+          <!-- Các khung hình kỷ yếu & kỷ niệm (31 khung hình - Giữ nguyên 100% tỉ lệ ảnh dọc/ngang, không text che) -->
+          <div class="film-frames-row" id="film-frames-row">
+            <!-- 1. ky yeu 1.jpg -->
+            <div class="film-frame landscape" data-src="images/ky yeu 1.jpg">
+              <div class="frame-num">01A</div>
+              <img src="images/ky yeu 1.jpg" alt="Kỷ niệm 01A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 2. ky yeu 2.jpg -->
+            <div class="film-frame portrait" data-src="images/ky yeu 2.jpg">
+              <div class="frame-num">02A</div>
+              <img src="images/ky yeu 2.jpg" alt="Kỷ niệm 02A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 3. ky yeu 3.jpg -->
+            <div class="film-frame landscape" data-src="images/ky yeu 3.jpg">
+              <div class="frame-num">03A</div>
+              <img src="images/ky yeu 3.jpg" alt="Kỷ niệm 03A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 4. IMG_20260628_132453.jpg -->
+            <div class="film-frame landscape" data-src="images/IMG_20260628_132453.jpg">
+              <div class="frame-num">04A</div>
+              <img src="images/IMG_20260628_132453.jpg" alt="Kỷ niệm 04A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 5. IMG20260312080843.jpg -->
+            <div class="film-frame landscape" data-src="images/IMG20260312080843.jpg">
+              <div class="frame-num">05A</div>
+              <img src="images/IMG20260312080843.jpg" alt="Kỷ niệm 05A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 6. IMG20260312081020.jpg -->
+            <div class="film-frame landscape" data-src="images/IMG20260312081020.jpg">
+              <div class="frame-num">06A</div>
+              <img src="images/IMG20260312081020.jpg" alt="Kỷ niệm 06A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 7. IMG_20260522_192412.jpg -->
+            <div class="film-frame landscape" data-src="images/IMG_20260522_192412.jpg">
+              <div class="frame-num">07A</div>
+              <img src="images/IMG_20260522_192412.jpg" alt="Kỷ niệm 07A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 8. 74c94989-d87e-4e09-87c3-ac5d301be7b5.jpg -->
+            <div class="film-frame portrait" data-src="images/74c94989-d87e-4e09-87c3-ac5d301be7b5.jpg">
+              <div class="frame-num">08A</div>
+              <img src="images/74c94989-d87e-4e09-87c3-ac5d301be7b5.jpg" alt="Kỷ niệm 08A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 9. 52f3d910-7c05-43f3-8fb9-a251f9dfc850.jpg -->
+            <div class="film-frame portrait" data-src="images/52f3d910-7c05-43f3-8fb9-a251f9dfc850.jpg">
+              <div class="frame-num">09A</div>
+              <img src="images/52f3d910-7c05-43f3-8fb9-a251f9dfc850.jpg" alt="Kỷ niệm 09A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 10. 322df23c-ff01-47fd-b8cc-031db6c761a6.jpg -->
+            <div class="film-frame landscape" data-src="images/322df23c-ff01-47fd-b8cc-031db6c761a6.jpg">
+              <div class="frame-num">10A</div>
+              <img src="images/322df23c-ff01-47fd-b8cc-031db6c761a6.jpg" alt="Kỷ niệm 10A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 11. df762802-7af9-407a-981a-074fa58115ec.jpg -->
+            <div class="film-frame portrait" data-src="images/df762802-7af9-407a-981a-074fa58115ec.jpg">
+              <div class="frame-num">11A</div>
+              <img src="images/df762802-7af9-407a-981a-074fa58115ec.jpg" alt="Kỷ niệm 11A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 12. ef78565f-6a16-4626-966e-1df8868fdfe9.jpg -->
+            <div class="film-frame portrait" data-src="images/ef78565f-6a16-4626-966e-1df8868fdfe9.jpg">
+              <div class="frame-num">12A</div>
+              <img src="images/ef78565f-6a16-4626-966e-1df8868fdfe9.jpg" alt="Kỷ niệm 12A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 13. 1a31bb96-5e83-47c6-870a-ffb27575b656.jpg -->
+            <div class="film-frame portrait" data-src="images/1a31bb96-5e83-47c6-870a-ffb27575b656.jpg">
+              <div class="frame-num">13A</div>
+              <img src="images/1a31bb96-5e83-47c6-870a-ffb27575b656.jpg" alt="Kỷ niệm 13A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 14. IMG_20261113_182145.jpg -->
+            <div class="film-frame portrait" data-src="images/IMG_20261113_182145.jpg">
+              <div class="frame-num">14A</div>
+              <img src="images/IMG_20261113_182145.jpg" alt="Kỷ niệm 14A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 15. zalo_1092188570085236.jpg -->
+            <div class="film-frame portrait" data-src="images/zalo_1092188570085236.jpg">
+              <div class="frame-num">15A</div>
+              <img src="images/zalo_1092188570085236.jpg" alt="Kỷ niệm 15A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 16. IMG_20261116_173808.jpg -->
+            <div class="film-frame landscape" data-src="images/IMG_20261116_173808.jpg">
+              <div class="frame-num">16A</div>
+              <img src="images/IMG_20261116_173808.jpg" alt="Kỷ niệm 16A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 17. 3ca1e943-04cd-4dd1-bb05-e2ef739968bd.jpg -->
+            <div class="film-frame portrait" data-src="images/3ca1e943-04cd-4dd1-bb05-e2ef739968bd.jpg">
+              <div class="frame-num">17A</div>
+              <img src="images/3ca1e943-04cd-4dd1-bb05-e2ef739968bd.jpg" alt="Kỷ niệm 17A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 18. b03ce282-7791-4977-8fba-b740059c945b.jpg -->
+            <div class="film-frame portrait" data-src="images/b03ce282-7791-4977-8fba-b740059c945b.jpg">
+              <div class="frame-num">18A</div>
+              <img src="images/b03ce282-7791-4977-8fba-b740059c945b.jpg" alt="Kỷ niệm 18A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 19. 36b2a62c-f4c5-48ea-8794-609a3a8035e5.jpg -->
+            <div class="film-frame portrait" data-src="images/36b2a62c-f4c5-48ea-8794-609a3a8035e5.jpg">
+              <div class="frame-num">19A</div>
+              <img src="images/36b2a62c-f4c5-48ea-8794-609a3a8035e5.jpg" alt="Kỷ niệm 19A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 20. 3319ddd8-5ca3-43d8-8985-4ec71330e377.jpg -->
+            <div class="film-frame portrait" data-src="images/3319ddd8-5ca3-43d8-8985-4ec71330e377.jpg">
+              <div class="frame-num">20A</div>
+              <img src="images/3319ddd8-5ca3-43d8-8985-4ec71330e377.jpg" alt="Kỷ niệm 20A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 21. 5852b26f-0991-43a3-a286-b2a2eb485004.jpg -->
+            <div class="film-frame portrait" data-src="images/5852b26f-0991-43a3-a286-b2a2eb485004.jpg">
+              <div class="frame-num">21A</div>
+              <img src="images/5852b26f-0991-43a3-a286-b2a2eb485004.jpg" alt="Kỷ niệm 21A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 22. 2e91fc48-904d-4678-a922-bbec063d31f4.jpg -->
+            <div class="film-frame landscape" data-src="images/2e91fc48-904d-4678-a922-bbec063d31f4.jpg">
+              <div class="frame-num">22A</div>
+              <img src="images/2e91fc48-904d-4678-a922-bbec063d31f4.jpg" alt="Kỷ niệm 22A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 23. a52b0765-54fc-406d-8a3b-f11c560ede00.jpg -->
+            <div class="film-frame landscape" data-src="images/a52b0765-54fc-406d-8a3b-f11c560ede00.jpg">
+              <div class="frame-num">23A</div>
+              <img src="images/a52b0765-54fc-406d-8a3b-f11c560ede00.jpg" alt="Kỷ niệm 23A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 24. 761104b9-30ce-4deb-8775-a2269c386398.jpg -->
+            <div class="film-frame portrait" data-src="images/761104b9-30ce-4deb-8775-a2269c386398.jpg">
+              <div class="frame-num">24A</div>
+              <img src="images/761104b9-30ce-4deb-8775-a2269c386398.jpg" alt="Kỷ niệm 24A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 25. 45bb53b4-ad21-4d78-9abf-913f2ee934b3.jpg -->
+            <div class="film-frame portrait" data-src="images/45bb53b4-ad21-4d78-9abf-913f2ee934b3.jpg">
+              <div class="frame-num">25A</div>
+              <img src="images/45bb53b4-ad21-4d78-9abf-913f2ee934b3.jpg" alt="Kỷ niệm 25A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 26. 933fa071-07fa-4084-9251-ee5a7202b1ac.jpg -->
+            <div class="film-frame portrait" data-src="images/933fa071-07fa-4084-9251-ee5a7202b1ac.jpg">
+              <div class="frame-num">26A</div>
+              <img src="images/933fa071-07fa-4084-9251-ee5a7202b1ac.jpg" alt="Kỷ niệm 26A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 27. a250e80a-358f-4a05-99c4-515dc2f6db5d.jpg -->
+            <div class="film-frame landscape" data-src="images/a250e80a-358f-4a05-99c4-515dc2f6db5d.jpg">
+              <div class="frame-num">27A</div>
+              <img src="images/a250e80a-358f-4a05-99c4-515dc2f6db5d.jpg" alt="Kỷ niệm 27A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 28. f86f1dae-6657-495a-8137-e4840d05528d.jpg -->
+            <div class="film-frame landscape" data-src="images/f86f1dae-6657-495a-8137-e4840d05528d.jpg">
+              <div class="frame-num">28A</div>
+              <img src="images/f86f1dae-6657-495a-8137-e4840d05528d.jpg" alt="Kỷ niệm 28A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 29. a120cea8-aead-4cb2-bdb7-134abae3d0fe.jpg -->
+            <div class="film-frame portrait" data-src="images/a120cea8-aead-4cb2-bdb7-134abae3d0fe.jpg">
+              <div class="frame-num">29A</div>
+              <img src="images/a120cea8-aead-4cb2-bdb7-134abae3d0fe.jpg" alt="Kỷ niệm 29A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 30. e77fc3ee-ead5-45da-93ee-b93db004dfa2.jpg -->
+            <div class="film-frame landscape" data-src="images/e77fc3ee-ead5-45da-93ee-b93db004dfa2.jpg">
+              <div class="frame-num">30A</div>
+              <img src="images/e77fc3ee-ead5-45da-93ee-b93db004dfa2.jpg" alt="Kỷ niệm 30A" class="film-img" loading="lazy">
+            </div>
+
+            <!-- 31. 0a2c8a0c-c59f-4599-aa30-0f9c3273f728.jpg -->
+            <div class="film-frame portrait" data-src="images/0a2c8a0c-c59f-4599-aa30-0f9c3273f728.jpg">
+              <div class="frame-num">31A</div>
+              <img src="images/0a2c8a0c-c59f-4599-aa30-0f9c3273f728.jpg" alt="Kỷ niệm 31A" class="film-img" loading="lazy">
+            </div>
+          </div>
+
+          <!-- Dải răng cưa dưới -->
+          <div class="film-sprockets bottom">
+            <span class="film-meta-text">EASTMAN FILM &bull; SAFETY FILM &bull; TRI ÂN CÔ DUYÊN ANH 20.11</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LỚP 8: NÚT TƯƠNG TÁC THẢ TIM VÀ CUỘN LÊN ĐẦU TRANG -->
+    <div id="final-tribute">
+      <div class="tribute-card">
+        <div class="tribute-actions">
+          <button id="heart-btn" class="action-btn">
+            ❤️ Thả tim cho Cô (<span id="heart-count">999</span>)
+          </button>
+          <button id="replay-btn" class="action-btn secondary">
+            ↺ Cuộn lên đầu trang
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LIGHTBOX MODAL PHÓNG TO MEME & ẢNH KỶ NIỆM -->
+  <div id="meme-lightbox" class="lightbox-overlay" aria-hidden="true">
+    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Đóng">&times;</button>
+      <div class="lightbox-img-wrapper">
+        <img id="lightbox-img" src="" alt="Ảnh phóng to">
+      </div>
+      <div class="lightbox-hint">Nhấn phím Esc hoặc bấm ra ngoài để đóng</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

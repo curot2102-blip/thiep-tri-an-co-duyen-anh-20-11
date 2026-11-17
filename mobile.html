@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Thiệp Tri Ân 20/11 Cô Duyên Anh - Bản Di Động</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-deep: #07090e;
+      --bg-surface: #0e121b;
+      --accent-gold: #f59e0b;
+      --accent-gold-light: #fbbf24;
+      --accent-amber: #d97706;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --text-muted: #64748b;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-gold: rgba(245, 158, 11, 0.3);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 15%, #131826 0%, var(--bg-deep) 85%);
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Fixed Header Controls */
+    .mobile-header {
+      position: fixed;
+      top: env(safe-area-inset-top, 10px);
+      left: 0;
+      width: 100%;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .header-btn {
+      pointer-events: auto;
+      background: rgba(14, 18, 27, 0.75);
+      border: 1px solid var(--border-light);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .header-btn:active {
+      transform: scale(0.96);
+      border-color: var(--accent-gold);
+    }
+
+    .sound-btn {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      justify-content: center;
+    }
+
+    /* Mobile Story Snap Container */
+    .mobile-container {
+      width: 100%;
+      height: 100dvh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .mobile-section {
+      width: 100%;
+      min-height: 100dvh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 70px 20px 40px 20px;
+      overflow: hidden;
+    }
+
+    /* Section 1: Envelope & Letter */
+    .envelope-card {
+      width: min(340px, 92vw);
+      background: #181d28;
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 25px rgba(245, 158, 11, 0.12);
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+
+    .envelope-card:active {
+      transform: scale(0.98);
+    }
+
+    .env-icon-box {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 16px auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.05) 100%);
+      border: 1px solid var(--border-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+      animation: pulseGlow 2.5s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(245, 158, 11, 0.2); }
+      50% { transform: scale(1.06); box-shadow: 0 0 25px rgba(245, 158, 11, 0.4); }
+    }
+
+    .env-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .env-desc {
+      font-size: 0.8125rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .env-open-btn {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+      color: #000;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    /* Modal / Popup Tâm thư trên di động */
+    .letter-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .letter-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-letter-sheet {
+      width: min(420px, 100%);
+      max-height: 85dvh;
+      background: radial-gradient(circle at 50% 10%, #ffffff 0%, #fffdf8 100%);
+      color: #1e293b;
+      border-radius: 16px;
+      padding: 24px 20px 20px 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(180, 83, 9, 0.25);
+      position: relative;
+      overflow-y: auto;
+      transform: translateY(20px) scale(0.96);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .letter-modal.active .mobile-letter-sheet {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.08);
+      border: none;
+      color: #64748b;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .modal-close-btn:active {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .m-letter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(180, 83, 9, 0.15);
+    }
+
+    .m-letter-salute {
+      font-size: 0.825rem;
+      color: #92400e;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .m-letter-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #78350f;
+    }
+
+    .m-letter-body {
+      font-size: 0.825rem;
+      line-height: 1.65;
+      color: #334155;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .m-letter-body p {
+      margin: 0;
+    }
+
+    .m-letter-sign {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-size: 0.8rem;
+      color: #475569;
+      margin-top: 14px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(180, 83, 9, 0.2);
+    }
+
+    .m-letter-sign strong {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.35rem;
+      color: #b45309;
+    }
+
+    /* Section 2: Banner Lời chúc */
+    .greeting-box {
+      text-align: center;
+      max-width: 380px;
+      padding: 0 10px;
+    }
+
+    .greeting-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      padding: 4px 14px;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--border-gold);
+      border-radius: 999px;
+    }
+
+    .greeting-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      line-height: 1.25;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .greeting-sub {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--text-sub);
+      margin-bottom: 24px;
+    }
+
+    .scroll-down-hint {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      animation: floatBounce 2s infinite ease-in-out;
+    }
+
+    @keyframes floatBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* Section 3: Meme Universe Grid */
+    .section-header {
+      text-align: center;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .section-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .meme-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 420px;
+      max-height: 65dvh;
+      overflow-y: auto;
+      padding: 4px 2px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .meme-card {
+      background: #111622;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .meme-card:active {
+      transform: scale(0.96);
+      border-color: var(--accent-gold);
+    }
+
+    .meme-card img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    /* Section 4: 35mm Film Strip Reel */
+    .film-mobile-wrapper {
+      width: 100%;
+      max-width: 100%;
+      position: relative;
+    }
+
+    .film-mobile-reel {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 16px 20px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .film-mobile-reel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .film-mobile-card {
+      flex: 0 0 calc(75vw - 20px);
+      max-width: 280px;
+      scroll-snap-align: center;
+      background: #090c12;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .film-mobile-card:active {
+      transform: scale(0.97);
+    }
+
+    .film-mobile-img-box {
+      width: 100%;
+      height: 280px;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .film-mobile-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .film-counter {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Section 5: Tribute & Actions */
+    .tribute-card {
+      width: min(340px, 92vw);
+      background: #10141e;
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    }
+
+    .tribute-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent-gold-light);
+      margin-bottom: 8px;
+    }
+
+    .tribute-quote {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      color: var(--text-sub);
+      margin-bottom: 22px;
+      font-style: italic;
+    }
+
+    .tribute-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tribute-btn {
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+      color: #000;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-light);
+      color: var(--text-main);
+    }
+
+    .btn-outline:active, .btn-gold:active {
+      transform: scale(0.98);
+    }
+
+    /* Fullscreen Lightbox Modal */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .lightbox-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-modal img {
+      max-width: 100%;
+      max-height: 80dvh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: env(safe-area-inset-top, 20px);
+      right: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .lightbox-hint {
+      margin-top: 14px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Bottom Page Nav Dots */
+    .mobile-nav-dots {
+      position: fixed;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 90;
+      pointer-events: none;
+    }
+
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      transition: all 0.25s ease;
+    }
+
+    .nav-dot.active {
+      height: 18px;
+      border-radius: 999px;
+      background: var(--accent-gold);
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed Top Header -->
+  <header class="mobile-header">
+    <a href="index.html" class="header-btn" title="Chuyển sang bản 3D Máy tính">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+        <line x1="8" y1="21" x2="16" y2="21"></line>
+        <line x1="12" y1="17" x2="12" y2="21"></line>
+      </svg>
+      <span>Bản Máy tính</span>
+    </a>
+
+    <button id="mobile-sound-btn" class="header-btn sound-btn" aria-label="Bật/Tắt âm thanh">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Side Navigation Dots -->
+  <div class="mobile-nav-dots" id="nav-dots">
+    <div class="nav-dot active"></div>
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
+  </div>
+
+  <!-- Snap Container -->
+  <div class="mobile-container" id="snap-container">
+
+    <!-- PHẦN 1: PHONG BÌ & BỨC TÂM THƯ -->
+    <section class="mobile-section" data-index="0">
+      <div class="envelope-card" id="open-letter-trigger">
+        <div class="env-icon-box">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <h2 class="env-title">Thư Tri Ân Gửi Cô Duyên Anh</h2>
+        <p class="env-desc">Nhân ngày Nhà giáo Việt Nam 20/11, những đứa học trò xin gửi đến Cô bức tâm thư chứa chan tình cảm.</p>
+        <button class="env-open-btn">
+          <span>Chạm để mở thư</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <div class="scroll-down-hint" style="margin-top: 36px;">
+        <span>Vuốt lên để tiếp tục</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
+    </section>
+
+    <!-- PHẦN 2: BANNER LỜI CHÚC TRỌNG THỂ -->
+    <section class="mobile-section" data-index="1">
+      <div class="greeting-box">
+        <span class="greeting-tag">Tri Ân Ngày Nhà Giáo Việt Nam 20/11</span>
+        <h1 class="greeting-title">Chúc Cô Duyên Anh 20/11 Vui Vẻ!</h1>
+        <p class="greeting-sub">Kính chúc Cô luôn tràn đầy niềm vui, nhiệt huyết, hạnh phúc và luôn là người mẹ hiền kính yêu của chúng em.</p>
+        <div class="scroll-down-hint">
+          <span>Vuốt để khám phá Vũ trụ Meme</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHẦN 3: VŨ TRỤ MEME CÔ DUYÊN ANH -->
+    <section class="mobile-section" data-index="2">
+      <div class="section-header">
+        <h2 class="section-title">🎭 Vũ Trụ Meme Bất Hủ</h2>
+        <p class="section-hint">Chạm vào bất kỳ meme nào để xem to</p>
+      </div>
+
+      <div class="meme-grid" id="mobile-meme-grid">
+        <div class="meme-card" data-src="images/meme 1.png"><img src="images/meme 1.png" alt="Meme 1" loading="lazy"></div>
+        <div class="meme-card" data-src="images/meme 2 .png"><img src="images/meme 2 .png" alt="Meme 2" loading="lazy"></div>
+        <div class="meme-card" data-src="images/meme 3.png"><img src="images/meme 3.png" alt="Meme 3" loading="lazy"></div>
+        <div class="meme-card" data-src="images/meme 4 .png"><img src="images/meme 4 .png" alt="Meme 4" loading="lazy"></div>
+        <div class="meme-card" data-src="images/meme 5 .png"><img src="images/meme 5 .png" alt="Meme 5" loading="lazy"></div>
+        <div class="meme-card" data-src="images/meme 6.png"><img src="images/meme 6.png" alt="Meme 6" loading="lazy"></div>
+        <div class="meme-card" data-src="images/meme 7 .png"><img src="images/meme 7 .png" alt="Meme 7" loading="lazy"></div>
+        <div class="meme-card" data-src="images/meme 8.png"><img src="images/meme 8.png" alt="Meme 8" loading="lazy"></div>
+        <div class="meme-card" data-src="images/meme 9 .png"><img src="images/meme 9 .png" alt="Meme 9" loading="lazy"></div>
+        <div class="meme-card" data-src="images/tách người.png"><img src="images/tách người.png" alt="Tách người" loading="lazy"></div>
+      </div>
+
+      <div class="scroll-down-hint" style="margin-top: 14px;">
+        <span>Vuốt tiếp để xem Cuộn phim Kỷ yếu</span>
+      </div>
+    </section>
+
+    <!-- PHẦN 4: CUỘN PHIM KỶ NIỆM 35MM -->
+    <section class="mobile-section" data-index="3">
+      <div class="section-header">
+        <h2 class="section-title">🎞️ Cuộn Phim Kỷ Niệm 35mm</h2>
+        <p class="section-hint">Vuốt ngang để xem 31 khoảnh khắc thanh xuân</p>
+      </div>
+
+      <div class="film-mobile-wrapper">
+        <div class="film-mobile-reel" id="mobile-film-reel">
+          <!-- 31 Khung ảnh được tạo bằng JavaScript hoặc markup giữ nguyên tỉ lệ -->
+        </div>
+        <div class="film-counter" id="film-counter">Khung 1 / 31 (Chạm để phóng to)</div>
+      </div>
+
+      <div class="scroll-down-hint" style="margin-top: 16px;">
+        <span>Vuốt đến trang cuối cùng</span>
+      </div>
+    </section>
+
+    <!-- PHẦN 5: TRI ÂN & NÚT HÀNH ĐỘNG -->
+    <section class="mobile-section" data-index="4">
+      <div class="tribute-card">
+        <div class="env-icon-box" style="width: 58px; height: 58px; margin-bottom: 12px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </div>
+        <h2 class="tribute-title">Mãi Yêu Cô Duyên Anh!</h2>
+        <p class="tribute-quote">"Dẫu mai sau khôn lớn bay xa muôn phương, chúng em vẫn mãi nhớ về Cô - người cô giáo ấm áp và tuyệt vời nhất trần đời."</p>
+
+        <div class="tribute-actions">
+          <button id="btn-restart" class="tribute-btn btn-gold">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+            <span>Xem Lại Từ Đầu</span>
+          </button>
+          <a href="index.html" class="tribute-btn btn-outline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            <span>Trải Nghiệm Bản Máy Tính 3D</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- BỨC TÂM THƯ MODAL -->
+  <div class="letter-modal" id="letter-modal">
+    <div class="mobile-letter-sheet">
+      <button class="modal-close-btn" id="close-letter-btn" aria-label="Đóng thư">✕</button>
+      <div class="m-letter-header">
+        <div>
+          <div class="m-letter-salute">Kính gửi,</div>
+          <div class="m-letter-name">Cô Duyên Anh Yêu Quý 💖</div>
+        </div>
+      </div>
+
+      <div class="m-letter-body">
+        <p>Nhân ngày Nhà giáo Việt Nam 20/11, chúng em xin gửi đến Cô lời chúc sức khỏe, hạnh phúc và vạn sự như ý!</p>
+        <p>Cảm ơn Cô vì đã luôn kiên nhẫn, tận tâm truyền dạy tri thức và luôn thấu hiểu, bao dung cho học trò.</p>
+        <p>Em nhớ những tiếng chửi yêu thương của cô Những lần cô chửi khiến chúng em ngày càng trưởng thành hơn</p>
+        <p>Dù chúng em có lúc nghịch ngợm khiến Cô phải "đau đầu" (và tạo ra cả một bầu trời meme huyền thoại)...</p>
+        <p>...thì trong lòng chúng em, Cô mãi luôn là người giáo viên tuyệt vời, ấm áp và đáng yêu nhất!</p>
+      </div>
+
+      <div class="m-letter-sign">
+        <span>Kính yêu,</span>
+        <strong>Những đứa học trò của Cô 🌸</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX MODAL PHÓNG TO ẢNH -->
+  <div class="lightbox-modal" id="lightbox-modal">
+    <button class="lightbox-close-btn" id="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt="Ảnh phóng to">
+    <div class="lightbox-hint">Chạm ra ngoài hoặc bấm ✕ để đóng</div>
+  </div>
+
+  <script>
+    // Danh sách 31 khung ảnh kỷ niệm & kỷ yếu
+    const filmFrames = [
+      { src: 'images/Slide1.JPG', type: 'landscape' },
+      { src: 'images/Slide2.JPG', type: 'landscape' },
+      { src: 'images/Slide3.JPG', type: 'landscape' },
+      { src: 'images/ky yeu 1.jpg', type: 'portrait' },
+      { src: 'images/ky yeu 2.jpg', type: 'landscape' },
+      { src: 'images/ky yeu 3.jpg', type: 'landscape' },
+      { src: 'images/350431872_1377508603099951_3306263725585093557_n.jpg', type: 'landscape' },
+      { src: 'images/462551460_1079361730303070_1919939527780004940_n.jpg', type: 'portrait' },
+      { src: 'images/z6250917036236_9769da218683e9b1d989f6d49ca9c0db.jpg', type: 'portrait' },
+      { src: 'images/z6250917050307_d2f7f1d431be7a136706e2cf4ee0725a.jpg', type: 'portrait' },
+      { src: 'images/0a2c8a0c-c59f-4599-aa30-0f9c3273f728.jpg', type: 'portrait' },
+      { src: 'images/1a31bb96-5e83-47c6-870a-ffb27575b656.jpg', type: 'portrait' },
+      { src: 'images/2e91fc48-904d-4678-a922-bbec063d31f4.jpg', type: 'landscape' },
+      { src: 'images/322df23c-ff01-47fd-b8cc-031db6c761a6.jpg', type: 'portrait' },
+      { src: 'images/3319ddd8-5ca3-43d8-8985-4ec71330e377.jpg', type: 'portrait' },
+      { src: 'images/36b2a62c-f4c5-48ea-8794-609a3a8035e5.jpg', type: 'portrait' },
+      { src: 'images/3ca1e943-04cd-4dd1-bb05-e2ef739968bd.jpg', type: 'portrait' },
+      { src: 'images/45bb53b4-ad21-4d78-9abf-913f2ee934b3.jpg', type: 'portrait' },
+      { src: 'images/52f3d910-7c05-43f3-8fb9-a251f9dfc850.jpg', type: 'portrait' },
+      { src: 'images/5852b26f-0991-43a3-a286-b2a2eb485004.jpg', type: 'portrait' },
+      { src: 'images/74c94989-d87e-4e09-87c3-ac5d301be7b5.jpg', type: 'portrait' },
+      { src: 'images/761104b9-30ce-4deb-8775-a2269c386398.jpg', type: 'portrait' },
+      { src: 'images/933fa071-07fa-4084-9251-ee5a7202b1ac.jpg', type: 'portrait' },
+      { src: 'images/a120cea8-aead-4cb2-bdb7-134abae3d0fe.jpg', type: 'portrait' },
+      { src: 'images/a250e80a-358f-4a05-99c4-515dc2f6db5d.jpg', type: 'portrait' },
+      { src: 'images/a52b0765-54fc-406d-8a3b-f11c560ede00.jpg', type: 'portrait' },
+      { src: 'images/b03ce282-7791-4977-8fba-b740059c945b.jpg', type: 'portrait' },
+      { src: 'images/df762802-7af9-407a-981a-074fa58115ec.jpg', type: 'portrait' },
+      { src: 'images/e77fc3ee-ead5-45da-93ee-b93db004dfa2.jpg', type: 'portrait' },
+      { src: 'images/ef78565f-6a16-4626-966e-1df8868fdfe9.jpg', type: 'portrait' },
+      { src: 'images/f86f1dae-6657-495a-8137-e4840d05528d.jpg', type: 'portrait' }
+    ];
+
+    // Populate Mobile Film Strip Reel
+    const filmReel = document.getElementById('mobile-film-reel');
+    const filmCounter = document.getElementById('film-counter');
+
+    filmFrames.forEach((frame, idx) => {
+      const card = document.createElement('div');
+      card.className = 'film-mobile-card';
+      card.innerHTML = `
+        <div class="film-mobile-img-box">
+          <img src="${frame.src}" alt="Kỷ niệm ${idx + 1}" loading="lazy">
+        </div>
+      `;
+      card.addEventListener('click', () => openLightbox(frame.src));
+      filmReel.appendChild(card);
+    });
+
+    filmReel.addEventListener('scroll', () => {
+      const cardWidth = filmReel.firstElementChild ? filmReel.firstElementChild.offsetWidth + 14 : 260;
+      const currentIdx = Math.round(filmReel.scrollLeft / cardWidth) + 1;
+      const clampedIdx = Math.max(1, Math.min(filmFrames.length, currentIdx));
+      filmCounter.textContent = `Khung ${clampedIdx} / ${filmFrames.length} (Chạm để phóng to)`;
+    }, { passive: true });
+
+    // Lightbox modal logic
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightboxModal.classList.add('active');
+      playTone(520);
+    }
+
+    function closeLightbox() {
+      lightboxModal.classList.remove('active');
+      setTimeout(() => { lightboxImg.src = ''; }, 250);
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal || e.target === lightboxClose) closeLightbox();
+    });
+
+    // Meme grid click
+    document.querySelectorAll('.meme-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const src = card.dataset.src;
+        if (src) openLightbox(src);
+      });
+    });
+
+    // Letter modal logic
+    const openLetterBtn = document.getElementById('open-letter-trigger');
+    const letterModal = document.getElementById('letter-modal');
+    const closeLetterBtn = document.getElementById('close-letter-btn');
+
+    openLetterBtn.addEventListener('click', () => {
+      letterModal.classList.add('active');
+      playChime();
+    });
+
+    closeLetterBtn.addEventListener('click', () => {
+      letterModal.classList.remove('active');
+    });
+
+    letterModal.addEventListener('click', (e) => {
+      if (e.target === letterModal) letterModal.classList.remove('active');
+    });
+
+    // Restart button
+    const container = document.getElementById('snap-container');
+    const btnRestart = document.getElementById('btn-restart');
+    btnRestart.addEventListener('click', () => {
+      container.scrollTo({ top: 0, behavior: 'smooth' });
+      playChime();
+    });
+
+    // Navigation dots sync
+    const dots = document.querySelectorAll('.nav-dot');
+    container.addEventListener('scroll', () => {
+      const idx = Math.round(container.scrollTop / window.innerHeight);
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === idx);
+      });
+    }, { passive: true });
+
+    // Web Audio synthesizer for tactile mobile sound effects
+    let audioCtx = null;
+    let soundMuted = false;
+
+    function getAudio() {
+      if (!audioCtx) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioClass) audioCtx = new AudioClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq) {
+      if (soundMuted) return;
+      try {
+        const ctx = getAudio();
+        if (!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.15);
+      } catch (e) {}
+    }
+
+    function playChime() {
+      if (soundMuted) return;
+      [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+        setTimeout(() => playTone(freq), i * 75);
+      });
+    }
+
+    const soundBtn = document.getElementById('mobile-sound-btn');
+    soundBtn.addEventListener('click', () => {
+      soundMuted = !soundMuted;
+      soundBtn.style.opacity = soundMuted ? '0.5' : '1';
+      if (!soundMuted) playTone(440);
+    });
+  </script>
+</body>
+</html>
