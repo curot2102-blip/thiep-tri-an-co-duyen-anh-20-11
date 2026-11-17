@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Gửi Lời Chúc Tri Ân Cô Duyên Anh 20/11 - Tập Thể Lớp</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep: #07090e;
+      --bg-surface: #0e121b;
+      --bg-card: #131826;
+      --accent-gold: #f59e0b;
+      --accent-gold-light: #fbbf24;
+      --accent-amber: #d97706;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --text-muted: #64748b;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-gold: rgba(245, 158, 11, 0.3);
+      --danger: #ef4444;
+      --success: #10b981;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      background-image: radial-gradient(circle at 50% 10%, #171d2c 0%, var(--bg-deep) 85%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 20px 16px 60px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header thanh công cụ trên cùng */
+    .top-nav {
+      max-width: 680px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      background: rgba(14, 18, 27, 0.8);
+      border: 1px solid var(--border-light);
+      color: var(--text-sub);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-btn:hover, .nav-btn:active {
+      color: var(--accent-gold-light);
+      border-color: var(--accent-gold);
+      background: rgba(245, 158, 11, 0.12);
+    }
+
+    .admin-pill {
+      border-color: rgba(245, 158, 11, 0.35);
+      color: var(--accent-gold);
+    }
+
+    /* Container chính */
+    .main-container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header tiêu đề giới thiệu */
+    .hero-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 3px 12px;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--border-gold);
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 5vw, 2.1rem);
+      line-height: 1.3;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .hero-desc {
+      font-size: 0.875rem;
+      color: var(--text-sub);
+      line-height: 1.55;
+    }
+
+    /* Thẻ Form gửi lời chúc */
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 22px 20px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(245, 158, 11, 0.08);
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-label .required {
+      color: var(--accent-gold);
+      margin-left: 2px;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      background: #090c13;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    }
+
+    .form-textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    /* Chọn ảnh đính kèm */
+    .photo-upload-box {
+      border: 1px dashed rgba(245, 158, 11, 0.35);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      background: rgba(9, 12, 19, 0.6);
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .photo-upload-box:hover {
+      background: rgba(245, 158, 11, 0.06);
+      border-color: var(--accent-gold);
+    }
+
+    .photo-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .photo-hint {
+      font-size: 0.8125rem;
+      color: var(--text-sub);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .photo-hint svg {
+      color: var(--accent-gold);
+    }
+
+    .photo-preview-wrap {
+      display: none;
+      margin-top: 10px;
+      position: relative;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .photo-preview {
+      max-width: 100%;
+      max-height: 180px;
+      border-radius: 8px;
+      border: 1px solid var(--border-gold);
+      object-fit: cover;
+      display: block;
+    }
+
+    .btn-remove-photo {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--danger);
+      color: #fff;
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    /* Nút Submit */
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      color: #000;
+      font-weight: 700;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(217, 119, 6, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Thông báo Toast */
+    .toast-msg {
+      display: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.8125rem;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .toast-msg.success {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    .toast-msg.error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+    }
+
+    /* Danh sách lời chúc đã gửi gần đây */
+    .feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .feed-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .feed-count {
+      font-size: 0.75rem;
+      color: var(--accent-gold);
+      background: rgba(245, 158, 11, 0.12);
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .wishes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .wish-item {
+      background: #0f1420;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .wish-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8125rem;
+    }
+
+    .wish-author {
+      font-weight: 600;
+      color: var(--accent-gold-light);
+    }
+
+    .wish-time {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .wish-text {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+      white-space: pre-line;
+    }
+
+    .wish-img {
+      max-width: 100%;
+      max-height: 160px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-top: 4px;
+    }
+
+    /* ===================================================================
+       MODAL & BẢNG ĐIỀU KHIỂN QUẢN TRỊ ADMIN
+       =================================================================== */
+    .admin-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .admin-modal.active {
+      display: flex;
+    }
+
+    .admin-box {
+      width: min(540px, 100%);
+      max-height: 85vh;
+      overflow-y: auto;
+      background: #111624;
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 24px 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    .admin-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .admin-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-gold-light);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .admin-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* Màn hình nhập mật khẩu */
+    .auth-view {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-login {
+      background: var(--accent-gold);
+      color: #000;
+      font-weight: 700;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Màn hình Dashboard sau khi login */
+    .dashboard-view {
+      display: none;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      background: #090c13;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .admin-actions-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .admin-tool-btn {
+      flex: 1 1 auto;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .admin-tool-btn:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-light);
+    }
+
+    .admin-table-title {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 14px 0 8px 0;
+    }
+
+    .visitor-log-box {
+      max-height: 140px;
+      overflow-y: auto;
+      background: #07090e;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.72rem;
+      color: var(--text-sub);
+    }
+
+    .visitor-item {
+      padding: 4px 0;
+      border-bottom: 1px dashed rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .admin-wish-item {
+      background: #090c13;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .admin-wish-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .btn-delete-wish {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav Bar -->
+  <nav class="top-nav">
+    <a href="index.html" class="nav-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <span>Xem Thiệp Cô Duyên Anh</span>
+    </a>
+
+    <button id="btn-open-admin" class="nav-btn admin-pill" title="Khu vực Quản trị dành cho Trưởng nhóm">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+      <span>Quản Trị Admin</span>
+    </button>
+  </nav>
+
+  <main class="main-container">
+    <header class="hero-header">
+      <span class="hero-badge">Tập Thể Lớp Tri Ân 20/11</span>
+      <h1 class="hero-title">Gửi Lời Chúc Đến Cô Duyên Anh</h1>
+      <p class="hero-desc">Mọi lời chúc và hình ảnh bạn gửi tại đây sẽ xuất hiện trực tiếp trên trang thiệp chính tri ân Cô!</p>
+    </header>
+
+    <!-- Form gửi lời chúc -->
+    <section class="form-card">
+      <div id="toast" class="toast-msg"></div>
+
+      <form id="wish-form">
+        <div class="form-group">
+          <label class="form-label" for="author-input">Họ và Tên / Biệt danh của bạn <span class="required">*</span></label>
+          <input type="text" id="author-input" class="form-input" placeholder="Ví dụ: Nguyễn Văn A (Tổ 1), Minh Thư,..." required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="wish-input">Lời chúc yêu thương gửi Cô Duyên Anh <span class="required">*</span></label>
+          <textarea id="wish-input" class="form-textarea" placeholder="Nhân ngày 20/11, con chúc Cô luôn mạnh khỏe, luôn giữ nụ cười ấm áp và bao dung cho chúng con..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Đính kèm ảnh kỷ niệm hoặc ảnh dìm dễ thương (Tùy chọn)</label>
+          <div class="photo-upload-box">
+            <input type="file" id="photo-input" class="photo-input" accept="image/*">
+            <div class="photo-hint" id="photo-hint">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>Chạm để chọn ảnh từ điện thoại hoặc máy tính</span>
+              <span style="font-size: 0.7rem; color: var(--text-muted);">(Tự động tối ưu hóa để hiển thị nối tiếp ở Cuộn Phim 35mm)</span>
+            </div>
+
+            <div class="photo-preview-wrap" id="preview-wrap">
+              <img id="preview-img" class="photo-preview" src="" alt="Xem trước ảnh">
+              <button type="button" id="btn-remove-photo" class="btn-remove-photo" title="Xóa ảnh">✕</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" id="submit-btn" class="submit-btn">
+          <span>💖 Gửi Lời Chúc Vào Thiệp Của Cô</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- Danh sách lời chúc vừa gửi -->
+    <section>
+      <div class="feed-header">
+        <h2 class="feed-title">Lời chúc của các bạn trong lớp</h2>
+        <span class="feed-count" id="wishes-counter">1 lời chúc</span>
+      </div>
+
+      <div id="wishes-feed" class="wishes-list">
+        <!-- Render động từ storage -->
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL QUẢN TRỊ ADMIN (MẬT KHẨU BẢO MẬT: trannguyen21022008trian) -->
+  <div id="admin-modal" class="admin-modal">
+    <div class="admin-box">
+      <button class="admin-close" id="btn-close-admin">✕</button>
+
+      <div class="admin-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span>Khu Vực Quản Trị Viên</span>
+      </div>
+      <p class="admin-subtitle">Bảo mật dành riêng cho người quản lý dự án thiệp tri ân</p>
+
+      <!-- VIEW 1: Nhập mật khẩu -->
+      <div id="auth-view" class="auth-view">
+        <div class="form-group">
+          <label class="form-label" for="admin-pass">Nhập Mật Khẩu Admin</label>
+          <input type="password" id="admin-pass" class="form-input" placeholder="Nhập mật khẩu bí mật...">
+        </div>
+        <button id="btn-submit-pass" class="btn-login">Đăng Nhập Quản Trị</button>
+        <div id="auth-err" style="color: var(--danger); font-size: 0.75rem; display: none;">Mật khẩu không chính xác!</div>
+      </div>
+
+      <!-- VIEW 2: Dashboard quản trị sau khi nhập đúng mật khẩu -->
+      <div id="dashboard-view" class="dashboard-view">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-num" id="stat-wishes">0</div>
+            <div class="stat-label">Lời chúc</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-photos">0</div>
+            <div class="stat-label">Ảnh kỷ niệm</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-visitors">0</div>
+            <div class="stat-label">Lượt vào</div>
+          </div>
+        </div>
+
+        <div class="admin-actions-bar">
+          <button id="btn-sync-main" class="admin-tool-btn" title="Cập nhật trực tiếp dữ liệu sang web chính">
+            🔄 Đồng bộ sang Web chính
+          </button>
+          <button id="btn-copy-json" class="admin-tool-btn" title="Sao chép mã JSON để dán vào file wishes.json">
+            📋 Sao chép mã JSON
+          </button>
+          <button id="btn-export-json" class="admin-tool-btn" title="Tải file wishes.json về máy">
+            💾 Tải file wishes.json
+          </button>
+        </div>
+
+        <div class="admin-table-title">👥 Nhật ký người đã vào trang</div>
+        <div id="visitor-log" class="visitor-log-box">
+          <!-- Hiển thị danh sách khách truy cập -->
+        </div>
+
+        <div class="admin-table-title">📝 Quản lý danh sách lời chúc</div>
+        <div id="admin-wishes-list">
+          <!-- Danh sách xóa / quản lý lời chúc -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = "trannguyen21022008trian";
+    const STORAGE_KEY = "co_duyen_anh_wishes";
+    const VISITOR_KEY = "co_duyen_anh_visitors";
+
+    let attachedImageBase64 = "";
+
+    // Mẫu lời chúc mặc định
+    const defaultWishes = [
+      {
+        id: "wish-default-1",
+        author: "Trần Nguyên (Lớp trưởng)",
+        wish: "Kính chúc Cô Duyên Anh ngày 20/11 thật nhiều niềm vui, luôn trẻ trung, nhiệt huyết và hạnh phúc bên gia đình và học trò ạ! 💖",
+        time: "2026-11-17 21:00",
+        image: ""
+      }
+    ];
+
+    // Khởi tạo
+    document.addEventListener('DOMContentLoaded', () => {
+      recordVisitor("Khách truy cập (Vào trang)");
+      renderFeed();
+      initPhotoUpload();
+      initForm();
+      initAdmin();
+    });
+
+    // Ghi nhật ký truy cập
+    function recordVisitor(name) {
+      try {
+        let visitors = JSON.parse(localStorage.getItem(VISITOR_KEY) || '[]');
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const deviceType = isMobile ? 'Điện thoại di động' : 'Máy tính';
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+        visitors.unshift({
+          name: name,
+          device: deviceType,
+          time: timeStr
+        });
+
+        // Giới hạn 50 lượt gần nhất
+        if (visitors.length > 50) visitors = visitors.slice(0, 50);
+        localStorage.setItem(VISITOR_KEY, JSON.stringify(visitors));
+      } catch (e) {}
+    }
+
+    // Tải danh sách lời chúc
+    function getWishes() {
+      try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        if (data) {
+          const parsed = JSON.parse(data);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      return defaultWishes;
+    }
+
+    function saveWishes(list) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      } catch (e) {}
+    }
+
+    // Hiển thị danh sách lời chúc ra màn hình
+    function renderFeed() {
+      const feed = document.getElementById('wishes-feed');
+      const counter = document.getElementById('wishes-counter');
+      const list = getWishes();
+
+      counter.textContent = `${list.length} lời chúc`;
+      feed.innerHTML = '';
+
+      list.forEach(w => {
+        const item = document.createElement('div');
+        item.className = 'wish-item';
+        item.innerHTML = `
+          <div class="wish-meta">
+            <span class="wish-author">🌸 ${escapeHtml(w.author)}</span>
+            <span class="wish-time">${w.time || ''}</span>
+          </div>
+          <div class="wish-text">${escapeHtml(w.wish)}</div>
+          ${w.image ? `<img class="wish-img" src="${w.image}" alt="Ảnh kỷ niệm đính kèm" loading="lazy">` : ''}
+        `;
+        feed.appendChild(item);
+      });
+    }
+
+    // Nén ảnh tự động qua HTML5 Canvas
+    function initPhotoUpload() {
+      const input = document.getElementById('photo-input');
+      const previewWrap = document.getElementById('preview-wrap');
+      const previewImg = document.getElementById('preview-img');
+      const hint = document.getElementById('photo-hint');
+      const btnRemove = document.getElementById('btn-remove-photo');
+
+      input.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const img = new Image();
+          img.onload = function() {
+            // Nén ảnh về tối đa 800px cạnh dài nhất, JPEG 0.72 (~40-60KB)
+            const canvas = document.createElement('canvas');
+            const maxDimension = 800;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height && width > maxDimension) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else if (height > maxDimension) {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            attachedImageBase64 = canvas.toDataURL('image/jpeg', 0.72);
+            previewImg.src = attachedImageBase64;
+            previewWrap.style.display = 'block';
+            hint.style.display = 'none';
+          };
+          img.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      btnRemove.addEventListener('click', (e) => {
+        e.stopPropagation();
+        attachedImageBase64 = '';
+        previewImg.src = '';
+        previewWrap.style.display = 'none';
+        hint.style.display = 'flex';
+        input.value = '';
+      });
+    }
+
+    // Gửi form
+    function initForm() {
+      const form = document.getElementById('wish-form');
+      const authorInput = document.getElementById('author-input');
+      const wishInput = document.getElementById('wish-input');
+      const toast = document.getElementById('toast');
+      const btnRemove = document.getElementById('btn-remove-photo');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const author = authorInput.value.trim();
+        const wish = wishInput.value.trim();
+
+        if (!author || !wish) return;
+
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+        const newWish = {
+          id: 'wish-' + Date.now(),
+          author: author,
+          wish: wish,
+          time: timeStr,
+          image: attachedImageBase64
+        };
+
+        const list = getWishes();
+        list.unshift(newWish);
+        saveWishes(list);
+
+        // Ghi lại nhật ký
+        recordVisitor(`Đã gửi lời chúc: ${author}`);
+
+        // Thông báo thành công
+        toast.textContent = "🎉 Cảm ơn bạn! Lời chúc của bạn đã được ghi nhận và xuất hiện trên thiệp của Cô Duyên Anh!";
+        toast.className = "toast-msg success";
+        toast.style.display = "block";
+
+        // Reset form
+        authorInput.value = '';
+        wishInput.value = '';
+        btnRemove.click();
+
+        renderFeed();
+
+        // Cuộn nhẹ xuống feed
+        setTimeout(() => {
+          toast.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      });
+    }
+
+    // ===================================================================
+    // KHU VỰC QUẢN TRỊ ADMIN (MẬT KHẨU: trannguyen21022008trian)
+    // ===================================================================
+    function initAdmin() {
+      const modal = document.getElementById('admin-modal');
+      const btnOpen = document.getElementById('btn-open-admin');
+      const btnClose = document.getElementById('btn-close-admin');
+      const passInput = document.getElementById('admin-pass');
+      const btnSubmitPass = document.getElementById('btn-submit-pass');
+      const authErr = document.getElementById('auth-err');
+      const authView = document.getElementById('auth-view');
+      const dashView = document.getElementById('dashboard-view');
+
+      btnOpen.addEventListener('click', () => {
+        modal.classList.add('active');
+        authErr.style.display = 'none';
+        passInput.value = '';
+        passInput.focus();
+      });
+
+      btnClose.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('active');
+      });
+
+      btnSubmitPass.addEventListener('click', () => {
+        if (passInput.value === ADMIN_PASSWORD) {
+          authView.style.display = 'none';
+          dashView.style.display = 'block';
+          renderAdminDashboard();
+        } else {
+          authErr.style.display = 'block';
+        }
+      });
+
+      passInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') btnSubmitPass.click();
+      });
+
+      // Các nút tiện ích Admin
+      document.getElementById('btn-sync-main').addEventListener('click', () => {
+        alert("✅ Đã đồng bộ toàn bộ lời chúc và ảnh sang bộ lưu trữ trang chính thành công! Khi mở thiệp chính, các ảnh mới sẽ tự động nối tiếp vào Cuộn Phim 35mm.");
+      });
+
+      document.getElementById('btn-copy-json').addEventListener('click', () => {
+        const json = JSON.stringify(getWishes(), null, 2);
+        navigator.clipboard.writeText(json).then(() => {
+          alert("📋 Đã sao chép toàn bộ mã JSON danh sách lời chúc vào bộ nhớ tạm!");
+        });
+      });
+
+      document.getElementById('btn-export-json').addEventListener('click', () => {
+        const json = JSON.stringify(getWishes(), null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'wishes.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    function renderAdminDashboard() {
+      const wishes = getWishes();
+      let visitors = [];
+      try {
+        visitors = JSON.parse(localStorage.getItem(VISITOR_KEY) || '[]');
+      } catch (e) {}
+
+      // Cập nhật thống kê
+      document.getElementById('stat-wishes').textContent = wishes.length;
+      document.getElementById('stat-photos').textContent = wishes.filter(w => !!w.image).length;
+      document.getElementById('stat-visitors').textContent = visitors.length;
+
+      // Danh sách khách vào
+      const visitorBox = document.getElementById('visitor-log');
+      visitorBox.innerHTML = '';
+      if (visitors.length === 0) {
+        visitorBox.innerHTML = '<div style="color: var(--text-muted);">Chưa có lượt truy cập ghi nhận</div>';
+      } else {
+        visitors.forEach(v => {
+          const div = document.createElement('div');
+          div.className = 'visitor-item';
+          div.innerHTML = `
+            <span><strong>${escapeHtml(v.name)}</strong> (${v.device})</span>
+            <span>${v.time}</span>
+          `;
+          visitorBox.appendChild(div);
+        });
+      }
+
+      // Danh sách quản lý lời chúc
+      const adminList = document.getElementById('admin-wishes-list');
+      adminList.innerHTML = '';
+      wishes.forEach((w, idx) => {
+        const item = document.createElement('div');
+        item.className = 'admin-wish-item';
+        item.innerHTML = `
+          <div><strong>#${idx + 1} - ${escapeHtml(w.author)}</strong> <span style="font-size:0.7rem; color:var(--text-muted);">(${w.time || ''})</span></div>
+          <div style="font-size:0.75rem; color:#cbd5e1;">${escapeHtml(w.wish)}</div>
+          ${w.image ? `<img src="${w.image}" style="max-height:80px; width:fit-content; border-radius:6px; margin-top:4px;">` : ''}
+          <div class="admin-wish-actions">
+            <button class="btn-delete-wish" data-id="${w.id}">🗑️ Xóa Lời Chúc</button>
+          </div>
+        `;
+
+        item.querySelector('.btn-delete-wish').addEventListener('click', () => {
+          if (confirm(`Bạn có chắc chắn muốn xóa lời chúc của "${w.author}" không?`)) {
+            const updated = wishes.filter(x => x.id !== w.id);
+            saveWishes(updated);
+            renderAdminDashboard();
+            renderFeed();
+          }
+        });
+
+        adminList.appendChild(item);
+      });
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text.replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>

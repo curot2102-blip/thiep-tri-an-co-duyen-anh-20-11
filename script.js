@@ -13,10 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initIcons();
   const lightbox = initLightbox();
   initFloatingUniverse(lightbox.openLightbox);
-  initFilmStrip(); // Khóa chạm xem ảnh ở giai đoạn 5
+  initCleanViewer();
+  initFilmStrip();
+  initWishesWall();
   initFinalTribute();
   initEnvelopeClick();
-  initRotateHint();
   initAnimationLoop();
 });
 
@@ -304,28 +305,140 @@ function initFloatingUniverse(openLightbox) {
 }
 
 /* ===================================================================
+   BỘ XEM ẢNH TRỰC TIẾP TINH GỌN (CHỈ HIỆN ẢNH, CHẠM ĐỂ ĐÓNG, KHÔNG POPUP)
+   =================================================================== */
+let cleanViewerEl = null;
+let cleanViewerImg = null;
+
+function initCleanViewer() {
+  cleanViewerEl = document.getElementById('clean-image-viewer');
+  cleanViewerImg = document.getElementById('clean-viewer-img');
+
+  if (cleanViewerEl) {
+    cleanViewerEl.addEventListener('click', () => {
+      cleanViewerEl.classList.remove('active');
+      setTimeout(() => { if (cleanViewerImg) cleanViewerImg.src = ''; }, 200);
+    });
+  }
+}
+
+function openCleanImage(src) {
+  if (!cleanViewerEl || !cleanViewerImg || !src) return;
+  cleanViewerImg.src = src;
+  cleanViewerEl.classList.add('active');
+  playSound('pop');
+}
+
+/* ===================================================================
    KHỞI TẠO THƯỚC PHIM KỶ YẾU ĐIỆN ẢNH (FILM STRIP)
-   - Đã khóa chức năng chạm để xem ảnh theo yêu cầu
+   - Tắt popup phiền phức; CHỈ KHI NHẤN TRỰC TIẾP VÀO ẢNH (IMG) MỚI MỞ XEM
    =================================================================== */
 function initFilmStrip() {
   const frames = document.querySelectorAll('.film-frame');
   frames.forEach(frame => {
+    const img = frame.querySelector('img');
+    if (img) {
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openCleanImage(img.getAttribute('src'));
+      });
+    }
     frame.addEventListener('mouseenter', () => playSound('pop'));
   });
 }
 
 /* ===================================================================
-   GỢI Ý XOAY NGANG MÀN HÌNH TRÊN ĐIỆN THOẠI
+   BỨC TƯỜNG LỜI CHÚC CỦA CÁC BẠN TRONG LỚP & NỐI TIẾP ẢNH VÀO CUỘN PHIM
    =================================================================== */
-function initRotateHint() {
-  const hint = document.getElementById('rotate-device-hint');
-  const closeBtn = document.getElementById('close-rotate-hint');
-  if (closeBtn && hint) {
-    closeBtn.addEventListener('click', (e) => {
+function initWishesWall() {
+  const toggleBtn = document.getElementById('toggle-wishes-btn');
+  const wishesWall = document.getElementById('classmates-wishes-wall');
+  const container = document.getElementById('wishes-cards-container');
+  const filmTrackRow = document.querySelector('.film-frames-row');
+
+  if (toggleBtn && wishesWall) {
+    toggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      hint.style.display = 'none';
+      const isActive = wishesWall.classList.toggle('active');
+      toggleBtn.textContent = isActive 
+        ? '✕ Thu Gọn Lời Chúc' 
+        : '💌 Xem Lời Chúc Của Các Bạn Trong Lớp';
+      playSound('pop');
     });
   }
+
+  loadWishes(container, filmTrackRow);
+}
+
+async function loadWishes(container, filmTrackRow) {
+  let wishes = [];
+  try {
+    const res = await fetch('wishes.json');
+    if (res.ok) {
+      wishes = await res.json();
+    }
+  } catch (e) {
+    console.warn('Fallback wishes');
+  }
+
+  // Kết hợp các lời chúc và ảnh mới được lưu trong localStorage
+  try {
+    const local = localStorage.getItem('co_duyen_anh_wishes');
+    if (local) {
+      const localWishes = JSON.parse(local);
+      if (Array.isArray(localWishes)) {
+        localWishes.forEach(lw => {
+          if (!wishes.some(w => w.id === lw.id)) {
+            wishes.push(lw);
+          }
+        });
+      }
+    }
+  } catch (err) {}
+
+  if (!container) return;
+  container.innerHTML = '';
+
+  wishes.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'wish-mini-card';
+    card.innerHTML = `
+      <div class="wish-card-author">
+        <span>🌸 ${item.author || 'Bạn học sinh'}</span>
+        <span class="wish-card-time">${item.time || ''}</span>
+      </div>
+      <div class="wish-card-text">${item.wish || ''}</div>
+      ${item.image ? `<img class="wish-card-img" src="${item.image}" alt="Ảnh kỷ niệm đính kèm" loading="lazy">` : ''}
+    `;
+
+    const cardImg = card.querySelector('.wish-card-img');
+    if (cardImg) {
+      cardImg.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openCleanImage(item.image);
+      });
+    }
+
+    container.appendChild(card);
+
+    // YÊU CẦU: Nếu có ảnh trong lời chúc, tự động NỐI TIẾP VÀO CUỘN PHIM 35MM
+    if (item.image && filmTrackRow) {
+      const newFrame = document.createElement('div');
+      newFrame.className = 'film-frame portrait dynamic-contributed-frame';
+      newFrame.setAttribute('data-src', item.image);
+      newFrame.innerHTML = `
+        <img src="${item.image}" alt="Kỷ niệm từ ${item.author}" loading="lazy">
+      `;
+      const img = newFrame.querySelector('img');
+      if (img) {
+        img.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openCleanImage(item.image);
+        });
+      }
+      filmTrackRow.appendChild(newFrame);
+    }
+  });
 }
 
 /* ===================================================================
@@ -474,19 +587,21 @@ function initAnimationLoop() {
     let unfoldProgress = 0;
     let letterZ = 2;
 
-    if (p <= 0.05) {
-      // Khi phong bì chưa mở: Lá thư nằm gọn kín đáo trong túi phong bì (z-index: 2)
-      letterY = 0;
-      letterScale = 1.0;
+    if (p <= 0.04) {
+      // Khi phong bì chưa mở: Lá thư ẩn hoàn toàn 100% bên trong phong bì, tuyệt đối không lộ mép
+      letterOpacity = 0;
+      letterY = 15;
+      letterScale = 0.85;
       unfoldProgress = 0;
       letterZ = 2;
       if (letter) letter.classList.remove('unfolded');
     } else if (p <= 0.10) {
-      // Rút lá thư trượt THẲNG LÊN TRÊN khỏi miệng phong bì
+      // Khi nắp mở (p: 0.04 -> 0.10): Lá thư hiện ra và trượt thẳng lên trên khỏi miệng phong bì
+      letterOpacity = mapRange(p, 0.04, 0.07, 0, 1);
       letterY = mapRange(p, 0.05, 0.10, 0, -240);
       letterScale = 1.0;
       unfoldProgress = 0;
-      letterZ = p > 0.08 ? 65 : 2;
+      letterZ = p > 0.075 ? 65 : 2;
       if (letter) letter.classList.remove('unfolded');
     } else if (p <= 0.15) {
       // === GIAI ĐOẠN MỞ BUNG LÁ THƯ 3D (p: 0.10 -> 0.15) ===

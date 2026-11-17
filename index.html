@@ -316,7 +316,7 @@
       </div>
     </div>
 
-    <!-- LỚP 8: NÚT TƯƠNG TÁC THẢ TIM VÀ CUỘN LÊN ĐẦU TRANG -->
+    <!-- LỚP 8: NÚT TƯƠNG TÁC THẢ TIM VÀ LỜI CHÚC TẬP THỂ LỚP -->
     <div id="final-tribute">
       <div class="tribute-card">
         <div class="tribute-actions">
@@ -327,33 +327,38 @@
             ↺ Cuộn lên đầu trang
           </button>
         </div>
+
+        <!-- Nút mở bức tường lời chúc của các bạn trong lớp -->
+        <div class="tribute-extra-actions">
+          <button id="toggle-wishes-btn" class="action-btn wishes-btn">
+            💌 Xem Lời Chúc Của Các Bạn Trong Lớp
+          </button>
+          <a href="donggop.html" target="_blank" class="action-btn contribute-btn">
+            ✍️ Gửi Thêm Lời Chúc & Ảnh Kỷ Niệm
+          </a>
+        </div>
+      </div>
+
+      <!-- BỨC TƯỜNG CÁC THIỆP LỜI CHÚC CỦA CÁC BẠN TRONG LỚP -->
+      <div id="classmates-wishes-wall" class="wishes-wall">
+        <div class="wishes-wall-header">
+          <span class="wishes-badge">Tri Ân 20/11</span>
+          <h3 class="wishes-title">Tập Thể Lớp Gửi Cô Duyên Anh</h3>
+          <p class="wishes-subtitle">Những tâm tư, tình cảm và kỷ niệm đáng nhớ của các bạn học trò</p>
+        </div>
+
+        <!-- Lưới các thiệp nhỏ chứa lời chúc -->
+        <div id="wishes-cards-container" class="wishes-cards-grid">
+          <!-- Được tải tự động từ wishes.json và đóng góp thực tế -->
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- LIGHTBOX MODAL PHÓNG TO MEME -->
-  <div id="meme-lightbox" class="lightbox-overlay" aria-hidden="true">
-    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
-    <div class="lightbox-content">
-      <button class="lightbox-close" id="lightbox-close" aria-label="Đóng">&times;</button>
-      <div class="lightbox-img-wrapper">
-        <img id="lightbox-img" src="" alt="Ảnh phóng to">
-      </div>
-      <div class="lightbox-hint">Nhấn phím Esc hoặc bấm ra ngoài để đóng</div>
-    </div>
-  </div>
-
-  <!-- THÔNG BÁO GỢI Ý XOAY NGANG MÀN HÌNH TRÊN ĐIỆN THOẠI -->
-  <div id="rotate-device-hint" role="status" aria-live="polite">
-    <svg class="rotate-phone-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="5" y="2" width="14" height="20" rx="3"></rect>
-      <path d="M12 18h.01"></path>
-      <path d="M19 9l3 3-3 3"></path>
-      <path d="M5 15l-3-3 3-3"></path>
-    </svg>
-    <span>Hãy xoay ngang màn hình để có trải nghiệm tốt nhất</span>
-    <button id="close-rotate-hint" title="Đóng thông báo" aria-label="Đóng">✕</button>
+  <!-- BỘ XEM ẢNH TRỰC TIẾP TINH GỌN (CHỈ HIỆN ẢNH TOÀN MÀN HÌNH, KHÔNG POPUP RƯỜM RÀ) -->
+  <div id="clean-image-viewer" class="clean-viewer" aria-hidden="true">
+    <img id="clean-viewer-img" src="" alt="Ảnh kỷ niệm">
   </div>
 
   <script src="script.js"></script>

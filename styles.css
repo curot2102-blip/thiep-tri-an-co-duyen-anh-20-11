@@ -152,10 +152,9 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  margin-left: -170px;
-  margin-top: -115px;
-  width: 340px;
-  height: 230px;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 220px;
   z-index: 60;
   transform-style: preserve-3d;
   will-change: transform;
@@ -181,12 +180,12 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 300px;
-  height: 155px;
+  width: 270px;
+  height: 140px;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle at 50% 15%, #ffffff 0%, #fffdf8 100%);
   border-radius: 8px;
-  padding: 16px 20px;
+  padding: 14px 18px;
   box-sizing: border-box;
   color: #1e293b;
   display: flex;
@@ -200,6 +199,7 @@ body {
   transform-style: preserve-3d;
   pointer-events: auto;
   overflow: hidden; /* Giữ kín 100% nội dung và mép khi gấp trong phong bì */
+  opacity: 0; /* Khởi tạo ẩn hoàn toàn để không bao giờ bị lộ mép ở giai đoạn 1 */
 }
 
 /* Khi lá thư ĐƯỢC RÚT RA VÀ MỞ TO (UNFOLDED) */
@@ -1009,16 +1009,20 @@ body {
   #envelope-wrapper {
     width: 270px;
     height: 180px;
+    transform: translate(-50%, -50%);
   }
   
   .env-letter {
-    width: min(340px, 92vw) !important;
-    padding: 16px 14px 12px 14px !important;
+    width: 230px !important;
+    height: 120px !important;
+    padding: 12px 14px !important;
   }
 
   .env-letter.unfolded {
-    width: min(350px, 92vw) !important;
+    width: min(360px, 92vw) !important;
+    height: auto !important;
     max-height: 82vh !important;
+    padding: 20px 18px 16px 18px !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
   }
@@ -1073,77 +1077,209 @@ body {
 }
 
 /* ===================================================================
-   GỢI Ý XOAY NGANG MÀN HÌNH TRÊN THIẾT BỊ DI ĐỘNG
+   BỘ XEM ẢNH TRỰC TIẾP TINH GỌN (CLEAN IMAGE VIEWER)
+   Chỉ hiển thị ảnh toàn màn hình, chạm bất kỳ đâu để đóng, không popup
    =================================================================== */
-#rotate-device-hint {
+.clean-viewer {
   position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(14, 18, 27, 0.94);
-  border: 1px solid var(--accent-gold);
-  color: var(--text-main);
-  padding: 10px 18px;
-  border-radius: 999px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  display: none;
-  align-items: center;
-  gap: 10px;
-  z-index: 1000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(245, 158, 11, 0.3);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  animation: floatHint 3s infinite ease-in-out;
-  pointer-events: auto;
-  white-space: nowrap;
-}
-
-@keyframes floatHint {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, -6px); }
-}
-
-.rotate-phone-icon {
-  color: var(--accent-gold-light);
-  flex-shrink: 0;
-  animation: spinPhone 2.5s infinite ease-in-out;
-}
-
-@keyframes spinPhone {
-  0%, 15% { transform: rotate(0deg); }
-  45%, 75% { transform: rotate(90deg); }
-  100% { transform: rotate(0deg); }
-}
-
-#close-rotate-hint {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0 0 0 6px;
-  line-height: 1;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9999;
   display: flex;
   align-items: center;
-  transition: color 0.2s ease;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+  cursor: zoom-out;
 }
 
-#close-rotate-hint:hover {
+.clean-viewer.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.clean-viewer img {
+  max-width: 96vw;
+  max-height: 90vh;
+  max-height: 90dvh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.85);
+  user-select: none;
+  pointer-events: auto;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.95);
+}
+
+.clean-viewer.active img {
+  transform: scale(1);
+}
+
+/* ===================================================================
+   BỨC TƯỜNG CÁC THIỆP LỜI CHÚC CỦA CÁC BẠN TRONG LỚP
+   =================================================================== */
+.tribute-extra-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  width: 100%;
+}
+
+.action-btn.wishes-btn {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold-light);
+  box-shadow: none;
+  font-size: 0.85rem;
+  padding: 12px 16px;
+}
+
+.action-btn.wishes-btn:hover {
+  background: var(--accent-gold);
+  color: #000;
+}
+
+.action-btn.contribute-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 12px 16px;
 }
 
-/* Chỉ hiển thị khi thiết bị có màn hình dọc hẹp (điện thoại đứng) */
-@media (max-width: 900px) and (orientation: portrait) {
-  #rotate-device-hint {
-    display: inline-flex;
+.action-btn.contribute-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--accent-gold-light);
+}
+
+.wishes-wall {
+  margin-top: 18px;
+  width: 100%;
+  max-height: 52vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(10, 14, 22, 0.95);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  padding: 18px 16px;
+  box-sizing: border-box;
+  text-align: left;
+  display: none;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.wishes-wall.active {
+  display: block;
+  animation: fadeInWall 0.3s ease;
+}
+
+@keyframes fadeInWall {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.wishes-wall-header {
+  text-align: center;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.wishes-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 2px 10px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid var(--border-gold);
+  border-radius: 999px;
+  margin-bottom: 6px;
+}
+
+.wishes-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.wishes-subtitle {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.wishes-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+/* Thiệp nhỏ lời chúc */
+.wish-mini-card {
+  background: #131826;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.wish-mini-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-gold);
+}
+
+.wish-card-author {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--accent-gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wish-card-time {
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.wish-card-text {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.wish-card-img {
+  width: 100%;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 4px;
+  cursor: zoom-in;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 600px) {
+  .tribute-extra-actions {
+    flex-direction: column;
+    gap: 8px;
   }
-}
-
-/* Tự động ẩn hoàn toàn khi người dùng xoay ngang màn hình hoặc trên máy tính */
-@media (orientation: landscape) {
-  #rotate-device-hint {
-    display: none !important;
+  .wishes-cards-grid {
+    grid-template-columns: 1fr;
   }
 }
 
