@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initIcons();
   const lightbox = initLightbox();
   initFloatingUniverse(lightbox.openLightbox);
-  initFilmStrip(lightbox.openLightbox);
+  initFilmStrip(); // Khóa chạm xem ảnh ở giai đoạn 5
   initFinalTribute();
   initEnvelopeClick();
+  initRotateHint();
   initAnimationLoop();
 });
 
@@ -304,18 +305,27 @@ function initFloatingUniverse(openLightbox) {
 
 /* ===================================================================
    KHỞI TẠO THƯỚC PHIM KỶ YẾU ĐIỆN ẢNH (FILM STRIP)
+   - Đã khóa chức năng chạm để xem ảnh theo yêu cầu
    =================================================================== */
-function initFilmStrip(openLightbox) {
+function initFilmStrip() {
   const frames = document.querySelectorAll('.film-frame');
   frames.forEach(frame => {
-    frame.addEventListener('click', () => {
-      const src = frame.getAttribute('data-src');
-      if (src && typeof openLightbox === 'function') {
-        openLightbox(src);
-      }
-    });
     frame.addEventListener('mouseenter', () => playSound('pop'));
   });
+}
+
+/* ===================================================================
+   GỢI Ý XOAY NGANG MÀN HÌNH TRÊN ĐIỆN THOẠI
+   =================================================================== */
+function initRotateHint() {
+  const hint = document.getElementById('rotate-device-hint');
+  const closeBtn = document.getElementById('close-rotate-hint');
+  if (closeBtn && hint) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hint.style.display = 'none';
+    });
+  }
 }
 
 /* ===================================================================
@@ -400,8 +410,10 @@ function initAnimationLoop() {
 
   function animate(time) {
     // Lerp mượt mà 60fps (thích ứng phản hồi cảm ứng nhanh trên điện thoại)
-    const isMobile = window.innerWidth <= 768;
-    const lerpRate = isMobile ? 0.08 : 0.055;
+    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    const isPortrait = window.innerWidth < window.innerHeight;
+    const isMobilePortrait = isTouch && isPortrait;
+    const lerpRate = isTouch ? 0.08 : 0.055;
     currentProgress += (targetProgress - currentProgress) * lerpRate;
     if (Math.abs(targetProgress - currentProgress) < 0.0001) {
       currentProgress = targetProgress;
@@ -614,10 +626,11 @@ function initAnimationLoop() {
       else if (itemProgress > 0.85) op = mapRange(itemProgress, 0.85, 1, 1, 0);
 
       // Cân chỉnh toạ độ baseX và biên độ lắc để không bị tràn hoặc che khuất ảnh cô trên màn hình dọc điện thoại
-      const targetBaseX = isMobile 
+      // Khi người dùng xoay ngang màn hình (landscape), tự động dùng chuẩn 16:9 widescreen rộng rãi như máy tính
+      const targetBaseX = isMobilePortrait 
         ? (d.baseX > 50 ? (58 + (d.baseX - 62) * 0.35) : (2 + (d.baseX - 5) * 0.35))
         : d.baseX;
-      const actualSwayX = isMobile ? swayX * 0.45 : swayX;
+      const actualSwayX = isMobilePortrait ? swayX * 0.45 : swayX;
 
       item.el.style.transform = `translate(${targetBaseX + actualSwayX}vw, calc(${currentY}vh + ${floatY}px)) rotate(${dynamicRot}deg) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${scaleBreath})`;
       item.el.style.opacity = op;

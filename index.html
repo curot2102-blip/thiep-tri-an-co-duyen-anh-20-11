@@ -332,7 +332,7 @@
 
   </div>
 
-  <!-- LIGHTBOX MODAL PHÓNG TO MEME & ẢNH KỶ NIỆM -->
+  <!-- LIGHTBOX MODAL PHÓNG TO MEME -->
   <div id="meme-lightbox" class="lightbox-overlay" aria-hidden="true">
     <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
     <div class="lightbox-content">
@@ -342,6 +342,18 @@
       </div>
       <div class="lightbox-hint">Nhấn phím Esc hoặc bấm ra ngoài để đóng</div>
     </div>
+  </div>
+
+  <!-- THÔNG BÁO GỢI Ý XOAY NGANG MÀN HÌNH TRÊN ĐIỆN THOẠI -->
+  <div id="rotate-device-hint" role="status" aria-live="polite">
+    <svg class="rotate-phone-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="5" y="2" width="14" height="20" rx="3"></rect>
+      <path d="M12 18h.01"></path>
+      <path d="M19 9l3 3-3 3"></path>
+      <path d="M5 15l-3-3 3-3"></path>
+    </svg>
+    <span>Hãy xoay ngang màn hình để có trải nghiệm tốt nhất</span>
+    <button id="close-rotate-hint" title="Đóng thông báo" aria-label="Đóng">✕</button>
   </div>
 
   <script src="script.js"></script>

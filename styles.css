@@ -723,7 +723,7 @@ body {
   width: auto;
   box-sizing: border-box;
   position: relative;
-  cursor: zoom-in;
+  cursor: default;
   pointer-events: auto;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
@@ -1069,5 +1069,173 @@ body {
   .lightbox-content img {
     max-width: 95vw;
     max-height: 80vh;
+  }
+}
+
+/* ===================================================================
+   GỢI Ý XOAY NGANG MÀN HÌNH TRÊN THIẾT BỊ DI ĐỘNG
+   =================================================================== */
+#rotate-device-hint {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 18, 27, 0.94);
+  border: 1px solid var(--accent-gold);
+  color: var(--text-main);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(245, 158, 11, 0.3);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: floatHint 3s infinite ease-in-out;
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+@keyframes floatHint {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -6px); }
+}
+
+.rotate-phone-icon {
+  color: var(--accent-gold-light);
+  flex-shrink: 0;
+  animation: spinPhone 2.5s infinite ease-in-out;
+}
+
+@keyframes spinPhone {
+  0%, 15% { transform: rotate(0deg); }
+  45%, 75% { transform: rotate(90deg); }
+  100% { transform: rotate(0deg); }
+}
+
+#close-rotate-hint {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 0 0 6px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+#close-rotate-hint:hover {
+  color: var(--text-main);
+}
+
+/* Chỉ hiển thị khi thiết bị có màn hình dọc hẹp (điện thoại đứng) */
+@media (max-width: 900px) and (orientation: portrait) {
+  #rotate-device-hint {
+    display: inline-flex;
+  }
+}
+
+/* Tự động ẩn hoàn toàn khi người dùng xoay ngang màn hình hoặc trên máy tính */
+@media (orientation: landscape) {
+  #rotate-device-hint {
+    display: none !important;
+  }
+}
+
+/* ===================================================================
+   TỐI ƯU HÓA KHI XOAY NGANG ĐIỆN THOẠI (LANDSCAPE MOBILE MODE)
+   Tạo trải nghiệm tỉ lệ 16:9 / 20:9 siêu rộng y như màn hình máy tính
+   =================================================================== */
+@media (max-height: 520px) and (orientation: landscape) {
+  body {
+    height: 1400vh;
+  }
+
+  #envelope-wrapper {
+    width: 260px;
+    height: 165px;
+  }
+
+  .env-letter.unfolded {
+    width: min(540px, 86vw) !important;
+    max-height: 84vh !important;
+    padding: 14px 22px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .letter-recipient {
+    font-size: 1.25rem !important;
+  }
+
+  .letter-body {
+    font-size: 0.72rem !important;
+    gap: 3px !important;
+    line-height: 1.4 !important;
+  }
+
+  .letter-sign {
+    margin-top: 8px !important;
+    padding-top: 6px !important;
+  }
+
+  .letter-sign strong {
+    font-size: 1.15rem !important;
+  }
+
+  #main-greeting .main-title {
+    font-size: 1.65rem !important;
+    margin-bottom: 4px;
+  }
+
+  #main-greeting .greeting-sub {
+    font-size: 0.78rem !important;
+  }
+
+  #teacher-img {
+    width: min(150px, 46vh) !important;
+  }
+
+  .floating-meme-card {
+    width: clamp(100px, 16vw, 130px) !important;
+  }
+
+  .film-frames-row {
+    height: clamp(190px, 60vh, 270px) !important;
+    padding: 10px 20px !important;
+    gap: 14px !important;
+  }
+
+  .film-sprockets {
+    height: 22px !important;
+  }
+
+  .film-meta-text {
+    font-size: 0.6rem !important;
+  }
+
+  .tribute-card {
+    padding: 14px 20px !important;
+    max-width: 440px !important;
+  }
+
+  .tribute-title {
+    font-size: 1.35rem !important;
+    margin-bottom: 4px !important;
+  }
+
+  .tribute-quote {
+    font-size: 0.75rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  .action-btn {
+    padding: 10px 18px !important;
+    font-size: 0.8125rem !important;
   }
 }
