@@ -187,39 +187,36 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 270px;
-  height: 140px;
+  width: min(500px, 92vw);
+  height: auto;
+  max-height: 82vh;
+  max-height: 82dvh;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle at 50% 15%, #ffffff 0%, #fffdf8 100%);
-  border-radius: 8px;
-  padding: 14px 18px;
+  border-radius: 14px;
+  padding: 24px 28px;
   box-sizing: border-box;
   color: #1e293b;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 25px rgba(245, 158, 11, 0.12);
   z-index: 2; /* Ban đầu nằm dưới túi phong bì */
   will-change: transform, opacity;
   text-align: left;
-  border: 1px solid rgba(180, 83, 9, 0.2);
+  border: 1px solid rgba(180, 83, 9, 0.22);
   transform-style: preserve-3d;
   pointer-events: auto;
   overflow: hidden; /* Giữ kín 100% nội dung và mép khi gấp trong phong bì */
   opacity: 0; /* Khởi tạo ẩn hoàn toàn để không bao giờ bị lộ mép ở giai đoạn 1 */
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Khi lá thư ĐƯỢC RÚT RA VÀ MỞ TO (UNFOLDED) */
 .env-letter.unfolded {
-  width: min(500px, 92vw) !important;
-  height: auto !important;
-  max-height: 82vh !important;
-  max-height: 82dvh !important;
-  border-radius: 14px;
-  padding: 24px 28px 24px 28px !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 35px rgba(245, 158, 11, 0.18) !important;
   overflow: visible !important;
-  border-color: rgba(180, 83, 9, 0.25) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 35px rgba(245, 158, 11, 0.18) !important;
 }
 
 /* Khung viền chỉ vàng chìm sang trọng bên trong lá thư */
@@ -672,8 +669,9 @@ body {
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(245, 158, 11, 0.15);
   display: inline-flex;
   flex-direction: column;
-  width: max-content;
-  max-width: max-content;
+  width: fit-content;
+  max-width: fit-content;
+  position: relative;
   will-change: transform;
   transform: translateX(0);
 }
@@ -697,10 +695,11 @@ body {
   overflow: hidden;
   white-space: nowrap;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  width: 0;
-  min-width: 100%;
+  width: 100%;
   max-width: 100%;
+  flex: 0 0 32px;
   box-sizing: border-box;
+  contain: paint layout;
 }
 
 .film-sprockets.bottom {
@@ -755,10 +754,11 @@ body {
 
 /* KHÔNG phóng to / popup / scale khung hình khi di chuột qua */
 .film-frame:hover {
-  transform: none;
+  transform: none !important;
   border-color: rgba(245, 158, 11, 0.5);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
   z-index: 1;
+  cursor: default;
 }
 
 /* Khung ảnh ngang (Landscape 3:2) */
@@ -1039,19 +1039,37 @@ body {
   }
   
   .env-letter {
-    width: 230px !important;
-    height: 120px !important;
-    padding: 12px 14px !important;
-  }
-
-  .env-letter.unfolded {
-    width: min(360px, 92vw) !important;
+    width: min(350px, 92vw) !important;
     height: auto !important;
     max-height: 82vh !important;
     max-height: 82dvh !important;
     padding: 20px 16px 16px 16px !important;
+  }
+
+  .env-letter.unfolded {
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
+  }
+
+  .sub-letters-wrapper {
+    width: min(360px, 92vw) !important;
+  }
+
+  .sub-letter-card {
+    padding: 14px 14px !important;
+  }
+
+  .sub-letter-author {
+    font-size: 0.95rem !important;
+  }
+
+  .sub-letter-body {
+    font-size: 0.8125rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .sub-letters-title {
+    font-size: 1.4rem !important;
   }
 
   .letter-recipient {
@@ -1248,21 +1266,30 @@ body {
 .wish-detail-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
   border-bottom: 1px solid rgba(180, 83, 9, 0.15);
   padding-bottom: 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .wish-detail-author {
   font-family: 'Playfair Display', serif;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: #78350f;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  flex: 1 1 160px;
+  min-width: 0;
 }
 
 .wish-detail-time {
   font-size: 0.75rem;
   color: #64748b;
+  flex-shrink: 0;
 }
 
 .wish-detail-body {
@@ -1270,6 +1297,8 @@ body {
   line-height: 1.65;
   color: #334155;
   white-space: pre-line;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .wish-detail-hint {
@@ -1488,7 +1517,7 @@ body {
   position: relative;
   background: radial-gradient(circle at 50% 15%, #ffffff 0%, #fffdf8 100%);
   border-radius: 12px;
-  padding: 20px 24px;
+  padding: 18px 20px;
   border: 1px solid rgba(180, 83, 9, 0.25);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 0 20px rgba(245, 158, 11, 0.08);
   color: #1e293b;
@@ -1497,6 +1526,7 @@ body {
   cursor: pointer;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   user-select: none;
+  overflow: hidden;
 }
 
 .sub-letter-card::before {
@@ -1517,28 +1547,38 @@ body {
 .sub-letter-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
   padding-bottom: 8px;
   border-bottom: 1px dashed rgba(180, 83, 9, 0.2);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sub-letter-author {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.125rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #78350f;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  flex: 1 1 140px;
+  min-width: 0;
 }
 
 .sub-letter-meta {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .sub-letter-time {
   font-size: 0.75rem;
   color: #64748b;
+  flex-shrink: 0;
 }
 
 .sub-letter-stamp {
@@ -1554,14 +1594,18 @@ body {
   font-weight: 800;
   border: 1.5px solid rgba(251, 191, 36, 0.6);
   box-shadow: 0 2px 6px rgba(120, 53, 15, 0.35);
+  flex-shrink: 0;
 }
 
 .sub-letter-body {
   font-size: 0.875rem;
   line-height: 1.65;
   color: #334155;
-  white-space: pre-line;
+  white-space: pre-wrap;
   word-break: break-word;
+  overflow-wrap: anywhere;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ===================================================================

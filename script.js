@@ -443,7 +443,7 @@ function initFilmStrip() {
 /* ===================================================================
    LẶP LẠI DÒNG CHỮ RĂNG CƯA 35MM (FILM SPROCKET METADATA)
    - Tự động phủ kín chính xác theo chiều dài hàng ảnh thực tế
-   - Không tạo khoảng trống dư thừa phía sau tấm ảnh cuối cùng
+   - Tuyệt đối không tạo khoảng trống dư thừa phía sau tấm ảnh cuối cùng
    =================================================================== */
 function initFilmSprocketsText() {
   const topSprockets = document.getElementById('film-sprockets-top');
@@ -453,9 +453,9 @@ function initFilmSprocketsText() {
   const topText = '<span class="film-meta-text">KODAK VISION3 500T &bull; 20.11 &bull; KỶ YẾU & KỶ NIỆM CÔ DUYÊN ANH</span>';
   const bottomText = '<span class="film-meta-text">EASTMAN FILM &bull; SAFETY FILM &bull; TRI ÂN CÔ DUYÊN ANH 20.11</span>';
 
-  const rowWidth = filmFramesRow ? (filmFramesRow.scrollWidth || 14000) : 14000;
-  // Mỗi khối chữ span dài khoảng 460px
-  const count = Math.max(8, Math.ceil(rowWidth / 460) + 2);
+  const rowWidth = filmFramesRow ? (filmFramesRow.scrollWidth || 8000) : 8000;
+  // Mỗi khối chữ span dài khoảng 460px, chỉ tạo số lượng vừa đủ khít chiều dài ảnh
+  const count = Math.max(6, Math.ceil(rowWidth / 460));
 
   if (topSprockets) {
     topSprockets.innerHTML = Array(count).fill(topText).join('');
@@ -473,11 +473,8 @@ let cachedFilmTrackWidth = 0;
 
 function updateFilmDimensions() {
   const filmFramesRow = document.getElementById('film-frames-row');
-  const filmTrack = document.getElementById('film-track');
   if (filmFramesRow && filmFramesRow.scrollWidth > 0) {
     cachedFilmTrackWidth = filmFramesRow.scrollWidth;
-  } else if (filmTrack) {
-    cachedFilmTrackWidth = filmTrack.scrollWidth;
   }
 }
 
@@ -777,21 +774,30 @@ function escapeHtml(text) {
 
 /* ===================================================================
    3. TƯƠNG TÁC LỜI KẾT & LƯU LẠI MỤC TIM THỰC TẾ (PERSISTED HEARTS)
+   - Khởi tạo lượt tim bắt đầu từ 0 và lưu trữ bền bỉ trong localStorage
    =================================================================== */
 function initFinalTribute() {
   const heartBtn = document.getElementById('heart-btn');
   const countSpan = document.getElementById('heart-count');
   const replayBtn = document.getElementById('replay-btn');
 
-  // Khôi phục số tim thực tế đã lưu từ localStorage
-  const savedHearts = localStorage.getItem('co_duyen_anh_hearts') || '999';
+  // Khôi phục số tim thực tế đã lưu từ localStorage (bắt đầu từ 0, dọn sạch giá trị 999 cũ nếu có)
+  let savedHearts = localStorage.getItem('co_duyen_anh_hearts');
+  if (savedHearts === '999' || savedHearts === '1000') {
+    savedHearts = '0';
+    try {
+      localStorage.setItem('co_duyen_anh_hearts', '0');
+    } catch (e) {}
+  }
+  const initialHearts = savedHearts !== null ? savedHearts : '0';
   if (countSpan) {
-    countSpan.textContent = savedHearts;
+    countSpan.textContent = initialHearts;
   }
 
   if (heartBtn && countSpan) {
     heartBtn.addEventListener('click', (e) => {
-      let count = parseInt(countSpan.textContent || '999', 10);
+      let count = parseInt(countSpan.textContent || '0', 10);
+      if (isNaN(count)) count = 0;
       count++;
       countSpan.textContent = count;
       try {
@@ -933,14 +939,14 @@ function initAnimationLoop() {
     }
 
     // -------------------------------------------------------------
-    // 1. PHONG BÌ THƯ & HIỆU ỨNG MỞ LÁ THƯ 3D (GIẢM CUỘN GẤP ĐÔI, MƯỢT MÀ)
+    // 1. PHONG BÌ THƯ & HIỆU ỨNG MỞ LÁ THƯ 3D (CHUYỂN TIẾP MƯỢT MÀ, KHÔNG KHỰNG)
     // -------------------------------------------------------------
     if (scrollHint) {
-      scrollHint.style.opacity = mapRange(p, 0.00, 0.04, 1, 0);
+      scrollHint.style.opacity = mapRange(p, 0.00, 0.035, 1, 0);
     }
 
-    // Mở nắp phong bì (p: 0.00 -> 0.05)
-    const flapAngle = mapRange(p, 0.00, 0.05, 0, 180);
+    // Mở nắp phong bì mềm mại (p: 0.00 -> 0.065)
+    const flapAngle = mapRange(p, 0.00, 0.065, 0, 180);
 
     // Tính toán trạng thái lá thư hoàn toàn liên tục
     let letterY = 0;
@@ -950,39 +956,46 @@ function initAnimationLoop() {
     let unfoldProgress = 0;
     let letterZ = 2;
 
-    if (p <= 0.04) {
+    if (p <= 0.035) {
+      // Khi phong bì chưa mở hẳn: lá thư ẩn gọn trong phong bì
       letterOpacity = 0;
-      letterY = 15;
-      letterScale = 0.85;
+      letterY = 20;
+      letterScale = 0.65;
       unfoldProgress = 0;
       letterZ = 2;
       if (letter) letter.classList.remove('unfolded');
-    } else if (p <= 0.10) {
-      letterOpacity = mapRange(p, 0.04, 0.07, 0, 1);
-      letterY = mapRange(p, 0.05, 0.10, 0, -240);
-      letterScale = 1.0;
+    } else if (p <= 0.075) {
+      // Nắp mở ra, lá thư trượt êm ái lên trên khỏi miệng phong bì
+      letterOpacity = mapRange(p, 0.035, 0.06, 0, 1);
+      letterY = mapRange(p, 0.035, 0.075, 20, -120);
+      letterScale = mapRange(p, 0.035, 0.075, 0.65, 0.75);
       unfoldProgress = 0;
-      letterZ = p > 0.075 ? 65 : 2;
+      letterZ = p > 0.065 ? 65 : 2;
       if (letter) letter.classList.remove('unfolded');
     } else if (p <= 0.15) {
-      unfoldProgress = mapRange(p, 0.10, 0.15, 0, 1);
-      letterY = mapRange(p, 0.10, 0.15, -240, 0);
-      letterScale = mapRange(p, 0.10, 0.15, 1.0, 1.1);
+      // Lá thư mở bung 3D, phóng to và lướt về trung tâm màn hình mượt mà
+      unfoldProgress = mapRange(p, 0.075, 0.15, 0, 1);
+      letterY = mapRange(p, 0.075, 0.15, -120, 0);
+      letterScale = mapRange(p, 0.075, 0.15, 0.75, 1.0);
+      letterOpacity = 1;
       letterZ = 65;
       if (letter) letter.classList.add('unfolded');
-    } else if (p <= 0.19) {
+    } else if (p <= 0.20) {
+      // Lá thư dừng ở trung tâm màn hình để người đọc thưởng thức, bồng bềnh nhẹ nhàng
       unfoldProgress = 1;
       letterY = Math.sin(time * 0.002) * 4;
-      letterScale = 1.1;
+      letterScale = 1.0;
+      letterOpacity = 1;
       letterZ = 65;
-      tiltX = mouseY * -5;
-      tiltY = mouseX * 5;
+      tiltX = mouseY * -4;
+      tiltY = mouseX * 4;
       if (letter) letter.classList.add('unfolded');
-    } else if (p <= 0.23) {
+    } else if (p <= 0.25) {
+      // Chuyển tiếp mượt sang giai đoạn chữ tri ân
       unfoldProgress = 1;
-      letterY = 0;
-      letterScale = mapRange(p, 0.19, 0.23, 1.1, 1.85);
-      letterOpacity = mapRange(p, 0.19, 0.23, 1, 0);
+      letterY = mapRange(p, 0.20, 0.25, 0, -30);
+      letterScale = mapRange(p, 0.20, 0.25, 1.0, 1.35);
+      letterOpacity = mapRange(p, 0.20, 0.25, 1, 0);
       letterZ = 65;
       if (letter) letter.classList.add('unfolded');
     } else {
@@ -997,16 +1010,16 @@ function initAnimationLoop() {
       letterSecBottom.style.transform = `rotateX(${bottomFoldAngle}deg)`;
     }
     if (crease1 && crease2) {
-      const creaseOp = mapRange(unfoldProgress, 0, 1, 0.6, 0.15);
+      const creaseOp = mapRange(unfoldProgress, 0, 1, 0.6, 0.08);
       crease1.style.opacity = creaseOp;
       crease2.style.opacity = creaseOp;
     }
 
-    // Phong bì (env-part) trôi xuống và mờ dần (với dirty flag tối ưu 60fps)
+    // Phong bì (env-part) trôi xuống và mờ dần rất êm dịu
     if (p <= 0.20) {
       envHidden = false;
-      const envDropY = mapRange(p, 0.10, 0.15, 0, 260);
-      const envOpacity = mapRange(p, 0.10, 0.14, 1, 0);
+      const envDropY = mapRange(p, 0.075, 0.15, 0, 240);
+      const envOpacity = mapRange(p, 0.075, 0.13, 1, 0);
       envParts.forEach(el => {
         if (el.id === 'flap') {
           el.style.transform = `translateY(${envDropY}px) rotateX(${flapAngle}deg)`;
@@ -1135,14 +1148,17 @@ function initAnimationLoop() {
     if (filmTrack && p >= 0.46 && p <= 0.78) {
       const filmProg = p < 0.50 ? 0 : (p > 0.73 ? 1 : mapRange(p, 0.50, 0.73, 0, 1));
       const rowEl = document.getElementById('film-frames-row');
-      const totalWidth = (rowEl && rowEl.scrollWidth > 0) ? rowEl.scrollWidth : (cachedFilmTrackWidth || filmTrack.scrollWidth);
-      const winWidth = window.innerWidth;
-      const startOffset = winWidth > 768 ? 72 : 24;
-      const endPadding = winWidth > 768 ? 48 : 24;
-      // Dừng lại CHÍNH XÁC ở tấm ảnh cuối cùng, không cuộn sang đoạn trống không có ảnh
-      const maxTranslate = Math.max(0, totalWidth - winWidth + startOffset + endPadding);
-      const currentX = -filmProg * maxTranslate + startOffset;
-      filmTrack.style.transform = `translateX(${currentX}px)`;
+      if (rowEl) {
+        const lastFrame = rowEl.lastElementChild;
+        const winWidth = window.innerWidth;
+        const startOffset = winWidth > 768 ? 72 : 24;
+        const endPadding = winWidth > 768 ? 48 : 24;
+        // Điểm kết thúc chính xác của tấm ảnh cuối cùng (tự động mở rộng khi có ảnh mới, dừng ngang tấm cuối)
+        const contentEnd = lastFrame ? (lastFrame.offsetLeft + lastFrame.offsetWidth + endPadding) : (rowEl.scrollWidth || cachedFilmTrackWidth);
+        const maxTranslate = Math.max(0, contentEnd - winWidth + startOffset);
+        const currentX = -filmProg * maxTranslate + startOffset;
+        filmTrack.style.transform = `translateX(${currentX}px)`;
+      }
     }
 
     // -------------------------------------------------------------
