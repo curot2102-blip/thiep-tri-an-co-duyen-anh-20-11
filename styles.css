@@ -670,8 +670,10 @@ body {
   border-top: 2px solid rgba(245, 158, 11, 0.4);
   border-bottom: 2px solid rgba(245, 158, 11, 0.4);
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(245, 158, 11, 0.15);
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
+  width: max-content;
+  max-width: max-content;
   will-change: transform;
   transform: translateX(0);
 }
@@ -695,6 +697,10 @@ body {
   overflow: hidden;
   white-space: nowrap;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 0;
+  min-width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .film-sprockets.bottom {
@@ -718,6 +724,8 @@ body {
 /* Hàng khung hình kỷ yếu & kỷ niệm (Giữ nguyên tỉ lệ ảnh dọc/ngang, tuyệt đối không crop) */
 .film-frames-row {
   display: flex;
+  width: max-content;
+  flex-shrink: 0;
   gap: 24px;
   padding: 24px 48px;
   background: radial-gradient(circle at 50% 50%, #111522 0%, #080b12 100%);
@@ -739,17 +747,18 @@ body {
   cursor: default;
   pointer-events: auto;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: border-color 0.25s ease;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
 }
 
+/* KHÔNG phóng to / popup / scale khung hình khi di chuột qua */
 .film-frame:hover {
-  transform: scale(1.04);
-  border-color: var(--accent-gold);
-  box-shadow: 0 20px 45px rgba(245, 158, 11, 0.35);
-  z-index: 10;
+  transform: none;
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+  z-index: 1;
 }
 
 /* Khung ảnh ngang (Landscape 3:2) */

@@ -403,37 +403,66 @@ function openCleanImage(src, author, time) {
 
 /* ===================================================================
    KHỞI TẠO THƯỚC PHIM KỶ YẾU ĐIỆN ẢNH (FILM STRIP)
+   - Tuyệt đối KHÔNG mở popup khi di chuột qua các ảnh
+   - Chỉ khi người dùng chủ động click tĩnh (không kéo/di chuột) mới mở xem ảnh
    =================================================================== */
 function initFilmStrip() {
   const frames = document.querySelectorAll('.film-frame');
   frames.forEach(frame => {
     const img = frame.querySelector('img');
     if (img) {
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+
+      img.addEventListener('mousedown', (e) => {
+        isDragging = false;
+        startX = e.clientX;
+        startY = e.clientY;
+      });
+
+      img.addEventListener('mousemove', (e) => {
+        if (Math.abs(e.clientX - startX) > 6 || Math.abs(e.clientY - startY) > 6) {
+          isDragging = true;
+        }
+      });
+
       img.addEventListener('click', (e) => {
+        // Tuyệt đối không mở popup khi di chuột qua hoặc kéo cuộn
+        if (isDragging) {
+          e.stopPropagation();
+          return;
+        }
         e.stopPropagation();
         openCleanImage(img.getAttribute('src'), 'Tập thể học trò tri ân Cô Duyên Anh', 'Kỷ yếu thanh xuân');
       });
     }
-    frame.addEventListener('mouseenter', () => playSound('pop'));
   });
 }
 
 /* ===================================================================
    LẶP LẠI DÒNG CHỮ RĂNG CƯA 35MM (FILM SPROCKET METADATA)
+   - Tự động phủ kín chính xác theo chiều dài hàng ảnh thực tế
+   - Không tạo khoảng trống dư thừa phía sau tấm ảnh cuối cùng
    =================================================================== */
 function initFilmSprocketsText() {
   const topSprockets = document.getElementById('film-sprockets-top');
   const bottomSprockets = document.getElementById('film-sprockets-bottom');
+  const filmFramesRow = document.getElementById('film-frames-row');
 
   const topText = '<span class="film-meta-text">KODAK VISION3 500T &bull; 20.11 &bull; KỶ YẾU & KỶ NIỆM CÔ DUYÊN ANH</span>';
   const bottomText = '<span class="film-meta-text">EASTMAN FILM &bull; SAFETY FILM &bull; TRI ÂN CÔ DUYÊN ANH 20.11</span>';
 
+  const rowWidth = filmFramesRow ? (filmFramesRow.scrollWidth || 14000) : 14000;
+  // Mỗi khối chữ span dài khoảng 460px
+  const count = Math.max(8, Math.ceil(rowWidth / 460) + 2);
+
   if (topSprockets) {
-    topSprockets.innerHTML = Array(45).fill(topText).join('');
+    topSprockets.innerHTML = Array(count).fill(topText).join('');
   }
 
   if (bottomSprockets) {
-    bottomSprockets.innerHTML = Array(45).fill(bottomText).join('');
+    bottomSprockets.innerHTML = Array(count).fill(bottomText).join('');
   }
 }
 
@@ -443,8 +472,11 @@ function initFilmSprocketsText() {
 let cachedFilmTrackWidth = 0;
 
 function updateFilmDimensions() {
+  const filmFramesRow = document.getElementById('film-frames-row');
   const filmTrack = document.getElementById('film-track');
-  if (filmTrack) {
+  if (filmFramesRow && filmFramesRow.scrollWidth > 0) {
+    cachedFilmTrackWidth = filmFramesRow.scrollWidth;
+  } else if (filmTrack) {
     cachedFilmTrackWidth = filmTrack.scrollWidth;
   }
 }
@@ -566,6 +598,7 @@ function renderContributedPhotos() {
     filmTrackRow.appendChild(frame);
   });
 
+  initFilmSprocketsText();
   updateFilmDimensions();
 }
 
@@ -597,17 +630,37 @@ function createContributedFilmFrame(photo) {
       frame.classList.remove('landscape');
       frame.classList.add('portrait');
     }
+    initFilmSprocketsText();
     updateFilmDimensions();
   };
 
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+
+  imgEl.addEventListener('mousedown', (e) => {
+    isDragging = false;
+    startX = e.clientX;
+    startY = e.clientY;
+  });
+
+  imgEl.addEventListener('mousemove', (e) => {
+    if (Math.abs(e.clientX - startX) > 6 || Math.abs(e.clientY - startY) > 6) {
+      isDragging = true;
+    }
+  });
+
   imgEl.addEventListener('click', (e) => {
+    if (isDragging) {
+      e.stopPropagation();
+      return;
+    }
     e.stopPropagation();
     openCleanImage(photo.image, photo.author, photo.time);
   });
 
   frame.appendChild(imgEl);
-  frame.addEventListener('mouseenter', () => playSound('pop'));
-
+  // Không kích hoạt âm thanh pop hay popup khi di chuột qua ảnh
   return frame;
 }
 
@@ -680,6 +733,7 @@ function appendPhotoToFilmStrip(photo) {
     if (!existing) {
       const frame = createContributedFilmFrame(photo);
       filmTrackRow.appendChild(frame);
+      initFilmSprocketsText();
       updateFilmDimensions();
     }
   }
@@ -701,6 +755,7 @@ function removePhotoFromFilmStrip(id) {
     const el = filmTrackRow.querySelector(`[data-id="${id}"]`);
     if (el) {
       el.remove();
+      initFilmSprocketsText();
       updateFilmDimensions();
     }
   }
@@ -813,7 +868,15 @@ function initAnimationLoop() {
 
   // Khởi tạo cache kích thước filmTrack để triệt tiêu Forced Synchronous Reflow trong rAF
   updateFilmDimensions();
-  window.addEventListener('resize', updateFilmDimensions);
+  initFilmSprocketsText();
+  window.addEventListener('resize', () => {
+    updateFilmDimensions();
+    initFilmSprocketsText();
+  });
+  window.addEventListener('load', () => {
+    updateFilmDimensions();
+    initFilmSprocketsText();
+  });
 
   let envHidden = false;
 
@@ -1071,10 +1134,13 @@ function initAnimationLoop() {
     }
     if (filmTrack && p >= 0.46 && p <= 0.78) {
       const filmProg = p < 0.50 ? 0 : (p > 0.73 ? 1 : mapRange(p, 0.50, 0.73, 0, 1));
-      const totalWidth = cachedFilmTrackWidth || filmTrack.scrollWidth;
+      const rowEl = document.getElementById('film-frames-row');
+      const totalWidth = (rowEl && rowEl.scrollWidth > 0) ? rowEl.scrollWidth : (cachedFilmTrackWidth || filmTrack.scrollWidth);
       const winWidth = window.innerWidth;
       const startOffset = winWidth > 768 ? 72 : 24;
-      const maxTranslate = Math.max(0, totalWidth - winWidth + startOffset + 80);
+      const endPadding = winWidth > 768 ? 48 : 24;
+      // Dừng lại CHÍNH XÁC ở tấm ảnh cuối cùng, không cuộn sang đoạn trống không có ảnh
+      const maxTranslate = Math.max(0, totalWidth - winWidth + startOffset + endPadding);
       const currentX = -filmProg * maxTranslate + startOffset;
       filmTrack.style.transform = `translateX(${currentX}px)`;
     }
