@@ -88,12 +88,12 @@ class TestTier1Features(unittest.TestCase):
             f"Hero image src must point to .webp, found: {teacher_src}"
         )
 
-        # 2. Check 31 film frames in index.html
+        # 2. Check film frames in index.html (26 distinct unique film frames after removing duplicates)
         film_row = parser.get_element_by_id("film-frames-row")
         self.assertIsNotNone(film_row, "#film-frames-row element must exist in index.html")
         
         film_imgs = [el for el in parser.elements if "film-img" in el.get("class", [])]
-        self.assertGreaterEqual(len(film_imgs), 31, "There must be at least 31 film frame images")
+        self.assertGreaterEqual(len(film_imgs), 26, "There must be at least 26 film frame images")
         
         legacy_extensions = (".jpg", ".jpeg", ".png", ".JPG", ".PNG")
         for img in film_imgs:
