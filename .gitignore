@@ -8,4 +8,6 @@ desktop.ini
 .DS_Store
 find_unused.js
 *.md
+__pycache__/
+*.pyc
 

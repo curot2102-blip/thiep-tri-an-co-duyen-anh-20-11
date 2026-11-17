@@ -553,9 +553,250 @@
       border: 1px solid var(--danger);
       color: var(--danger);
       font-size: 0.7rem;
-      padding: 4px 10px;
+      padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
+      min-height: 32px;
+    }
+
+    /* Tabs phân tách 2 hình thức đóng góp */
+    .contribution-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      background: rgba(14, 18, 27, 0.7);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+    }
+
+    .contrib-tab-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      min-height: 44px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      color: var(--text-sub);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .contrib-tab-btn.active {
+      background: rgba(245, 158, 11, 0.16);
+      color: var(--accent-gold-light);
+      border-color: var(--border-gold);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Lưu ý bắt buộc tuân thủ R1 */
+    .form-notice {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent-gold-light);
+      font-size: 0.8125rem;
+      line-height: 1.45;
+    }
+
+    /* Khung xem trước nhiều ảnh (Multiple previews) */
+    .photos-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .preview-card {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-gold);
+      background: #090c13;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .preview-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-card-delete {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 24px;
+      height: 24px;
+      background: rgba(239, 68, 68, 0.9);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 14px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+      transition: background 0.15s ease;
+    }
+
+    .preview-card-delete:hover {
+      background: #dc2626;
+    }
+
+    /* Tabs điều hướng trong Admin Dashboard */
+    .admin-nav-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 8px;
+    }
+
+    .admin-tab-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 8px 12px;
+      min-height: 44px;
+      color: var(--text-sub);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .admin-tab-btn.active {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-light);
+    }
+
+    .admin-tab-panel {
+      display: none;
+    }
+
+    .admin-tab-panel.active {
+      display: block;
+    }
+
+    /* Tab 2: Quản lý ảnh đóng góp */
+    .admin-photos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+      gap: 12px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+
+    .admin-photo-card {
+      background: #090c13;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .admin-photo-thumb {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 6px;
+      cursor: zoom-in;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .admin-photo-info {
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      line-height: 1.35;
+    }
+
+    .admin-photo-info strong {
+      color: var(--text-main);
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-delete-photo {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      font-size: 0.7rem;
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      min-height: 32px;
+      width: 100%;
+    }
+
+    /* Modal phóng to xem ảnh full size trong Admin */
+    .admin-photo-viewer {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .admin-photo-viewer.active {
+      display: flex;
+    }
+
+    .admin-photo-viewer img {
+      max-width: 90vw;
+      max-height: 85vh;
+      max-height: 85dvh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    }
+
+    .admin-photo-viewer-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #fff;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   </style>
 </head>
@@ -582,57 +823,101 @@
   <main class="main-container">
     <header class="hero-header">
       <span class="hero-badge">Tập Thể Lớp Tri Ân 20/11</span>
-      <h1 class="hero-title">Gửi Lời Chúc Đến Cô Duyên Anh</h1>
-      <p class="hero-desc">Mọi lời chúc và hình ảnh bạn gửi tại đây sẽ xuất hiện trực tiếp trên trang thiệp chính tri ân Cô!</p>
+      <h1 class="hero-title">Gửi Lời Chúc &amp; Hình Ảnh Kỷ Niệm</h1>
+      <p class="hero-desc">Mọi lời chúc và hình ảnh bạn gửi tại đây sẽ xuất hiện trực tiếp trên trang thiệp chính tri ân Cô Duyên Anh!</p>
     </header>
 
-    <!-- Form gửi lời chúc -->
-    <section class="form-card">
-      <div id="toast" class="toast-msg"></div>
+    <div id="toast" class="toast-msg"></div>
 
-      <form id="wish-form">
+    <!-- Bộ chuyển tab 2 mục đóng góp độc lập -->
+    <div class="contribution-tabs" role="tablist">
+      <button type="button" class="contrib-tab-btn active" id="tab-btn-wish" role="tab" aria-selected="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Gửi Lời Chúc Tri Ân</span>
+      </button>
+      <button type="button" class="contrib-tab-btn" id="tab-btn-photo" role="tab" aria-selected="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <span>Đóng Góp Hình Ảnh Kỷ Niệm</span>
+      </button>
+    </div>
+
+    <!-- BIỂU MẪU 1: GỬI LỜI CHÚC TRI ÂN (HOÀN TOÀN ĐỘC LẬP) -->
+    <section id="form-wish-section" class="form-card contrib-panel">
+      <form id="form-wish">
         <div class="form-group">
           <label class="form-label" for="author-input">Họ và Tên / Biệt danh của bạn <span class="required">*</span></label>
-          <input type="text" id="author-input" class="form-input" placeholder="Ví dụ: Nguyễn Văn A (Tổ 1), Minh Thư,..." required>
+          <input type="text" id="author-input" class="form-input" placeholder="Ví dụ: Minh Thư (Tổ 2), Trần Nguyên,..." required>
         </div>
 
         <div class="form-group">
           <label class="form-label" for="wish-input">Lời chúc yêu thương gửi Cô Duyên Anh <span class="required">*</span></label>
-          <textarea id="wish-input" class="form-textarea" placeholder="Nhân ngày 20/11, con chúc Cô luôn mạnh khỏe, luôn giữ nụ cười ấm áp và bao dung cho chúng con..." required></textarea>
+          <textarea id="wish-input" class="form-textarea" placeholder="Nhân ngày 20/11, con chúc Cô luôn mạnh khỏe, hạnh phúc và luôn tràn đầy năng lượng..." required></textarea>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Đính kèm ảnh kỷ niệm hoặc ảnh dìm dễ thương (Tùy chọn)</label>
-          <div class="photo-upload-box">
-            <input type="file" id="photo-input" class="photo-input" accept="image/*">
-            <div class="photo-hint" id="photo-hint">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                <polyline points="21 15 16 10 5 21"></polyline>
-              </svg>
-              <span>Chạm để chọn ảnh từ điện thoại hoặc máy tính</span>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">(Tự động tối ưu hóa để hiển thị nối tiếp ở Cuộn Phim 35mm)</span>
-            </div>
-
-            <div class="photo-preview-wrap" id="preview-wrap">
-              <img id="preview-img" class="photo-preview" src="" alt="Xem trước ảnh">
-              <button type="button" id="btn-remove-photo" class="btn-remove-photo" title="Xóa ảnh">✕</button>
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" id="submit-btn" class="submit-btn">
-          <span>💖 Gửi Lời Chúc Vào Thiệp Của Cô</span>
+        <button type="submit" id="submit-wish-btn" class="submit-btn">
+          <span>Gửi Lời Chúc Vào Thiệp Của Cô</span>
         </button>
       </form>
     </section>
 
-    <!-- Danh sách lời chúc vừa gửi -->
+    <!-- BIỂU MẪU 2: ĐÓNG GÓP HÌNH ẢNH KỶ NIỆM (HOÀN TOÀN ĐỘC LẬP) -->
+    <section id="form-photo-section" class="form-card contrib-panel" style="display: none;">
+      <!-- Lưu ý bắt buộc tuân thủ R1 -->
+      <div class="form-notice">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span><strong>Lưu ý bắt buộc:</strong> Vui lòng nhập họ và tên thật, nếu không sẽ không được duyệt.</span>
+      </div>
+
+      <form id="form-photo">
+        <div class="form-group">
+          <label class="form-label" for="photo-author-input">Họ và Tên thật người đóng góp <span class="required">*</span></label>
+          <input type="text" id="photo-author-input" class="form-input" placeholder="Họ và tên thật của bạn (Bắt buộc để in lên viền phim)..." required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="photo-caption-input">Lời nhắn / Chú thích khoảnh khắc (Tùy chọn)</label>
+          <input type="text" id="photo-caption-input" class="form-input" placeholder="Kỷ niệm ngày bế giảng, giờ học Toán vui vẻ,...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Chọn hình ảnh kỷ niệm (Hỗ trợ chọn nhiều ảnh cùng lúc) <span class="required">*</span></label>
+          <div class="photo-upload-box" id="photo-drop-box">
+            <input type="file" id="multi-photo-input" class="photo-input" accept="image/*" multiple required>
+            <div class="photo-hint" id="multi-photo-hint">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>Chạm hoặc kéo thả để chọn nhiều ảnh</span>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">(Tự động tối ưu hóa sang định dạng WebP chất lượng cao)</span>
+            </div>
+          </div>
+          <!-- Khu vực xem trước danh sách nhiều ảnh -->
+          <div id="photos-preview-grid" class="photos-preview-grid"></div>
+        </div>
+
+        <button type="submit" id="submit-photos-btn" class="submit-btn">
+          <span>Đóng Góp Hình Ảnh Vào Cuộn Phim 35mm</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- Danh sách lời chúc & ảnh vừa gửi -->
     <section>
       <div class="feed-header">
         <h2 class="feed-title">Lời chúc của các bạn trong lớp</h2>
-        <span class="feed-count" id="wishes-counter">1 lời chúc</span>
+        <span class="feed-count" id="wishes-counter">0 lời chúc</span>
       </div>
 
       <div id="wishes-feed" class="wishes-list">
@@ -665,7 +950,7 @@
         <div id="auth-err" style="color: var(--danger); font-size: 0.75rem; display: none;">Mật khẩu không chính xác!</div>
       </div>
 
-      <!-- VIEW 2: Dashboard quản trị sau khi nhập đúng mật khẩu -->
+      <!-- VIEW 2: Dashboard quản trị 2 Tab riêng biệt -->
       <div id="dashboard-view" class="dashboard-view">
         <div class="stats-row">
           <div class="stat-card">
@@ -684,7 +969,7 @@
 
         <div class="admin-actions-bar">
           <button id="btn-sync-main" class="admin-tool-btn" title="Cập nhật trực tiếp dữ liệu sang web chính">
-            🔄 Đồng bộ sang Web chính
+            🔄 Buộc Đồng bộ Tất cả
           </button>
           <button id="btn-copy-json" class="admin-tool-btn" title="Sao chép mã JSON để dán vào file wishes.json">
             📋 Sao chép mã JSON
@@ -694,46 +979,150 @@
           </button>
         </div>
 
-        <div class="admin-table-title">👥 Nhật ký người đã vào trang</div>
-        <div id="visitor-log" class="visitor-log-box">
-          <!-- Hiển thị danh sách khách truy cập -->
+        <!-- 2 TAB QUẢN TRỊ ADMIN ĐỘC LẬP -->
+        <div class="admin-nav-tabs">
+          <button type="button" class="admin-tab-btn active" id="btn-admin-tab-wishes">
+            <span>Quản Lý Lời Chúc (<span id="badge-count-wishes">0</span>)</span>
+          </button>
+          <button type="button" class="admin-tab-btn" id="btn-admin-tab-photos">
+            <span>Quản Lý Hình Ảnh (<span id="badge-count-photos">0</span>)</span>
+          </button>
+          <button type="button" class="admin-tab-btn" id="btn-admin-tab-visitors">
+            <span>Nhật Ký Truy Cập</span>
+          </button>
         </div>
 
-        <div class="admin-table-title">📝 Quản lý danh sách lời chúc</div>
-        <div id="admin-wishes-list">
-          <!-- Danh sách xóa / quản lý lời chúc -->
+        <!-- TAB 1: Quản lý Lời Chúc -->
+        <div id="admin-panel-wishes" class="admin-tab-panel active">
+          <div id="admin-wishes-list">
+            <!-- Danh sách lời chúc -->
+          </div>
+        </div>
+
+        <!-- TAB 2: Quản lý Hình Ảnh đóng góp -->
+        <div id="admin-panel-photos" class="admin-tab-panel">
+          <div id="admin-photos-grid" class="admin-photos-grid">
+            <!-- Lưới ảnh đóng góp -->
+          </div>
+        </div>
+
+        <!-- TAB 3: Nhật ký người truy cập -->
+        <div id="admin-panel-visitors" class="admin-tab-panel">
+          <div id="visitor-log" class="visitor-log-box"></div>
         </div>
       </div>
 
     </div>
   </div>
 
+  <!-- MODAL PHÓNG TO XEM ẢNH TRONG ADMIN -->
+  <div id="admin-photo-viewer" class="admin-photo-viewer">
+    <button id="btn-close-admin-viewer" class="admin-photo-viewer-close">✕</button>
+    <img id="admin-viewer-img" src="" alt="Ảnh đóng góp phóng to">
+  </div>
+
   <script>
     const ADMIN_PASSWORD = "trannguyen21022008trian";
-    const STORAGE_KEY = "co_duyen_anh_wishes";
+    const WISHES_KEY = "co_duyen_anh_wishes";
+    const PHOTOS_KEY = "co_duyen_anh_photos";
+    const DELETED_KEY = "co_duyen_anh_deleted_ids";
     const VISITOR_KEY = "co_duyen_anh_visitors";
+    const SYNC_CHANNEL_NAME = "co_duyen_anh_sync_channel";
 
-    let attachedImageBase64 = "";
+    let syncChannel = null;
+    let pendingWebPPhotos = [];
 
-    // Mẫu lời chúc mặc định (Thư mẫu test - có thể xóa bất cứ lúc nào trong bảng Admin)
-    const defaultWishes = [
-      {
-        id: "wish-default-1",
-        author: "Trần Nguyên (Thư mẫu test - Có thể xóa)",
-        wish: "Kính chúc Cô Duyên Anh ngày 20/11 thật nhiều niềm vui, luôn trẻ trung, nhiệt huyết và hạnh phúc bên gia đình và học trò ạ! 💖",
-        time: "2026-11-17 21:00",
-        image: ""
+    // Danh sách id đã xóa (Tombstone chống hồi sinh)
+    function getDeletedIds() {
+      try {
+        return JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
+      } catch (e) {
+        return [];
       }
-    ];
+    }
 
-    // Khởi tạo
-    document.addEventListener('DOMContentLoaded', () => {
-      recordVisitor("Khách truy cập (Vào trang)");
-      renderFeed();
-      initPhotoUpload();
-      initForm();
-      initAdmin();
-    });
+    function markDeleted(id) {
+      if (!id) return;
+      const list = getDeletedIds();
+      if (!list.includes(id)) {
+        list.push(id);
+        try {
+          localStorage.setItem(DELETED_KEY, JSON.stringify(list));
+        } catch (e) {}
+      }
+    }
+
+    // Đọc danh sách lời chúc
+    function getWishes() {
+      const deletedIds = getDeletedIds();
+      try {
+        const data = localStorage.getItem(WISHES_KEY);
+        if (data !== null) {
+          const parsed = JSON.parse(data);
+          if (Array.isArray(parsed)) {
+            return parsed.filter(w => !deletedIds.includes(w.id));
+          }
+        }
+      } catch (e) {}
+      return [];
+    }
+
+    function saveWishes(list) {
+      try {
+        localStorage.setItem(WISHES_KEY, JSON.stringify(list));
+      } catch (e) {}
+    }
+
+    // Đọc danh sách hình ảnh
+    function getPhotos() {
+      const deletedIds = getDeletedIds();
+      try {
+        const data = localStorage.getItem(PHOTOS_KEY);
+        if (data !== null) {
+          const parsed = JSON.parse(data);
+          if (Array.isArray(parsed)) {
+            return parsed.filter(p => !deletedIds.includes(p.id));
+          }
+        }
+      } catch (e) {}
+      return [];
+    }
+
+    function savePhotos(list) {
+      try {
+        localStorage.setItem(PHOTOS_KEY, JSON.stringify(list));
+      } catch (e) {}
+    }
+
+    // Khởi tạo kênh BroadcastChannel đồng bộ thời gian thực
+    function initSyncChannel() {
+      if ('BroadcastChannel' in window) {
+        try {
+          syncChannel = new BroadcastChannel(SYNC_CHANNEL_NAME);
+          syncChannel.onmessage = (event) => {
+            const msg = event.data;
+            if (!msg || !msg.action) return;
+            renderFeed();
+            const dash = document.getElementById('dashboard-view');
+            if (dash && dash.style.display !== 'none') {
+              renderAdminDashboard();
+            }
+          };
+        } catch (e) {
+          console.warn('BroadcastChannel error', e);
+        }
+      }
+
+      window.addEventListener('storage', (e) => {
+        if (e.key === WISHES_KEY || e.key === PHOTOS_KEY || e.key === DELETED_KEY) {
+          renderFeed();
+          const dash = document.getElementById('dashboard-view');
+          if (dash && dash.style.display !== 'none') {
+            renderAdminDashboard();
+          }
+        }
+      });
+    }
 
     // Ghi nhật ký truy cập
     function recordVisitor(name) {
@@ -750,45 +1139,296 @@
           time: timeStr
         });
 
-        // Giới hạn 50 lượt gần nhất
         if (visitors.length > 50) visitors = visitors.slice(0, 50);
         localStorage.setItem(VISITOR_KEY, JSON.stringify(visitors));
       } catch (e) {}
     }
 
-    // Tải danh sách lời chúc (nếu Admin đã xóa sạch thì giữ rỗng, không hồi sinh)
-    function getWishes() {
-      try {
-        const data = localStorage.getItem(STORAGE_KEY);
-        if (data !== null) {
-          const parsed = JSON.parse(data);
-          if (Array.isArray(parsed)) return parsed;
+    // Khởi tạo
+    document.addEventListener('DOMContentLoaded', async () => {
+      recordVisitor("Khách truy cập (Vào trang)");
+      initSyncChannel();
+
+      // Nạp dữ liệu ban đầu từ wishes.json nếu chưa khởi tạo
+      if (!localStorage.getItem('co_duyen_anh_initialized')) {
+        try {
+          const res = await fetch('wishes.json');
+          if (res.ok) {
+            const fileWishes = await res.json();
+            if (Array.isArray(fileWishes)) {
+              saveWishes(fileWishes);
+            }
+          }
+        } catch (e) {}
+        localStorage.setItem('co_duyen_anh_initialized', 'true');
+      }
+
+      renderFeed();
+      initTabs();
+      initMultiPhotoUpload();
+      initWishForm();
+      initPhotoForm();
+      initAdmin();
+    });
+
+    // Chuyển tab biểu mẫu
+    function initTabs() {
+      const btnWish = document.getElementById('tab-btn-wish');
+      const btnPhoto = document.getElementById('tab-btn-photo');
+      const secWish = document.getElementById('form-wish-section');
+      const secPhoto = document.getElementById('form-photo-section');
+
+      btnWish.addEventListener('click', () => {
+        btnWish.classList.add('active');
+        btnWish.setAttribute('aria-selected', 'true');
+        btnPhoto.classList.remove('active');
+        btnPhoto.setAttribute('aria-selected', 'false');
+        secWish.style.display = 'block';
+        secPhoto.style.display = 'none';
+      });
+
+      btnPhoto.addEventListener('click', () => {
+        btnPhoto.classList.add('active');
+        btnPhoto.setAttribute('aria-selected', 'true');
+        btnWish.classList.remove('active');
+        btnWish.setAttribute('aria-selected', 'false');
+        secPhoto.style.display = 'block';
+        secWish.style.display = 'none';
+      });
+    }
+
+    // Nén ảnh Canvas WebP đa tệp
+    function initMultiPhotoUpload() {
+      const input = document.getElementById('multi-photo-input');
+      const hint = document.getElementById('multi-photo-hint');
+
+      input.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+
+        let processed = 0;
+        files.forEach(file => {
+          if (!file.type.startsWith('image/')) {
+            processed++;
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            const img = new Image();
+            img.onload = function() {
+              // Cạnh dài nhất tối đa 1200px
+              const maxDim = 1200;
+              let width = img.width;
+              let height = img.height;
+
+              if (width > height && width > maxDim) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else if (height > maxDim) {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+
+              const canvas = document.createElement('canvas');
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, width, height);
+
+              let webpData = '';
+              try {
+                webpData = canvas.toDataURL('image/webp', 0.80);
+                if (!webpData.startsWith('data:image/webp')) {
+                  webpData = canvas.toDataURL('image/jpeg', 0.80);
+                }
+              } catch (err) {
+                webpData = canvas.toDataURL('image/jpeg', 0.80);
+              }
+
+              const aspect = (width >= height) ? 'landscape' : 'portrait';
+              pendingWebPPhotos.push({
+                id: 'temp-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+                base64: webpData,
+                aspect: aspect,
+                name: file.name
+              });
+
+              processed++;
+              if (processed === files.length) {
+                renderPhotoPreviews();
+              }
+            };
+            img.src = evt.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+
+        // Reset input để có thể chọn tiếp
+        input.value = '';
+      });
+    }
+
+    function renderPhotoPreviews() {
+      const grid = document.getElementById('photos-preview-grid');
+      const hint = document.getElementById('multi-photo-hint');
+      grid.innerHTML = '';
+
+      if (pendingWebPPhotos.length === 0) {
+        if (hint) hint.style.display = 'flex';
+        return;
+      }
+
+      if (hint) hint.style.display = 'none';
+
+      pendingWebPPhotos.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'preview-card';
+        card.innerHTML = `
+          <img src="${item.base64}" alt="${escapeHtml(item.name)}">
+          <button type="button" class="preview-card-delete" data-id="${item.id}" title="Xóa ảnh này">✕</button>
+        `;
+
+        card.querySelector('.preview-card-delete').addEventListener('click', (e) => {
+          e.stopPropagation();
+          pendingWebPPhotos = pendingWebPPhotos.filter(p => p.id !== item.id);
+          renderPhotoPreviews();
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Biểu mẫu 1: Gửi lời chúc
+    function initWishForm() {
+      const form = document.getElementById('form-wish');
+      const authorInput = document.getElementById('author-input');
+      const wishInput = document.getElementById('wish-input');
+      const toast = document.getElementById('toast');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const author = authorInput.value.trim();
+        const wish = wishInput.value.trim();
+        if (!author || !wish) return;
+
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+        const newWish = {
+          id: 'wish-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+          author: author,
+          wish: wish,
+          time: timeStr
+        };
+
+        const list = getWishes();
+        list.unshift(newWish);
+        saveWishes(list);
+
+        // Phát tín hiệu Real-time sang trang chính
+        if (syncChannel) {
+          try {
+            syncChannel.postMessage({ action: 'ADD_WISH', data: newWish });
+          } catch (err) {}
         }
-      } catch (e) {}
-      return defaultWishes;
+
+        recordVisitor(`Đã gửi lời chúc: ${author}`);
+
+        toast.textContent = "Cảm ơn bạn! Lời chúc tri ân của bạn đã được gửi thành công và xuất hiện ngay trên thiệp chính của Cô!";
+        toast.className = "toast-msg success";
+        toast.style.display = "block";
+
+        authorInput.value = '';
+        wishInput.value = '';
+
+        renderFeed();
+        setTimeout(() => toast.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+      });
     }
 
-    function saveWishes(list) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-      } catch (e) {}
+    // Biểu mẫu 2: Đóng góp hình ảnh
+    function initPhotoForm() {
+      const form = document.getElementById('form-photo');
+      const authorInput = document.getElementById('photo-author-input');
+      const captionInput = document.getElementById('photo-caption-input');
+      const toast = document.getElementById('toast');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const author = authorInput.value.trim();
+        const caption = captionInput.value.trim();
+
+        if (!author) {
+          alert('Vui lòng nhập họ và tên thật của bạn!');
+          return;
+        }
+
+        if (pendingWebPPhotos.length === 0) {
+          alert('Vui lòng chọn ít nhất một hình ảnh để đóng góp!');
+          return;
+        }
+
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+        const newPhotos = pendingWebPPhotos.map((p, i) => ({
+          id: 'photo-' + Date.now() + '-' + i + '-' + Math.random().toString(36).substr(2, 4),
+          author: author,
+          caption: caption,
+          image: p.base64,
+          aspect: p.aspect,
+          time: timeStr
+        }));
+
+        const existingPhotos = getPhotos();
+        const updatedPhotos = [...newPhotos, ...existingPhotos];
+        savePhotos(updatedPhotos);
+
+        // Phát tín hiệu Real-time sang trang chính
+        if (syncChannel) {
+          try {
+            syncChannel.postMessage({ action: 'ADD_PHOTOS', data: newPhotos });
+          } catch (err) {}
+        }
+
+        recordVisitor(`Đã đóng góp ${newPhotos.length} ảnh: ${author}`);
+
+        toast.textContent = `Cảm ơn bạn ${author}! Đã đóng góp thành công ${newPhotos.length} bức ảnh vào cuộn phim 35mm của Cô Duyên Anh!`;
+        toast.className = "toast-msg success";
+        toast.style.display = "block";
+
+        authorInput.value = '';
+        captionInput.value = '';
+        pendingWebPPhotos = [];
+        renderPhotoPreviews();
+
+        renderFeed();
+        setTimeout(() => toast.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+      });
     }
 
-    // Hiển thị danh sách lời chúc ra màn hình
+    // Hiển thị danh sách feed
     function renderFeed() {
       const feed = document.getElementById('wishes-feed');
       const counter = document.getElementById('wishes-counter');
-      const list = getWishes();
+      const wishes = getWishes();
+      const photos = getPhotos();
 
-      counter.textContent = `${list.length} lời chúc`;
+      counter.textContent = `${wishes.length} lời chúc & ${photos.length} ảnh`;
       feed.innerHTML = '';
 
-      list.forEach(w => {
+      if (wishes.length === 0 && photos.length === 0) {
+        feed.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 20px;">Chưa có đóng góp nào</div>';
+        return;
+      }
+
+      wishes.forEach(w => {
         const item = document.createElement('div');
         item.className = 'wish-item';
         item.innerHTML = `
           <div class="wish-meta">
-            <span class="wish-author">🌸 ${escapeHtml(w.author)}</span>
+            <span class="wish-author">${escapeHtml(w.author)}</span>
             <span class="wish-time">${w.time || ''}</span>
           </div>
           <div class="wish-text">${escapeHtml(w.wish)}</div>
@@ -798,115 +1438,9 @@
       });
     }
 
-    // Nén ảnh tự động qua HTML5 Canvas
-    function initPhotoUpload() {
-      const input = document.getElementById('photo-input');
-      const previewWrap = document.getElementById('preview-wrap');
-      const previewImg = document.getElementById('preview-img');
-      const hint = document.getElementById('photo-hint');
-      const btnRemove = document.getElementById('btn-remove-photo');
-
-      input.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          const img = new Image();
-          img.onload = function() {
-            // Nén ảnh về tối đa 800px cạnh dài nhất, JPEG 0.72 (~40-60KB)
-            const canvas = document.createElement('canvas');
-            const maxDimension = 800;
-            let width = img.width;
-            let height = img.height;
-
-            if (width > height && width > maxDimension) {
-              height = Math.round((height * maxDimension) / width);
-              width = maxDimension;
-            } else if (height > maxDimension) {
-              width = Math.round((width * maxDimension) / height);
-              height = maxDimension;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-
-            attachedImageBase64 = canvas.toDataURL('image/jpeg', 0.72);
-            previewImg.src = attachedImageBase64;
-            previewWrap.style.display = 'block';
-            hint.style.display = 'none';
-          };
-          img.src = evt.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
-
-      btnRemove.addEventListener('click', (e) => {
-        e.stopPropagation();
-        attachedImageBase64 = '';
-        previewImg.src = '';
-        previewWrap.style.display = 'none';
-        hint.style.display = 'flex';
-        input.value = '';
-      });
-    }
-
-    // Gửi form
-    function initForm() {
-      const form = document.getElementById('wish-form');
-      const authorInput = document.getElementById('author-input');
-      const wishInput = document.getElementById('wish-input');
-      const toast = document.getElementById('toast');
-      const btnRemove = document.getElementById('btn-remove-photo');
-
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const author = authorInput.value.trim();
-        const wish = wishInput.value.trim();
-
-        if (!author || !wish) return;
-
-        const now = new Date();
-        const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-
-        const newWish = {
-          id: 'wish-' + Date.now(),
-          author: author,
-          wish: wish,
-          time: timeStr,
-          image: attachedImageBase64
-        };
-
-        const list = getWishes();
-        list.unshift(newWish);
-        saveWishes(list);
-
-        // Ghi lại nhật ký
-        recordVisitor(`Đã gửi lời chúc: ${author}`);
-
-        // Thông báo thành công
-        toast.textContent = "🎉 Cảm ơn bạn! Lời chúc của bạn đã được ghi nhận và xuất hiện trên thiệp của Cô Duyên Anh!";
-        toast.className = "toast-msg success";
-        toast.style.display = "block";
-
-        // Reset form
-        authorInput.value = '';
-        wishInput.value = '';
-        btnRemove.click();
-
-        renderFeed();
-
-        // Cuộn nhẹ xuống feed
-        setTimeout(() => {
-          toast.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
-      });
-    }
-
     // ===================================================================
     // KHU VỰC QUẢN TRỊ ADMIN (MẬT KHẨU: trannguyen21022008trian)
+    // 2 Tab chuyên biệt: Tab 1 Lời chúc & Tab 2 Hình ảnh
     // ===================================================================
     function initAdmin() {
       const modal = document.getElementById('admin-modal');
@@ -917,6 +1451,55 @@
       const authErr = document.getElementById('auth-err');
       const authView = document.getElementById('auth-view');
       const dashView = document.getElementById('dashboard-view');
+
+      // Admin tabs
+      const tabWishesBtn = document.getElementById('btn-admin-tab-wishes');
+      const tabPhotosBtn = document.getElementById('btn-admin-tab-photos');
+      const tabVisitorsBtn = document.getElementById('btn-admin-tab-visitors');
+      const panelWishes = document.getElementById('admin-panel-wishes');
+      const panelPhotos = document.getElementById('admin-panel-photos');
+      const panelVisitors = document.getElementById('admin-panel-visitors');
+
+      // Photo viewer modal
+      const photoViewer = document.getElementById('admin-photo-viewer');
+      const viewerClose = document.getElementById('btn-close-admin-viewer');
+      const viewerImg = document.getElementById('admin-viewer-img');
+
+      if (viewerClose && photoViewer) {
+        viewerClose.addEventListener('click', () => {
+          photoViewer.classList.remove('active');
+        });
+        photoViewer.addEventListener('click', (e) => {
+          if (e.target === photoViewer) photoViewer.classList.remove('active');
+        });
+      }
+
+      tabWishesBtn.addEventListener('click', () => {
+        tabWishesBtn.classList.add('active');
+        tabPhotosBtn.classList.remove('active');
+        tabVisitorsBtn.classList.remove('active');
+        panelWishes.classList.add('active');
+        panelPhotos.classList.remove('active');
+        panelVisitors.classList.remove('active');
+      });
+
+      tabPhotosBtn.addEventListener('click', () => {
+        tabPhotosBtn.classList.add('active');
+        tabWishesBtn.classList.remove('active');
+        tabVisitorsBtn.classList.remove('active');
+        panelPhotos.classList.add('active');
+        panelWishes.classList.remove('active');
+        panelVisitors.classList.remove('active');
+      });
+
+      tabVisitorsBtn.addEventListener('click', () => {
+        tabVisitorsBtn.classList.add('active');
+        tabWishesBtn.classList.remove('active');
+        tabPhotosBtn.classList.remove('active');
+        panelVisitors.classList.add('active');
+        panelWishes.classList.remove('active');
+        panelPhotos.classList.remove('active');
+      });
 
       btnOpen.addEventListener('click', () => {
         modal.classList.add('active');
@@ -947,15 +1530,20 @@
         if (e.key === 'Enter') btnSubmitPass.click();
       });
 
-      // Các nút tiện ích Admin
+      // Tiện ích Admin
       document.getElementById('btn-sync-main').addEventListener('click', () => {
-        alert("✅ Đã đồng bộ toàn bộ lời chúc và ảnh sang bộ lưu trữ trang chính thành công! Khi mở thiệp chính, các ảnh mới sẽ tự động nối tiếp vào Cuộn Phim 35mm.");
+        if (syncChannel) {
+          try {
+            syncChannel.postMessage({ action: 'SYNC_ALL' });
+          } catch (e) {}
+        }
+        alert("Đã gửi tín hiệu đồng bộ Real-time toàn diện sang trang chính! Tất cả các tab đang mở sẽ được cập nhật tức thì mà không cần F5.");
       });
 
       document.getElementById('btn-copy-json').addEventListener('click', () => {
         const json = JSON.stringify(getWishes(), null, 2);
         navigator.clipboard.writeText(json).then(() => {
-          alert("📋 Đã sao chép toàn bộ mã JSON danh sách lời chúc vào bộ nhớ tạm!");
+          alert("Đã sao chép toàn bộ mã JSON danh sách lời chúc vào bộ nhớ tạm!");
         });
       });
 
@@ -973,17 +1561,106 @@
 
     function renderAdminDashboard() {
       const wishes = getWishes();
+      const photos = getPhotos();
       let visitors = [];
       try {
         visitors = JSON.parse(localStorage.getItem(VISITOR_KEY) || '[]');
       } catch (e) {}
 
-      // Cập nhật thống kê
+      // Thống kê
       document.getElementById('stat-wishes').textContent = wishes.length;
-      document.getElementById('stat-photos').textContent = wishes.filter(w => !!w.image).length;
+      document.getElementById('stat-photos').textContent = photos.length;
       document.getElementById('stat-visitors').textContent = visitors.length;
+      document.getElementById('badge-count-wishes').textContent = wishes.length;
+      document.getElementById('badge-count-photos').textContent = photos.length;
 
-      // Danh sách khách vào
+      // TAB 1: Danh sách quản lý lời chúc
+      const adminWishesList = document.getElementById('admin-wishes-list');
+      adminWishesList.innerHTML = '';
+      if (wishes.length === 0) {
+        adminWishesList.innerHTML = '<div style="color: var(--text-muted); padding: 12px;">Chưa có lời chúc nào</div>';
+      } else {
+        wishes.forEach((w, idx) => {
+          const item = document.createElement('div');
+          item.className = 'admin-wish-item';
+          item.innerHTML = `
+            <div><strong>#${idx + 1} - ${escapeHtml(w.author)}</strong> <span style="font-size:0.7rem; color:var(--text-muted);">(${w.time || ''})</span></div>
+            <div style="font-size:0.75rem; color:#cbd5e1;">${escapeHtml(w.wish)}</div>
+            ${w.image ? `<img src="${w.image}" style="max-height:80px; width:fit-content; border-radius:6px; margin-top:4px;">` : ''}
+            <div class="admin-wish-actions">
+              <button class="btn-delete-wish" data-id="${w.id}">Xóa Lời Chúc</button>
+            </div>
+          `;
+
+          item.querySelector('.btn-delete-wish').addEventListener('click', () => {
+            if (confirm(`Bạn có chắc chắn muốn xóa lời chúc của "${w.author}" không? Hành động này sẽ đồng bộ ngay lập tức sang trang chính!`)) {
+              markDeleted(w.id);
+              const updated = wishes.filter(x => x.id !== w.id);
+              saveWishes(updated);
+              if (syncChannel) {
+                try {
+                  syncChannel.postMessage({ action: 'DELETE_WISH', id: w.id });
+                } catch (e) {}
+              }
+              renderAdminDashboard();
+              renderFeed();
+            }
+          });
+
+          adminWishesList.appendChild(item);
+        });
+      }
+
+      // TAB 2: Danh sách quản lý hình ảnh
+      const adminPhotosGrid = document.getElementById('admin-photos-grid');
+      adminPhotosGrid.innerHTML = '';
+      if (photos.length === 0) {
+        adminPhotosGrid.innerHTML = '<div style="color: var(--text-muted); padding: 12px; grid-column: 1 / -1;">Chưa có hình ảnh nào được đóng góp</div>';
+      } else {
+        photos.forEach((p, idx) => {
+          const card = document.createElement('div');
+          card.className = 'admin-photo-card';
+          card.innerHTML = `
+            <img src="${p.image}" class="admin-photo-thumb" alt="${escapeHtml(p.author)}" title="Bấm để xem ảnh phóng to">
+            <div class="admin-photo-info">
+              <strong>${escapeHtml(p.author)}</strong>
+              <div>${p.time || ''}</div>
+              ${p.caption ? `<div><em>${escapeHtml(p.caption)}</em></div>` : ''}
+            </div>
+            <button class="btn-delete-photo" data-id="${p.id}">Xóa Ảnh</button>
+          `;
+
+          // Bấm xem phóng to
+          card.querySelector('.admin-photo-thumb').addEventListener('click', () => {
+            const viewer = document.getElementById('admin-photo-viewer');
+            const viewerImg = document.getElementById('admin-viewer-img');
+            if (viewer && viewerImg) {
+              viewerImg.src = p.image;
+              viewer.classList.add('active');
+            }
+          });
+
+          // Nút xóa ảnh
+          card.querySelector('.btn-delete-photo').addEventListener('click', () => {
+            if (confirm(`Bạn có chắc chắn muốn xóa bức ảnh do "${p.author}" đóng góp không? Ảnh sẽ biến mất tức thì trên cuộn phim 35mm!`)) {
+              markDeleted(p.id);
+              const updated = photos.filter(x => x.id !== p.id);
+              savePhotos(updated);
+              if (syncChannel) {
+                try {
+                  syncChannel.postMessage({ action: 'DELETE_PHOTO', id: p.id });
+                } catch (e) {}
+              }
+              renderAdminDashboard();
+              renderFeed();
+            }
+          });
+
+          adminPhotosGrid.appendChild(card);
+        });
+      }
+
+      // TAB 3: Nhật ký khách vào
       const visitorBox = document.getElementById('visitor-log');
       visitorBox.innerHTML = '';
       if (visitors.length === 0) {
@@ -999,33 +1676,6 @@
           visitorBox.appendChild(div);
         });
       }
-
-      // Danh sách quản lý lời chúc
-      const adminList = document.getElementById('admin-wishes-list');
-      adminList.innerHTML = '';
-      wishes.forEach((w, idx) => {
-        const item = document.createElement('div');
-        item.className = 'admin-wish-item';
-        item.innerHTML = `
-          <div><strong>#${idx + 1} - ${escapeHtml(w.author)}</strong> <span style="font-size:0.7rem; color:var(--text-muted);">(${w.time || ''})</span></div>
-          <div style="font-size:0.75rem; color:#cbd5e1;">${escapeHtml(w.wish)}</div>
-          ${w.image ? `<img src="${w.image}" style="max-height:80px; width:fit-content; border-radius:6px; margin-top:4px;">` : ''}
-          <div class="admin-wish-actions">
-            <button class="btn-delete-wish" data-id="${w.id}">🗑️ Xóa Lời Chúc</button>
-          </div>
-        `;
-
-        item.querySelector('.btn-delete-wish').addEventListener('click', () => {
-          if (confirm(`Bạn có chắc chắn muốn xóa lời chúc của "${w.author}" không?`)) {
-            const updated = wishes.filter(x => x.id !== w.id);
-            saveWishes(updated);
-            renderAdminDashboard();
-            renderFeed();
-          }
-        });
-
-        adminList.appendChild(item);
-      });
     }
 
     function escapeHtml(text) {

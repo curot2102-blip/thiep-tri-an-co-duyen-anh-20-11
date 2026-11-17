@@ -28,14 +28,19 @@ html {
   color: var(--text-main);
   font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
-  /* Chiều cao cuộn 2000vh: Không gian liên tục cho 6 giai đoạn mượt mà */
+  /* Chiều cao cuộn 2000vh: Không gian liên tục cho các giai đoạn mượt mà */
   height: 2000vh;
   margin: 0;
   background: radial-gradient(circle at 50% 20%, #131826 0%, var(--bg-deep) 75%);
   background-attachment: fixed;
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
 }
 
@@ -67,8 +72,10 @@ body {
   background: rgba(14, 18, 27, 0.8);
   border: 1px solid var(--border-light);
   color: var(--text-sub);
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -207,8 +214,9 @@ body {
   width: min(500px, 92vw) !important;
   height: auto !important;
   max-height: 82vh !important;
+  max-height: 82dvh !important;
   border-radius: 14px;
-  padding: 26px 28px 22px 28px !important;
+  padding: 24px 28px 24px 28px !important;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 35px rgba(245, 158, 11, 0.18) !important;
   overflow: visible !important;
   border-color: rgba(180, 83, 9, 0.25) !important;
@@ -637,6 +645,7 @@ body {
   transform: translate(-50%, -50%);
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -713,6 +722,7 @@ body {
   padding: 24px 48px;
   background: radial-gradient(circle at 50% 50%, #111522 0%, #080b12 100%);
   height: clamp(360px, 54vh, 520px);
+  height: clamp(360px, 54dvh, 520px);
   box-sizing: border-box;
   align-items: stretch;
 }
@@ -928,6 +938,7 @@ body {
   z-index: 2;
   max-width: min(88vw, 840px);
   max-height: 88vh;
+  max-height: 88dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -953,6 +964,7 @@ body {
 .lightbox-content img {
   max-width: 100%;
   max-height: 74vh;
+  max-height: 74dvh;
   object-fit: contain;
   border-radius: 10px;
   display: block;
@@ -960,13 +972,15 @@ body {
 
 .lightbox-close {
   position: absolute;
-  top: -46px;
+  top: -48px;
   right: 0;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: #fff;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   font-size: 24px;
   line-height: 1;
@@ -1025,7 +1039,8 @@ body {
     width: min(360px, 92vw) !important;
     height: auto !important;
     max-height: 82vh !important;
-    padding: 20px 18px 16px 18px !important;
+    max-height: 82dvh !important;
+    padding: 20px 16px 16px 16px !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
   }
@@ -1045,13 +1060,13 @@ body {
   }
 
   .letter-seal {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     font-size: 0.68rem;
   }
 
   .floating-meme-card {
-    width: clamp(95px, 26vw, 115px) !important;
+    width: clamp(96px, 26vw, 116px) !important;
   }
 
   #teacher-img {
@@ -1069,6 +1084,7 @@ body {
 
   .film-frames-row {
     height: clamp(240px, 38vh, 320px);
+    height: clamp(240px, 38dvh, 320px);
     padding: 12px 16px;
     gap: 12px;
   }
@@ -1076,6 +1092,7 @@ body {
   .lightbox-content img {
     max-width: 95vw;
     max-height: 80vh;
+    max-height: 80dvh;
   }
 }
 
@@ -1207,8 +1224,9 @@ body {
   color: #1e293b;
   width: min(420px, 90vw);
   max-height: 80vh;
+  max-height: 80dvh;
   border-radius: 16px;
-  padding: 24px 22px;
+  padding: 24px 24px;
   border: 1px solid rgba(180, 83, 9, 0.25);
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
   display: flex;
@@ -1266,6 +1284,7 @@ body {
   text-decoration: none;
   font-size: 0.85rem;
   padding: 12px 16px;
+  min-height: 44px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -1294,7 +1313,8 @@ body {
   .env-letter.unfolded {
     width: min(540px, 86vw) !important;
     max-height: 84vh !important;
-    padding: 14px 22px !important;
+    max-height: 84dvh !important;
+    padding: 16px 24px !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
   }
@@ -1305,13 +1325,13 @@ body {
 
   .letter-body {
     font-size: 0.72rem !important;
-    gap: 3px !important;
+    gap: 4px !important;
     line-height: 1.4 !important;
   }
 
   .letter-sign {
     margin-top: 8px !important;
-    padding-top: 6px !important;
+    padding-top: 8px !important;
   }
 
   .letter-sign strong {
@@ -1337,12 +1357,13 @@ body {
 
   .film-frames-row {
     height: clamp(190px, 60vh, 270px) !important;
-    padding: 10px 20px !important;
-    gap: 14px !important;
+    height: clamp(190px, 60dvh, 270px) !important;
+    padding: 12px 20px !important;
+    gap: 16px !important;
   }
 
   .film-sprockets {
-    height: 22px !important;
+    height: 24px !important;
   }
 
   .film-meta-text {
@@ -1350,7 +1371,7 @@ body {
   }
 
   .tribute-card {
-    padding: 14px 20px !important;
+    padding: 16px 20px !important;
     max-width: 440px !important;
   }
 
@@ -1365,7 +1386,271 @@ body {
   }
 
   .action-btn {
-    padding: 10px 18px !important;
+    padding: 12px 18px !important;
+    min-height: 44px !important;
     font-size: 0.8125rem !important;
   }
+}
+
+/* ===================================================================
+   PHÂN ĐOẠN 6: CÁC LÁ THƯ CON TRI ÂN XẾP TẦNG (MỞ SẴN TRANG TRỌNG)
+   =================================================================== */
+.sub-letters-stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 55;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.sub-letters-wrapper {
+  width: min(640px, 92vw);
+  max-height: 84vh;
+  max-height: 84dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.sub-letters-header {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.stage-tag {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid var(--border-gold);
+  color: var(--accent-gold-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.sub-letters-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.sub-letters-desc {
+  font-size: 0.8125rem;
+  color: var(--text-sub);
+}
+
+.sub-letters-deck {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 8px 24px 8px;
+  box-sizing: border-box;
+  max-height: 64vh;
+  max-height: 64dvh;
+  touch-action: pan-y;
+}
+
+.sub-letters-deck::-webkit-scrollbar {
+  width: 4px;
+}
+.sub-letters-deck::-webkit-scrollbar-thumb {
+  background: var(--border-gold);
+  border-radius: 4px;
+}
+
+.sub-letter-card {
+  position: relative;
+  background: radial-gradient(circle at 50% 15%, #ffffff 0%, #fffdf8 100%);
+  border-radius: 12px;
+  padding: 20px 24px;
+  border: 1px solid rgba(180, 83, 9, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 0 20px rgba(245, 158, 11, 0.08);
+  color: #1e293b;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  user-select: none;
+}
+
+.sub-letter-card::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(180, 83, 9, 0.18);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.sub-letter-card:hover, .sub-letter-card:active {
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 25px rgba(245, 158, 11, 0.2);
+}
+
+.sub-letter-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(180, 83, 9, 0.2);
+}
+
+.sub-letter-author {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #78350f;
+}
+
+.sub-letter-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sub-letter-time {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.sub-letter-stamp {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ea580c 0%, #b45309 70%, #78350f 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  font-weight: 800;
+  border: 1.5px solid rgba(251, 191, 36, 0.6);
+  box-shadow: 0 2px 6px rgba(120, 53, 15, 0.35);
+}
+
+.sub-letter-body {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: #334155;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+/* ===================================================================
+   TAG TÊN NGƯỜI ĐÓNG GÓP TRỰC TIẾP TRÊN VIỀN PHIM 35MM
+   =================================================================== */
+.frame-contributor-tag {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  max-width: calc(100% - 28px);
+  background: rgba(8, 11, 18, 0.92);
+  border: 1px solid var(--border-gold);
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent-gold-light);
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.frame-contributor-tag .contributor-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===================================================================
+   BỘ XEM ẢNH TRỰC TIẾP TOÀN MÀN HÌNH CÓ CAPTION & CLOSE
+   =================================================================== */
+.clean-viewer-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 96vw;
+  max-height: 94vh;
+  max-height: 94dvh;
+}
+
+.clean-viewer-close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.clean-viewer-close:hover {
+  background: rgba(245, 158, 11, 0.4);
+  border-color: var(--accent-gold-light);
+}
+
+.clean-viewer-caption {
+  margin-top: 12px;
+  background: rgba(14, 18, 27, 0.9);
+  border: 1px solid var(--border-gold);
+  border-radius: 8px;
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-main);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.clean-viewer-author {
+  color: var(--accent-gold-light);
+  font-weight: 600;
+}
+
+.clean-viewer-divider {
+  color: var(--text-muted);
+}
+
+.clean-viewer-time {
+  color: var(--text-sub);
+  font-size: 0.75rem;
 }

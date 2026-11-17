@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initCleanViewer();
   initFilmStrip();
   initFilmSprocketsText();
-  initFloatingWishesInFilm();
+  initWishesData();
+  initRealtimeSync();
   initFinalTribute();
   initEnvelopeClick();
   initAnimationLoop();
@@ -102,6 +103,53 @@ function playSound(type = 'pop') {
     }
   } catch (e) {
     console.warn('Audio error:', e);
+  }
+}
+
+function playPaperRustle() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+
+    // Tiếng cọ xát giấy nhẹ (White noise qua bandpass filter)
+    const bufferSize = Math.floor(ctx.sampleRate * 0.12);
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.4));
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(1200, now);
+    filter.Q.setValueAtTime(1.2, now);
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.08, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    noise.start(now);
+
+    // Hòa quyện cùng một nốt chuông gió thanh thoát (Chime)
+    const chimeOsc = ctx.createOscillator();
+    const chimeGain = ctx.createGain();
+    chimeOsc.type = 'triangle';
+    chimeOsc.frequency.setValueAtTime(880, now + 0.02); // Nốt A5 dịu dàng
+    chimeGain.gain.setValueAtTime(0.06, now + 0.02);
+    chimeGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+    chimeOsc.connect(chimeGain);
+    chimeGain.connect(ctx.destination);
+    chimeOsc.start(now + 0.02);
+    chimeOsc.stop(now + 0.36);
+  } catch (e) {
+    console.warn('Audio paper-rustle error:', e);
   }
 }
 
@@ -235,17 +283,17 @@ function initIcons() {
 const floatingItemList = [];
 const memeOnlyData = [
   // --- CÁNH TRÁI (LEFT FLANK) ---
-  { src: 'images/meme 1.png', startP: 0.33, endP: 0.44, baseX: 5,  baseRot: -8, w: 215 },
-  { src: 'images/meme 3.png', startP: 0.34, endP: 0.45, baseX: 18, baseRot: 6,  w: 205 },
-  { src: 'images/meme 5 .png', startP: 0.35, endP: 0.46, baseX: 7,  baseRot: 10, w: 215 },
-  { src: 'images/meme 7 .png', startP: 0.36, endP: 0.47, baseX: 20, baseRot: -7, w: 210 },
-  { src: 'images/meme 9 .png', startP: 0.37, endP: 0.48, baseX: 9,  baseRot: 5,  w: 220 },
+  { src: 'images/meme 1.webp', startP: 0.33, endP: 0.44, baseX: 5,  baseRot: -8, w: 215 },
+  { src: 'images/meme 3.webp', startP: 0.34, endP: 0.45, baseX: 18, baseRot: 6,  w: 205 },
+  { src: 'images/meme 5 .webp', startP: 0.35, endP: 0.46, baseX: 7,  baseRot: 10, w: 215 },
+  { src: 'images/meme 7 .webp', startP: 0.36, endP: 0.47, baseX: 20, baseRot: -7, w: 210 },
+  { src: 'images/meme 9 .webp', startP: 0.37, endP: 0.48, baseX: 9,  baseRot: 5,  w: 220 },
 
   // --- CÁNH PHẢI (RIGHT FLANK) ---
-  { src: 'images/meme 2 .png', startP: 0.33, endP: 0.44, baseX: 75, baseRot: 8,  w: 215 },
-  { src: 'images/meme 4 .png', startP: 0.34, endP: 0.45, baseX: 62, baseRot: -9, w: 205 },
-  { src: 'images/meme 6.png', startP: 0.35, endP: 0.46, baseX: 76, baseRot: -6, w: 220 },
-  { src: 'images/meme 8.png', startP: 0.36, endP: 0.47, baseX: 64, baseRot: 9,  w: 210 }
+  { src: 'images/meme 2 .webp', startP: 0.33, endP: 0.44, baseX: 75, baseRot: 8,  w: 215 },
+  { src: 'images/meme 4 .webp', startP: 0.34, endP: 0.45, baseX: 62, baseRot: -9, w: 205 },
+  { src: 'images/meme 6.webp', startP: 0.35, endP: 0.46, baseX: 76, baseRot: -6, w: 220 },
+  { src: 'images/meme 8.webp', startP: 0.36, endP: 0.47, baseX: 64, baseRot: 9,  w: 210 }
 ];
 
 function initFloatingUniverse(openLightbox) {
@@ -306,7 +354,7 @@ function initFloatingUniverse(openLightbox) {
 }
 
 /* ===================================================================
-   BỘ XEM ẢNH TRỰC TIẾP TINH GỌN (CHỈ HIỆN ẢNH, CHẠM ĐỂ ĐÓNG, KHÔNG POPUP)
+   BỘ XEM ẢNH TRỰC TIẾP TINH GỌN (CLEAN IMAGE VIEWER CÓ THÔNG TIN NGƯỜI GỬI)
    =================================================================== */
 let cleanViewerEl = null;
 let cleanViewerImg = null;
@@ -314,25 +362,47 @@ let cleanViewerImg = null;
 function initCleanViewer() {
   cleanViewerEl = document.getElementById('clean-image-viewer');
   cleanViewerImg = document.getElementById('clean-viewer-img');
+  const closeBtn = document.getElementById('clean-viewer-close');
 
   if (cleanViewerEl) {
-    cleanViewerEl.addEventListener('click', () => {
-      cleanViewerEl.classList.remove('active');
-      setTimeout(() => { if (cleanViewerImg) cleanViewerImg.src = ''; }, 200);
+    cleanViewerEl.addEventListener('click', (e) => {
+      if (e.target === cleanViewerEl || e.target === closeBtn) {
+        closeCleanViewer();
+      }
+    });
+  }
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeCleanViewer();
     });
   }
 }
 
-function openCleanImage(src) {
+function closeCleanViewer() {
+  if (!cleanViewerEl) return;
+  cleanViewerEl.classList.remove('active');
+  cleanViewerEl.setAttribute('aria-hidden', 'true');
+  setTimeout(() => { if (cleanViewerImg) cleanViewerImg.src = ''; }, 200);
+}
+
+function openCleanImage(src, author, time) {
   if (!cleanViewerEl || !cleanViewerImg || !src) return;
   cleanViewerImg.src = src;
+
+  const authorEl = document.getElementById('clean-viewer-author');
+  const timeEl = document.getElementById('clean-viewer-time');
+
+  if (authorEl) authorEl.textContent = author ? `📸 ${author}` : '📸 Tập thể học trò tri ân Cô';
+  if (timeEl) timeEl.textContent = time || 'Kỷ niệm thanh xuân';
+
   cleanViewerEl.classList.add('active');
+  cleanViewerEl.setAttribute('aria-hidden', 'false');
   playSound('pop');
 }
 
 /* ===================================================================
    KHỞI TẠO THƯỚC PHIM KỶ YẾU ĐIỆN ẢNH (FILM STRIP)
-   - Tắt popup phiền phức; CHỈ KHI NHẤN TRỰC TIẾP VÀO ẢNH (IMG) MỚI MỞ XEM
    =================================================================== */
 function initFilmStrip() {
   const frames = document.querySelectorAll('.film-frame');
@@ -341,7 +411,7 @@ function initFilmStrip() {
     if (img) {
       img.addEventListener('click', (e) => {
         e.stopPropagation();
-        openCleanImage(img.getAttribute('src'));
+        openCleanImage(img.getAttribute('src'), 'Tập thể học trò tri ân Cô Duyên Anh', 'Kỷ yếu thanh xuân');
       });
     }
     frame.addEventListener('mouseenter', () => playSound('pop'));
@@ -349,8 +419,7 @@ function initFilmStrip() {
 }
 
 /* ===================================================================
-   1. LẶP LẠI DÒNG CHỮ RĂNG CƯA 35MM (FILM SPROCKET METADATA)
-   Lặp lại liên tục nhiều lần dọc theo toàn bộ chiều dài thước phim
+   LẶP LẠI DÒNG CHỮ RĂNG CƯA 35MM (FILM SPROCKET METADATA)
    =================================================================== */
 function initFilmSprocketsText() {
   const topSprockets = document.getElementById('film-sprockets-top');
@@ -369,140 +438,277 @@ function initFilmSprocketsText() {
 }
 
 /* ===================================================================
-   2. CÁC BỨC THƯ BAY LƠ LỬNG NGAY DƯỚI CUỘN PHIM 35MM
-   - Đọc từ wishes.json và đóng góp thực tế từ donggop.html
-   - Hiển thị thành các bức thư bồng bềnh lơ lửng ngay dưới thước phim
-   - Tự động nối tiếp ảnh đóng góp thẳng vào cuộn phim 35mm
-   - Chạm vào bức thư để mở xem chi tiết lời chúc
+   QUẢN LÝ DỮ LIỆU ĐÓNG GÓP, SUB-LETTERS & ẢNH CUỘN PHIM 35MM
    =================================================================== */
-async function initFloatingWishesInFilm() {
-  const floatingTrack = document.getElementById('film-floating-wishes');
-  const filmTrackRow = document.getElementById('film-frames-row');
-  const wishModal = document.getElementById('wish-detail-modal');
-  const modalAuthor = document.getElementById('modal-wish-author');
-  const modalTime = document.getElementById('modal-wish-time');
-  const modalText = document.getElementById('modal-wish-text');
-  const wishCard = document.getElementById('wish-detail-card');
+let cachedFilmTrackWidth = 0;
 
-  // Đóng modal khi bấm ra ngoài
-  if (wishModal) {
-    wishModal.addEventListener('click', (e) => {
-      if (e.target === wishModal) {
-        wishModal.classList.remove('active');
-        wishModal.setAttribute('aria-hidden', 'true');
+function updateFilmDimensions() {
+  const filmTrack = document.getElementById('film-track');
+  if (filmTrack) {
+    cachedFilmTrackWidth = filmTrack.scrollWidth;
+  }
+}
+
+function getDeletedIds() {
+  try {
+    return JSON.parse(localStorage.getItem('co_duyen_anh_deleted_ids') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+async function initWishesData() {
+  const isInit = localStorage.getItem('co_duyen_anh_initialized');
+  if (!isInit) {
+    try {
+      const res = await fetch('wishes.json');
+      if (res.ok) {
+        const fileWishes = await res.json();
+        if (Array.isArray(fileWishes)) {
+          const currentLocal = localStorage.getItem('co_duyen_anh_wishes');
+          if (!currentLocal) {
+            localStorage.setItem('co_duyen_anh_wishes', JSON.stringify(fileWishes));
+          }
+        }
       }
-    });
-    if (wishCard) {
-      wishCard.addEventListener('click', (e) => e.stopPropagation());
+    } catch (e) {
+      console.warn('Wishes fetch fallback', e);
     }
+    localStorage.setItem('co_duyen_anh_initialized', 'true');
   }
 
+  renderSubLetters();
+  renderContributedPhotos();
+}
+
+function renderSubLetters() {
+  const deck = document.getElementById('sub-letters-deck');
+  if (!deck) return;
+  deck.innerHTML = '';
+
+  const deletedIds = getDeletedIds();
   let wishes = [];
   try {
-    const res = await fetch('wishes.json');
-    if (res.ok) {
-      wishes = await res.json();
-    }
-  } catch (e) {
-    console.warn('Wishes fetch fallback', e);
-  }
+    const raw = localStorage.getItem('co_duyen_anh_wishes');
+    if (raw) wishes = JSON.parse(raw);
+  } catch (e) {}
 
-  // Kết hợp với localStorage (từ trang đóng góp và quản trị Admin)
+  wishes = wishes.filter(w => !deletedIds.includes(w.id));
+
+  wishes.forEach(w => {
+    const card = createSubLetterCard(w);
+    deck.appendChild(card);
+  });
+}
+
+function createSubLetterCard(wish) {
+  const card = document.createElement('div');
+  card.className = 'sub-letter-card';
+  card.setAttribute('data-id', wish.id || '');
+  card.innerHTML = `
+    <div class="sub-letter-card-header">
+      <div class="sub-letter-author">${escapeHtml(wish.author || 'Bạn học trò')}</div>
+      <div class="sub-letter-meta">
+        <span class="sub-letter-time">${escapeHtml(wish.time || '')}</span>
+        <div class="sub-letter-stamp" title="Tri ân 20.11">20.11</div>
+      </div>
+    </div>
+    <div class="sub-letter-body">${escapeHtml(wish.wish || '')}</div>
+  `;
+
+  card.addEventListener('click', () => {
+    playPaperRustle();
+  });
+  card.addEventListener('mouseenter', () => {
+    playPaperRustle();
+  });
+
+  return card;
+}
+
+function renderContributedPhotos() {
+  const filmTrackRow = document.getElementById('film-frames-row');
+  if (!filmTrackRow) return;
+
+  // Xóa sạch các khung hình động đã gắn trước đó
+  filmTrackRow.querySelectorAll('.dynamic-contributed-frame').forEach(el => el.remove());
+
+  const deletedIds = getDeletedIds();
+  let photos = [];
   try {
-    const local = localStorage.getItem('co_duyen_anh_wishes');
-    if (local !== null) {
-      const localWishes = JSON.parse(local);
-      if (Array.isArray(localWishes)) {
-        if (localWishes.length > 0) {
-          localWishes.forEach(lw => {
-            const existingIdx = wishes.findIndex(w => w.id === lw.id);
-            if (existingIdx !== -1) {
-              wishes[existingIdx] = lw;
-            } else {
-              wishes.push(lw);
-            }
+    const raw = localStorage.getItem('co_duyen_anh_photos');
+    if (raw) photos = JSON.parse(raw);
+  } catch (e) {}
+
+  // Hỗ trợ trường hợp dữ liệu cũ trong co_duyen_anh_wishes có trường image
+  try {
+    const rawWishes = localStorage.getItem('co_duyen_anh_wishes');
+    if (rawWishes) {
+      const wishes = JSON.parse(rawWishes);
+      wishes.forEach(w => {
+        if (w.image && !photos.some(p => p.id === w.id || p.image === w.image)) {
+          photos.push({
+            id: w.id,
+            author: w.author,
+            time: w.time,
+            image: w.image,
+            aspect: 'landscape'
           });
-        } else {
-          // Trạng thái đã xóa sạch bằng Admin
-          wishes = [];
-        }
-      }
-    }
-  } catch (err) {}
-
-  // 1. Render các bức thư bay lơ lửng ngay dưới cuộn phim
-  if (floatingTrack) {
-    floatingTrack.innerHTML = '';
-    wishes.forEach((item, idx) => {
-      const card = document.createElement('div');
-      card.className = 'floating-wish-letter';
-      const delay = ((idx * 0.4) % 3).toFixed(1);
-      card.style.animationDelay = `${delay}s`;
-      card.innerHTML = `
-        <div class="wish-letter-head">
-          <span>💌 ${escapeHtml(item.author || 'Bạn học trò')}</span>
-          <span class="wish-letter-stamp">Thư Tri Ân</span>
-        </div>
-        <div class="wish-letter-preview">${escapeHtml(item.wish || '')}</div>
-        <div class="wish-letter-tap-hint">Chạm để đọc thư ↗</div>
-      `;
-
-      card.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (wishModal && modalAuthor && modalText) {
-          modalAuthor.textContent = item.author || 'Bạn học trò';
-          modalTime.textContent = item.time ? `(${item.time})` : '';
-          modalText.textContent = item.wish || '';
-          wishModal.classList.add('active');
-          wishModal.setAttribute('aria-hidden', 'false');
-          playSound('pop');
         }
       });
+    }
+  } catch (e) {}
 
-      card.addEventListener('mouseenter', () => playSound('pop'));
-      floatingTrack.appendChild(card);
-    });
+  photos = photos.filter(p => !deletedIds.includes(p.id));
+
+  photos.forEach(photo => {
+    const frame = createContributedFilmFrame(photo);
+    filmTrackRow.appendChild(frame);
+  });
+
+  updateFilmDimensions();
+}
+
+function createContributedFilmFrame(photo) {
+  const frame = document.createElement('div');
+  const aspectClass = photo.aspect === 'landscape' ? 'landscape' : 'portrait';
+  frame.className = `film-frame dynamic-contributed-frame ${aspectClass}`;
+  frame.setAttribute('data-id', photo.id || '');
+  frame.setAttribute('data-src', photo.image);
+
+  frame.innerHTML = `
+    <div class="frame-contributor-tag" title="Người đóng góp: ${escapeHtml(photo.author || 'Bạn học trò')}">
+      <span class="contributor-icon">📸</span>
+      <span class="contributor-name">${escapeHtml(photo.author || 'Bạn học trò')}</span>
+    </div>
+  `;
+
+  const imgEl = new Image();
+  imgEl.className = 'film-img';
+  imgEl.src = photo.image;
+  imgEl.alt = `Kỷ niệm từ ${photo.author || 'Bạn học trò'}`;
+  imgEl.loading = 'lazy';
+
+  imgEl.onload = function() {
+    if (imgEl.naturalWidth >= imgEl.naturalHeight) {
+      frame.classList.remove('portrait');
+      frame.classList.add('landscape');
+    } else {
+      frame.classList.remove('landscape');
+      frame.classList.add('portrait');
+    }
+    updateFilmDimensions();
+  };
+
+  imgEl.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openCleanImage(photo.image, photo.author, photo.time);
+  });
+
+  frame.appendChild(imgEl);
+  frame.addEventListener('mouseenter', () => playSound('pop'));
+
+  return frame;
+}
+
+/* ===================================================================
+   CƠ CHẾ ĐỒNG BỘ CLIENT-SIDE THỜI GIAN THỰC (REALTIME SYNC CHANNEL)
+   =================================================================== */
+const SYNC_CHANNEL_NAME = 'co_duyen_anh_sync_channel';
+let syncChannel = null;
+
+function initRealtimeSync() {
+  if ('BroadcastChannel' in window) {
+    try {
+      syncChannel = new BroadcastChannel(SYNC_CHANNEL_NAME);
+      syncChannel.onmessage = (event) => {
+        const msg = event.data;
+        if (!msg || !msg.action) return;
+
+        switch (msg.action) {
+          case 'ADD_WISH':
+            appendWishToDeck(msg.data);
+            playSound('chime');
+            break;
+          case 'ADD_PHOTOS':
+            if (Array.isArray(msg.data)) {
+              msg.data.forEach(p => appendPhotoToFilmStrip(p));
+              playSound('chime');
+            }
+            break;
+          case 'DELETE_WISH':
+            removeWishFromDeck(msg.id);
+            break;
+          case 'DELETE_PHOTO':
+            removePhotoFromFilmStrip(msg.id);
+            break;
+          case 'SYNC_ALL':
+            refreshAllData();
+            break;
+        }
+      };
+    } catch (e) {
+      console.warn('BroadcastChannel error', e);
+    }
   }
 
-  // 2. YÊU CẦU: Nếu có ảnh đóng góp, TẢI THẲNG LÊN NỐI TIẾP CUỘN PHIM GIAI ĐOẠN 5
-  // Khớp 100% định dạng khung phim 35mm (tỉ lệ ngang/dọc, số thứ tự khung, xem ảnh)
+  // Fallback qua Storage Event
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'co_duyen_anh_wishes' || e.key === 'co_duyen_anh_photos' || e.key === 'co_duyen_anh_deleted_ids') {
+      refreshAllData();
+    }
+  });
+}
+
+function appendWishToDeck(wish) {
+  if (!wish) return;
+  const deck = document.getElementById('sub-letters-deck');
+  if (deck) {
+    const existing = deck.querySelector(`[data-id="${wish.id}"]`);
+    if (!existing) {
+      const card = createSubLetterCard(wish);
+      deck.appendChild(card);
+    }
+  }
+}
+
+function appendPhotoToFilmStrip(photo) {
+  if (!photo) return;
+  const filmTrackRow = document.getElementById('film-frames-row');
   if (filmTrackRow) {
-    wishes.forEach(item => {
-      if (item.image) {
-        const frameCount = filmTrackRow.querySelectorAll('.film-frame').length + 1;
-        const frameNumStr = (frameCount < 10 ? '0' : '') + frameCount + 'A';
-
-        const newFrame = document.createElement('div');
-        newFrame.className = 'film-frame dynamic-contributed-frame';
-        newFrame.setAttribute('data-src', item.image);
-
-        const imgEl = new Image();
-        imgEl.className = 'film-img';
-        imgEl.src = item.image;
-        imgEl.alt = `Kỷ niệm từ ${item.author || 'Bạn học trò'}`;
-        imgEl.loading = 'lazy';
-
-        imgEl.onload = function() {
-          if (imgEl.naturalWidth >= imgEl.naturalHeight) {
-            newFrame.classList.add('landscape');
-          } else {
-            newFrame.classList.add('portrait');
-          }
-        };
-
-        newFrame.innerHTML = `<div class="frame-num">${frameNumStr}</div>`;
-        newFrame.appendChild(imgEl);
-
-        imgEl.addEventListener('click', (e) => {
-          e.stopPropagation();
-          openCleanImage(item.image);
-        });
-
-        newFrame.addEventListener('mouseenter', () => playSound('pop'));
-        filmTrackRow.appendChild(newFrame);
-      }
-    });
+    const existing = filmTrackRow.querySelector(`[data-id="${photo.id}"]`);
+    if (!existing) {
+      const frame = createContributedFilmFrame(photo);
+      filmTrackRow.appendChild(frame);
+      updateFilmDimensions();
+    }
   }
+}
+
+function removeWishFromDeck(id) {
+  if (!id) return;
+  const deck = document.getElementById('sub-letters-deck');
+  if (deck) {
+    const el = deck.querySelector(`[data-id="${id}"]`);
+    if (el) el.remove();
+  }
+}
+
+function removePhotoFromFilmStrip(id) {
+  if (!id) return;
+  const filmTrackRow = document.getElementById('film-frames-row');
+  if (filmTrackRow) {
+    const el = filmTrackRow.querySelector(`[data-id="${id}"]`);
+    if (el) {
+      el.remove();
+      updateFilmDimensions();
+    }
+  }
+}
+
+function refreshAllData() {
+  renderSubLetters();
+  renderContributedPhotos();
 }
 
 function escapeHtml(text) {
@@ -602,13 +808,20 @@ function initAnimationLoop() {
   const teacherCenterpiece = document.getElementById('teacher-centerpiece');
   const filmStage = document.getElementById('film-stage');
   const filmTrack = document.getElementById('film-track');
+  const subLettersStage = document.getElementById('sub-letters-stage');
   const finalTribute = document.getElementById('final-tribute');
+
+  // Khởi tạo cache kích thước filmTrack để triệt tiêu Forced Synchronous Reflow trong rAF
+  updateFilmDimensions();
+  window.addEventListener('resize', updateFilmDimensions);
+
+  let envHidden = false;
 
   function animate(time) {
     // Lerp mượt mà 60fps (thích ứng phản hồi cảm ứng nhanh trên điện thoại)
     const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
     const isPortrait = window.innerWidth < window.innerHeight;
-    const isMobilePortrait = isTouch && isPortrait;
+    const isMobilePortrait = isPortrait && window.innerWidth <= 768;
     const lerpRate = isTouch ? 0.08 : 0.055;
     currentProgress += (targetProgress - currentProgress) * lerpRate;
     if (Math.abs(targetProgress - currentProgress) < 0.0001) {
@@ -620,7 +833,7 @@ function initAnimationLoop() {
     // Cập nhật thanh tiến độ
     if (progressBar) progressBar.style.width = `${p * 100}%`;
 
-    // Cập nhật nhãn giai đoạn (6 giai đoạn tinh gọn, cân đối hoàn hảo)
+    // Cập nhật nhãn giai đoạn (7 giai đoạn trang trọng, rõ ràng)
     let currentStage = 1;
     if (p < 0.06) {
       currentStage = 1;
@@ -631,15 +844,18 @@ function initAnimationLoop() {
     } else if (p < 0.33) {
       currentStage = 3;
       if (stageBadge) stageBadge.textContent = 'Giai đoạn 3: Chúc Cô Duyên Anh 20/11 vui vẻ!';
-    } else if (p < 0.48) {
+    } else if (p < 0.46) {
       currentStage = 4;
       if (stageBadge) stageBadge.textContent = 'Giai đoạn 4: Vũ trụ Meme Cô Duyên Anh';
-    } else if (p < 0.90) {
+    } else if (p < 0.76) {
       currentStage = 5;
       if (stageBadge) stageBadge.textContent = 'Giai đoạn 5: Thước phim Kỷ yếu & Kỷ niệm 35mm';
-    } else {
+    } else if (p < 0.90) {
       currentStage = 6;
-      if (stageBadge) stageBadge.textContent = 'Giai đoạn 6: Thả tim tri ân 20/11';
+      if (stageBadge) stageBadge.textContent = 'Giai đoạn 6: Những lá thư tri ân từ học trò';
+    } else {
+      currentStage = 7;
+      if (stageBadge) stageBadge.textContent = 'Giai đoạn 7: Thả tim tri ân 20/11';
     }
 
     // Phát âm thanh khi đổi giai đoạn
@@ -648,7 +864,8 @@ function initAnimationLoop() {
       else if (currentStage === 3) playSound('chime');
       else if (currentStage === 4) playSound('pop');
       else if (currentStage === 5) playSound('chime');
-      else if (currentStage === 6) playSound('chime');
+      else if (currentStage === 6) playPaperRustle();
+      else if (currentStage === 7) playSound('chime');
       lastTriggerStage = currentStage;
     }
 
@@ -671,7 +888,6 @@ function initAnimationLoop() {
     let letterZ = 2;
 
     if (p <= 0.04) {
-      // Khi phong bì chưa mở: Lá thư ẩn hoàn toàn 100% bên trong phong bì, tuyệt đối không lộ mép
       letterOpacity = 0;
       letterY = 15;
       letterScale = 0.85;
@@ -679,7 +895,6 @@ function initAnimationLoop() {
       letterZ = 2;
       if (letter) letter.classList.remove('unfolded');
     } else if (p <= 0.10) {
-      // Khi nắp mở (p: 0.04 -> 0.10): Lá thư hiện ra và trượt thẳng lên trên khỏi miệng phong bì
       letterOpacity = mapRange(p, 0.04, 0.07, 0, 1);
       letterY = mapRange(p, 0.05, 0.10, 0, -240);
       letterScale = 1.0;
@@ -687,23 +902,20 @@ function initAnimationLoop() {
       letterZ = p > 0.075 ? 65 : 2;
       if (letter) letter.classList.remove('unfolded');
     } else if (p <= 0.15) {
-      // === GIAI ĐOẠN MỞ BUNG LÁ THƯ 3D (p: 0.10 -> 0.15) ===
       unfoldProgress = mapRange(p, 0.10, 0.15, 0, 1);
       letterY = mapRange(p, 0.10, 0.15, -240, 0);
       letterScale = mapRange(p, 0.10, 0.15, 1.0, 1.1);
       letterZ = 65;
       if (letter) letter.classList.add('unfolded');
     } else if (p <= 0.19) {
-      // === KHOẢNG CUỘN ĐỌC BỨC THƯ (p: 0.15 -> 0.19) ===
       unfoldProgress = 1;
-      letterY = Math.sin(time * 0.002) * 4; // Bồng bềnh nhẹ nhàng
+      letterY = Math.sin(time * 0.002) * 4;
       letterScale = 1.1;
       letterZ = 65;
       tiltX = mouseY * -5;
       tiltY = mouseX * 5;
       if (letter) letter.classList.add('unfolded');
     } else if (p <= 0.23) {
-      // Đọc thư xong: Bay phóng lớn về phía trước và tan biến vào vũ trụ
       unfoldProgress = 1;
       letterY = 0;
       letterScale = mapRange(p, 0.19, 0.23, 1.1, 1.85);
@@ -715,7 +927,6 @@ function initAnimationLoop() {
       if (letter) letter.classList.remove('unfolded');
     }
 
-    // Hiệu ứng mở nếp gấp thư 3D (3-panel unfolding mượt mà)
     if (letterSecTop && letterSecBottom) {
       const topFoldAngle = (1 - unfoldProgress) * -85;
       const bottomFoldAngle = (1 - unfoldProgress) * 85;
@@ -728,26 +939,34 @@ function initAnimationLoop() {
       crease2.style.opacity = creaseOp;
     }
 
-    // Phong bì (env-part) trôi xuống và mờ dần khi thư đã rút ra
-    const envDropY = mapRange(p, 0.10, 0.15, 0, 260);
-    const envOpacity = mapRange(p, 0.10, 0.14, 1, 0);
-    envParts.forEach(el => {
-      if (el.id === 'flap') {
-        el.style.transform = `translateY(${envDropY}px) rotateX(${flapAngle}deg)`;
-        el.style.zIndex = flapAngle > 90 ? 1 : 5;
-      } else {
-        el.style.transform = `translateY(${envDropY}px)`;
-      }
-      el.style.opacity = envOpacity;
-      el.style.pointerEvents = 'none';
-    });
+    // Phong bì (env-part) trôi xuống và mờ dần (với dirty flag tối ưu 60fps)
+    if (p <= 0.20) {
+      envHidden = false;
+      const envDropY = mapRange(p, 0.10, 0.15, 0, 260);
+      const envOpacity = mapRange(p, 0.10, 0.14, 1, 0);
+      envParts.forEach(el => {
+        if (el.id === 'flap') {
+          el.style.transform = `translateY(${envDropY}px) rotateX(${flapAngle}deg)`;
+          el.style.zIndex = flapAngle > 90 ? 1 : 5;
+        } else {
+          el.style.transform = `translateY(${envDropY}px)`;
+        }
+        el.style.opacity = envOpacity;
+        el.style.pointerEvents = 'none';
+      });
+    } else if (!envHidden) {
+      envHidden = true;
+      envParts.forEach(el => {
+        el.style.opacity = 0;
+        el.style.pointerEvents = 'none';
+      });
+    }
 
     const envWrapper = document.getElementById('envelope-wrapper');
     if (envWrapper) {
       envWrapper.style.pointerEvents = p < 0.06 ? 'auto' : 'none';
     }
 
-    // Áp dụng transform GPU liên tục cho lá thư
     if (letter) {
       letter.style.transform = `translate(-50%, calc(-50% + ${letterY}px)) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${letterScale})`;
       letter.style.opacity = letterOpacity;
@@ -787,44 +1006,34 @@ function initAnimationLoop() {
     });
 
     // -------------------------------------------------------------
-    // 4. 9 MEME CỦA CÔ DUYÊN ANH (p: 0.33 -> 0.48) - CHUYỂN ĐỘNG NGẪU NHIÊN SINH ĐỘNG
+    // 4. 9 MEME CỦA CÔ DUYÊN ANH (p: 0.33 -> 0.46) - TỐI ƯU CỜ TRẠNG THÁI 60FPS
     // -------------------------------------------------------------
     floatingItemList.forEach(item => {
       const d = item.data;
       if (p < d.startP - 0.02 || p > d.endP + 0.02) {
-        item.el.style.opacity = 0;
-        item.el.style.pointerEvents = 'none';
-        item.el.style.transform = `translate(0px, 120vh)`;
+        if (!item.isHidden) {
+          item.el.style.opacity = 0;
+          item.el.style.pointerEvents = 'none';
+          item.el.style.transform = `translate(0px, 120vh)`;
+          item.isHidden = true;
+        }
         return;
       }
 
+      item.isHidden = false;
       const itemProgress = mapRange(p, d.startP, d.endP, 0, 1);
-
-      // Quỹ đạo trôi dọc lượn sóng tự nhiên
       const currentY = 112 - itemProgress * 148;
-
-      // Dao động ngang hình sin đa hài ngẫu nhiên + uốn cong theo cuộn
       const swayX = Math.sin(time * item.freqX + item.phaseX) * item.ampX + Math.sin(itemProgress * Math.PI * 1.5) * item.curveAmp;
-
-      // Bồng bềnh lên xuống theo nhịp thở zero-gravity
       const floatY = Math.cos(time * item.freqY + item.phaseY) * item.ampY;
-
-      // Xoay lắc tự nhiên theo nhịp riêng của từng thẻ
       const dynamicRot = d.baseRot + Math.sin(time * item.freqRot + item.phaseRot) * item.rotAmp + (Math.cos(itemProgress * Math.PI) * 4);
-
-      // Nghiêng 3D theo chuột nhẹ nhàng (Parallax Depth)
       const tiltX = mouseY * item.parallax * -12 + Math.sin(time * 0.001 + item.phaseX) * 3;
       const tiltY = mouseX * item.parallax * 12 + Math.cos(time * 0.001 + item.phaseY) * 3;
-
-      // Nhịp thở scale nhẹ nhàng
       const scaleBreath = 1 + Math.sin(time * 0.002 + item.phaseY) * 0.035;
 
       let op = 1;
       if (itemProgress < 0.15) op = mapRange(itemProgress, 0, 0.15, 0, 1);
       else if (itemProgress > 0.85) op = mapRange(itemProgress, 0.85, 1, 1, 0);
 
-      // Cân chỉnh toạ độ baseX và biên độ lắc để không bị tràn hoặc che khuất ảnh cô trên màn hình dọc điện thoại
-      // Khi người dùng xoay ngang màn hình (landscape), tự động dùng chuẩn 16:9 widescreen rộng rãi như máy tính
       const targetBaseX = isMobilePortrait 
         ? (d.baseX > 50 ? (58 + (d.baseX - 62) * 0.35) : (2 + (d.baseX - 5) * 0.35))
         : d.baseX;
@@ -835,11 +1044,11 @@ function initAnimationLoop() {
       item.el.style.pointerEvents = op > 0.2 ? 'auto' : 'none';
     });
 
-    // TRUNG TÂM KỶ NIỆM (CÔ DUYÊN ANH) (p: 0.34 -> 0.48)
+    // TRUNG TÂM KỶ NIỆM (CÔ DUYÊN ANH) (p: 0.34 -> 0.46)
     let teacherOp = 0;
     let teacherScale = 0.7;
-    if (p >= 0.34 && p <= 0.48) {
-      teacherOp = p < 0.38 ? mapRange(p, 0.34, 0.38, 0, 1) : mapRange(p, 0.44, 0.48, 1, 0);
+    if (p >= 0.34 && p <= 0.46) {
+      teacherOp = p < 0.38 ? mapRange(p, 0.34, 0.38, 0, 1) : mapRange(p, 0.42, 0.46, 1, 0);
       teacherScale = mapRange(p, 0.34, 0.40, 0.7, 1);
     }
     if (teacherCenterpiece) {
@@ -849,22 +1058,20 @@ function initAnimationLoop() {
     }
 
     // -------------------------------------------------------------
-    // 5. ĐẠI THƯỚC PHIM KỶ YẾU & KỶ NIỆM 35MM (p: 0.48 -> 0.90)
-    // TĂNG KHOẢNG CUỘN RỘNG RÃI ĐỂ THOẢI MÁI XEM 31 BỨC ẢNH
+    // 5. ĐẠI THƯỚC PHIM KỶ YẾU & KỶ NIỆM 35MM (p: 0.46 -> 0.76)
+    // TỐI ƯU 60FPS: SỬ DỤNG CACHED SCROLLWIDTH KHÔNG GÂY LAYOUT THRASHING
     // -------------------------------------------------------------
     let filmOp = 0;
-    if (p >= 0.48 && p <= 0.91) {
-      filmOp = p < 0.52 ? mapRange(p, 0.48, 0.52, 0, 1) : mapRange(p, 0.86, 0.90, 1, 0);
+    if (p >= 0.46 && p <= 0.78) {
+      filmOp = p < 0.50 ? mapRange(p, 0.46, 0.50, 0, 1) : mapRange(p, 0.73, 0.77, 1, 0);
     }
     if (filmStage) {
       filmStage.style.opacity = filmOp;
-      filmStage.style.pointerEvents = (filmOp > 0.3 && p < 0.87) ? 'auto' : 'none';
+      filmStage.style.pointerEvents = (filmOp > 0.3 && p < 0.75) ? 'auto' : 'none';
     }
-    if (filmTrack && p >= 0.48 && p <= 0.91) {
-      // Khi đang chuyển cảnh mờ dần vào (p: 0.48 -> 0.52), giữ nguyên vị trí đầu dải phim
-      // Trượt ngang thong thả qua toàn bộ 31 khung hình (p: 0.52 -> 0.86)
-      const filmProg = p < 0.52 ? 0 : (p > 0.86 ? 1 : mapRange(p, 0.52, 0.86, 0, 1));
-      const totalWidth = filmTrack.scrollWidth;
+    if (filmTrack && p >= 0.46 && p <= 0.78) {
+      const filmProg = p < 0.50 ? 0 : (p > 0.73 ? 1 : mapRange(p, 0.50, 0.73, 0, 1));
+      const totalWidth = cachedFilmTrackWidth || filmTrack.scrollWidth;
       const winWidth = window.innerWidth;
       const startOffset = winWidth > 768 ? 72 : 24;
       const maxTranslate = Math.max(0, totalWidth - winWidth + startOffset + 80);
@@ -873,14 +1080,27 @@ function initAnimationLoop() {
     }
 
     // -------------------------------------------------------------
-    // 6. TƯƠNG TÁC THẢ TIM & CUỘN LÊN ĐẦU TRANG (p: 0.88 -> 1.00)
-    // BẤM LÀ NHẬN NGAY LẬP TỨC, KHÔNG BỊ HÚT HOẶC CHE BỞI CÁC LỚP KHÁC
+    // 6. PHÂN ĐOẠN CÁC LÁ THƯ CON TRI ÂN XẾP TẦNG (p: 0.75 -> 0.91)
+    // -------------------------------------------------------------
+    let subOp = 0;
+    if (p >= 0.75 && p <= 0.91) {
+      subOp = p < 0.78 ? mapRange(p, 0.75, 0.78, 0, 1) : mapRange(p, 0.87, 0.91, 1, 0);
+    }
+    if (subLettersStage) {
+      subLettersStage.style.opacity = subOp;
+      subLettersStage.style.pointerEvents = subOp > 0.3 ? 'auto' : 'none';
+      const subY = mapRange(p, 0.75, 0.91, 20, -20);
+      subLettersStage.style.transform = `translate(-50%, calc(-50% + ${subY}px))`;
+    }
+
+    // -------------------------------------------------------------
+    // 7. TƯƠNG TÁC THẢ TIM & CUỘN LÊN ĐẦU TRANG (p: 0.88 -> 1.00)
     // -------------------------------------------------------------
     let tributeOp = 0;
     let tributeY = 30;
     if (p >= 0.88) {
-      tributeOp = mapRange(p, 0.88, 0.92, 0, 1);
-      tributeY = mapRange(p, 0.88, 0.92, 30, 0);
+      tributeOp = mapRange(p, 0.88, 0.93, 0, 1);
+      tributeY = mapRange(p, 0.88, 0.93, 30, 0);
     }
     if (finalTribute) {
       finalTribute.style.opacity = tributeOp;
@@ -890,7 +1110,7 @@ function initAnimationLoop() {
     }
 
     // -------------------------------------------------------------
-    // 7. CẬP NHẬT HỆ THỐNG BỤI VŨ TRỤ
+    // 8. CẬP NHẬT HỆ THỐNG BỤI VŨ TRỤ
     // -------------------------------------------------------------
     dustList.forEach(dust => {
       dust.x += dust.vx;
