@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initFloatingUniverse(lightbox.openLightbox);
   initCleanViewer();
   initFilmStrip();
-  initWishesWall();
+  initFilmSprocketsText();
+  initFloatingWishesInFilm();
   initFinalTribute();
   initEnvelopeClick();
   initAnimationLoop();
@@ -348,29 +349,54 @@ function initFilmStrip() {
 }
 
 /* ===================================================================
-   BỨC TƯỜNG LỜI CHÚC CỦA CÁC BẠN TRONG LỚP & NỐI TIẾP ẢNH VÀO CUỘN PHIM
+   1. LẶP LẠI DÒNG CHỮ RĂNG CƯA 35MM (FILM SPROCKET METADATA)
+   Lặp lại liên tục nhiều lần dọc theo toàn bộ chiều dài thước phim
    =================================================================== */
-function initWishesWall() {
-  const toggleBtn = document.getElementById('toggle-wishes-btn');
-  const wishesWall = document.getElementById('classmates-wishes-wall');
-  const container = document.getElementById('wishes-cards-container');
-  const filmTrackRow = document.querySelector('.film-frames-row');
+function initFilmSprocketsText() {
+  const topSprockets = document.getElementById('film-sprockets-top');
+  const bottomSprockets = document.getElementById('film-sprockets-bottom');
 
-  if (toggleBtn && wishesWall) {
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isActive = wishesWall.classList.toggle('active');
-      toggleBtn.textContent = isActive 
-        ? '✕ Thu Gọn Lời Chúc' 
-        : '💌 Xem Lời Chúc Của Các Bạn Trong Lớp';
-      playSound('pop');
-    });
+  const topText = '<span class="film-meta-text">KODAK VISION3 500T &bull; 20.11 &bull; KỶ YẾU & KỶ NIỆM CÔ DUYÊN ANH</span>';
+  const bottomText = '<span class="film-meta-text">EASTMAN FILM &bull; SAFETY FILM &bull; TRI ÂN CÔ DUYÊN ANH 20.11</span>';
+
+  if (topSprockets) {
+    topSprockets.innerHTML = Array(45).fill(topText).join('');
   }
 
-  loadWishes(container, filmTrackRow);
+  if (bottomSprockets) {
+    bottomSprockets.innerHTML = Array(45).fill(bottomText).join('');
+  }
 }
 
-async function loadWishes(container, filmTrackRow) {
+/* ===================================================================
+   2. CÁC BỨC THƯ BAY LƠ LỬNG NGAY DƯỚI CUỘN PHIM 35MM
+   - Đọc từ wishes.json và đóng góp thực tế từ donggop.html
+   - Hiển thị thành các bức thư bồng bềnh lơ lửng ngay dưới thước phim
+   - Tự động nối tiếp ảnh đóng góp thẳng vào cuộn phim 35mm
+   - Chạm vào bức thư để mở xem chi tiết lời chúc
+   =================================================================== */
+async function initFloatingWishesInFilm() {
+  const floatingTrack = document.getElementById('film-floating-wishes');
+  const filmTrackRow = document.getElementById('film-frames-row');
+  const wishModal = document.getElementById('wish-detail-modal');
+  const modalAuthor = document.getElementById('modal-wish-author');
+  const modalTime = document.getElementById('modal-wish-time');
+  const modalText = document.getElementById('modal-wish-text');
+  const wishCard = document.getElementById('wish-detail-card');
+
+  // Đóng modal khi bấm ra ngoài
+  if (wishModal) {
+    wishModal.addEventListener('click', (e) => {
+      if (e.target === wishModal) {
+        wishModal.classList.remove('active');
+        wishModal.setAttribute('aria-hidden', 'true');
+      }
+    });
+    if (wishCard) {
+      wishCard.addEventListener('click', (e) => e.stopPropagation());
+    }
+  }
+
   let wishes = [];
   try {
     const res = await fetch('wishes.json');
@@ -378,81 +404,138 @@ async function loadWishes(container, filmTrackRow) {
       wishes = await res.json();
     }
   } catch (e) {
-    console.warn('Fallback wishes');
+    console.warn('Wishes fetch fallback', e);
   }
 
-  // Kết hợp các lời chúc và ảnh mới được lưu trong localStorage
+  // Kết hợp với localStorage (từ trang đóng góp và quản trị Admin)
   try {
     const local = localStorage.getItem('co_duyen_anh_wishes');
-    if (local) {
+    if (local !== null) {
       const localWishes = JSON.parse(local);
       if (Array.isArray(localWishes)) {
-        localWishes.forEach(lw => {
-          if (!wishes.some(w => w.id === lw.id)) {
-            wishes.push(lw);
-          }
-        });
+        if (localWishes.length > 0) {
+          localWishes.forEach(lw => {
+            const existingIdx = wishes.findIndex(w => w.id === lw.id);
+            if (existingIdx !== -1) {
+              wishes[existingIdx] = lw;
+            } else {
+              wishes.push(lw);
+            }
+          });
+        } else {
+          // Trạng thái đã xóa sạch bằng Admin
+          wishes = [];
+        }
       }
     }
   } catch (err) {}
 
-  if (!container) return;
-  container.innerHTML = '';
-
-  wishes.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'wish-mini-card';
-    card.innerHTML = `
-      <div class="wish-card-author">
-        <span>🌸 ${item.author || 'Bạn học sinh'}</span>
-        <span class="wish-card-time">${item.time || ''}</span>
-      </div>
-      <div class="wish-card-text">${item.wish || ''}</div>
-      ${item.image ? `<img class="wish-card-img" src="${item.image}" alt="Ảnh kỷ niệm đính kèm" loading="lazy">` : ''}
-    `;
-
-    const cardImg = card.querySelector('.wish-card-img');
-    if (cardImg) {
-      cardImg.addEventListener('click', (e) => {
-        e.stopPropagation();
-        openCleanImage(item.image);
-      });
-    }
-
-    container.appendChild(card);
-
-    // YÊU CẦU: Nếu có ảnh trong lời chúc, tự động NỐI TIẾP VÀO CUỘN PHIM 35MM
-    if (item.image && filmTrackRow) {
-      const newFrame = document.createElement('div');
-      newFrame.className = 'film-frame portrait dynamic-contributed-frame';
-      newFrame.setAttribute('data-src', item.image);
-      newFrame.innerHTML = `
-        <img src="${item.image}" alt="Kỷ niệm từ ${item.author}" loading="lazy">
+  // 1. Render các bức thư bay lơ lửng ngay dưới cuộn phim
+  if (floatingTrack) {
+    floatingTrack.innerHTML = '';
+    wishes.forEach((item, idx) => {
+      const card = document.createElement('div');
+      card.className = 'floating-wish-letter';
+      const delay = ((idx * 0.4) % 3).toFixed(1);
+      card.style.animationDelay = `${delay}s`;
+      card.innerHTML = `
+        <div class="wish-letter-head">
+          <span>💌 ${escapeHtml(item.author || 'Bạn học trò')}</span>
+          <span class="wish-letter-stamp">Thư Tri Ân</span>
+        </div>
+        <div class="wish-letter-preview">${escapeHtml(item.wish || '')}</div>
+        <div class="wish-letter-tap-hint">Chạm để đọc thư ↗</div>
       `;
-      const img = newFrame.querySelector('img');
-      if (img) {
-        img.addEventListener('click', (e) => {
+
+      card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (wishModal && modalAuthor && modalText) {
+          modalAuthor.textContent = item.author || 'Bạn học trò';
+          modalTime.textContent = item.time ? `(${item.time})` : '';
+          modalText.textContent = item.wish || '';
+          wishModal.classList.add('active');
+          wishModal.setAttribute('aria-hidden', 'false');
+          playSound('pop');
+        }
+      });
+
+      card.addEventListener('mouseenter', () => playSound('pop'));
+      floatingTrack.appendChild(card);
+    });
+  }
+
+  // 2. YÊU CẦU: Nếu có ảnh đóng góp, TẢI THẲNG LÊN NỐI TIẾP CUỘN PHIM GIAI ĐOẠN 5
+  // Khớp 100% định dạng khung phim 35mm (tỉ lệ ngang/dọc, số thứ tự khung, xem ảnh)
+  if (filmTrackRow) {
+    wishes.forEach(item => {
+      if (item.image) {
+        const frameCount = filmTrackRow.querySelectorAll('.film-frame').length + 1;
+        const frameNumStr = (frameCount < 10 ? '0' : '') + frameCount + 'A';
+
+        const newFrame = document.createElement('div');
+        newFrame.className = 'film-frame dynamic-contributed-frame';
+        newFrame.setAttribute('data-src', item.image);
+
+        const imgEl = new Image();
+        imgEl.className = 'film-img';
+        imgEl.src = item.image;
+        imgEl.alt = `Kỷ niệm từ ${item.author || 'Bạn học trò'}`;
+        imgEl.loading = 'lazy';
+
+        imgEl.onload = function() {
+          if (imgEl.naturalWidth >= imgEl.naturalHeight) {
+            newFrame.classList.add('landscape');
+          } else {
+            newFrame.classList.add('portrait');
+          }
+        };
+
+        newFrame.innerHTML = `<div class="frame-num">${frameNumStr}</div>`;
+        newFrame.appendChild(imgEl);
+
+        imgEl.addEventListener('click', (e) => {
           e.stopPropagation();
           openCleanImage(item.image);
         });
+
+        newFrame.addEventListener('mouseenter', () => playSound('pop'));
+        filmTrackRow.appendChild(newFrame);
       }
-      filmTrackRow.appendChild(newFrame);
-    }
-  });
+    });
+  }
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  return text.replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
 }
 
 /* ===================================================================
-   TƯƠNG TÁC LỜI KẾT & THẢ TIM (FINAL TRIBUTE)
+   3. TƯƠNG TÁC LỜI KẾT & LƯU LẠI MỤC TIM THỰC TẾ (PERSISTED HEARTS)
    =================================================================== */
 function initFinalTribute() {
   const heartBtn = document.getElementById('heart-btn');
   const countSpan = document.getElementById('heart-count');
   const replayBtn = document.getElementById('replay-btn');
 
+  // Khôi phục số tim thực tế đã lưu từ localStorage
+  const savedHearts = localStorage.getItem('co_duyen_anh_hearts') || '999';
+  if (countSpan) {
+    countSpan.textContent = savedHearts;
+  }
+
   if (heartBtn && countSpan) {
     heartBtn.addEventListener('click', (e) => {
       let count = parseInt(countSpan.textContent || '999', 10);
-      countSpan.textContent = count + 1;
+      count++;
+      countSpan.textContent = count;
+      try {
+        localStorage.setItem('co_duyen_anh_hearts', count.toString());
+      } catch (err) {}
       playSound('chime');
 
       for (let i = 0; i < 6; i++) {

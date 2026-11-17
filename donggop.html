@@ -715,11 +715,11 @@
 
     let attachedImageBase64 = "";
 
-    // Mẫu lời chúc mặc định
+    // Mẫu lời chúc mặc định (Thư mẫu test - có thể xóa bất cứ lúc nào trong bảng Admin)
     const defaultWishes = [
       {
         id: "wish-default-1",
-        author: "Trần Nguyên (Lớp trưởng)",
+        author: "Trần Nguyên (Thư mẫu test - Có thể xóa)",
         wish: "Kính chúc Cô Duyên Anh ngày 20/11 thật nhiều niềm vui, luôn trẻ trung, nhiệt huyết và hạnh phúc bên gia đình và học trò ạ! 💖",
         time: "2026-11-17 21:00",
         image: ""
@@ -756,13 +756,13 @@
       } catch (e) {}
     }
 
-    // Tải danh sách lời chúc
+    // Tải danh sách lời chúc (nếu Admin đã xóa sạch thì giữ rỗng, không hồi sinh)
     function getWishes() {
       try {
         const data = localStorage.getItem(STORAGE_KEY);
-        if (data) {
+        if (data !== null) {
           const parsed = JSON.parse(data);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          if (Array.isArray(parsed)) return parsed;
         }
       } catch (e) {}
       return defaultWishes;

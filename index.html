@@ -114,8 +114,8 @@
     <div id="film-stage">
       <div class="film-strip-outer">
         <div class="film-strip-track" id="film-track">
-          <!-- Dải răng cưa trên -->
-          <div class="film-sprockets top">
+          <!-- Dải răng cưa trên (chữ lặp lại liên tục dọc toàn bộ chiều dài thước phim) -->
+          <div class="film-sprockets top" id="film-sprockets-top">
             <span class="film-meta-text">KODAK VISION3 500T &bull; 20.11 &bull; KỶ YẾU & KỶ NIỆM CÔ DUYÊN ANH</span>
           </div>
 
@@ -308,15 +308,20 @@
             </div>
           </div>
 
-          <!-- Dải răng cưa dưới -->
-          <div class="film-sprockets bottom">
+          <!-- Dải răng cưa dưới (chữ lặp lại liên tục dọc toàn bộ chiều dài thước phim) -->
+          <div class="film-sprockets bottom" id="film-sprockets-bottom">
             <span class="film-meta-text">EASTMAN FILM &bull; SAFETY FILM &bull; TRI ÂN CÔ DUYÊN ANH 20.11</span>
+          </div>
+
+          <!-- CÁC BỨC THƯ BAY LƠ LỬNG NGAY DƯỚI CUỘN PHIM 35MM -->
+          <div id="film-floating-wishes" class="film-floating-wishes-track">
+            <!-- Render động từ wishes.json + đóng góp mới -->
           </div>
         </div>
       </div>
     </div>
 
-    <!-- LỚP 8: NÚT TƯƠNG TÁC THẢ TIM VÀ LỜI CHÚC TẬP THỂ LỚP -->
+    <!-- LỚP 8: NÚT TƯƠNG TÁC THẢ TIM VÀ ĐÓNG GÓP -->
     <div id="final-tribute">
       <div class="tribute-card">
         <div class="tribute-actions">
@@ -328,28 +333,11 @@
           </button>
         </div>
 
-        <!-- Nút mở bức tường lời chúc của các bạn trong lớp -->
+        <!-- Nút gửi thêm lời chúc & ảnh vào thước phim -->
         <div class="tribute-extra-actions">
-          <button id="toggle-wishes-btn" class="action-btn wishes-btn">
-            💌 Xem Lời Chúc Của Các Bạn Trong Lớp
-          </button>
           <a href="donggop.html" target="_blank" class="action-btn contribute-btn">
-            ✍️ Gửi Thêm Lời Chúc & Ảnh Kỷ Niệm
+            ✍️ Gửi Thêm Lời Chúc & Ảnh Vào Thước Phim Kỷ Niệm
           </a>
-        </div>
-      </div>
-
-      <!-- BỨC TƯỜNG CÁC THIỆP LỜI CHÚC CỦA CÁC BẠN TRONG LỚP -->
-      <div id="classmates-wishes-wall" class="wishes-wall">
-        <div class="wishes-wall-header">
-          <span class="wishes-badge">Tri Ân 20/11</span>
-          <h3 class="wishes-title">Tập Thể Lớp Gửi Cô Duyên Anh</h3>
-          <p class="wishes-subtitle">Những tâm tư, tình cảm và kỷ niệm đáng nhớ của các bạn học trò</p>
-        </div>
-
-        <!-- Lưới các thiệp nhỏ chứa lời chúc -->
-        <div id="wishes-cards-container" class="wishes-cards-grid">
-          <!-- Được tải tự động từ wishes.json và đóng góp thực tế -->
         </div>
       </div>
     </div>
@@ -359,6 +347,18 @@
   <!-- BỘ XEM ẢNH TRỰC TIẾP TINH GỌN (CHỈ HIỆN ẢNH TOÀN MÀN HÌNH, KHÔNG POPUP RƯỜM RÀ) -->
   <div id="clean-image-viewer" class="clean-viewer" aria-hidden="true">
     <img id="clean-viewer-img" src="" alt="Ảnh kỷ niệm">
+  </div>
+
+  <!-- POPUP ĐỌC THƯ LỜI CHÚC TINH TẾ (CHẠM VÀO THƯ ĐỂ ĐỌC ĐẦY ĐỦ) -->
+  <div id="wish-detail-modal" class="clean-viewer" aria-hidden="true">
+    <div class="wish-detail-card" id="wish-detail-card">
+      <div class="wish-detail-header">
+        <span id="modal-wish-author" class="wish-detail-author"></span>
+        <span id="modal-wish-time" class="wish-detail-time"></span>
+      </div>
+      <div id="modal-wish-text" class="wish-detail-body"></div>
+      <div class="wish-detail-hint">Chạm ra ngoài để đóng</div>
+    </div>
   </div>
 
   <script src="script.js"></script>
