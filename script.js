@@ -483,9 +483,8 @@ function updateFilmDimensions() {
    CẤU HÌNH GOOGLE APPS SCRIPT WEB APP & ĐỒNG BỘ ĐÁM MÂY GOOGLE SHEETS
    =================================================================== */
 const GAS_CONFIG = {
-  // Dán URL Web App Google Apps Script của bạn vào đây (sau khi Deploy as Web App)
-  // Ví dụ: 'https://script.google.com/macros/s/AKfycb.../exec'
-  WEB_APP_URL: '',
+  // URL Web App Google Apps Script kết nối Google Sheets thời gian thực
+  WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwUrK7M8gtsRfLzXoyTBAQUD5Q8-5rAA-7YdxlQkZwGWWoqnl_eBFMIMVvWSWGNU4FB/exec',
   STORAGE_KEY: 'co_duyen_anh_gas_url',
   PENDING_WISHES_KEY: 'co_duyen_anh_pending_wishes',
   PENDING_PHOTOS_KEY: 'co_duyen_anh_pending_photos'
