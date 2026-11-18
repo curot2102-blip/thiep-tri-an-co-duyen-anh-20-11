@@ -8,6 +8,8 @@ desktop.ini
 .DS_Store
 find_unused.js
 *.md
+!Báo cáo tổng kết dự án và hướng dẫn bàn giao kỹ thuật.md
+!Hướng dẫn triển khai Google Apps Script và đồng bộ Google Sheets.md
 __pycache__/
 *.pyc
 

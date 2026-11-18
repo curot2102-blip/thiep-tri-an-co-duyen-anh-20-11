@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFilmSprocketsText();
   initWishesData();
   initRealtimeSync();
+  initIndexWishForm();
   initFinalTribute();
   initEnvelopeClick();
   initAnimationLoop();
@@ -393,7 +394,7 @@ function openCleanImage(src, author, time) {
   const authorEl = document.getElementById('clean-viewer-author');
   const timeEl = document.getElementById('clean-viewer-time');
 
-  if (authorEl) authorEl.textContent = author ? `📸 ${author}` : '📸 Tập thể học trò tri ân Cô';
+  if (authorEl) authorEl.textContent = author || 'Tập thể học trò tri ân Cô';
   if (timeEl) timeEl.textContent = time || 'Kỷ niệm thanh xuân';
 
   cleanViewerEl.classList.add('active');
@@ -478,6 +479,35 @@ function updateFilmDimensions() {
   }
 }
 
+/* ===================================================================
+   CẤU HÌNH GOOGLE APPS SCRIPT WEB APP & ĐỒNG BỘ ĐÁM MÂY GOOGLE SHEETS
+   =================================================================== */
+const GAS_CONFIG = {
+  // Dán URL Web App Google Apps Script của bạn vào đây (sau khi Deploy as Web App)
+  // Ví dụ: 'https://script.google.com/macros/s/AKfycb.../exec'
+  WEB_APP_URL: '',
+  STORAGE_KEY: 'co_duyen_anh_gas_url',
+  PENDING_WISHES_KEY: 'co_duyen_anh_pending_wishes',
+  PENDING_PHOTOS_KEY: 'co_duyen_anh_pending_photos'
+};
+
+function getGasWebAppUrl() {
+  try {
+    let userUrl = localStorage.getItem(GAS_CONFIG.STORAGE_KEY);
+    if (userUrl && typeof userUrl === 'string') {
+      userUrl = userUrl.trim().replace(/^["']|["']$/g, '');
+      if (userUrl && userUrl !== 'null' && userUrl !== 'undefined') {
+        return userUrl.replace(/[?&]+$/, '');
+      }
+    }
+  } catch (e) {}
+  let defaultUrl = GAS_CONFIG.WEB_APP_URL ? String(GAS_CONFIG.WEB_APP_URL).trim().replace(/^["']|["']$/g, '') : '';
+  if (defaultUrl && defaultUrl !== 'null' && defaultUrl !== 'undefined') {
+    return defaultUrl.replace(/[?&]+$/, '');
+  }
+  return '';
+}
+
 function getDeletedIds() {
   try {
     return JSON.parse(localStorage.getItem('co_duyen_anh_deleted_ids') || '[]');
@@ -491,7 +521,7 @@ async function initWishesData() {
   renderSubLetters();
   renderContributedPhotos();
 
-  // Luôn luôn đồng bộ mới nhất từ server/wishes.json (loại bỏ triệt để cấm tải lại)
+  // Luôn luôn đồng bộ mới nhất từ Google Apps Script / Google Sheets / wishes.json
   await syncWishesFromRemote();
 
   // Tự động kiểm tra và đồng bộ khi người dùng quay lại tab
@@ -506,39 +536,321 @@ async function initWishesData() {
 }
 
 async function syncWishesFromRemote() {
-  try {
-    const res = await fetch('wishes.json?_t=' + Date.now(), { cache: 'no-store' });
-    if (res.ok) {
-      const remoteWishes = await res.json();
-      if (Array.isArray(remoteWishes)) {
-        const deletedIds = getDeletedIds();
-        let localWishes = [];
-        try {
-          const raw = localStorage.getItem('co_duyen_anh_wishes');
-          if (raw) localWishes = JSON.parse(raw);
-        } catch (e) {}
+  const deletedIds = getDeletedIds();
+  const gasUrl = getGasWebAppUrl();
+  let gasSynced = false;
 
-        // Hợp nhất (Merge) thông minh: Ưu tiên gom đủ lời chúc từ cả remote và local
-        const wishMap = new Map();
-        remoteWishes.forEach(w => {
-          if (w && w.id && !deletedIds.includes(w.id)) {
-            wishMap.set(w.id, w);
-          }
-        });
-        localWishes.forEach(w => {
-          if (w && w.id && !deletedIds.includes(w.id)) {
-            wishMap.set(w.id, w);
-          }
-        });
+  // 1. Đồng bộ qua Google Apps Script Web App (nếu có URL cấu hình)
+  if (gasUrl) {
+    try {
+      const sep = gasUrl.includes('?') ? '&' : '?';
+      const res = await fetch(`${gasUrl}${sep}action=getWishes&_t=${Date.now()}`, { cache: 'no-store' });
+      if (res.ok) {
+        const gasData = await res.json();
+        if (!gasData || typeof gasData !== 'object' || gasData.status === 'error') {
+          throw new Error((gasData && gasData.message) || 'GAS returned invalid or error status');
+        }
+        const remoteWishes = Array.isArray(gasData) ? gasData : (gasData.wishes || gasData.data || []);
+        const remotePhotos = gasData.photos || [];
 
-        const merged = Array.from(wishMap.values());
-        localStorage.setItem('co_duyen_anh_wishes', JSON.stringify(merged));
-        renderSubLetters();
+        if (Array.isArray(remoteWishes)) {
+          let localWishes = [];
+          try {
+            const raw = localStorage.getItem('co_duyen_anh_wishes');
+            if (raw) localWishes = JSON.parse(raw);
+          } catch (e) {}
+
+          const wishMap = new Map();
+          // 1. Giữ các lời chúc cục bộ mới nhất chưa có trên remote ở đầu danh sách
+          localWishes.forEach(w => {
+            if (w && w.id && !deletedIds.includes(w.id) && !remoteWishes.some(rw => rw.id === w.id)) {
+              wishMap.set(w.id, w);
+            }
+          });
+          // 2. Thêm các lời chúc từ remote (đã xếp mới nhất trước)
+          remoteWishes.forEach(w => {
+            if (w && w.id && !deletedIds.includes(w.id)) {
+              wishMap.set(w.id, w);
+            }
+          });
+          // 3. Gom các lời chúc cục bộ còn lại
+          localWishes.forEach(w => {
+            if (w && w.id && !deletedIds.includes(w.id)) {
+              if (!wishMap.has(w.id)) {
+                wishMap.set(w.id, w);
+              }
+            }
+          });
+
+          const merged = Array.from(wishMap.values());
+          localStorage.setItem('co_duyen_anh_wishes', JSON.stringify(merged));
+          renderSubLetters();
+          gasSynced = true;
+        }
+
+        if (Array.isArray(remotePhotos) && remotePhotos.length > 0) {
+          let localPhotos = [];
+          try {
+            const rawP = localStorage.getItem('co_duyen_anh_photos');
+            if (rawP) localPhotos = JSON.parse(rawP);
+          } catch (e) {}
+
+          const photoMap = new Map();
+          // Giữ các ảnh cục bộ chưa có trên remote ở đầu danh sách
+          localPhotos.forEach(p => {
+            if (p && p.id && !deletedIds.includes(p.id) && !remotePhotos.some(rp => rp.id === p.id)) {
+              photoMap.set(p.id, p);
+            }
+          });
+          remotePhotos.forEach(p => {
+            if (p && p.id && !deletedIds.includes(p.id)) {
+              photoMap.set(p.id, p);
+            }
+          });
+          localPhotos.forEach(p => {
+            if (p && p.id && !deletedIds.includes(p.id)) {
+              if (!photoMap.has(p.id)) {
+                photoMap.set(p.id, p);
+              }
+            }
+          });
+
+          localStorage.setItem('co_duyen_anh_photos', JSON.stringify(Array.from(photoMap.values())));
+          renderContributedPhotos();
+        }
+
+        // Tự động đẩy bù các lời chúc và hình ảnh lưu tạm khi ngoại tuyến
+        flushPendingWishesToGas();
+        flushPendingPhotosToGas();
       }
+    } catch (gasErr) {
+      console.warn('Đồng bộ Google Apps Script không khả dụng, chuyển sang chế độ dự phòng:', gasErr);
     }
-  } catch (e) {
-    // Nếu ngoại tuyến, tiếp tục sử dụng dữ liệu offline từ localStorage
   }
+
+  // 2. Chế độ dự phòng 1: Tải từ tệp tĩnh wishes.json của dự án
+  if (!gasSynced) {
+    try {
+      const res = await fetch('wishes.json?_t=' + Date.now(), { cache: 'no-store' });
+      if (res.ok) {
+        const remoteWishes = await res.json();
+        if (Array.isArray(remoteWishes)) {
+          let localWishes = [];
+          try {
+            const raw = localStorage.getItem('co_duyen_anh_wishes');
+            if (raw) localWishes = JSON.parse(raw);
+          } catch (e) {}
+
+          const wishMap = new Map();
+          localWishes.forEach(w => {
+            if (w && w.id && !deletedIds.includes(w.id) && !remoteWishes.some(rw => rw.id === w.id)) {
+              wishMap.set(w.id, w);
+            }
+          });
+          remoteWishes.forEach(w => {
+            if (w && w.id && !deletedIds.includes(w.id)) {
+              wishMap.set(w.id, w);
+            }
+          });
+          localWishes.forEach(w => {
+            if (w && w.id && !deletedIds.includes(w.id)) {
+              if (!wishMap.has(w.id)) {
+                wishMap.set(w.id, w);
+              }
+            }
+          });
+
+          const merged = Array.from(wishMap.values());
+          localStorage.setItem('co_duyen_anh_wishes', JSON.stringify(merged));
+          renderSubLetters();
+        }
+      }
+    } catch (e) {
+      // 3. Chế độ dự phòng ngoại tuyến hoàn toàn (Offline Fallback 2): Nạp từ localStorage
+      renderSubLetters();
+      renderContributedPhotos();
+    }
+  }
+}
+
+async function sendWishToGas(wish) {
+  const gasUrl = getGasWebAppUrl();
+  if (!gasUrl) {
+    queuePendingWish(wish);
+    return { success: false, reason: 'no_gas_url' };
+  }
+
+  try {
+    const payload = {
+      action: 'addWish',
+      id: wish.id,
+      author: wish.author,
+      wish: wish.wish,
+      time: wish.time,
+      image: wish.image || ''
+    };
+
+    const res = await fetch(gasUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.status === 'error') {
+        queuePendingWish(wish);
+        return { success: false, error: data.message || 'error' };
+      }
+      return { success: true, data: data };
+    } else {
+      queuePendingWish(wish);
+      return { success: false, status: res.status };
+    }
+  } catch (err) {
+    queuePendingWish(wish);
+    return { success: false, error: err };
+  }
+}
+
+function queuePendingWish(wish) {
+  try {
+    const key = GAS_CONFIG.PENDING_WISHES_KEY;
+    let pending = JSON.parse(localStorage.getItem(key) || '[]');
+    if (!pending.some(p => p.id === wish.id)) {
+      pending.push(wish);
+      localStorage.setItem(key, JSON.stringify(pending));
+    }
+  } catch (e) {}
+}
+
+async function flushPendingWishesToGas() {
+  const gasUrl = getGasWebAppUrl();
+  if (!gasUrl) return;
+
+  const key = GAS_CONFIG.PENDING_WISHES_KEY;
+  let pending = [];
+  try {
+    pending = JSON.parse(localStorage.getItem(key) || '[]');
+  } catch (e) {
+    return;
+  }
+
+  if (pending.length === 0) return;
+
+  const remaining = [];
+  for (const item of pending) {
+    try {
+      const res = await fetch(gasUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'addWish',
+          id: item.id,
+          author: item.author,
+          wish: item.wish,
+          time: item.time,
+          image: item.image || ''
+        })
+      });
+      if (res.ok) {
+        const resData = await res.json();
+        if (resData && resData.status === 'error') {
+          remaining.push(item);
+        } else if (resData && resData.data && resData.data.image && resData.data.image.startsWith('http')) {
+          try {
+            const rawWishes = localStorage.getItem('co_duyen_anh_wishes');
+            if (rawWishes) {
+              const currentWishes = JSON.parse(rawWishes);
+              const target = currentWishes.find(w => w.id === item.id);
+              if (target) {
+                target.image = resData.data.image;
+                localStorage.setItem('co_duyen_anh_wishes', JSON.stringify(currentWishes));
+                renderSubLetters();
+              }
+            }
+          } catch (storageErr) {}
+        }
+      } else {
+        remaining.push(item);
+      }
+    } catch (e) {
+      remaining.push(item);
+    }
+  }
+
+  try {
+    const currentPending = JSON.parse(localStorage.getItem(key) || '[]');
+    const flushedIds = new Set(pending.map(p => p.id));
+    const newItems = currentPending.filter(p => !flushedIds.has(p.id));
+    localStorage.setItem(key, JSON.stringify([...remaining, ...newItems]));
+  } catch (e) {}
+}
+
+async function flushPendingPhotosToGas() {
+  const gasUrl = getGasWebAppUrl();
+  if (!gasUrl) return;
+
+  const key = GAS_CONFIG.PENDING_PHOTOS_KEY;
+  let pending = [];
+  try {
+    pending = JSON.parse(localStorage.getItem(key) || '[]');
+  } catch (e) {
+    return;
+  }
+
+  if (pending.length === 0) return;
+
+  const remaining = [];
+  for (const p of pending) {
+    try {
+      const res = await fetch(gasUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'addPhoto',
+          id: p.id,
+          author: p.author,
+          caption: p.caption || '',
+          image: p.image,
+          aspect: p.aspect || 'landscape',
+          time: p.time
+        })
+      });
+      if (res.ok) {
+        const resData = await res.json();
+        if (resData && resData.status === 'error') {
+          remaining.push(p);
+        } else if (resData && resData.data && resData.data.image && resData.data.image.startsWith('http')) {
+          try {
+            const rawPhotos = localStorage.getItem('co_duyen_anh_photos');
+            if (rawPhotos) {
+              const currentPhotos = JSON.parse(rawPhotos);
+              const target = currentPhotos.find(item => item.id === p.id);
+              if (target) {
+                target.image = resData.data.image;
+                localStorage.setItem('co_duyen_anh_photos', JSON.stringify(currentPhotos));
+                renderContributedPhotos();
+              }
+            }
+          } catch (storageErr) {}
+        }
+      } else {
+        remaining.push(p);
+      }
+    } catch (e) {
+      remaining.push(p);
+    }
+  }
+
+  try {
+    const currentPending = JSON.parse(localStorage.getItem(key) || '[]');
+    const flushedIds = new Set(pending.map(p => p.id));
+    const newItems = currentPending.filter(p => !flushedIds.has(p.id));
+    localStorage.setItem(key, JSON.stringify([...remaining, ...newItems]));
+  } catch (e) {}
 }
 
 function renderSubLetters() {
@@ -574,6 +886,7 @@ function createSubLetterCard(wish) {
       </div>
     </div>
     <div class="sub-letter-body">${escapeHtml(wish.wish || '')}</div>
+    ${wish.image ? `<img class="sub-letter-img" src="${escapeHtml(wish.image)}" alt="Ảnh kỷ niệm đính kèm" style="max-height: 120px; width: fit-content; border-radius: 8px; margin-top: 8px; object-fit: cover;" loading="lazy">` : ''}
   `;
 
   card.addEventListener('click', () => {
@@ -639,7 +952,7 @@ function createContributedFilmFrame(photo) {
 
   frame.innerHTML = `
     <div class="frame-contributor-tag" title="Người đóng góp: ${escapeHtml(photo.author || 'Bạn học trò')}">
-      <span class="contributor-icon">📸</span>
+      <svg class="contributor-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       <span class="contributor-name">${escapeHtml(photo.author || 'Bạn học trò')}</span>
     </div>
   `;
@@ -704,24 +1017,27 @@ function initRealtimeSync() {
       syncChannel = new BroadcastChannel(SYNC_CHANNEL_NAME);
       syncChannel.onmessage = (event) => {
         const msg = event.data;
-        if (!msg || !msg.action) return;
+        if (!msg) return;
+        const action = msg.action || msg.type;
+        const payload = msg.data || msg.payload;
+        const targetId = msg.id || (payload && payload.id);
 
-        switch (msg.action) {
+        switch (action) {
           case 'ADD_WISH':
-            appendWishToDeck(msg.data);
+            appendWishToDeck(payload);
             playSound('chime');
             break;
           case 'ADD_PHOTOS':
-            if (Array.isArray(msg.data)) {
-              msg.data.forEach(p => appendPhotoToFilmStrip(p));
+            if (Array.isArray(payload)) {
+              payload.forEach(p => appendPhotoToFilmStrip(p));
               playSound('chime');
             }
             break;
           case 'DELETE_WISH':
-            removeWishFromDeck(msg.id);
+            removeWishFromDeck(targetId);
             break;
           case 'DELETE_PHOTO':
-            removePhotoFromFilmStrip(msg.id);
+            removePhotoFromFilmStrip(targetId);
             break;
           case 'SYNC_ALL':
             refreshAllData();
@@ -738,26 +1054,167 @@ function initRealtimeSync() {
     if (e.key === 'co_duyen_anh_wishes' || e.key === 'co_duyen_anh_photos' || e.key === 'co_duyen_anh_deleted_ids') {
       refreshAllData();
     }
+    if (e.key === GAS_CONFIG.STORAGE_KEY) {
+      syncWishesFromRemote();
+    }
   });
+}
+
+function initIndexWishForm() {
+  const form = document.getElementById('form-wish-index');
+  const toggleBtn = document.getElementById('btn-toggle-wish-form');
+  const cancelBtn = document.getElementById('index-wish-cancel-btn');
+  const authorInput = document.getElementById('index-author-input');
+  const wishInput = document.getElementById('index-wish-input');
+  const statusEl = document.getElementById('index-wish-status');
+
+  const submitBtn = document.getElementById('index-wish-submit-btn');
+
+  if (toggleBtn && form) {
+    toggleBtn.addEventListener('click', () => {
+      const isHidden = form.style.display === 'none';
+      form.style.display = isHidden ? 'flex' : 'none';
+      toggleBtn.style.display = isHidden ? 'none' : 'inline-flex';
+      if (isHidden && authorInput) {
+        authorInput.focus();
+      }
+    });
+  }
+
+  if (cancelBtn && form && toggleBtn) {
+    cancelBtn.addEventListener('click', () => {
+      form.style.display = 'none';
+      toggleBtn.style.display = 'inline-flex';
+      if (statusEl) statusEl.style.display = 'none';
+    });
+  }
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const author = authorInput ? authorInput.value.trim() : '';
+      const wishText = wishInput ? wishInput.value.trim() : '';
+
+      if (!author || !wishText) return;
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Đang gửi...';
+      }
+
+      const now = new Date();
+      const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+      const newWish = {
+        id: 'wish-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+        author: author,
+        wish: wishText,
+        time: timeStr
+      };
+
+      // 1. Lưu ngay vào localStorage
+      let wishes = [];
+      try {
+        const raw = localStorage.getItem('co_duyen_anh_wishes');
+        if (raw) wishes = JSON.parse(raw);
+      } catch (err) {}
+      wishes.unshift(newWish);
+      try {
+        localStorage.setItem('co_duyen_anh_wishes', JSON.stringify(wishes));
+      } catch (err) {}
+
+      // 2. Thêm ngay vào giao diện thiệp
+      appendWishToDeck(newWish);
+
+      // 3. Phát tín hiệu Real-time sang các tab đang mở
+      if (syncChannel) {
+        try {
+          syncChannel.postMessage({
+            action: 'ADD_WISH',
+            type: 'ADD_WISH',
+            data: newWish,
+            payload: newWish
+          });
+        } catch (err) {}
+      }
+
+      // 4. Phát âm thanh phản hồi
+      playSound('chime');
+
+      // 5. Gửi trực tiếp lên Google Apps Script Web App
+      if (statusEl) {
+        statusEl.textContent = 'Đang đồng bộ lời chúc lên Google Sheets...';
+        statusEl.className = 'index-wish-status info';
+        statusEl.style.display = 'block';
+      }
+
+      try {
+        const sendResult = await sendWishToGas(newWish);
+        if (sendResult.success && sendResult.data && sendResult.data.data && sendResult.data.data.image && sendResult.data.data.image.startsWith('http')) {
+          try {
+            const rawWishes = localStorage.getItem('co_duyen_anh_wishes');
+            if (rawWishes) {
+              const currentWishes = JSON.parse(rawWishes);
+              const target = currentWishes.find(w => w.id === newWish.id);
+              if (target) {
+                target.image = sendResult.data.data.image;
+                localStorage.setItem('co_duyen_anh_wishes', JSON.stringify(currentWishes));
+                renderSubLetters();
+              }
+            }
+          } catch (storageErr) {}
+        }
+        if (statusEl) {
+          if (sendResult.success) {
+            statusEl.textContent = 'Lời chúc của bạn đã được ghi vào Google Sheets và hiển thị trên thiệp!';
+            statusEl.className = 'index-wish-status success';
+          } else {
+            statusEl.textContent = 'Lời chúc đã được lưu vào bộ nhớ thiệp và sẽ tự động đồng bộ khi có kết nối!';
+            statusEl.className = 'index-wish-status success';
+          }
+          statusEl.style.display = 'block';
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Gửi lời chúc';
+        }
+      }
+
+      if (authorInput) authorInput.value = '';
+      if (wishInput) wishInput.value = '';
+
+      setTimeout(() => {
+        if (statusEl) statusEl.style.display = 'none';
+        if (form) form.style.display = 'none';
+        if (toggleBtn) toggleBtn.style.display = 'inline-flex';
+      }, 4000);
+    });
+  }
 }
 
 function appendWishToDeck(wish) {
   if (!wish) return;
+  const targetId = String(wish.id);
   const deck = document.getElementById('sub-letters-deck');
   if (deck) {
-    const existing = deck.querySelector(`[data-id="${wish.id}"]`);
+    const existing = Array.from(deck.children).find(card => card.getAttribute('data-id') === targetId)
+                     || (window.CSS && CSS.escape ? deck.querySelector(`[data-id="${CSS.escape(targetId)}"]`) : null);
     if (!existing) {
       const card = createSubLetterCard(wish);
-      deck.appendChild(card);
+      deck.prepend(card);
+      deck.scrollTop = 0;
     }
   }
 }
 
 function appendPhotoToFilmStrip(photo) {
   if (!photo) return;
+  const targetId = String(photo.id);
   const filmTrackRow = document.getElementById('film-frames-row');
   if (filmTrackRow) {
-    const existing = filmTrackRow.querySelector(`[data-id="${photo.id}"]`);
+    const existing = Array.from(filmTrackRow.children).find(frame => frame.getAttribute('data-id') === targetId)
+                     || (window.CSS && CSS.escape ? filmTrackRow.querySelector(`[data-id="${CSS.escape(targetId)}"]`) : null);
     if (!existing) {
       const frame = createContributedFilmFrame(photo);
       filmTrackRow.appendChild(frame);
@@ -769,18 +1226,22 @@ function appendPhotoToFilmStrip(photo) {
 
 function removeWishFromDeck(id) {
   if (!id) return;
+  const targetId = String(id);
   const deck = document.getElementById('sub-letters-deck');
   if (deck) {
-    const el = deck.querySelector(`[data-id="${id}"]`);
+    const el = Array.from(deck.children).find(card => card.getAttribute('data-id') === targetId)
+               || (window.CSS && CSS.escape ? deck.querySelector(`[data-id="${CSS.escape(targetId)}"]`) : null);
     if (el) el.remove();
   }
 }
 
 function removePhotoFromFilmStrip(id) {
   if (!id) return;
+  const targetId = String(id);
   const filmTrackRow = document.getElementById('film-frames-row');
   if (filmTrackRow) {
-    const el = filmTrackRow.querySelector(`[data-id="${id}"]`);
+    const el = Array.from(filmTrackRow.children).find(frame => frame.getAttribute('data-id') === targetId)
+               || (window.CSS && CSS.escape ? filmTrackRow.querySelector(`[data-id="${CSS.escape(targetId)}"]`) : null);
     if (el) {
       el.remove();
       initFilmSprocketsText();
@@ -795,12 +1256,12 @@ function refreshAllData() {
 }
 
 function escapeHtml(text) {
-  if (!text) return '';
-  return text.replace(/&/g, "&amp;")
-             .replace(/</g, "&lt;")
-             .replace(/>/g, "&gt;")
-             .replace(/"/g, "&quot;")
-             .replace(/'/g, "&#039;");
+  if (text === null || text === undefined) return '';
+  return String(text).replace(/&/g, "&amp;")
+                     .replace(/</g, "&lt;")
+                     .replace(/>/g, "&gt;")
+                     .replace(/"/g, "&quot;")
+                     .replace(/'/g, "&#039;");
 }
 
 /* ===================================================================

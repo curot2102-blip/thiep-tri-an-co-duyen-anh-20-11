@@ -58,7 +58,7 @@
         <div class="letter-section letter-sec-top" id="letter-sec-top">
           <div class="letter-stamp">20.11</div>
           <div class="letter-header">Kính gửi,</div>
-          <div class="letter-recipient">Cô Duyên Anh Yêu Quý 💖</div>
+          <div class="letter-recipient">Cô Duyên Anh yêu quý</div>
         </div>
 
         <div class="letter-section letter-sec-middle" id="letter-sec-middle">
@@ -73,7 +73,7 @@
         <div class="letter-section letter-sec-bottom" id="letter-sec-bottom">
           <div class="letter-sign">
             <span>Kính yêu,</span>
-            <strong>Những đứa học trò của Cô ✿</strong>
+            <strong>Những đứa học trò của Cô</strong>
           </div>
         </div>
       </div>
@@ -95,9 +95,9 @@
 
     <!-- LỚP 5: CHỮ CHÚC MỪNG CHÍNH (HIỆN RA ĐỘC LẬP SAU KHI ĐỌC THƯ, KHÔNG CHỒNG MEME) -->
     <div id="main-greeting">
-      <div class="sub-title">Tri Ân Ngày Nhà Giáo Việt Nam 20/11</div>
+      <div class="sub-title">Tri ân ngày Nhà giáo Việt Nam 20/11</div>
       <h1 class="main-title">Chúc Cô Duyên Anh 20/11 vui vẻ!</h1>
-      <p class="greeting-desc">Chào mừng Cô đến với Vũ Trụ Kỷ Niệm & Những Khoảnh Khắc Meme Bất Hủ!</p>
+      <p class="greeting-desc">Chào mừng Cô đến với vũ trụ kỷ niệm và những khoảnh khắc meme bất hủ!</p>
     </div>
 
     <!-- LỚP 6: TRUNG TÂM KỶ NIỆM (HÌNH CÔ DUYÊN ANH TÁCH NỀN VÀ KHUNG HOA) -->
@@ -106,7 +106,7 @@
       <img src="images/tách người.webp" alt="Cô Duyên Anh" id="teacher-img">
       <div class="portrait-caption">
         <h3>Cô Duyên Anh</h3>
-        <p>Người lái đò tận tâm & Đầy ắp tiếng cười</p>
+        <p>Người lái đò tận tâm và đầy ắp tiếng cười</p>
       </div>
     </div>
 
@@ -291,8 +291,8 @@
     <div id="sub-letters-stage" class="sub-letters-stage" aria-label="Thư tri ân từ học trò">
       <div class="sub-letters-wrapper">
         <div class="sub-letters-header">
-          <div class="stage-tag">Tri Ân Từ Học Trò</div>
-          <h2 class="sub-letters-title">Những Lá Thư Gửi Cô Duyên Anh</h2>
+          <div class="stage-tag">Tri ân từ học trò</div>
+          <h2 class="sub-letters-title">Những lá thư gửi cô Duyên Anh</h2>
           <p class="sub-letters-desc">Từng dòng tâm sự và lời chúc yêu thương từ các thế hệ học sinh</p>
         </div>
 
@@ -317,9 +317,35 @@
 
         <!-- Nút gửi thêm lời chúc & ảnh vào cuộn phim -->
         <div class="tribute-extra-actions">
+          <button id="btn-toggle-wish-form" class="action-btn wish-toggle-btn" type="button">
+            Viết lời chúc gửi Cô
+          </button>
           <a href="donggop.html" target="_blank" class="action-btn contribute-btn">
-            Gửi Thêm Lời Chúc &amp; Ảnh Vào Cuộn Phim
+            Gửi thêm lời chúc &amp; ảnh vào cuộn phim
           </a>
+        </div>
+
+        <!-- BIỂU MẪU GỬI LỜI CHÚC TRỰC TIẾP LÊN GOOGLE SHEETS -->
+        <div class="index-wish-box" id="index-wish-box">
+          <form id="form-wish-index" class="index-wish-form" style="display: none;">
+            <div class="index-form-header">
+              <span class="index-form-title">Gửi lời chúc đến Cô Duyên Anh</span>
+              <span class="index-form-subtitle">Lời chúc sẽ được lưu vào Google Sheets và xuất hiện trên thiệp</span>
+            </div>
+            <div class="index-form-group">
+              <label for="index-author-input" class="index-form-label">Tên hoặc biệt danh của bạn <span class="required">*</span></label>
+              <input type="text" id="index-author-input" class="index-form-input" placeholder="Ví dụ: Minh Thư (Tổ 2), Trần Nguyên..." required>
+            </div>
+            <div class="index-form-group">
+              <label for="index-wish-input" class="index-form-label">Lời chúc gửi Cô <span class="required">*</span></label>
+              <textarea id="index-wish-input" class="index-form-textarea" placeholder="Nhập lời chúc và tâm sự yêu thương của bạn..." required></textarea>
+            </div>
+            <div class="index-form-actions">
+              <button type="submit" id="index-wish-submit-btn" class="action-btn submit-wish-btn">Gửi lời chúc</button>
+              <button type="button" id="index-wish-cancel-btn" class="action-btn secondary cancel-wish-btn">Thu gọn</button>
+            </div>
+            <div id="index-wish-status" class="index-wish-status" style="display: none;"></div>
+          </form>
         </div>
       </div>
     </div>

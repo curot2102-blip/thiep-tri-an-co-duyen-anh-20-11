@@ -101,12 +101,10 @@
 
     .hero-badge {
       display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
+      font-size: 0.75rem;
+      font-weight: 600;
       color: var(--accent-gold);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      padding: 3px 12px;
+      padding: 4px 12px;
       background: rgba(245, 158, 11, 0.1);
       border: 1px solid var(--border-gold);
       border-radius: 999px;
@@ -981,7 +979,7 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="15 18 9 12 15 6"></polyline>
       </svg>
-      <span>Xem Thiệp Cô Duyên Anh</span>
+      <span>Xem thiệp Cô Duyên Anh</span>
     </a>
 
     <button id="btn-open-admin" class="nav-btn admin-pill" title="Khu vực Quản trị dành cho Trưởng nhóm">
@@ -989,14 +987,14 @@
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
       </svg>
-      <span>Quản Trị Admin</span>
+      <span>Quản trị admin</span>
     </button>
   </nav>
 
   <main class="main-container">
     <header class="hero-header">
-      <span class="hero-badge">Tập Thể Lớp Tri Ân 20/11</span>
-      <h1 class="hero-title">Gửi Lời Chúc &amp; Hình Ảnh Kỷ Niệm</h1>
+      <span class="hero-badge">Tập thể lớp tri ân 20/11</span>
+      <h1 class="hero-title">Gửi lời chúc &amp; hình ảnh kỷ niệm</h1>
       <p class="hero-desc">Mọi lời chúc và hình ảnh bạn gửi tại đây sẽ xuất hiện trực tiếp trên trang thiệp chính tri ân Cô Duyên Anh!</p>
     </header>
 
@@ -1008,7 +1006,7 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
-        <span>Gửi Lời Chúc Tri Ân</span>
+        <span>Gửi lời chúc tri ân</span>
       </button>
       <button type="button" class="contrib-tab-btn" id="tab-btn-photo" role="tab" aria-selected="false">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1016,7 +1014,7 @@
           <circle cx="8.5" cy="8.5" r="1.5"></circle>
           <polyline points="21 15 16 10 5 21"></polyline>
         </svg>
-        <span>Đóng Góp Hình Ảnh Kỷ Niệm</span>
+        <span>Đóng góp hình ảnh kỷ niệm</span>
       </button>
     </div>
 
@@ -1024,7 +1022,7 @@
     <section id="form-wish-section" class="form-card contrib-panel">
       <form id="form-wish">
         <div class="form-group">
-          <label class="form-label" for="author-input">Họ và Tên / Biệt danh của bạn <span class="required">*</span></label>
+          <label class="form-label" for="author-input">Họ và tên / biệt danh của bạn <span class="required">*</span></label>
           <input type="text" id="author-input" class="form-input" placeholder="Ví dụ: Minh Thư (Tổ 2), Trần Nguyên,..." required>
         </div>
 
@@ -1034,7 +1032,7 @@
         </div>
 
         <button type="submit" id="submit-wish-btn" class="submit-btn">
-          <span>Gửi Lời Chúc Vào Thiệp Của Cô</span>
+          <span>Gửi lời chúc vào thiệp của Cô</span>
         </button>
       </form>
     </section>
@@ -1053,17 +1051,17 @@
 
       <form id="form-photo">
         <div class="form-group">
-          <label class="form-label" for="photo-author-input">Họ và Tên thật người đóng góp <span class="required">*</span></label>
+          <label class="form-label" for="photo-author-input">Họ và tên thật người đóng góp <span class="required">*</span></label>
           <input type="text" id="photo-author-input" class="form-input" placeholder="Họ và tên thật của bạn (Bắt buộc để in lên viền phim)..." required>
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="photo-caption-input">Lời nhắn / Chú thích khoảnh khắc (Tùy chọn)</label>
+          <label class="form-label" for="photo-caption-input">Lời nhắn / chú thích khoảnh khắc (tùy chọn)</label>
           <input type="text" id="photo-caption-input" class="form-input" placeholder="Kỷ niệm ngày bế giảng, giờ học Toán vui vẻ,...">
         </div>
 
         <div class="form-group">
-          <label class="form-label">Chọn hình ảnh kỷ niệm (Hỗ trợ chọn nhiều ảnh cùng lúc) <span class="required">*</span></label>
+          <label class="form-label">Chọn hình ảnh kỷ niệm (hỗ trợ chọn nhiều ảnh cùng lúc) <span class="required">*</span></label>
           <div class="photo-upload-box" id="photo-drop-box">
             <input type="file" id="multi-photo-input" class="photo-input" accept="image/*" multiple>
             <div class="photo-hint" id="multi-photo-hint">
@@ -1081,7 +1079,7 @@
         </div>
 
         <button type="submit" id="submit-photos-btn" class="submit-btn">
-          <span>Đóng Góp Hình Ảnh Vào Cuộn Phim 35mm</span>
+          <span>Đóng góp hình ảnh vào cuộn phim 35mm</span>
         </button>
       </form>
     </section>
@@ -1109,17 +1107,17 @@
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
         </svg>
-        <span>Khu Vực Quản Trị Viên</span>
+        <span>Khu vực quản trị viên</span>
       </div>
       <p class="admin-subtitle">Bảo mật dành riêng cho người quản lý dự án thiệp tri ân</p>
 
       <!-- VIEW 1: Nhập mật khẩu -->
       <div id="auth-view" class="auth-view">
         <div class="form-group">
-          <label class="form-label" for="admin-pass">Nhập Mật Khẩu Admin</label>
+          <label class="form-label" for="admin-pass">Nhập mật khẩu quản trị viên</label>
           <input type="password" id="admin-pass" class="form-input" placeholder="Nhập mật khẩu bí mật...">
         </div>
-        <button id="btn-submit-pass" class="btn-login">Đăng Nhập Quản Trị</button>
+        <button id="btn-submit-pass" class="btn-login">Đăng nhập quản trị</button>
         <div id="auth-err" style="color: var(--danger); font-size: 0.75rem; display: none;">Mật khẩu không chính xác!</div>
       </div>
 
@@ -1141,33 +1139,57 @@
         </div>
 
         <div class="admin-actions-bar">
-          <button id="btn-share-sync" class="admin-tool-btn" style="background: rgba(245, 158, 11, 0.2); border-color: var(--accent-gold); color: var(--accent-gold-light); font-weight: 700;" title="Tạo link gửi qua Zalo/Messenger để đồng bộ sang điện thoại">
-            📲 Tạo Link Đồng Bộ Sang ĐT
+          <button id="btn-share-sync" class="admin-tool-btn" style="background: rgba(245, 158, 11, 0.2); border-color: var(--accent-gold); color: var(--accent-gold-light); font-weight: 500;" title="Tạo link gửi qua Zalo/Messenger để đồng bộ sang điện thoại">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+            </svg>
+            <span>Tạo link đồng bộ sang điện thoại</span>
           </button>
           <button id="btn-import-code" class="admin-tool-btn" title="Nhập mã đồng bộ hoặc dán link từ thiết bị khác">
-            📥 Nhập Mã Đồng Bộ
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="9 11 12 14 15 11"></polyline>
+              <line x1="12" y1="2" x2="12" y2="14"></line>
+              <path d="M20 21H4a2 2 0 0 1-2-2V5"></path>
+            </svg>
+            <span>Nhập mã đồng bộ</span>
           </button>
           <button id="btn-sync-main" class="admin-tool-btn" title="Cập nhật trực tiếp dữ liệu sang web chính">
-            🔄 Buộc Đồng bộ Tất cả
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"></path>
+            </svg>
+            <span>Buộc đồng bộ tất cả</span>
           </button>
           <button id="btn-copy-json" class="admin-tool-btn" title="Sao chép mã JSON để dán vào file wishes.json">
-            📋 Sao chép mã JSON
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Sao chép mã JSON</span>
           </button>
           <button id="btn-export-json" class="admin-tool-btn" title="Tải file wishes.json về máy">
-            💾 Tải file wishes.json
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Tải file wishes.json</span>
           </button>
         </div>
 
-        <!-- 2 TAB QUẢN TRỊ ADMIN ĐỘC LẬP -->
+        <!-- 2 TAB QUẢN TRỊ ADMIN ĐỘC LẬP & CẤU HÌNH ĐỒNG BỘ -->
         <div class="admin-nav-tabs">
           <button type="button" class="admin-tab-btn active" id="btn-admin-tab-wishes">
-            <span>Quản Lý Lời Chúc (<span id="badge-count-wishes">0</span>)</span>
+            <span>Quản lý lời chúc (<span id="badge-count-wishes">0</span>)</span>
           </button>
           <button type="button" class="admin-tab-btn" id="btn-admin-tab-photos">
-            <span>Quản Lý Hình Ảnh (<span id="badge-count-photos">0</span>)</span>
+            <span>Quản lý hình ảnh (<span id="badge-count-photos">0</span>)</span>
           </button>
           <button type="button" class="admin-tab-btn" id="btn-admin-tab-visitors">
-            <span>Nhật Ký Truy Cập</span>
+            <span>Nhật ký truy cập</span>
+          </button>
+          <button type="button" class="admin-tab-btn" id="btn-admin-tab-gas">
+            <span>Cấu hình Google Sheets</span>
           </button>
         </div>
 
@@ -1189,6 +1211,32 @@
         <div id="admin-panel-visitors" class="admin-tab-panel">
           <div id="visitor-log" class="visitor-log-box"></div>
         </div>
+
+        <!-- TAB 4: Cấu hình Google Apps Script & Google Sheets -->
+        <div id="admin-panel-gas" class="admin-tab-panel">
+          <div class="admin-gas-config-card" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-light); border-radius: 12px; padding: 20px; text-align: left;">
+            <h3 style="font-size: 1rem; color: var(--accent-gold-light); margin-bottom: 8px;">Kết nối Google Apps Script &amp; Google Sheets</h3>
+            <p style="font-size: 0.8125rem; color: var(--text-sub); line-height: 1.5; margin-bottom: 16px;">
+              Dán URL Ứng dụng web (Web App URL) của Google Apps Script sau khi triển khai để đồng bộ hóa lời chúc và hình ảnh lên Google Sheets và Google Drive theo thời gian thực.
+            </p>
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label class="form-label" for="admin-gas-url-input">URL ứng dụng web Google Apps Script (/exec)</label>
+              <input type="url" id="admin-gas-url-input" class="form-input" placeholder="https://script.google.com/macros/s/AKfycb.../exec">
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+              <button type="button" id="btn-save-gas-url" class="submit-btn" style="width: auto; padding: 12px 16px; font-size: 0.8125rem;">
+                Lưu cấu hình
+              </button>
+              <button type="button" id="btn-test-gas-connection" class="admin-tool-btn" style="padding: 12px 16px; font-size: 0.8125rem;">
+                Kiểm tra kết nối
+              </button>
+              <button type="button" id="btn-sync-gas-now" class="admin-tool-btn" style="padding: 12px 16px; font-size: 0.8125rem;">
+                Đồng bộ ngay với Google Sheets
+              </button>
+            </div>
+            <div id="admin-gas-status" style="font-size: 0.8125rem; padding: 8px 12px; border-radius: 8px; display: none; line-height: 1.4;"></div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -1207,6 +1255,34 @@
     const DELETED_KEY = "co_duyen_anh_deleted_ids";
     const VISITOR_KEY = "co_duyen_anh_visitors";
     const SYNC_CHANNEL_NAME = "co_duyen_anh_sync_channel";
+
+    /* ===================================================================
+       CẤU HÌNH GOOGLE APPS SCRIPT WEB APP & ĐỒNG BỘ ĐÁM MÂY GOOGLE SHEETS
+       =================================================================== */
+    const GAS_CONFIG = {
+      // Dán URL Web App Google Apps Script vào đây (hoặc cấu hình trong Admin Dashboard)
+      WEB_APP_URL: '',
+      STORAGE_KEY: 'co_duyen_anh_gas_url',
+      PENDING_WISHES_KEY: 'co_duyen_anh_pending_wishes',
+      PENDING_PHOTOS_KEY: 'co_duyen_anh_pending_photos'
+    };
+
+    function getGasWebAppUrl() {
+      try {
+        let stored = localStorage.getItem(GAS_CONFIG.STORAGE_KEY);
+        if (stored && typeof stored === 'string') {
+          stored = stored.trim().replace(/^["']|["']$/g, '');
+          if (stored && stored !== 'null' && stored !== 'undefined') {
+            return stored.replace(/[?&]+$/, '');
+          }
+        }
+      } catch (e) {}
+      let defaultUrl = GAS_CONFIG.WEB_APP_URL ? String(GAS_CONFIG.WEB_APP_URL).trim().replace(/^["']|["']$/g, '') : '';
+      if (defaultUrl && defaultUrl !== 'null' && defaultUrl !== 'undefined') {
+        return defaultUrl.replace(/[?&]+$/, '');
+      }
+      return '';
+    }
 
     let syncChannel = null;
     let pendingWebPPhotos = [];
@@ -1300,6 +1376,9 @@
             renderAdminDashboard();
           }
         }
+        if (e.key === GAS_CONFIG.STORAGE_KEY) {
+          syncWishesFromRemote();
+        }
       });
     }
 
@@ -1323,37 +1402,367 @@
       } catch (e) {}
     }
 
-    // Đồng bộ tự động từ wishes.json trên server/repository
+    // Đồng bộ tự động từ Google Apps Script / Google Sheets / wishes.json
     async function syncWishesFromRemote() {
-      try {
-        const res = await fetch('wishes.json?_t=' + Date.now(), { cache: 'no-store' });
-        if (res.ok) {
-          const remoteWishes = await res.json();
-          if (Array.isArray(remoteWishes)) {
-            const deletedIds = getDeletedIds();
-            const localWishes = getWishes();
-            const wishMap = new Map();
+      const deletedIds = getDeletedIds();
+      const gasUrl = getGasWebAppUrl();
+      let gasSynced = false;
 
-            // 1. Thêm danh sách từ server
-            remoteWishes.forEach(w => {
-              if (w && w.id && !deletedIds.includes(w.id)) {
-                wishMap.set(w.id, w);
-              }
-            });
+      // 1. Đồng bộ qua Google Apps Script Web App (nếu có cấu hình URL)
+      if (gasUrl) {
+        try {
+          const sep = gasUrl.includes('?') ? '&' : '?';
+          const res = await fetch(`${gasUrl}${sep}action=getWishes&_t=${Date.now()}`, { cache: 'no-store' });
+          if (res.ok) {
+            const gasData = await res.json();
+            if (!gasData || typeof gasData !== 'object' || gasData.status === 'error') {
+              throw new Error((gasData && gasData.message) || 'GAS returned invalid or error status');
+            }
+            const remoteWishes = Array.isArray(gasData) ? gasData : (gasData.wishes || gasData.data || []);
+            const remotePhotos = gasData.photos || [];
 
-            // 2. Thêm danh sách cục bộ đã gửi trên máy này
-            localWishes.forEach(w => {
-              if (w && w.id && !deletedIds.includes(w.id)) {
-                wishMap.set(w.id, w);
-              }
-            });
+            if (Array.isArray(remoteWishes)) {
+              const localWishes = getWishes();
+              const wishMap = new Map();
 
-            saveWishes(Array.from(wishMap.values()));
+              // Giữ các lời chúc cục bộ mới nhất chưa có trên remote ở đầu danh sách
+              localWishes.forEach(w => {
+                if (w && w.id && !deletedIds.includes(w.id) && !remoteWishes.some(rw => rw.id === w.id)) {
+                  wishMap.set(w.id, w);
+                }
+              });
+              remoteWishes.forEach(w => {
+                if (w && w.id && !deletedIds.includes(w.id)) {
+                  wishMap.set(w.id, w);
+                }
+              });
+              localWishes.forEach(w => {
+                if (w && w.id && !deletedIds.includes(w.id)) {
+                  if (!wishMap.has(w.id)) {
+                    wishMap.set(w.id, w);
+                  }
+                }
+              });
+
+              saveWishes(Array.from(wishMap.values()));
+              gasSynced = true;
+            }
+
+            if (Array.isArray(remotePhotos) && remotePhotos.length > 0) {
+              const localPhotos = getPhotos();
+              const photoMap = new Map();
+
+              localPhotos.forEach(p => {
+                if (p && p.id && !deletedIds.includes(p.id) && !remotePhotos.some(rp => rp.id === p.id)) {
+                  photoMap.set(p.id, p);
+                }
+              });
+              remotePhotos.forEach(p => {
+                if (p && p.id && !deletedIds.includes(p.id)) {
+                  photoMap.set(p.id, p);
+                }
+              });
+              localPhotos.forEach(p => {
+                if (p && p.id && !deletedIds.includes(p.id)) {
+                  if (!photoMap.has(p.id)) {
+                    photoMap.set(p.id, p);
+                  }
+                }
+              });
+
+              savePhotos(Array.from(photoMap.values()));
+            }
+
             renderFeed();
+            flushPendingWishesToGas();
+            flushPendingPhotosToGas();
           }
+        } catch (gasErr) {
+          console.warn('GAS sync warning, fallback to wishes.json:', gasErr);
         }
+      }
+
+      // 2. Chế độ dự phòng 1: Tải từ tệp tĩnh wishes.json của dự án
+      if (!gasSynced) {
+        try {
+          const res = await fetch('wishes.json?_t=' + Date.now(), { cache: 'no-store' });
+          if (res.ok) {
+            const remoteWishes = await res.json();
+            if (Array.isArray(remoteWishes)) {
+              const localWishes = getWishes();
+              const wishMap = new Map();
+
+              localWishes.forEach(w => {
+                if (w && w.id && !deletedIds.includes(w.id) && !remoteWishes.some(rw => rw.id === w.id)) {
+                  wishMap.set(w.id, w);
+                }
+              });
+              remoteWishes.forEach(w => {
+                if (w && w.id && !deletedIds.includes(w.id)) {
+                  wishMap.set(w.id, w);
+                }
+              });
+              localWishes.forEach(w => {
+                if (w && w.id && !deletedIds.includes(w.id)) {
+                  if (!wishMap.has(w.id)) {
+                    wishMap.set(w.id, w);
+                  }
+                }
+              });
+
+              saveWishes(Array.from(wishMap.values()));
+              renderFeed();
+            }
+          }
+        } catch (e) {
+          console.warn('Sync remote wishes fallback', e);
+          renderFeed();
+        }
+      }
+    }
+
+    async function sendWishToGas(wish) {
+      const gasUrl = getGasWebAppUrl();
+      if (!gasUrl) {
+        queuePendingWish(wish);
+        return { success: false, reason: 'no_gas_url' };
+      }
+
+      try {
+        const payload = {
+          action: 'addWish',
+          id: wish.id,
+          author: wish.author,
+          wish: wish.wish,
+          time: wish.time,
+          image: wish.image || ''
+        };
+
+        const res = await fetch(gasUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.status === 'error') {
+            queuePendingWish(wish);
+            return { success: false, error: data.message || 'error' };
+          }
+          return { success: true, data: data };
+        } else {
+          queuePendingWish(wish);
+          return { success: false, status: res.status };
+        }
+      } catch (err) {
+        queuePendingWish(wish);
+        return { success: false, error: err };
+      }
+    }
+
+    function queuePendingWish(wish) {
+      try {
+        const key = GAS_CONFIG.PENDING_WISHES_KEY;
+        let pending = JSON.parse(localStorage.getItem(key) || '[]');
+        if (!pending.some(p => p.id === wish.id)) {
+          pending.push(wish);
+          localStorage.setItem(key, JSON.stringify(pending));
+        }
+      } catch (e) {}
+    }
+
+    async function flushPendingWishesToGas() {
+      const gasUrl = getGasWebAppUrl();
+      if (!gasUrl) return;
+
+      const key = GAS_CONFIG.PENDING_WISHES_KEY;
+      let pending = [];
+      try {
+        pending = JSON.parse(localStorage.getItem(key) || '[]');
       } catch (e) {
-        console.warn('Sync remote wishes fallback', e);
+        return;
+      }
+
+      if (pending.length === 0) return;
+
+      const remaining = [];
+      for (const item of pending) {
+        try {
+          const res = await fetch(gasUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              action: 'addWish',
+              id: item.id,
+              author: item.author,
+              wish: item.wish,
+              time: item.time,
+              image: item.image || ''
+            })
+          });
+          if (res.ok) {
+            const resData = await res.json();
+            if (resData && resData.status === 'error') {
+              remaining.push(item);
+            } else if (resData && resData.data && resData.data.image && resData.data.image.startsWith('http')) {
+              const currentWishes = getWishes();
+              const target = currentWishes.find(w => w.id === item.id);
+              if (target) {
+                target.image = resData.data.image;
+                saveWishes(currentWishes);
+                renderFeed();
+              }
+            }
+          } else {
+            remaining.push(item);
+          }
+        } catch (e) {
+          remaining.push(item);
+        }
+      }
+
+      try {
+        const currentPending = JSON.parse(localStorage.getItem(key) || '[]');
+        const flushedIds = new Set(pending.map(p => p.id));
+        const newItems = currentPending.filter(p => !flushedIds.has(p.id));
+        localStorage.setItem(key, JSON.stringify([...remaining, ...newItems]));
+      } catch (e) {}
+    }
+
+    function queuePendingPhoto(photo) {
+      try {
+        const key = GAS_CONFIG.PENDING_PHOTOS_KEY;
+        let pending = JSON.parse(localStorage.getItem(key) || '[]');
+        if (!pending.some(p => p.id === photo.id)) {
+          pending.push(photo);
+          localStorage.setItem(key, JSON.stringify(pending));
+        }
+      } catch (e) {}
+    }
+
+    async function flushPendingPhotosToGas() {
+      const gasUrl = getGasWebAppUrl();
+      if (!gasUrl) return;
+
+      const key = GAS_CONFIG.PENDING_PHOTOS_KEY;
+      let pending = [];
+      try {
+        pending = JSON.parse(localStorage.getItem(key) || '[]');
+      } catch (e) {
+        return;
+      }
+
+      if (pending.length === 0) return;
+
+      const remaining = [];
+      for (const p of pending) {
+        try {
+          const res = await fetch(gasUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              action: 'addPhoto',
+              id: p.id,
+              author: p.author,
+              caption: p.caption || '',
+              image: p.image,
+              aspect: p.aspect || 'landscape',
+              time: p.time
+            })
+          });
+          if (res.ok) {
+            const resData = await res.json();
+            if (resData && resData.status === 'error') {
+              remaining.push(p);
+            } else if (resData && resData.data && resData.data.image && resData.data.image.startsWith('http')) {
+              const currentPhotos = getPhotos();
+              const target = currentPhotos.find(item => item.id === p.id);
+              if (target) {
+                target.image = resData.data.image;
+                savePhotos(currentPhotos);
+                renderFeed();
+              }
+            }
+          } else {
+            remaining.push(p);
+          }
+        } catch (e) {
+          remaining.push(p);
+        }
+      }
+
+      try {
+        const currentPending = JSON.parse(localStorage.getItem(key) || '[]');
+        const flushedIds = new Set(pending.map(p => p.id));
+        const newItems = currentPending.filter(p => !flushedIds.has(p.id));
+        localStorage.setItem(key, JSON.stringify([...remaining, ...newItems]));
+      } catch (e) {}
+    }
+
+    async function sendPhotosToGas(photosList) {
+      const gasUrl = getGasWebAppUrl();
+      if (!Array.isArray(photosList) || photosList.length === 0) return;
+
+      if (!gasUrl) {
+        photosList.forEach(p => queuePendingPhoto(p));
+        return;
+      }
+
+      for (const p of photosList) {
+        try {
+          const res = await fetch(gasUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              action: 'addPhoto',
+              id: p.id,
+              author: p.author,
+              caption: p.caption || '',
+              image: p.image,
+              aspect: p.aspect || 'landscape',
+              time: p.time
+            })
+          });
+          if (res.ok) {
+            const resData = await res.json();
+            if (resData && resData.status === 'error') {
+              queuePendingPhoto(p);
+            } else if (resData && resData.data && resData.data.image && resData.data.image.startsWith('http')) {
+              const currentPhotos = getPhotos();
+              const target = currentPhotos.find(item => item.id === p.id);
+              if (target) {
+                target.image = resData.data.image;
+                savePhotos(currentPhotos);
+                renderFeed();
+              }
+            }
+          } else {
+            queuePendingPhoto(p);
+          }
+        } catch (e) {
+          console.warn('Send photo to GAS warning', e);
+          queuePendingPhoto(p);
+        }
+      }
+    }
+
+    async function sendDeleteToGas(id, type) {
+      const gasUrl = getGasWebAppUrl();
+      if (!gasUrl || !id) return;
+      try {
+        await fetch(gasUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: type === 'photo' ? 'deletePhoto' : 'deleteWish',
+            id: id
+          })
+        });
+      } catch (e) {
+        console.warn('Xóa trên Google Sheets không thành công:', e);
       }
     }
 
@@ -1541,8 +1950,8 @@
         const card = document.createElement('div');
         card.className = 'preview-card';
         card.innerHTML = `
-          <img src="${item.base64}" alt="${escapeHtml(item.name)}">
-          <button type="button" class="preview-card-delete" data-id="${item.id}" title="Xóa ảnh này">✕</button>
+          <img src="${escapeHtml(item.base64)}" alt="${escapeHtml(item.name || '')}">
+          <button type="button" class="preview-card-delete" data-id="${escapeHtml(item.id)}" title="Xóa ảnh này">✕</button>
         `;
 
         card.querySelector('.preview-card-delete').addEventListener('click', (e) => {
@@ -1561,12 +1970,18 @@
       const authorInput = document.getElementById('author-input');
       const wishInput = document.getElementById('wish-input');
       const toast = document.getElementById('toast');
+      const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const author = authorInput.value.trim();
         const wish = wishInput.value.trim();
         if (!author || !wish) return;
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Đang gửi lời chúc...';
+        }
 
         const now = new Date();
         const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
@@ -1585,7 +2000,12 @@
         // Phát tín hiệu Real-time sang trang chính
         if (syncChannel) {
           try {
-            syncChannel.postMessage({ action: 'ADD_WISH', data: newWish });
+            syncChannel.postMessage({
+              action: 'ADD_WISH',
+              type: 'ADD_WISH',
+              data: newWish,
+              payload: newWish
+            });
           } catch (err) {}
         }
 
@@ -1600,6 +2020,27 @@
 
         renderFeed();
         setTimeout(() => toast.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+
+        // Gửi trực tiếp lên Google Apps Script Web App
+        sendWishToGas(newWish).then(res => {
+          if (res.success) {
+            toast.textContent = "Tuyệt vời! Lời chúc của bạn đã được lưu vào Google Sheets và đồng bộ đến thiệp Cô!";
+            if (res.data && res.data.data && res.data.data.image && res.data.data.image.startsWith('http')) {
+              const currentWishes = getWishes();
+              const target = currentWishes.find(w => w.id === newWish.id);
+              if (target) {
+                target.image = res.data.data.image;
+                saveWishes(currentWishes);
+                renderFeed();
+              }
+            }
+          }
+        }).finally(() => {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Gửi lời chúc';
+          }
+        });
       });
     }
 
@@ -1609,6 +2050,7 @@
       const authorInput = document.getElementById('photo-author-input');
       const captionInput = document.getElementById('photo-caption-input');
       const toast = document.getElementById('toast');
+      const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -1623,6 +2065,11 @@
         if (pendingWebPPhotos.length === 0) {
           alert('Vui lòng chọn ít nhất một hình ảnh kỷ niệm!');
           return;
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Đang xử lý ảnh...';
         }
 
         const now = new Date();
@@ -1644,7 +2091,12 @@
         // Phát tín hiệu Real-time sang trang chính
         if (syncChannel) {
           try {
-            syncChannel.postMessage({ action: 'ADD_PHOTOS', data: newPhotos });
+            syncChannel.postMessage({
+              action: 'ADD_PHOTOS',
+              type: 'ADD_PHOTOS',
+              data: newPhotos,
+              payload: newPhotos
+            });
           } catch (err) {}
         }
 
@@ -1661,6 +2113,14 @@
 
         renderFeed();
         setTimeout(() => toast.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+
+        // Gửi lên Google Apps Script Web App
+        sendPhotosToGas(newPhotos).finally(() => {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Đóng góp hình ảnh vào cuộn phim 35mm';
+          }
+        });
       });
     }
 
@@ -1684,11 +2144,11 @@
         item.className = 'wish-item';
         item.innerHTML = `
           <div class="wish-meta">
-            <span class="wish-author">${escapeHtml(w.author)}</span>
-            <span class="wish-time">${w.time || ''}</span>
+            <span class="wish-author">${escapeHtml(w.author || 'Bạn học trò')}</span>
+            <span class="wish-time">${escapeHtml(w.time || '')}</span>
           </div>
           <div class="wish-text">${escapeHtml(w.wish)}</div>
-          ${w.image ? `<img class="wish-img" src="${w.image}" alt="Ảnh kỷ niệm đính kèm" loading="lazy">` : ''}
+          ${w.image ? `<img class="wish-img" src="${escapeHtml(w.image)}" alt="Ảnh kỷ niệm đính kèm" loading="lazy">` : ''}
         `;
         feed.appendChild(item);
       });
@@ -1712,9 +2172,11 @@
       const tabWishesBtn = document.getElementById('btn-admin-tab-wishes');
       const tabPhotosBtn = document.getElementById('btn-admin-tab-photos');
       const tabVisitorsBtn = document.getElementById('btn-admin-tab-visitors');
+      const tabGasBtn = document.getElementById('btn-admin-tab-gas');
       const panelWishes = document.getElementById('admin-panel-wishes');
       const panelPhotos = document.getElementById('admin-panel-photos');
       const panelVisitors = document.getElementById('admin-panel-visitors');
+      const panelGas = document.getElementById('admin-panel-gas');
 
       // Photo viewer modal
       const photoViewer = document.getElementById('admin-photo-viewer');
@@ -1730,31 +2192,24 @@
         });
       }
 
-      tabWishesBtn.addEventListener('click', () => {
-        tabWishesBtn.classList.add('active');
-        tabPhotosBtn.classList.remove('active');
-        tabVisitorsBtn.classList.remove('active');
-        panelWishes.classList.add('active');
-        panelPhotos.classList.remove('active');
-        panelVisitors.classList.remove('active');
-      });
+      function switchAdminTab(activeTabBtn, activePanel) {
+        [tabWishesBtn, tabPhotosBtn, tabVisitorsBtn, tabGasBtn].forEach(b => {
+          if (b) b.classList.remove('active');
+        });
+        [panelWishes, panelPhotos, panelVisitors, panelGas].forEach(p => {
+          if (p) p.classList.remove('active');
+        });
+        if (activeTabBtn) activeTabBtn.classList.add('active');
+        if (activePanel) activePanel.classList.add('active');
+      }
 
-      tabPhotosBtn.addEventListener('click', () => {
-        tabPhotosBtn.classList.add('active');
-        tabWishesBtn.classList.remove('active');
-        tabVisitorsBtn.classList.remove('active');
-        panelPhotos.classList.add('active');
-        panelWishes.classList.remove('active');
-        panelVisitors.classList.remove('active');
-      });
-
-      tabVisitorsBtn.addEventListener('click', () => {
-        tabVisitorsBtn.classList.add('active');
-        tabWishesBtn.classList.remove('active');
-        tabPhotosBtn.classList.remove('active');
-        panelVisitors.classList.add('active');
-        panelWishes.classList.remove('active');
-        panelPhotos.classList.remove('active');
+      if (tabWishesBtn) tabWishesBtn.addEventListener('click', () => switchAdminTab(tabWishesBtn, panelWishes));
+      if (tabPhotosBtn) tabPhotosBtn.addEventListener('click', () => switchAdminTab(tabPhotosBtn, panelPhotos));
+      if (tabVisitorsBtn) tabVisitorsBtn.addEventListener('click', () => switchAdminTab(tabVisitorsBtn, panelVisitors));
+      if (tabGasBtn) tabGasBtn.addEventListener('click', () => {
+        switchAdminTab(tabGasBtn, panelGas);
+        const gasInput = document.getElementById('admin-gas-url-input');
+        if (gasInput) gasInput.value = getGasWebAppUrl();
       });
 
       btnOpen.addEventListener('click', () => {
@@ -1883,6 +2338,109 @@
           }
         });
       }
+
+      // Cấu hình Google Apps Script trong Admin
+      const inputGas = document.getElementById('admin-gas-url-input');
+      const statusGas = document.getElementById('admin-gas-status');
+      const btnSaveGas = document.getElementById('btn-save-gas-url');
+      const btnTestGas = document.getElementById('btn-test-gas-connection');
+      const btnSyncGas = document.getElementById('btn-sync-gas-now');
+
+      if (inputGas) {
+        inputGas.value = getGasWebAppUrl();
+      }
+
+      if (btnSaveGas && inputGas) {
+        btnSaveGas.addEventListener('click', () => {
+          const url = inputGas.value.trim();
+          try {
+            localStorage.setItem(GAS_CONFIG.STORAGE_KEY, url);
+            if (statusGas) {
+              statusGas.textContent = url ? 'Đã lưu cấu hình URL Google Apps Script thành công!' : 'Đã xóa cấu hình URL, hệ thống sẽ dùng chế độ dự phòng cục bộ.';
+              statusGas.style.display = 'block';
+              statusGas.style.background = 'rgba(16, 185, 129, 0.15)';
+              statusGas.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+              statusGas.style.color = '#6ee7b7';
+            }
+            syncWishesFromRemote();
+            if (syncChannel) {
+              try {
+                syncChannel.postMessage({ action: 'SYNC_ALL' });
+              } catch (err) {}
+            }
+          } catch (e) {}
+        });
+      }
+
+      if (btnTestGas && inputGas) {
+        btnTestGas.addEventListener('click', async () => {
+          const url = inputGas.value.trim();
+          if (!url) {
+            if (statusGas) {
+              statusGas.textContent = 'Vui lòng nhập URL Web App trước khi kiểm tra!';
+              statusGas.style.display = 'block';
+              statusGas.style.background = 'rgba(239, 68, 68, 0.15)';
+              statusGas.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+              statusGas.style.color = '#fca5a5';
+            }
+            return;
+          }
+          if (statusGas) {
+            statusGas.textContent = 'Đang gửi kiểm tra kết nối (ping) đến Google Apps Script...';
+            statusGas.style.display = 'block';
+            statusGas.style.background = 'rgba(59, 130, 246, 0.15)';
+            statusGas.style.border = '1px solid rgba(59, 130, 246, 0.3)';
+            statusGas.style.color = '#93c5fd';
+          }
+          try {
+            const sep = url.includes('?') ? '&' : '?';
+            const res = await fetch(`${url}${sep}action=ping&_t=${Date.now()}`);
+            if (res.ok) {
+              const resJson = await res.json();
+              if (statusGas) {
+                statusGas.textContent = 'Kết nối thành công! Google Apps Script Web App đang hoạt động tốt.';
+                statusGas.style.background = 'rgba(16, 185, 129, 0.15)';
+                statusGas.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+                statusGas.style.color = '#6ee7b7';
+              }
+            } else {
+              throw new Error('Mã phản hồi HTTP ' + res.status);
+            }
+          } catch (err) {
+            if (statusGas) {
+              statusGas.textContent = 'Không thể kết nối đến URL Web App: ' + err.message + '. Vui lòng kiểm tra quyền truy cập (Who has access: Anyone) và URL triển khai.';
+              statusGas.style.background = 'rgba(239, 68, 68, 0.15)';
+              statusGas.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+              statusGas.style.color = '#fca5a5';
+            }
+          }
+        });
+      }
+
+      if (btnSyncGas) {
+        btnSyncGas.addEventListener('click', async () => {
+          if (statusGas) {
+            statusGas.textContent = 'Đang tải dữ liệu mới nhất từ Google Sheets...';
+            statusGas.style.display = 'block';
+            statusGas.style.background = 'rgba(59, 130, 246, 0.15)';
+            statusGas.style.border = '1px solid rgba(59, 130, 246, 0.3)';
+            statusGas.style.color = '#93c5fd';
+          }
+          await syncWishesFromRemote();
+          renderAdminDashboard();
+          if (syncChannel) {
+            try {
+              syncChannel.postMessage({ action: 'SYNC_ALL' });
+            } catch (e) {}
+          }
+          if (statusGas) {
+            statusGas.textContent = 'Đã hoàn tất đồng bộ dữ liệu mới nhất từ Google Sheets!';
+            statusGas.style.background = 'rgba(16, 185, 129, 0.15)';
+            statusGas.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+            statusGas.style.color = '#6ee7b7';
+          }
+        });
+      }
     }
 
     function renderAdminDashboard() {
@@ -1910,19 +2468,20 @@
           const item = document.createElement('div');
           item.className = 'admin-wish-item';
           item.innerHTML = `
-            <div><strong>#${idx + 1} - ${escapeHtml(w.author)}</strong> <span style="font-size:0.7rem; color:var(--text-muted);">(${w.time || ''})</span></div>
+            <div><strong>#${idx + 1} - ${escapeHtml(w.author || 'Bạn học trò')}</strong> <span style="font-size:0.7rem; color:var(--text-muted);">(${escapeHtml(w.time || '')})</span></div>
             <div style="font-size:0.75rem; color:#cbd5e1;">${escapeHtml(w.wish)}</div>
-            ${w.image ? `<img src="${w.image}" style="max-height:80px; width:fit-content; border-radius:6px; margin-top:4px;">` : ''}
+            ${w.image ? `<img src="${escapeHtml(w.image)}" style="max-height:80px; width:fit-content; border-radius:6px; margin-top:4px;">` : ''}
             <div class="admin-wish-actions">
-              <button class="btn-delete-wish" data-id="${w.id}">Xóa Lời Chúc</button>
+              <button class="btn-delete-wish" data-id="${escapeHtml(w.id)}">Xóa lời chúc</button>
             </div>
           `;
 
           item.querySelector('.btn-delete-wish').addEventListener('click', () => {
-            if (confirm(`Bạn có chắc chắn muốn xóa lời chúc của "${w.author}" không? Hành động này sẽ đồng bộ ngay lập tức sang trang chính!`)) {
+            if (confirm(`Bạn có chắc chắn muốn xóa lời chúc của "${w.author || 'Bạn học trò'}" không? Hành động này sẽ đồng bộ ngay lập tức sang trang chính!`)) {
               markDeleted(w.id);
               const updated = wishes.filter(x => x.id !== w.id);
               saveWishes(updated);
+              sendDeleteToGas(w.id, 'wish');
               if (syncChannel) {
                 try {
                   syncChannel.postMessage({ action: 'DELETE_WISH', id: w.id });
@@ -1947,13 +2506,13 @@
           const card = document.createElement('div');
           card.className = 'admin-photo-card';
           card.innerHTML = `
-            <img src="${p.image}" class="admin-photo-thumb" alt="${escapeHtml(p.author)}" title="Bấm để xem ảnh phóng to">
+            <img src="${escapeHtml(p.image)}" class="admin-photo-thumb" alt="${escapeHtml(p.author || 'Bạn học trò')}" title="Bấm để xem ảnh phóng to">
             <div class="admin-photo-info">
-              <strong>${escapeHtml(p.author)}</strong>
-              <div>${p.time || ''}</div>
+              <strong>${escapeHtml(p.author || 'Bạn học trò')}</strong>
+              <div>${escapeHtml(p.time || '')}</div>
               ${p.caption ? `<div><em>${escapeHtml(p.caption)}</em></div>` : ''}
             </div>
-            <button class="btn-delete-photo" data-id="${p.id}">Xóa Ảnh</button>
+            <button class="btn-delete-photo" data-id="${escapeHtml(p.id)}">Xóa ảnh</button>
           `;
 
           // Bấm xem phóng to
@@ -1968,10 +2527,11 @@
 
           // Nút xóa ảnh
           card.querySelector('.btn-delete-photo').addEventListener('click', () => {
-            if (confirm(`Bạn có chắc chắn muốn xóa bức ảnh do "${p.author}" đóng góp không? Ảnh sẽ biến mất tức thì trên cuộn phim 35mm!`)) {
+            if (confirm(`Bạn có chắc chắn muốn xóa bức ảnh do "${p.author || 'Bạn học trò'}" đóng góp không? Ảnh sẽ biến mất tức thì trên cuộn phim 35mm!`)) {
               markDeleted(p.id);
               const updated = photos.filter(x => x.id !== p.id);
               savePhotos(updated);
+              sendDeleteToGas(p.id, 'photo');
               if (syncChannel) {
                 try {
                   syncChannel.postMessage({ action: 'DELETE_PHOTO', id: p.id });
@@ -1996,8 +2556,8 @@
           const div = document.createElement('div');
           div.className = 'visitor-item';
           div.innerHTML = `
-            <span><strong>${escapeHtml(v.name)}</strong> (${v.device})</span>
-            <span>${v.time}</span>
+            <span><strong>${escapeHtml(v.name || 'Khách truy cập')}</strong> (${escapeHtml(v.device || '')})</span>
+            <span>${escapeHtml(v.time || '')}</span>
           `;
           visitorBox.appendChild(div);
         });
@@ -2005,12 +2565,12 @@
     }
 
     function escapeHtml(text) {
-      if (!text) return '';
-      return text.replace(/&/g, "&amp;")
-                 .replace(/</g, "&lt;")
-                 .replace(/>/g, "&gt;")
-                 .replace(/"/g, "&quot;")
-                 .replace(/'/g, "&#039;");
+      if (text === null || text === undefined) return '';
+      return String(text).replace(/&/g, "&amp;")
+                         .replace(/</g, "&lt;")
+                         .replace(/>/g, "&gt;")
+                         .replace(/"/g, "&quot;")
+                         .replace(/'/g, "&#039;");
     }
   </script>
 </body>

@@ -27,6 +27,7 @@ from tests.test_tier1_features import TestTier1Features
 from tests.test_tier2_boundaries import TestTier2Boundaries
 from tests.test_tier3_combinations import TestTier3Combinations
 from tests.test_tier4_scenarios import TestTier4Scenarios
+from tests.test_google_sheets_sync import TestGoogleSheetsSync
 
 
 class Color:
@@ -53,6 +54,7 @@ def build_suite(tier=None):
         2: (TestTier2Boundaries, "Tier 2: Boundary & Corner Cases"),
         3: (TestTier3Combinations, "Tier 3: Cross-Feature Combinations"),
         4: (TestTier4Scenarios, "Tier 4: Real-World Scenarios"),
+        5: (TestGoogleSheetsSync, "Tier 5: Google Sheets & GAS Sync (R1 - R4)"),
     }
 
     if tier in tier_map:
@@ -60,7 +62,7 @@ def build_suite(tier=None):
         print(f"[*] Targeting: {Color.BOLD}{desc}{Color.RESET}")
         suite.addTests(loader.loadTestsFromTestCase(test_class))
     else:
-        print("[*] Targeting: Full 4-Tier Test Suite")
+        print("[*] Targeting: Full 5-Tier Test Suite")
         for t_num, (test_class, desc) in tier_map.items():
             suite.addTests(loader.loadTestsFromTestCase(test_class))
 
@@ -69,7 +71,7 @@ def build_suite(tier=None):
 
 def run():
     parser = argparse.ArgumentParser(description="E2E Test Runner")
-    parser.add_argument("--tier", type=int, choices=[1, 2, 3, 4], help="Run specific test tier (1-4)")
+    parser.add_argument("--tier", type=int, choices=[1, 2, 3, 4, 5], help="Run specific test tier (1-5)")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose test execution output")
     parser.add_argument("--failfast", action="store_true", help="Stop on first test failure")
     args = parser.parse_args()
