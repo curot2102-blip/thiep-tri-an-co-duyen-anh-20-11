@@ -13,6 +13,7 @@
 // Tên các trang tính trong Google Sheet
 var SHEET_WISHES = "Wishes";
 var SHEET_PHOTOS = "Photos";
+var SHEET_HEARTS = "Hearts";
 var DRIVE_FOLDER_NAME = "Kỷ niệm Cô Duyên Anh - Ảnh và Thiệp Đóng Góp";
 
 /**
@@ -48,14 +49,24 @@ function doGet(e) {
       }, callback);
     }
 
-    // Mặc định hoặc action === "getWishes": Lấy cả lời chúc và ảnh
+    if (action === "getHearts") {
+      var hearts = getHeartsFromSheet(ss);
+      return createJsonResponse({
+        status: "success",
+        hearts: hearts
+      }, callback);
+    }
+
+    // Mặc định hoặc action === "getWishes": Lấy cả lời chúc, ảnh và lượt tim
     var wishes = readWishesFromSheet(ss);
     var photosList = readPhotosFromSheet(ss);
+    var heartsCount = getHeartsFromSheet(ss);
 
     return createJsonResponse({
       status: "success",
       wishes: wishes,
       photos: photosList,
+      hearts: heartsCount,
       count: wishes.length
     }, callback);
 
@@ -124,6 +135,16 @@ function doPost(e) {
         status: "success",
         message: "Đã đồng bộ hàng loạt thành công: " + batchCount + " mục!",
         count: batchCount
+      });
+    }
+
+    if (action === "addHeart" || action === "incrementHeart") {
+      var inc = payload.count || payload.increment || 1;
+      var newHearts = incrementHeartsInSheet(ss, inc);
+      return createJsonResponse({
+        status: "success",
+        message: "Đã cập nhật lượt thả tim thành công!",
+        hearts: newHearts
       });
     }
 
@@ -541,6 +562,62 @@ function initSheetsIfNeeded(ss) {
     photoSheet.setFrozenRows(1);
     photoSheet.autoResizeColumns(1, photoHeaders.length);
   }
+
+  // 3. Tạo trang tính Hearts lưu tổng lượt thả tim
+  var heartSheet = ss.getSheetByName(SHEET_HEARTS);
+  if (!heartSheet) {
+    heartSheet = ss.insertSheet(SHEET_HEARTS);
+  }
+  if (heartSheet.getLastRow() === 0) {
+    heartSheet.appendRow(["Metric", "Count", "Last_Updated"]);
+    heartSheet.appendRow(["Total_Hearts", 0, Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss")]);
+    var heartHeaderRange = heartSheet.getRange(1, 1, 1, 3);
+    heartHeaderRange.setBackground("#1e293b");
+    heartHeaderRange.setFontColor("#f8fafc");
+    heartHeaderRange.setFontWeight("bold");
+    heartHeaderRange.setHorizontalAlignment("center");
+    heartSheet.setFrozenRows(1);
+  }
+}
+
+/**
+ * Đọc tổng lượt tim từ trang tính Hearts
+ */
+function getHeartsFromSheet(ss) {
+  var sheet = ss.getSheetByName(SHEET_HEARTS);
+  if (!sheet) {
+    initSheetsIfNeeded(ss);
+    sheet = ss.getSheetByName(SHEET_HEARTS);
+  }
+  if (!sheet || sheet.getLastRow() < 2) return 0;
+  var val = sheet.getRange(2, 2).getValue();
+  var count = parseInt(val, 10);
+  return isNaN(count) ? 0 : count;
+}
+
+/**
+ * Tăng lượt tim và lưu vào trang tính Hearts
+ */
+function incrementHeartsInSheet(ss, increment) {
+  var sheet = ss.getSheetByName(SHEET_HEARTS);
+  if (!sheet) {
+    initSheetsIfNeeded(ss);
+    sheet = ss.getSheetByName(SHEET_HEARTS);
+  }
+  if (!sheet || sheet.getLastRow() < 2) {
+    initSheetsIfNeeded(ss);
+    sheet = ss.getSheetByName(SHEET_HEARTS);
+  }
+  var val = (sheet && sheet.getLastRow() >= 2) ? sheet.getRange(2, 2).getValue() : 0;
+  var current = parseInt(val, 10);
+  if (isNaN(current)) current = 0;
+  var inc = parseInt(increment, 10);
+  if (isNaN(inc) || inc <= 0) inc = 1;
+  var newTotal = current + inc;
+
+  sheet.getRange(2, 2).setValue(newTotal);
+  sheet.getRange(2, 3).setValue(Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss"));
+  return newTotal;
 }
 
 /**

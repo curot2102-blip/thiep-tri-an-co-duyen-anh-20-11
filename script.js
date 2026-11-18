@@ -612,6 +612,11 @@ async function syncWishesFromRemote() {
           renderContributedPhotos();
         }
 
+        // Đồng bộ tổng lượt tim từ Google Sheets
+        if (gasData && typeof gasData.hearts === 'number') {
+          updateHeartCounter(gasData.hearts);
+        }
+
         // Tự động đẩy bù các lời chúc và hình ảnh lưu tạm khi ngoại tuyến
         flushPendingWishesToGas();
         flushPendingPhotosToGas();
@@ -1049,6 +1054,9 @@ function initRealtimeSync() {
           case 'DELETE_PHOTO':
             removePhotoFromFilmStrip(targetId);
             break;
+          case 'UPDATE_HEARTS':
+            updateHeartCounter(payload || msg.hearts);
+            break;
           case 'SYNC_ALL':
             refreshAllData();
             break;
@@ -1278,6 +1286,46 @@ function escapeHtml(text) {
    3. TƯƠNG TÁC LỜI KẾT & LƯU LẠI MỤC TIM THỰC TẾ (PERSISTED HEARTS)
    - Khởi tạo lượt tim bắt đầu từ 0 và lưu trữ bền bỉ trong localStorage
    =================================================================== */
+function updateHeartCounter(newCount) {
+  const countSpan = document.getElementById('heart-count');
+  const num = parseInt(newCount, 10);
+  if (isNaN(num)) return;
+  const current = parseInt(localStorage.getItem('co_duyen_anh_hearts') || '0', 10);
+  const finalNum = Math.max(num, current);
+  try {
+    localStorage.setItem('co_duyen_anh_hearts', finalNum.toString());
+  } catch (e) {}
+  if (countSpan) {
+    countSpan.textContent = finalNum.toString();
+  }
+}
+
+let pendingHeartClicks = 0;
+let heartSyncTimer = null;
+
+function flushHeartClicksToGas() {
+  if (pendingHeartClicks <= 0) return;
+  const countToSend = pendingHeartClicks;
+  pendingHeartClicks = 0;
+  const gasUrl = getGasWebAppUrl();
+  if (!gasUrl) return;
+
+  fetch(gasUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ action: 'addHeart', count: countToSend })
+  }).then(res => res.json()).then(data => {
+    if (data && typeof data.hearts === 'number') {
+      updateHeartCounter(data.hearts);
+      if (syncChannel) {
+        try { syncChannel.postMessage({ action: 'UPDATE_HEARTS', hearts: data.hearts }); } catch (e) {}
+      }
+    }
+  }).catch(e => {
+    console.warn('Lỗi đồng bộ lượt tim lên Google Sheets:', e);
+  });
+}
+
 function initFinalTribute() {
   const heartBtn = document.getElementById('heart-btn');
   const countSpan = document.getElementById('heart-count');
@@ -1306,6 +1354,11 @@ function initFinalTribute() {
         localStorage.setItem('co_duyen_anh_hearts', count.toString());
       } catch (err) {}
       playSound('chime');
+
+      // Gom lượt click và tự động đẩy lên Google Sheets sau 1.2s (Debounce tối ưu mạng)
+      pendingHeartClicks++;
+      clearTimeout(heartSyncTimer);
+      heartSyncTimer = setTimeout(flushHeartClicksToGas, 1200);
 
       for (let i = 0; i < 6; i++) {
         setTimeout(() => {
