@@ -438,17 +438,23 @@ function deleteItemById(ss, sheetName, id) {
   if (lastRow <= 1) return false;
 
   var prefix = (sheetName === SHEET_PHOTOS) ? "photo" : "wish";
-  var ids = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
-  for (var i = 0; i < ids.length; i++) {
-    var cellId = String(ids[i][0] || "").trim();
+  var maxCols = sheet.getLastColumn() || 6;
+  var data = sheet.getRange(2, 1, lastRow - 1, maxCols).getValues();
+  var deleted = false;
+
+  // Duyệt ngược từ dòng dưới lên dòng trên để xóa sạch tất cả các dòng khớp ID mà không lệch index
+  for (var i = data.length - 1; i >= 0; i--) {
+    var cellId = String(data[i][0] || "").trim();
     var fallbackId = prefix + "-row-" + (i + 2);
-    // Hỗ trợ xóa cả ID thực và ID fallback tạo theo số dòng
-    if (cellId === targetId || (!cellId && fallbackId === targetId)) {
+    var cellImage = (maxCols >= 5) ? String(data[i][4] || "").trim() : "";
+
+    // Khớp theo ID thực, fallback ID theo dòng, hoặc khớp theo URL ảnh nếu có
+    if (cellId === targetId || (!cellId && fallbackId === targetId) || (targetId.length > 20 && cellImage === targetId)) {
       sheet.deleteRow(i + 2);
-      return true;
+      deleted = true;
     }
   }
-  return false;
+  return deleted;
 }
 
 /**

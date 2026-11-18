@@ -553,31 +553,27 @@ async function syncWishesFromRemote() {
         const remotePhotos = gasData.photos || [];
 
         if (Array.isArray(remoteWishes)) {
-          let localWishes = [];
+          // Khi đã kết nối Google Sheets: Google Sheets là nguồn chuẩn duy nhất (Single Source of Truth)
+          // Chỉ giữ lại các lời chúc đang chờ gửi ngoại tuyến của máy này nếu có
+          let pendingWishes = [];
           try {
-            const raw = localStorage.getItem('co_duyen_anh_wishes');
-            if (raw) localWishes = JSON.parse(raw);
+            const rawPend = localStorage.getItem(GAS_CONFIG.PENDING_WISHES_KEY);
+            if (rawPend) pendingWishes = JSON.parse(rawPend);
           } catch (e) {}
 
           const wishMap = new Map();
-          // 1. Giữ các lời chúc cục bộ mới nhất chưa có trên remote ở đầu danh sách
-          localWishes.forEach(w => {
-            if (w && w.id && !deletedIds.includes(w.id) && !remoteWishes.some(rw => rw.id === w.id)) {
-              wishMap.set(w.id, w);
-            }
-          });
-          // 2. Thêm các lời chúc từ remote (đã xếp mới nhất trước)
+          // 1. Giữ các lời chúc đang chờ gửi ngoại tuyến của thiết bị này
+          if (Array.isArray(pendingWishes)) {
+            pendingWishes.forEach(w => {
+              if (w && w.id && !deletedIds.includes(w.id)) {
+                wishMap.set(w.id, w);
+              }
+            });
+          }
+          // 2. Nạp toàn bộ danh sách lời chúc chính thức từ Google Sheets
           remoteWishes.forEach(w => {
             if (w && w.id && !deletedIds.includes(w.id)) {
               wishMap.set(w.id, w);
-            }
-          });
-          // 3. Gom các lời chúc cục bộ còn lại
-          localWishes.forEach(w => {
-            if (w && w.id && !deletedIds.includes(w.id)) {
-              if (!wishMap.has(w.id)) {
-                wishMap.set(w.id, w);
-              }
             }
           });
 
@@ -587,30 +583,28 @@ async function syncWishesFromRemote() {
           gasSynced = true;
         }
 
-        if (Array.isArray(remotePhotos) && remotePhotos.length > 0) {
-          let localPhotos = [];
+        if (Array.isArray(remotePhotos)) {
+          let pendingPhotos = [];
           try {
-            const rawP = localStorage.getItem('co_duyen_anh_photos');
-            if (rawP) localPhotos = JSON.parse(rawP);
+            const rawPendP = localStorage.getItem(GAS_CONFIG.PENDING_PHOTOS_KEY);
+            if (rawPendP) pendingPhotos = JSON.parse(rawPendP);
           } catch (e) {}
 
           const photoMap = new Map();
-          // Giữ các ảnh cục bộ chưa có trên remote ở đầu danh sách
-          localPhotos.forEach(p => {
-            if (p && p.id && !deletedIds.includes(p.id) && !remotePhotos.some(rp => rp.id === p.id)) {
-              photoMap.set(p.id, p);
-            }
-          });
+          // 1. Giữ các ảnh đang chờ gửi ngoại tuyến của thiết bị này
+          if (Array.isArray(pendingPhotos)) {
+            pendingPhotos.forEach(p => {
+              if (p && p.id && !deletedIds.includes(p.id)) {
+                const pKey = (p.id || '') + '_' + (p.image ? p.image.substring(p.image.length - 35) : Math.random());
+                photoMap.set(pKey, p);
+              }
+            });
+          }
+          // 2. Nạp toàn bộ ảnh từ Google Sheets (dùng key kết hợp ID + URL để tránh mất ảnh nếu trùng ID)
           remotePhotos.forEach(p => {
             if (p && p.id && !deletedIds.includes(p.id)) {
-              photoMap.set(p.id, p);
-            }
-          });
-          localPhotos.forEach(p => {
-            if (p && p.id && !deletedIds.includes(p.id)) {
-              if (!photoMap.has(p.id)) {
-                photoMap.set(p.id, p);
-              }
+              const pKey = (p.id || '') + '_' + (p.image ? p.image.substring(p.image.length - 35) : Math.random());
+              photoMap.set(pKey, p);
             }
           });
 
@@ -933,7 +927,12 @@ function renderContributedPhotos() {
 
   photos = photos.filter(p => !deletedIds.includes(p.id));
 
+  const renderedKeys = new Set();
   photos.forEach(photo => {
+    if (!photo || !photo.image) return;
+    const key = (photo.id || '') + '_' + photo.image;
+    if (renderedKeys.has(key)) return;
+    renderedKeys.add(key);
     const frame = createContributedFilmFrame(photo);
     filmTrackRow.appendChild(frame);
   });
@@ -961,6 +960,18 @@ function createContributedFilmFrame(photo) {
   imgEl.src = photo.image;
   imgEl.alt = `Kỷ niệm từ ${photo.author || 'Bạn học trò'}`;
   imgEl.loading = 'lazy';
+
+  imgEl.onerror = function() {
+    if (photo.image && photo.image.includes('lh3.googleusercontent.com/d/')) {
+      const parts = photo.image.split('/d/');
+      const fileId = parts[1] ? parts[1].split('?')[0] : '';
+      if (fileId && !imgEl.getAttribute('data-fallback-tried')) {
+        imgEl.setAttribute('data-fallback-tried', '1');
+        imgEl.src = 'https://drive.google.com/thumbnail?id=' + fileId + '&sz=w1600';
+        return;
+      }
+    }
+  };
 
   imgEl.onload = function() {
     if (imgEl.naturalWidth >= imgEl.naturalHeight) {

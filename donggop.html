@@ -1422,25 +1422,25 @@
             const remotePhotos = gasData.photos || [];
 
             if (Array.isArray(remoteWishes)) {
-              const localWishes = getWishes();
-              const wishMap = new Map();
+              // Khi đã kết nối Google Sheets: Google Sheets là nguồn chuẩn duy nhất (Single Source of Truth)
+              // Chỉ giữ lại các lời chúc đang chờ gửi ngoại tuyến của thiết bị này nếu có
+              let pendingWishes = [];
+              try {
+                const rawPend = localStorage.getItem(GAS_CONFIG.PENDING_WISHES_KEY);
+                if (rawPend) pendingWishes = JSON.parse(rawPend);
+              } catch (e) {}
 
-              // Giữ các lời chúc cục bộ mới nhất chưa có trên remote ở đầu danh sách
-              localWishes.forEach(w => {
-                if (w && w.id && !deletedIds.includes(w.id) && !remoteWishes.some(rw => rw.id === w.id)) {
-                  wishMap.set(w.id, w);
-                }
-              });
+              const wishMap = new Map();
+              if (Array.isArray(pendingWishes)) {
+                pendingWishes.forEach(w => {
+                  if (w && w.id && !deletedIds.includes(w.id)) {
+                    wishMap.set(w.id, w);
+                  }
+                });
+              }
               remoteWishes.forEach(w => {
                 if (w && w.id && !deletedIds.includes(w.id)) {
                   wishMap.set(w.id, w);
-                }
-              });
-              localWishes.forEach(w => {
-                if (w && w.id && !deletedIds.includes(w.id)) {
-                  if (!wishMap.has(w.id)) {
-                    wishMap.set(w.id, w);
-                  }
                 }
               });
 
@@ -1448,25 +1448,26 @@
               gasSynced = true;
             }
 
-            if (Array.isArray(remotePhotos) && remotePhotos.length > 0) {
-              const localPhotos = getPhotos();
-              const photoMap = new Map();
+            if (Array.isArray(remotePhotos)) {
+              let pendingPhotos = [];
+              try {
+                const rawPendP = localStorage.getItem(GAS_CONFIG.PENDING_PHOTOS_KEY);
+                if (rawPendP) pendingPhotos = JSON.parse(rawPendP);
+              } catch (e) {}
 
-              localPhotos.forEach(p => {
-                if (p && p.id && !deletedIds.includes(p.id) && !remotePhotos.some(rp => rp.id === p.id)) {
-                  photoMap.set(p.id, p);
-                }
-              });
+              const photoMap = new Map();
+              if (Array.isArray(pendingPhotos)) {
+                pendingPhotos.forEach(p => {
+                  if (p && p.id && !deletedIds.includes(p.id)) {
+                    const pKey = (p.id || '') + '_' + (p.image ? p.image.substring(p.image.length - 35) : Math.random());
+                    photoMap.set(pKey, p);
+                  }
+                });
+              }
               remotePhotos.forEach(p => {
                 if (p && p.id && !deletedIds.includes(p.id)) {
-                  photoMap.set(p.id, p);
-                }
-              });
-              localPhotos.forEach(p => {
-                if (p && p.id && !deletedIds.includes(p.id)) {
-                  if (!photoMap.has(p.id)) {
-                    photoMap.set(p.id, p);
-                  }
+                  const pKey = (p.id || '') + '_' + (p.image ? p.image.substring(p.image.length - 35) : Math.random());
+                  photoMap.set(pKey, p);
                 }
               });
 
@@ -1711,7 +1712,14 @@
         return;
       }
 
+      const form = document.getElementById('form-photo');
+      const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+
+      let photoIdx = 1;
       for (const p of photosList) {
+        if (submitBtn) {
+          submitBtn.textContent = `Đang đồng bộ ảnh ${photoIdx}/${photosList.length} lên Google Drive...`;
+        }
         try {
           const res = await fetch(gasUrl, {
             method: 'POST',
@@ -1737,6 +1745,11 @@
                 target.image = resData.data.image;
                 savePhotos(currentPhotos);
                 renderFeed();
+                if (syncChannel) {
+                  try {
+                    syncChannel.postMessage({ action: 'UPDATE_PHOTO_URL', id: p.id, url: resData.data.image });
+                  } catch (e) {}
+                }
               }
             }
           } else {
@@ -1746,6 +1759,7 @@
           console.warn('Send photo to GAS warning', e);
           queuePendingPhoto(p);
         }
+        photoIdx++;
       }
     }
 
@@ -2076,7 +2090,7 @@
         const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
         const newPhotos = pendingWebPPhotos.map((p, i) => ({
-          id: 'photo-' + Date.now() + '-' + i + '-' + Math.random().toString(36).substr(2, 4),
+          id: 'photo-' + Date.now() + '-' + i + '-' + Math.random().toString(36).substr(2, 6) + '-' + Math.floor(Math.random() * 100000),
           author: author,
           caption: caption,
           image: p.base64,
@@ -2476,12 +2490,15 @@
             </div>
           `;
 
-          item.querySelector('.btn-delete-wish').addEventListener('click', () => {
+          item.querySelector('.btn-delete-wish').addEventListener('click', async (e) => {
+            const btn = e.currentTarget;
             if (confirm(`Bạn có chắc chắn muốn xóa lời chúc của "${w.author || 'Bạn học trò'}" không? Hành động này sẽ đồng bộ ngay lập tức sang trang chính!`)) {
+              btn.disabled = true;
+              btn.textContent = 'Đang xóa...';
               markDeleted(w.id);
               const updated = wishes.filter(x => x.id !== w.id);
               saveWishes(updated);
-              sendDeleteToGas(w.id, 'wish');
+              await sendDeleteToGas(w.id, 'wish');
               if (syncChannel) {
                 try {
                   syncChannel.postMessage({ action: 'DELETE_WISH', id: w.id });
@@ -2526,12 +2543,15 @@
           });
 
           // Nút xóa ảnh
-          card.querySelector('.btn-delete-photo').addEventListener('click', () => {
+          card.querySelector('.btn-delete-photo').addEventListener('click', async (e) => {
+            const btn = e.currentTarget;
             if (confirm(`Bạn có chắc chắn muốn xóa bức ảnh do "${p.author || 'Bạn học trò'}" đóng góp không? Ảnh sẽ biến mất tức thì trên cuộn phim 35mm!`)) {
+              btn.disabled = true;
+              btn.textContent = 'Đang xóa...';
               markDeleted(p.id);
               const updated = photos.filter(x => x.id !== p.id);
               savePhotos(updated);
-              sendDeleteToGas(p.id, 'photo');
+              await sendDeleteToGas(p.id, 'photo');
               if (syncChannel) {
                 try {
                   syncChannel.postMessage({ action: 'DELETE_PHOTO', id: p.id });
