@@ -654,6 +654,7 @@ body {
   justify-content: center;
   z-index: 48;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   will-change: transform, opacity;
 }
@@ -764,6 +765,9 @@ body {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  contain: layout paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 260px 180px;
 }
 
 /* KHÔNG phóng to / popup / scale khung hình khi di chuột qua */
@@ -1652,6 +1656,12 @@ body {
     height: clamp(190px, 60dvh, 270px) !important;
     padding: 12px 20px !important;
     gap: 16px !important;
+  }
+
+  .film-frame {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45) !important;
+    contain: layout paint !important;
+    content-visibility: auto !important;
   }
 
   .film-sprockets {

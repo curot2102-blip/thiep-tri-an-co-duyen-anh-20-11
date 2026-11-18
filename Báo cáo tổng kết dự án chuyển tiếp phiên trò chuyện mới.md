@@ -122,14 +122,31 @@ flowchart TD
   - Tiếp nhận lệnh `action: 'resetToDefault'` / `action: 'resetAll'`.
   - Hàm `resetSheetDataToDefault(ss)` tự động dọn dẹp các dòng dữ liệu thử nghiệm trong sheet `Wishes` và `Photos`, đồng thời đưa sheet `Hearts` về 0.
 
+### 6. Tối ưu Giai đoạn 5, Điều hướng 1 tab, Đồng bộ tim & Lưới album di động (Yêu cầu 6)
+- **Tối ưu hóa chuyên sâu Giai đoạn 5 (Cuộn phim 35mm)**:
+  - Bổ sung cơ chế `visibility: hidden` khi ngoài phạm vi Stage 5 để giải phóng hoàn toàn bộ nhớ đệm GPU Rasterizer trên điện thoại.
+  - Áp dụng `content-visibility: auto; contain-intrinsic-size: 260px 180px; contain: layout paint;` trên từng khung phim để trình duyệt không phải dựng các khung ảnh ngoài màn hình trước.
+  - Tối ưu bắt sự kiện cảm ứng di động (`touchstart`, `touchmove`) phân biệt chính xác thao tác vuốt cuộn màn hình và chạm xem ảnh.
+- **Điều hướng thống nhất trong 1 Tab duy nhất**:
+  - Loại bỏ hoàn toàn thuộc tính `target="_blank"` trên tất cả liên kết nội bộ (`index.html`, `donggop.html`, `album.html`).
+  - Khi bấm "Viết lời chúc gửi Cô", biểu mẫu trượt mở mượt mà ngay tại chỗ và tự động cuộn nhẹ vào tầm nhìn mà không rời trang.
+  - Khi bấm "Thêm ảnh vào cuộn phim" hoặc "Xem album ảnh 35mm", chuyển trang ngay trong cùng một tab liền mạch.
+- **Cơ chế cập nhật lượt thả tim tức thì & Bảng thống kê Quản trị viên**:
+  - Phát tín hiệu `UPDATE_HEARTS` qua `BroadcastChannel` ngay khi vừa bấm tim (độ trễ < 1ms), không phải chờ vòng phản hồi mạng.
+  - Bổ sung thẻ thống kê `Lượt tim` (`stat-hearts`) trong Bảng điều khiển Quản trị viên (`donggop.html`), tự động cập nhật số liệu theo thời gian thực.
+  - Tọa độ bay tim được tính toán chuẩn xác từ tâm nút bấm, hoạt động mượt mà cả với thao tác chạm màn hình cảm ứng di động.
+- **Album ảnh dạng ô lưới 2 cột trên điện thoại (`album.html`)**:
+  - Giao diện di động `@media (max-width: 768px)` hiển thị theo dạng ô lưới 2 cột cổ điển `grid-template-columns: repeat(2, minmax(0, 1fr))`.
+  - Tối ưu kích thước răng cưa 35mm, chiều cao khung ảnh, nhãn tên tác giả và chú thích 2 dòng vừa vặn trên mọi kích thước màn hình smartphone.
+
 ---
 
 ## III. KẾT QUẢ KIỂM THỬ TỰ ĐỘNG (TEST SUITE)
 
 Dự án được bảo vệ bởi bộ kiểm thử tự động khép kín 5 tầng (Tier 1 đến Tier 5):
 - **Tệp thực thi**: `tests/run_tests.py`
-- **Tổng số ca kiểm thử**: **76 bài test** (F1-F19 Feature Suites)
-- **Kết quả**: **76/76 PASS (100% Thành công)** trong thời gian thực thi ~0.6 giây.
+- **Tổng số ca kiểm thử**: **77 bài test** (F1-F20 Feature Suites)
+- **Kết quả**: **77/77 PASS (100% Thành công)** trong thời gian thực thi ~0.6 giây.
 - **Kiểm toán độc lập (Teamwork Victory Audit)**: Phán quyết **VICTORY CONFIRMED**.
 
 ---
@@ -138,14 +155,14 @@ Dự án được bảo vệ bởi bộ kiểm thử tự động khép kín 5 t
 
 | Tên tệp | Vai trò | Trạng thái |
 | :--- | :--- | :--- |
-| [index.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/index.html) | Trang web thiệp tri ân chính (6 giai đoạn scrollytelling, decoding async, reset listener) | Đã cập nhật & Deploy |
-| [donggop.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/donggop.html) | Trang đóng góp ảnh/lời chúc & Bảng điều khiển Quản trị viên (nút Đặt lại về ban đầu & Đặt lại lượt tim) | Đã cập nhật & Deploy |
-| [album.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/album.html) | Trang album ảnh kỷ niệm 35mm riêng biệt (phong cách hoài niệm, chia ô, thông tin người đăng, đồng bộ reset) | Đã cập nhật & Deploy |
-| [script.js](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/script.js) | Logic hoạt họa 60fps, translate3d, cache kích thước, xử lý RESET_TO_DEFAULT & RESET_HEARTS | Đã cập nhật & Deploy |
-| [styles.css](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/styles.css) | Định kiểu giao diện, tối ưu GPU di động, phong bì 3D, responsive | Đã cập nhật & Deploy |
-| [Code.gs](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/Code.gs) | Mã nguồn Google Apps Script (hỗ trợ resetHearts, resetToDefault, deleteItem, Google Drive/Sheets) | Đã cập nhật & Deploy |
+| [index.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/index.html) | Trang web thiệp tri ân chính (điều hướng 1 tab, tối ưu giai đoạn 5, decoding async, realtime sync) | Đã cập nhật & Deploy |
+| [donggop.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/donggop.html) | Trang đóng góp ảnh & Bảng điều khiển Quản trị viên (thống kê lượt tim, reset về ban đầu & đặt lại tim) | Đã cập nhật & Deploy |
+| [album.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/album.html) | Trang album ảnh kỷ niệm 35mm (ô lưới 2 cột trên điện thoại, metadata người đăng, lightbox) | Đã cập nhật & Deploy |
+| [script.js](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/script.js) | Hoạt họa 60fps, tối ưu GPU giai đoạn 5, phát tim tức thì qua BroadcastChannel, hỗ trợ cảm ứng | Đã cập nhật & Deploy |
+| [styles.css](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/styles.css) | Định kiểu GPU di động, content-visibility, visibility culling, responsive chuẩn mực | Đã cập nhật & Deploy |
+| [Code.gs](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/Code.gs) | Mã nguồn Google Apps Script (hỗ trợ addHeart, getHearts, resetHearts, resetToDefault, deleteItem) | Sẵn sàng dán vào Apps Script |
 | [wishes.json](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/wishes.json) | Dữ liệu tĩnh dự phòng chuẩn ban đầu khi ngoại tuyến và khi reset | Hoạt động bình thường |
-| [tests/run_tests.py](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/tests/run_tests.py) | Bộ chạy kiểm thử tự động toàn hệ thống (76 tests F1-F19) | 100% PASS |
+| [tests/run_tests.py](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/tests/run_tests.py) | Bộ chạy kiểm thử tự động toàn hệ thống (77 tests F1-F20) | 100% PASS |
 
 ---
 

@@ -486,7 +486,7 @@
 
     .stats-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 8px;
       margin-bottom: 18px;
     }
@@ -940,6 +940,7 @@
         padding: 16px 12px !important;
       }
       .stats-row {
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: 6px !important;
       }
       .stat-card {
@@ -1144,6 +1145,10 @@
           <div class="stat-card">
             <div class="stat-num" id="stat-visitors">0</div>
             <div class="stat-label">Lượt vào</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-hearts">0</div>
+            <div class="stat-label">Lượt tim</div>
           </div>
         </div>
 
@@ -1379,6 +1384,12 @@
           syncChannel.onmessage = (event) => {
             const msg = event.data;
             if (!msg || !msg.action) return;
+            if (msg.action === 'UPDATE_HEARTS' || msg.action === 'RESET_HEARTS' || msg.action === 'RESET_TO_DEFAULT') {
+              if (msg.hearts !== undefined) {
+                localStorage.setItem('co_duyen_anh_hearts', String(msg.hearts));
+              }
+              updateStats();
+            }
             renderFeed();
             const dash = document.getElementById('dashboard-view');
             if (dash && dash.style.display !== 'none') {
@@ -1397,6 +1408,9 @@
           if (dash && dash.style.display !== 'none') {
             renderAdminDashboard();
           }
+        }
+        if (e.key === 'co_duyen_anh_hearts') {
+          updateStats();
         }
         if (e.key === GAS_CONFIG.STORAGE_KEY) {
           syncWishesFromRemote();
@@ -1497,6 +1511,10 @@
             }
 
             renderFeed();
+            if (gasData && (typeof gasData.hearts === 'number' || (typeof gasData.hearts === 'string' && !isNaN(parseInt(gasData.hearts, 10))))) {
+              localStorage.setItem('co_duyen_anh_hearts', String(gasData.hearts));
+              updateStats();
+            }
             flushPendingWishesToGas();
             flushPendingPhotosToGas();
           }
@@ -2556,20 +2574,36 @@
       }
     }
 
-    function renderAdminDashboard() {
+    function updateStats() {
       const wishes = getWishes();
       const photos = getPhotos();
       let visitors = [];
       try {
         visitors = JSON.parse(localStorage.getItem(VISITOR_KEY) || '[]');
       } catch (e) {}
+      const heartsCount = localStorage.getItem('co_duyen_anh_hearts') || '0';
 
-      // Thống kê
-      document.getElementById('stat-wishes').textContent = wishes.length;
-      document.getElementById('stat-photos').textContent = photos.length;
-      document.getElementById('stat-visitors').textContent = visitors.length;
-      document.getElementById('badge-count-wishes').textContent = wishes.length;
-      document.getElementById('badge-count-photos').textContent = photos.length;
+      const elWishes = document.getElementById('stat-wishes');
+      const elPhotos = document.getElementById('stat-photos');
+      const elVisitors = document.getElementById('stat-visitors');
+      const elHearts = document.getElementById('stat-hearts');
+      const badgeWishes = document.getElementById('badge-count-wishes');
+      const badgePhotos = document.getElementById('badge-count-photos');
+
+      if (elWishes) elWishes.textContent = wishes.length;
+      if (elPhotos) elPhotos.textContent = photos.length;
+      if (elVisitors) elVisitors.textContent = visitors.length;
+      if (elHearts) elHearts.textContent = heartsCount;
+      if (badgeWishes) badgeWishes.textContent = wishes.length;
+      if (badgePhotos) badgePhotos.textContent = photos.length;
+    }
+
+    function renderAdminDashboard() {
+      const wishes = getWishes();
+      const photos = getPhotos();
+
+      // Thống kê tổng hợp
+      updateStats();
 
       // TAB 1: Danh sách quản lý lời chúc
       const adminWishesList = document.getElementById('admin-wishes-list');

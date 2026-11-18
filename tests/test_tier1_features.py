@@ -590,6 +590,40 @@ class TestTier1Features(unittest.TestCase):
         self.assertIn('action === "resetToDefault"', code_gs)
         self.assertIn('function resetSheetDataToDefault', code_gs)
 
+    # --- F20: Stage 5 Optimization, Single-Tab Navigation, Immediate Hearts, and Mobile Album Grid ---
+    def test_f20_stage5_optimization_single_tab_and_mobile_album_grid(self):
+        """
+        F20: Verify:
+        1. Stage 5 optimization: visibility culling on #film-stage, content-visibility on .film-frame, touch listeners.
+        2. Single tab navigation: zero target="_blank" in index.html, internal navigation remains in same tab.
+        3. Real-time heart counting: instant BroadcastChannel post on click, stat-hearts card in donggop.html.
+        4. Mobile album grid: album.html has 2-column repeat(2, minmax(0, 1fr)) grid on mobile max-width: 768px.
+        """
+        index_content = read_workspace_file(INDEX_HTML)
+        donggop_content = read_workspace_file(DONGGOP_HTML)
+        album_content = read_workspace_file(ALBUM_HTML)
+        script_content = read_workspace_file(SCRIPT_JS)
+        styles_content = read_workspace_file(STYLES_CSS)
+
+        # 1. Single tab navigation
+        self.assertNotIn('target="_blank"', index_content)
+        self.assertIn('href="donggop.html"', index_content)
+        self.assertIn('href="album.html"', index_content)
+
+        # 2. Stage 5 optimization
+        self.assertIn('visibility: hidden', styles_content)
+        self.assertIn('content-visibility: auto', styles_content)
+        self.assertIn('filmStage.style.visibility', script_content)
+        self.assertIn('touchstart', script_content)
+
+        # 3. Heart counter immediate real-time sync & dashboard stat
+        self.assertIn("syncChannel.postMessage({ action: 'UPDATE_HEARTS'", script_content)
+        self.assertIn('id="stat-hearts"', donggop_content)
+        self.assertIn('Lượt tim', donggop_content)
+
+        # 4. Album mobile 2-column grid
+        self.assertIn('repeat(2, minmax(0, 1fr))', album_content)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -434,6 +434,22 @@ function initFilmStrip() {
         }
       });
 
+      img.addEventListener('touchstart', (e) => {
+        isDragging = false;
+        if (e.touches && e.touches[0]) {
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      img.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches[0]) {
+          if (Math.abs(e.touches[0].clientX - startX) > 10 || Math.abs(e.touches[0].clientY - startY) > 10) {
+            isDragging = true;
+          }
+        }
+      }, { passive: true });
+
       img.addEventListener('click', (e) => {
         // Tuyệt đối không mở popup khi di chuột qua hoặc kéo cuộn
         if (isDragging) {
@@ -490,7 +506,9 @@ function updateFilmDimensions() {
   cachedStartOffset = winWidth > 768 ? 72 : 24;
   const endPadding = winWidth > 768 ? 48 : 24;
   const lastFrame = filmFramesRow.lastElementChild;
-  const contentEnd = lastFrame ? (lastFrame.offsetLeft + lastFrame.offsetWidth + endPadding) : (filmFramesRow.scrollWidth || cachedFilmTrackWidth || 8000);
+  const contentEnd = (lastFrame && lastFrame.offsetLeft > 0)
+    ? (lastFrame.offsetLeft + lastFrame.offsetWidth + endPadding)
+    : ((filmFramesRow.scrollWidth || cachedFilmTrackWidth || 8000) + endPadding);
   cachedFilmMaxTranslate = Math.max(0, contentEnd - winWidth + cachedStartOffset);
 }
 
@@ -1022,6 +1040,22 @@ function createContributedFilmFrame(photo) {
     }
   });
 
+  imgEl.addEventListener('touchstart', (e) => {
+    isDragging = false;
+    if (e.touches && e.touches[0]) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  imgEl.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      if (Math.abs(e.touches[0].clientX - startX) > 10 || Math.abs(e.touches[0].clientY - startY) > 10) {
+        isDragging = true;
+      }
+    }
+  }, { passive: true });
+
   imgEl.addEventListener('click', (e) => {
     if (isDragging) {
       e.stopPropagation();
@@ -1121,6 +1155,7 @@ function initIndexWishForm() {
       toggleBtn.style.display = isHidden ? 'none' : 'inline-flex';
       if (isHidden && authorInput) {
         authorInput.focus();
+        form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     });
   }
@@ -1407,18 +1442,30 @@ function initFinalTribute() {
       } catch (err) {}
       playSound('chime');
 
-      // Gom lượt click và tự động đẩy lên Google Sheets sau 1.2s (Debounce tối ưu mạng)
+      // 1. Phát tín hiệu Real-time NGAY LẬP TỨC sang tất cả các tab đang mở (không chờ mạng)
+      if (syncChannel) {
+        try {
+          syncChannel.postMessage({ action: 'UPDATE_HEARTS', hearts: count });
+        } catch (syncErr) {}
+      }
+
+      // 2. Gom lượt click và tự động đẩy lên Google Sheets sau 1.2s (Debounce tối ưu mạng)
       pendingHeartClicks++;
       clearTimeout(heartSyncTimer);
       heartSyncTimer = setTimeout(flushHeartClicksToGas, 1200);
+
+      // 3. Tọa độ bay tim tối ưu cho cả chuột máy tính và chạm cảm ứng điện thoại
+      const rect = heartBtn.getBoundingClientRect();
+      const clickX = (e && typeof e.clientX === 'number' && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
+      const clickY = (e && typeof e.clientY === 'number' && e.clientY > 0) ? e.clientY : (rect.top + rect.height / 2);
 
       for (let i = 0; i < 6; i++) {
         setTimeout(() => {
           const heart = document.createElement('div');
           heart.className = 'flying-heart';
           heart.innerText = ['❤️', '💖', '💐', '✨', '🌸'][Math.floor(Math.random() * 5)];
-          heart.style.left = `${e.clientX + (Math.random() - 0.5) * 90}px`;
-          heart.style.top = `${e.clientY - 20}px`;
+          heart.style.left = `${clickX + (Math.random() - 0.5) * 80}px`;
+          heart.style.top = `${clickY - 20}px`;
           document.body.appendChild(heart);
           setTimeout(() => heart.remove(), 2000);
         }, i * 60);
@@ -1773,19 +1820,20 @@ function initAnimationLoop() {
     }
 
     // -------------------------------------------------------------
-    // 5. ĐẠI THƯỚC PHIM KỶ YẾU & KỶ NIỆM 35MM (p: 0.46 -> 0.76)
-    // TỐI ƯU 60FPS: SỬ DỤNG CACHED SCROLLWIDTH KHÔNG GÂY LAYOUT THRASHING
+    // 5. ĐẠI THƯỚC PHIM KỶ YẾU & KỶ NIỆM 35MM (p: 0.44 -> 0.78)
+    // TỐI ƯU 60FPS: SỬ DỤNG CACHED SCROLLWIDTH & VISIBILITY CULLING KHÔNG GÂY LAYOUT THRASHING
     // -------------------------------------------------------------
     let filmOp = 0;
-    if (p >= 0.46 && p <= 0.78) {
-      filmOp = p < 0.50 ? mapRange(p, 0.46, 0.50, 0, 1) : mapRange(p, 0.73, 0.77, 1, 0);
+    if (p >= 0.44 && p <= 0.78) {
+      filmOp = p < 0.48 ? mapRange(p, 0.44, 0.48, 0, 1) : (p > 0.74 ? mapRange(p, 0.74, 0.78, 1, 0) : 1);
     }
     if (filmStage) {
       filmStage.style.opacity = filmOp;
-      filmStage.style.pointerEvents = (filmOp > 0.3 && p < 0.75) ? 'auto' : 'none';
+      filmStage.style.visibility = filmOp > 0 ? 'visible' : 'hidden';
+      filmStage.style.pointerEvents = (filmOp > 0.3 && p < 0.76) ? 'auto' : 'none';
     }
-    if (filmTrack && p >= 0.46 && p <= 0.78) {
-      const filmProg = p < 0.50 ? 0 : (p > 0.73 ? 1 : mapRange(p, 0.50, 0.73, 0, 1));
+    if (filmTrack && p >= 0.44 && p <= 0.78) {
+      const filmProg = p < 0.48 ? 0 : (p > 0.74 ? 1 : mapRange(p, 0.48, 0.74, 0, 1));
       const currentX = -filmProg * cachedFilmMaxTranslate + cachedStartOffset;
       filmTrack.style.transform = `translate3d(${currentX}px, 0, 0)`;
     }

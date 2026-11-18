@@ -539,38 +539,101 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Tối ưu hóa di động */
+    /* Tối ưu hóa di động: Lưới khung phim 2 cột (Dạng ô lưới) */
     @media (max-width: 768px) {
       body {
-        padding: 16px 12px 60px 12px;
+        padding: 14px 10px 60px 10px;
       }
       .album-header-nav {
         gap: 8px;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
       }
       .nav-btn {
-        flex: 1 1 140px;
+        flex: 1 1 120px;
         font-size: 0.75rem;
-        padding: 8px 12px;
-        min-height: 44px;
+        padding: 8px 10px;
+        min-height: 40px;
       }
       .film-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .film-card {
+        border-radius: 6px;
+      }
+      .film-sprocket-bar {
+        height: 20px;
+        padding: 0 8px;
+      }
+      .sprocket-code {
+        font-size: 0.55rem;
+        padding: 1px 4px;
+        letter-spacing: 0.5px;
+      }
+      .sprocket-frame-num {
+        font-size: 0.55rem;
+        padding: 1px 4px;
       }
       .controls-panel {
         flex-direction: column;
         align-items: stretch;
+        gap: 10px;
+        padding: 12px 14px;
       }
       .search-box {
         max-width: 100%;
       }
       .film-image-container {
-        height: 240px;
+        height: clamp(140px, 22vh, 185px);
+        padding: 4px;
+      }
+      .film-metadata-plate {
+        padding: 8px 10px;
+        gap: 4px;
+      }
+      .metadata-author-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+      .author-name-tag {
+        font-size: 0.75rem;
+        gap: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+      }
+      .metadata-time {
+        font-size: 0.65rem;
+      }
+      .metadata-caption {
+        font-size: 0.72rem;
+        padding: 4px 6px;
+        line-height: 1.35;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
       .lightbox-close-btn {
         top: 10px;
         right: 10px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      body {
+        padding: 10px 6px 60px 6px;
+      }
+      .film-grid {
+        gap: 8px;
+      }
+      .film-image-container {
+        height: 135px;
+      }
+      .film-metadata-plate {
+        padding: 6px 8px;
       }
     }
   </style>
