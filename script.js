@@ -206,7 +206,8 @@ const dustList = [];
 function initDust() {
   const container = document.getElementById('dust-container');
   if (!container) return;
-  const count = 65;
+  const isMobile = window.innerWidth <= 768;
+  const count = isMobile ? 18 : 65;
 
   for (let i = 0; i < count; i++) {
     const el = document.createElement('div');
@@ -217,7 +218,9 @@ function initDust() {
 
     const isGold = Math.random() > 0.6;
     el.style.backgroundColor = isGold ? '#fbbf24' : '#ffffff';
-    el.style.boxShadow = isGold ? '0 0 8px #f59e0b' : '0 0 6px #ffffff';
+    if (!isMobile) {
+      el.style.boxShadow = isGold ? '0 0 8px #f59e0b' : '0 0 6px #ffffff';
+    }
 
     container.appendChild(el);
     dustList.push({
@@ -241,7 +244,8 @@ function initIcons() {
   if (!container) return;
   // Biểu tượng basic tối giản, thanh lịch: Ngôi sao 4 cánh, hoa nhỏ, hạt sáng lấp lánh
   const symbols = ['✦', '✧', '⋆', '✿', '◇', '✯', '❀', '❋', '•'];
-  const count = 36;
+  const isMobile = window.innerWidth <= 768;
+  const count = isMobile ? 10 : 36;
 
   for (let i = 0; i < count; i++) {
     const el = document.createElement('div');
@@ -267,7 +271,9 @@ function initIcons() {
 
     el.style.fontSize = `${scale * 1.3}rem`;
     el.style.color = i % 2 === 0 ? 'rgba(251, 191, 36, 0.65)' : 'rgba(254, 240, 138, 0.55)';
-    el.style.textShadow = '0 0 10px rgba(245, 158, 11, 0.35)';
+    if (!isMobile) {
+      el.style.textShadow = '0 0 10px rgba(245, 158, 11, 0.35)';
+    }
     container.appendChild(el);
 
     iconList.push({
@@ -471,12 +477,21 @@ function initFilmSprocketsText() {
    QUẢN LÝ DỮ LIỆU ĐÓNG GÓP, SUB-LETTERS & ẢNH CUỘN PHIM 35MM
    =================================================================== */
 let cachedFilmTrackWidth = 0;
+let cachedFilmMaxTranslate = 0;
+let cachedStartOffset = 24;
 
 function updateFilmDimensions() {
   const filmFramesRow = document.getElementById('film-frames-row');
-  if (filmFramesRow && filmFramesRow.scrollWidth > 0) {
+  if (!filmFramesRow) return;
+  if (filmFramesRow.scrollWidth > 0) {
     cachedFilmTrackWidth = filmFramesRow.scrollWidth;
   }
+  const winWidth = window.innerWidth;
+  cachedStartOffset = winWidth > 768 ? 72 : 24;
+  const endPadding = winWidth > 768 ? 48 : 24;
+  const lastFrame = filmFramesRow.lastElementChild;
+  const contentEnd = lastFrame ? (lastFrame.offsetLeft + lastFrame.offsetWidth + endPadding) : (filmFramesRow.scrollWidth || cachedFilmTrackWidth || 8000);
+  cachedFilmMaxTranslate = Math.max(0, contentEnd - winWidth + cachedStartOffset);
 }
 
 /* ===================================================================
@@ -965,6 +980,7 @@ function createContributedFilmFrame(photo) {
   imgEl.src = photo.image;
   imgEl.alt = `Kỷ niệm từ ${photo.author || 'Bạn học trò'}`;
   imgEl.loading = 'lazy';
+  imgEl.decoding = 'async';
 
   imgEl.onerror = function() {
     if (photo.image && photo.image.includes('lh3.googleusercontent.com/d/')) {
@@ -1386,16 +1402,31 @@ function initFinalTribute() {
    VÒNG LẶP ĐIỀU KHIỂN CHUYỂN ĐỘNG ANTIGRAVITY THEO CUỘN TRANG
    =================================================================== */
 let mouseX = 0, mouseY = 0;
+let cachedWinWidth = typeof window !== 'undefined' ? (window.innerWidth || 1920) : 1920;
+let cachedWinHeight = typeof window !== 'undefined' ? (window.innerHeight || 1080) : 1080;
+let cachedMaxScroll = 1;
+let isTouchDevice = false;
+let isMobilePortraitMode = false;
+
+function updateWindowDimensions() {
+  cachedWinWidth = window.innerWidth || 1920;
+  cachedWinHeight = window.innerHeight || 1080;
+  cachedMaxScroll = Math.max(1, document.documentElement.scrollHeight - cachedWinHeight);
+  isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  isMobilePortraitMode = (cachedWinWidth < cachedWinHeight) && (cachedWinWidth <= 768);
+  updateFilmDimensions();
+}
+
 window.addEventListener('mousemove', (e) => {
-  mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-  mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  mouseX = (e.clientX / cachedWinWidth - 0.5) * 2;
+  mouseY = (e.clientY / cachedWinHeight - 0.5) * 2;
 }, { passive: true });
 
 // Hỗ trợ cảm ứng vuốt trên màn hình điện thoại di động
 window.addEventListener('touchmove', (e) => {
   if (e.touches && e.touches[0]) {
-    mouseX = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
-    mouseY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+    mouseX = (e.touches[0].clientX / cachedWinWidth - 0.5) * 2;
+    mouseY = (e.touches[0].clientY / cachedWinHeight - 0.5) * 2;
   }
 }, { passive: true });
 
@@ -1404,8 +1435,7 @@ let currentProgress = 0;
 let lastTriggerStage = -1;
 
 window.addEventListener('scroll', () => {
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-  targetProgress = maxScroll > 0 ? Math.max(0, Math.min(1, window.scrollY / maxScroll)) : 0;
+  targetProgress = cachedMaxScroll > 0 ? Math.max(0, Math.min(1, window.scrollY / cachedMaxScroll)) : 0;
 }, { passive: true });
 
 function initAnimationLoop() {
@@ -1414,6 +1444,7 @@ function initAnimationLoop() {
 
   const flap = document.getElementById('flap');
   const envParts = document.querySelectorAll('.env-part');
+  const envWrapper = document.getElementById('envelope-wrapper');
   const letter = document.getElementById('letter');
   const letterSecTop = document.getElementById('letter-sec-top');
   const letterSecBottom = document.getElementById('letter-sec-bottom');
@@ -1427,25 +1458,33 @@ function initAnimationLoop() {
   const subLettersStage = document.getElementById('sub-letters-stage');
   const finalTribute = document.getElementById('final-tribute');
 
-  // Khởi tạo cache kích thước filmTrack để triệt tiêu Forced Synchronous Reflow trong rAF
-  updateFilmDimensions();
+  // Khởi tạo cache kích thước filmTrack và cửa sổ để triệt tiêu Forced Synchronous Reflow trong rAF
+  updateWindowDimensions();
   initFilmSprocketsText();
+
   window.addEventListener('resize', () => {
-    updateFilmDimensions();
+    updateWindowDimensions();
     initFilmSprocketsText();
-  });
+  }, { passive: true });
+
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      updateWindowDimensions();
+      initFilmSprocketsText();
+    }, 120);
+  }, { passive: true });
+
   window.addEventListener('load', () => {
-    updateFilmDimensions();
+    updateWindowDimensions();
     initFilmSprocketsText();
-  });
+  }, { passive: true });
 
   let envHidden = false;
 
   function animate(time) {
     // Lerp mượt mà 60fps (thích ứng phản hồi cảm ứng nhanh trên điện thoại)
-    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
-    const isPortrait = window.innerWidth < window.innerHeight;
-    const isMobilePortrait = isPortrait && window.innerWidth <= 768;
+    const isTouch = isTouchDevice;
+    const isMobilePortrait = isMobilePortraitMode;
     const lerpRate = isTouch ? 0.08 : 0.055;
     currentProgress += (targetProgress - currentProgress) * lerpRate;
     if (Math.abs(targetProgress - currentProgress) < 0.0001) {
@@ -1603,7 +1642,6 @@ function initAnimationLoop() {
       });
     }
 
-    const envWrapper = document.getElementById('envelope-wrapper');
     if (envWrapper) {
       envWrapper.style.pointerEvents = p < 0.06 ? 'auto' : 'none';
     }
@@ -1642,7 +1680,7 @@ function initAnimationLoop() {
       const wobbleY = Math.cos(time * item.wobbleSpeed + item.offset) * (item.wobbleAmp / 2);
 
       const op = mapRange(p, 0.12, 0.22, 0, 0.65);
-      item.el.style.transform = `translate(${currentX + wobbleX}vw, ${currentY + wobbleY}vh) rotate(${currentRot}deg) scale(${item.scale})`;
+      item.el.style.transform = `translate3d(${currentX + wobbleX}vw, ${currentY + wobbleY}vh, 0) rotate(${currentRot}deg) scale(${item.scale})`;
       item.el.style.opacity = op;
     });
 
@@ -1680,7 +1718,7 @@ function initAnimationLoop() {
         : d.baseX;
       const actualSwayX = isMobilePortrait ? swayX * 0.45 : swayX;
 
-      item.el.style.transform = `translate(${targetBaseX + actualSwayX}vw, calc(${currentY}vh + ${floatY}px)) rotate(${dynamicRot}deg) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${scaleBreath})`;
+      item.el.style.transform = `translate3d(${targetBaseX + actualSwayX}vw, calc(${currentY}vh + ${floatY}px), 0) rotate(${dynamicRot}deg) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${scaleBreath})`;
       item.el.style.opacity = op;
       item.el.style.pointerEvents = op > 0.2 ? 'auto' : 'none';
     });
@@ -1712,18 +1750,8 @@ function initAnimationLoop() {
     }
     if (filmTrack && p >= 0.46 && p <= 0.78) {
       const filmProg = p < 0.50 ? 0 : (p > 0.73 ? 1 : mapRange(p, 0.50, 0.73, 0, 1));
-      const rowEl = document.getElementById('film-frames-row');
-      if (rowEl) {
-        const lastFrame = rowEl.lastElementChild;
-        const winWidth = window.innerWidth;
-        const startOffset = winWidth > 768 ? 72 : 24;
-        const endPadding = winWidth > 768 ? 48 : 24;
-        // Điểm kết thúc chính xác của tấm ảnh cuối cùng (tự động mở rộng khi có ảnh mới, dừng ngang tấm cuối)
-        const contentEnd = lastFrame ? (lastFrame.offsetLeft + lastFrame.offsetWidth + endPadding) : (rowEl.scrollWidth || cachedFilmTrackWidth);
-        const maxTranslate = Math.max(0, contentEnd - winWidth + startOffset);
-        const currentX = -filmProg * maxTranslate + startOffset;
-        filmTrack.style.transform = `translateX(${currentX}px)`;
-      }
+      const currentX = -filmProg * cachedFilmMaxTranslate + cachedStartOffset;
+      filmTrack.style.transform = `translate3d(${currentX}px, 0, 0)`;
     }
 
     // -------------------------------------------------------------
@@ -1767,7 +1795,7 @@ function initAnimationLoop() {
       if (dust.x > 105) dust.x = -5;
 
       const alpha = dust.baseAlpha + Math.sin(time * dust.twinkle) * 0.3;
-      dust.el.style.transform = `translate(${dust.x}vw, ${dust.y}vh)`;
+      dust.el.style.transform = `translate3d(${dust.x}vw, ${dust.y}vh, 0)`;
       dust.el.style.opacity = Math.max(0.05, alpha);
     });
 

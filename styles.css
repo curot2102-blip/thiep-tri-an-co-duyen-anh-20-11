@@ -37,8 +37,7 @@ body {
   /* Chiều cao cuộn 2000vh: Không gian liên tục cho các giai đoạn mượt mà */
   height: 2000vh;
   margin: 0;
-  background: radial-gradient(circle at 50% 20%, #131826 0%, var(--bg-deep) 75%);
-  background-attachment: fixed;
+  background-color: var(--bg-deep);
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
@@ -123,6 +122,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: radial-gradient(circle at 50% 20%, #131826 0%, var(--bg-deep) 75%);
+  touch-action: pan-y;
 }
 
 /* Container các hạt bụi, icon và meme - Neo chuẩn 0, 0 toàn màn hình */
@@ -1142,6 +1143,47 @@ body {
     max-width: 95vw;
     max-height: 80vh;
     max-height: 80dvh;
+  }
+
+  /* Tối ưu hóa hiệu năng di động cực hạn: Giảm tải GPU, triệt tiêu lag & giật khung hình */
+  .dust-dot {
+    will-change: auto !important;
+    box-shadow: none !important;
+  }
+
+  .floating-icon {
+    will-change: auto !important;
+    filter: none !important;
+    text-shadow: none !important;
+  }
+
+  .floating-meme-card {
+    filter: none !important;
+  }
+
+  .floating-meme-card img,
+  .meme-inner {
+    will-change: auto !important;
+  }
+
+  .film-strip-track {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .film-frame {
+    contain: layout paint;
+  }
+
+  .film-frame img {
+    will-change: auto !important;
+    image-rendering: auto;
+  }
+
+  .ctrl-btn,
+  .frame-tag,
+  .tribute-card {
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
   }
 }
 

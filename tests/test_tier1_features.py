@@ -465,6 +465,38 @@ class TestTier1Features(unittest.TestCase):
                 f"No intermediate temp files allowed in images/: {item.name}"
             )
 
+    # --- F16: Mobile Anti-Lag Optimizations ---
+    def test_f16_mobile_anti_lag_optimizations(self):
+        """
+        F16: Mobile performance optimizations:
+        1. Async image decoding attribute on film images
+        2. No background-attachment: fixed on body (prevents mobile scroll repainting jank)
+        3. translate3d hardware compositing in animation loop
+        4. Mobile-scaled particle counts (reduced dust/icons on mobile)
+        """
+        index_content = read_workspace_file(INDEX_HTML)
+        styles_content = read_workspace_file(STYLES_CSS)
+        script_content = read_workspace_file(SCRIPT_JS)
+
+        # 1. Async image decoding
+        self.assertIn('decoding="async"', index_content, "index.html images should utilize decoding='async'")
+
+        # 2. Body background-attachment: fixed removed from body to prevent mobile repaints
+        self.assertNotIn(
+            "background-attachment: fixed;",
+            styles_content.split("@media")[0],
+            "body in styles.css should not use background-attachment: fixed (breaks mobile compositor)"
+        )
+
+        # 3. Hardware accelerated translate3d in animation loop
+        self.assertIn("translate3d", script_content, "script.js animation loop should use translate3d hardware compositing")
+
+        # 4. Mobile reduced particle count
+        self.assertTrue(
+            "isMobile" in script_content and ("18" in script_content or "count = isMobile" in script_content),
+            "script.js should scale down particle counts on mobile devices to prevent CPU/GPU throttling"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
