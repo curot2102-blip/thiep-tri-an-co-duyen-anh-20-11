@@ -18,6 +18,7 @@ STYLES_CSS = WORKSPACE_DIR / "styles.css"
 SCRIPT_JS = WORKSPACE_DIR / "script.js"
 IMAGES_DIR = WORKSPACE_DIR / "images"
 WISHES_JSON = WORKSPACE_DIR / "wishes.json"
+CODE_GS = WORKSPACE_DIR / "Code.gs"
 WEB_DIR = WORKSPACE_DIR.parent / "Web"
 
 

@@ -1073,6 +1073,9 @@ function initRealtimeSync() {
           case 'UPDATE_HEARTS':
             updateHeartCounter(payload || msg.hearts);
             break;
+          case 'RESET_HEARTS':
+            updateHeartCounter(0, true);
+            break;
           case 'SYNC_ALL':
             refreshAllData();
             break;
@@ -1087,6 +1090,10 @@ function initRealtimeSync() {
   window.addEventListener('storage', (e) => {
     if (e.key === 'co_duyen_anh_wishes' || e.key === 'co_duyen_anh_photos' || e.key === 'co_duyen_anh_deleted_ids') {
       refreshAllData();
+    }
+    if (e.key === 'co_duyen_anh_hearts') {
+      const countSpan = document.getElementById('heart-count');
+      if (countSpan) countSpan.textContent = e.newValue || '0';
     }
     if (e.key === GAS_CONFIG.STORAGE_KEY) {
       syncWishesFromRemote();
@@ -1302,12 +1309,12 @@ function escapeHtml(text) {
    3. TƯƠNG TÁC LỜI KẾT & LƯU LẠI MỤC TIM THỰC TẾ (PERSISTED HEARTS)
    - Khởi tạo lượt tim bắt đầu từ 0 và lưu trữ bền bỉ trong localStorage
    =================================================================== */
-function updateHeartCounter(newCount) {
+function updateHeartCounter(newCount, force = false) {
   const countSpan = document.getElementById('heart-count');
   const num = parseInt(newCount, 10);
   if (isNaN(num)) return;
   const current = parseInt(localStorage.getItem('co_duyen_anh_hearts') || '0', 10);
-  const finalNum = Math.max(num, current);
+  const finalNum = (force || num === 0) ? num : Math.max(num, current);
   try {
     localStorage.setItem('co_duyen_anh_hearts', finalNum.toString());
   } catch (e) {}
@@ -1347,9 +1354,18 @@ function initFinalTribute() {
   const countSpan = document.getElementById('heart-count');
   const replayBtn = document.getElementById('replay-btn');
 
+  // Đặt lại lượt tim về 0 theo yêu cầu người dùng
+  const HEART_RESET_KEY = 'co_duyen_anh_hearts_reset_v2';
+  if (!localStorage.getItem(HEART_RESET_KEY)) {
+    try {
+      localStorage.setItem('co_duyen_anh_hearts', '0');
+      localStorage.setItem(HEART_RESET_KEY, 'true');
+    } catch (e) {}
+  }
+
   // Khôi phục số tim thực tế đã lưu từ localStorage (bắt đầu từ 0, dọn sạch giá trị 999 cũ nếu có)
   let savedHearts = localStorage.getItem('co_duyen_anh_hearts');
-  if (savedHearts === '999' || savedHearts === '1000') {
+  if (savedHearts === null || savedHearts === '999' || savedHearts === '1000') {
     savedHearts = '0';
     try {
       localStorage.setItem('co_duyen_anh_hearts', '0');

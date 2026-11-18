@@ -148,6 +148,15 @@ function doPost(e) {
       });
     }
 
+    if (action === "resetHearts" || action === "clearHearts") {
+      var resetHearts = resetHeartsInSheet(ss);
+      return createJsonResponse({
+        status: "success",
+        message: "Đã đặt lại lượt thả tim về 0 thành công!",
+        hearts: 0
+      });
+    }
+
     if (action === "deleteWish" || action === "deletePhoto") {
       var deletedId = payload.id || "";
       var sheetName = (action === "deleteWish") ? SHEET_WISHES : SHEET_PHOTOS;
@@ -618,6 +627,26 @@ function incrementHeartsInSheet(ss, increment) {
   sheet.getRange(2, 2).setValue(newTotal);
   sheet.getRange(2, 3).setValue(Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss"));
   return newTotal;
+}
+
+/**
+ * Đặt lại tổng lượt tim về 0 trong trang tính Hearts
+ */
+function resetHeartsInSheet(ss) {
+  var sheet = ss.getSheetByName(SHEET_HEARTS);
+  if (!sheet) {
+    initSheetsIfNeeded(ss);
+    sheet = ss.getSheetByName(SHEET_HEARTS);
+  }
+  if (!sheet || sheet.getLastRow() < 2) {
+    initSheetsIfNeeded(ss);
+    sheet = ss.getSheetByName(SHEET_HEARTS);
+  }
+  if (sheet && sheet.getLastRow() >= 2) {
+    sheet.getRange(2, 2).setValue(0);
+    sheet.getRange(2, 3).setValue(Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss"));
+  }
+  return 0;
 }
 
 /**

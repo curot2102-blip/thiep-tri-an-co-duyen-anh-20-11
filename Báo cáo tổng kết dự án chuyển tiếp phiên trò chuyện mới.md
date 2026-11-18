@@ -65,10 +65,11 @@ flowchart TD
   - Cơ chế quản lý ảnh nhận diện theo cả ID và URL Google Drive, bảo đảm không bao giờ bị ghi đè.
   - Bổ sung cơ chế fallback tự động cho link Google Drive nếu kết nối mạng di động chập chờn.
 
-### 4. Đồng bộ lượt Thả tim Thời gian thực (Live Hearts)
-- Lượt thả tim bắt đầu từ số 0 thực tế.
-- Tích hợp kỹ thuật gom lượt bấm (Debounce Batching 1.2s): học sinh bấm thả tim liên tục tạo hoa tim bay rực rỡ, hệ thống tự động gom lại và gửi 1 request nhẹ nhàng lên Google Sheets.
-- Số tim được ghi nhận vào trang tính `Hearts` và tự động cập nhật đồng bộ cho tất cả người xem trên toàn thế giới.
+### 4. Đồng bộ lượt Thả tim Thời gian thực (Live Hearts) & Đặt lại về 0
+- **Lượt thả tim bắt đầu từ số 0**: Đã thiết lập cơ chế reset toàn diện trên toàn bộ client và localStorage (`co_duyen_anh_hearts_reset_v2`), đảm bảo mọi người dùng mở trang web đều thấy bộ đếm tim xuất phát từ 0.
+- **Công cụ Quản trị viên**: Bổ sung nút `Đặt lại lượt tim về 0` trong Bảng điều khiển Quản trị viên tại `donggop.html`. Khi Admin bấm xác nhận, hệ thống lập tức phát tín hiệu BroadcastChannel `RESET_HEARTS` để mọi tab/thiết bị đang mở lập tức về 0, đồng thời gửi yêu cầu lên Google Apps Script (`action: resetHearts`).
+- **Tích hợp kỹ thuật gom lượt bấm (Debounce Batching 1.2s)**: Khi học sinh bấm thả tim liên tục tạo hoa tim bay rực rỡ, hệ thống tự động gom lại và gửi 1 request nhẹ nhàng lên Google Sheets.
+- **Backend Google Apps Script**: Hàm `resetHeartsInSheet` tự động đặt lại giá trị cột `Total_Hearts` về 0 và ghi nhận thời gian cập nhật.
 
 ### 5. Tinh chỉnh giao diện nút bấm cuối trang (Anti-AI Slop)
 - Rút gọn nhãn nút bấm cân đối, súc tích:
@@ -97,8 +98,8 @@ flowchart TD
 
 Dự án được bảo vệ bởi bộ kiểm thử tự động khép kín 5 tầng (Tier 1 đến Tier 5):
 - **Tệp thực thi**: `tests/run_tests.py`
-- **Tổng số ca kiểm thử**: **73 bài test** (đã bổ sung F16: Mobile Anti-Lag Suite)
-- **Kết quả**: **73/73 PASS (100% Thành công)** trong thời gian thực thi ~0.43 giây.
+- **Tổng số ca kiểm thử**: **74 bài test** (F1-F17 Feature Suites)
+- **Kết quả**: **74/74 PASS (100% Thành công)** trong thời gian thực thi ~0.5 giây.
 - **Kiểm toán độc lập (Teamwork Victory Audit)**: Phán quyết **VICTORY CONFIRMED**.
 
 ---

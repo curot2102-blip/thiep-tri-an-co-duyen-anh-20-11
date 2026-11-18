@@ -17,6 +17,7 @@ from tests.helpers import (
     SCRIPT_JS,
     IMAGES_DIR,
     WISHES_JSON,
+    CODE_GS,
     WEB_DIR,
     read_workspace_file,
     parse_html,
@@ -496,6 +497,32 @@ class TestTier1Features(unittest.TestCase):
             "isMobile" in script_content and ("18" in script_content or "count = isMobile" in script_content),
             "script.js should scale down particle counts on mobile devices to prevent CPU/GPU throttling"
         )
+
+    # --- F17: Heart Counter Zero Reset & Admin Control ---
+    def test_f17_heart_counter_reset_and_admin_control(self):
+        """
+        F17: Verify heart counter starts at 0, supports real-time reset across tabs,
+        and provides Admin Dashboard reset tool.
+        """
+        index_content = read_workspace_file(INDEX_HTML)
+        script_content = read_workspace_file(SCRIPT_JS)
+        donggop_content = read_workspace_file(DONGGOP_HTML)
+        code_gs = read_workspace_file(CODE_GS)
+
+        # 1. index.html starts at 0
+        self.assertIn('<span id="heart-count">0</span>', index_content)
+
+        # 2. script.js has reset logic
+        self.assertIn('RESET_HEARTS', script_content)
+        self.assertIn('co_duyen_anh_hearts_reset_v2', script_content)
+
+        # 3. donggop.html Admin Dashboard button
+        self.assertIn('id="btn-reset-hearts"', donggop_content)
+        self.assertIn('Đặt lại lượt tim về 0', donggop_content)
+
+        # 4. Code.gs backend support
+        self.assertIn('action === "resetHearts"', code_gs)
+        self.assertIn('function resetHeartsInSheet', code_gs)
 
 
 if __name__ == "__main__":

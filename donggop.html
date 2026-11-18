@@ -1174,6 +1174,12 @@
             </svg>
             <span>Tải file wishes.json</span>
           </button>
+          <button id="btn-reset-hearts" class="admin-tool-btn" style="border-color: rgba(239, 68, 68, 0.4); color: #fca5a5;" title="Đặt lại lượt thả tim về 0 trên toàn hệ thống">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span>Đặt lại lượt tim về 0</span>
+          </button>
         </div>
 
         <!-- 2 TAB QUẢN TRỊ ADMIN ĐỘC LẬP & CẤU HÌNH ĐỒNG BỘ -->
@@ -2281,6 +2287,30 @@
         a.click();
         URL.revokeObjectURL(url);
       });
+
+      const btnResetHearts = document.getElementById('btn-reset-hearts');
+      if (btnResetHearts) {
+        btnResetHearts.addEventListener('click', () => {
+          if (!confirm('Bạn có chắc chắn muốn đặt lại toàn bộ lượt thả tim về 0 trên tất cả thiết bị không?')) return;
+          try {
+            localStorage.setItem('co_duyen_anh_hearts', '0');
+            if (syncChannel) {
+              try { syncChannel.postMessage({ action: 'RESET_HEARTS', hearts: 0 }); } catch (e) {}
+            }
+            const gasUrl = getGasWebAppUrl();
+            if (gasUrl) {
+              fetch(gasUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'resetHearts' })
+              }).catch(() => {});
+            }
+            alert('Đã đặt lại lượt thả tim về 0 thành công trên toàn hệ thống!');
+          } catch (err) {
+            alert('Lỗi: ' + err.message);
+          }
+        });
+      }
 
       // Tạo Link Chia Sẻ / Đồng Bộ trực tiếp sang điện thoại (hoặc thiết bị khác)
       const btnShareSync = document.getElementById('btn-share-sync');
