@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Album Ảnh Kỷ Niệm 35mm - Cô Duyên Anh & Học Trò</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-darkroom: #07090e;
+      --bg-surface: #0e121b;
+      --bg-card: #121622;
+      --border-film: #222938;
+      --border-gold: rgba(245, 158, 11, 0.35);
+      --accent-gold: #f59e0b;
+      --accent-gold-light: #fbbf24;
+      --accent-amber: #d97706;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --text-muted: #64748b;
+      --film-grain: rgba(245, 158, 11, 0.04);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-darkroom);
+      background-image: radial-gradient(circle at 50% 12%, #141a29 0%, var(--bg-darkroom) 85%);
+      color: var(--text-main);
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 24px 16px 80px 16px;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Thanh điều hướng trên cùng */
+    .album-header-nav {
+      max-width: 1200px;
+      margin: 0 auto 28px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: rgba(14, 18, 27, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-sub);
+      padding: 10px 18px;
+      min-height: 44px;
+      box-sizing: border-box;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-btn:hover {
+      background: rgba(24, 30, 44, 0.95);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-light);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn.primary {
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.85), rgba(180, 83, 9, 0.85));
+      border-color: var(--accent-gold);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .nav-btn.primary:hover {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.9), rgba(217, 119, 6, 0.9));
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Banner tiêu đề hoài niệm kiểu bảng rọi phim Contact Sheet */
+    .album-hero {
+      max-width: 1200px;
+      margin: 0 auto 36px auto;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid var(--border-gold);
+      color: var(--accent-gold-light);
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.8rem, 4.5vw, 2.75rem);
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-desc {
+      font-size: 0.9375rem;
+      color: var(--text-sub);
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Thanh tìm kiếm & bộ lọc thống kê */
+    .controls-panel {
+      max-width: 1200px;
+      margin: 0 auto 32px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      background: rgba(14, 18, 27, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 12px 18px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(8, 10, 16, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 8px 14px;
+      flex: 1;
+      min-width: 240px;
+      max-width: 440px;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+    }
+
+    .search-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.875rem;
+      width: 100%;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .photo-stat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.8125rem;
+      color: var(--accent-gold-light);
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    /* LƯỚI KHUNG PHIM HOÀI NIỆM (VINTAGE 35MM FILM CONTACT SHEET GRID) */
+    .film-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+      box-sizing: border-box;
+    }
+
+    /* Khung phim cổ điển 35mm độc lập cho từng ảnh */
+    .film-card {
+      background: #080a11;
+      border: 2px solid var(--border-film);
+      border-radius: 8px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(245, 158, 11, 0.05);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+
+    .film-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(245, 158, 11, 0.6);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.8), 0 0 32px rgba(245, 158, 11, 0.15);
+    }
+
+    /* Dải răng cưa phim 35mm trên & dưới */
+    .film-sprocket-bar {
+      height: 26px;
+      background-color: #040508;
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 14px,
+        #161b26 14px,
+        #161b26 28px
+      );
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      position: relative;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .film-sprocket-bar.bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: none;
+    }
+
+    .sprocket-code {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.625rem;
+      font-weight: 700;
+      color: var(--accent-gold-light);
+      background: rgba(4, 5, 8, 0.92);
+      padding: 2px 8px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+    }
+
+    .sprocket-frame-num {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.625rem;
+      font-weight: 700;
+      color: #94a3b8;
+      background: rgba(4, 5, 8, 0.92);
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    /* Khung ảnh trung tâm giữ nguyên tỉ lệ */
+    .film-image-container {
+      background: #020305;
+      width: 100%;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    .film-image {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 4px;
+      display: block;
+      transition: transform 0.3s ease;
+      background: #000000;
+    }
+
+    .film-card:hover .film-image {
+      transform: scale(1.02);
+    }
+
+    /* Nút phóng to nổi khi di chuột */
+    .zoom-overlay-hint {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(8, 10, 16, 0.85);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--accent-gold-light);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: all 0.2s ease;
+      pointer-events: none;
+    }
+
+    .film-card:hover .zoom-overlay-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Bảng thông tin người đăng kiểu nhãn cổ điển */
+    .film-metadata-plate {
+      padding: 16px 18px 14px 18px;
+      background: #0b0e17;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .metadata-author-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .author-name-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: 0.2px;
+    }
+
+    .author-icon {
+      color: var(--accent-gold);
+      flex-shrink: 0;
+    }
+
+    .metadata-time {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .metadata-caption {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 0.875rem;
+      color: var(--accent-gold-light);
+      line-height: 1.5;
+      background: rgba(245, 158, 11, 0.06);
+      border-left: 2px solid var(--accent-gold);
+      padding: 6px 10px;
+      border-radius: 0 4px 4px 0;
+      word-break: break-word;
+    }
+
+    /* Trạng thái trống (Không có ảnh) */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      background: rgba(14, 18, 27, 0.5);
+      border: 1px dashed rgba(245, 158, 11, 0.3);
+      border-radius: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .empty-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px auto;
+      color: var(--accent-gold);
+      opacity: 0.75;
+    }
+
+    .empty-title {
+      font-size: 1.25rem;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .empty-desc {
+      font-size: 0.875rem;
+      color: var(--text-sub);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* Modal phóng to ảnh toàn màn hình */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 4, 7, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .lightbox-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-wrapper {
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+
+    .lightbox-img {
+      max-width: 88vw;
+      max-height: 72vh;
+      max-height: 72dvh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .lightbox-caption-card {
+      background: rgba(15, 20, 30, 0.95);
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      padding: 12px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-width: 640px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .lightbox-author {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .lightbox-time {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .lightbox-note {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      color: var(--accent-gold-light);
+      font-size: 0.9375rem;
+      margin-top: 4px;
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: -16px;
+      right: -16px;
+      width: 44px;
+      height: 44px;
+      background: rgba(18, 22, 34, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      font-size: 1.25rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .lightbox-close-btn:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+      transform: scale(1.1);
+    }
+
+    /* Toast thông báo */
+    .toast-pill {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(15, 20, 30, 0.96);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold-light);
+      padding: 10px 22px;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .toast-pill.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Tối ưu hóa di động */
+    @media (max-width: 768px) {
+      body {
+        padding: 16px 12px 60px 12px;
+      }
+      .album-header-nav {
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+      .nav-btn {
+        flex: 1 1 140px;
+        font-size: 0.75rem;
+        padding: 8px 12px;
+        min-height: 44px;
+      }
+      .film-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .controls-panel {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-box {
+        max-width: 100%;
+      }
+      .film-image-container {
+        height: 240px;
+      }
+      .lightbox-close-btn {
+        top: 10px;
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Thanh công cụ điều hướng -->
+  <header class="album-header-nav">
+    <a href="index.html" class="nav-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Về thiệp tri ân chính</span>
+    </a>
+
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <a href="donggop.html" class="nav-btn primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <span>Đóng góp thêm ảnh</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Tiêu đề album -->
+  <section class="album-hero">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+        <line x1="7" y1="2" x2="7" y2="22"></line>
+        <line x1="17" y1="2" x2="17" y2="22"></line>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <line x1="2" y1="7" x2="7" y2="7"></line>
+        <line x1="2" y1="17" x2="7" y2="17"></line>
+        <line x1="17" y1="17" x2="22" y2="17"></line>
+        <line x1="17" y1="7" x2="22" y2="7"></line>
+      </svg>
+      <span>35mm Contact Sheet &bull; Lưu giữ thanh xuân</span>
+    </div>
+    <h1 class="hero-title">Cuốn phim kỷ niệm Cô Duyên Anh</h1>
+    <p class="hero-desc">
+      Toàn bộ những khoảnh khắc thanh xuân và hình ảnh kỷ niệm do các bạn học trò đóng góp, được tráng rọi trong khung phim cổ điển với đầy đủ thông tin người gửi.
+    </p>
+  </section>
+
+  <!-- Bảng tìm kiếm & thống kê số lượng -->
+  <section class="controls-panel">
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="photo-search-input" class="search-input" placeholder="Tìm kiếm theo tên người đăng hoặc chú thích...">
+    </div>
+
+    <div class="photo-stat-badge" id="photo-stat-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+        <circle cx="12" cy="13" r="4"></circle>
+      </svg>
+      <span id="stat-count-text">Đang tải thước phim...</span>
+    </div>
+  </section>
+
+  <!-- Lưới hiển thị các khung phim 35mm hoài niệm -->
+  <main class="film-grid" id="film-grid">
+    <!-- Render động các khung phim từ Google Sheets & localStorage -->
+  </main>
+
+  <!-- Modal phóng to chi tiết ảnh (Lightbox) -->
+  <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true">
+    <div class="lightbox-wrapper">
+      <button id="lightbox-close-btn" class="lightbox-close-btn" aria-label="Đóng ảnh">✕</button>
+      <img id="lightbox-img" class="lightbox-img" src="" alt="Ảnh kỷ niệm phóng to">
+      <div class="lightbox-caption-card">
+        <div class="lightbox-author" id="lightbox-author"></div>
+        <div class="lightbox-time" id="lightbox-time"></div>
+        <div class="lightbox-note" id="lightbox-note" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thông báo trạng thái nhanh -->
+  <div id="toast-pill" class="toast-pill"></div>
+
+  <script>
+    /* ===================================================================
+       CẤU HÌNH GOOGLE APPS SCRIPT WEB APP & ĐỒNG BỘ ĐÁM MÂY GOOGLE SHEETS
+       =================================================================== */
+    const GAS_CONFIG = {
+      WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwUrK7M8gtsRfLzXoyTBAQUD5Q8-5rAA-7YdxlQkZwGWWoqnl_eBFMIMVvWSWGNU4FB/exec',
+      STORAGE_KEY: 'co_duyen_anh_gas_url'
+    };
+
+    function getGasWebAppUrl() {
+      try {
+        let userUrl = localStorage.getItem(GAS_CONFIG.STORAGE_KEY);
+        if (userUrl && typeof userUrl === 'string') {
+          userUrl = userUrl.trim().replace(/^["']|["']$/g, '');
+          if (userUrl && userUrl !== 'null' && userUrl !== 'undefined') {
+            return userUrl.replace(/[?&]+$/, '');
+          }
+        }
+      } catch (e) {}
+      let defaultUrl = GAS_CONFIG.WEB_APP_URL ? String(GAS_CONFIG.WEB_APP_URL).trim().replace(/^["']|["']$/g, '') : '';
+      if (defaultUrl && defaultUrl !== 'null' && defaultUrl !== 'undefined') {
+        return defaultUrl.replace(/[?&]+$/, '');
+      }
+      return '';
+    }
+
+    function getDeletedIds() {
+      try {
+        return JSON.parse(localStorage.getItem('co_duyen_anh_deleted_ids') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-pill');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    /* ===================================================================
+       QUẢN LÝ DỮ LIỆU & RENDER LƯỚI KHUNG PHIM
+       =================================================================== */
+    let allPhotos = [];
+
+    function getLocalPhotos() {
+      try {
+        const raw = localStorage.getItem('co_duyen_anh_photos');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch (e) {}
+      return [];
+    }
+
+    function saveLocalPhotos(list) {
+      try {
+        localStorage.setItem('co_duyen_anh_photos', JSON.stringify(list));
+      } catch (e) {}
+    }
+
+    function renderPhotoGrid(filterText = '') {
+      const grid = document.getElementById('film-grid');
+      const statText = document.getElementById('stat-count-text');
+      if (!grid) return;
+
+      const deletedIds = getDeletedIds();
+      const validPhotos = allPhotos.filter(p => p && p.image && !deletedIds.includes(p.id));
+
+      const query = (filterText || '').trim().toLowerCase();
+      const filtered = query
+        ? validPhotos.filter(p => 
+            (p.author && p.author.toLowerCase().includes(query)) ||
+            (p.caption && p.caption.toLowerCase().includes(query))
+          )
+        : validPhotos;
+
+      if (statText) {
+        statText.textContent = `${filtered.length} khoảnh khắc thanh xuân`;
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+              <line x1="7" y1="2" x2="7" y2="22"></line>
+              <line x1="17" y1="2" x2="17" y2="22"></line>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+            </svg>
+            <h3 class="empty-title">${query ? 'Không tìm thấy ảnh phù hợp' : 'Chưa có ảnh nào được tải lên'}</h3>
+            <p class="empty-desc">
+              ${query 
+                ? 'Hãy thử tìm kiếm với tên hoặc từ khóa khác của bạn bè.' 
+                : 'Bạn hãy là người đầu tiên đóng góp bức ảnh kỷ niệm cùng Cô Duyên Anh vào cuộn phim 35mm nhé!'}
+            </p>
+            <a href="donggop.html" class="nav-btn primary">
+              <span>Đóng góp ảnh ngay</span>
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((photo, index) => {
+        const frameNum = String(index + 1).padStart(2, '0') + 'A';
+        const authorSafe = escapeHtml(photo.author || 'Bạn học trò');
+        const timeSafe = escapeHtml(photo.time || 'Kỷ niệm thanh xuân');
+        const captionSafe = photo.caption ? escapeHtml(photo.caption) : '';
+
+        // Tối ưu hóa ảnh Google Drive
+        let imgSrc = photo.image;
+        if (imgSrc.includes('drive.google.com/thumbnail') && !imgSrc.includes('sz=')) {
+          imgSrc += '&sz=w1200';
+        }
+
+        return `
+          <article class="film-card" data-idx="${index}" onclick="openPhotoLightbox(${index})">
+            <!-- Dải răng cưa trên -->
+            <div class="film-sprocket-bar">
+              <span class="sprocket-code">KODAK 500T</span>
+              <span class="sprocket-frame-num">${frameNum}</span>
+            </div>
+
+            <!-- Khung ảnh trung tâm -->
+            <div class="film-image-container">
+              <img 
+                src="${imgSrc}" 
+                alt="Ảnh kỷ niệm từ ${authorSafe}" 
+                class="film-image" 
+                loading="lazy" 
+                decoding="async"
+                onerror="handleImageError(this, '${escapeHtml(photo.image)}')"
+              >
+              <div class="zoom-overlay-hint">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+                <span>Xem ảnh</span>
+              </div>
+            </div>
+
+            <!-- Bảng thông tin người đăng kiểu nhãn cổ điển -->
+            <div class="film-metadata-plate">
+              <div class="metadata-author-row">
+                <div class="author-name-tag">
+                  <svg class="author-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  <span>${authorSafe}</span>
+                </div>
+                <div class="metadata-time">${timeSafe}</div>
+              </div>
+              ${captionSafe ? `<div class="metadata-caption">&ldquo;${captionSafe}&rdquo;</div>` : ''}
+            </div>
+
+            <!-- Dải răng cưa dưới -->
+            <div class="film-sprocket-bar bottom">
+              <span class="sprocket-code">EASTMAN SAFETY FILM</span>
+              <span class="sprocket-frame-num">&#9654; ${frameNum}</span>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function handleImageError(imgEl, originalUrl) {
+      if (!imgEl.getAttribute('data-fallback-tried')) {
+        imgEl.setAttribute('data-fallback-tried', '1');
+        if (originalUrl.includes('lh3.googleusercontent.com/d/')) {
+          const parts = originalUrl.split('/d/');
+          const fileId = parts[1] ? parts[1].split('?')[0] : '';
+          if (fileId) {
+            imgEl.src = 'https://drive.google.com/thumbnail?id=' + fileId + '&sz=w1200';
+            return;
+          }
+        }
+      }
+    }
+
+    /* ===================================================================
+       ĐỒNG BỘ DỮ LIỆU TỪ GOOGLE APPS SCRIPT / GOOGLE SHEETS
+       =================================================================== */
+    async function syncPhotosFromRemote() {
+      const gasUrl = getGasWebAppUrl();
+      if (!gasUrl) return;
+
+      try {
+        const sep = gasUrl.includes('?') ? '&' : '?';
+        const res = await fetch(`${gasUrl}${sep}action=getWishes&_t=${Date.now()}`, { cache: 'no-store' });
+        if (res.ok) {
+          const gasData = await res.json();
+          const remotePhotos = gasData.photos || [];
+
+          if (Array.isArray(remotePhotos) && remotePhotos.length > 0) {
+            const deletedIds = getDeletedIds();
+            const photoMap = new Map();
+
+            // 1. Giữ các ảnh trong bộ nhớ cục bộ
+            allPhotos.forEach(p => {
+              if (p && p.id && !deletedIds.includes(p.id)) {
+                const key = (p.id || '') + '_' + (p.image ? p.image.substring(p.image.length - 35) : Math.random());
+                photoMap.set(key, p);
+              }
+            });
+
+            // 2. Nạp ảnh mới nhất từ Google Sheets
+            remotePhotos.forEach(p => {
+              if (p && p.id && !deletedIds.includes(p.id)) {
+                const key = (p.id || '') + '_' + (p.image ? p.image.substring(p.image.length - 35) : Math.random());
+                photoMap.set(key, p);
+              }
+            });
+
+            allPhotos = Array.from(photoMap.values());
+            saveLocalPhotos(allPhotos);
+            renderPhotoGrid(document.getElementById('photo-search-input').value);
+          }
+        }
+      } catch (err) {
+        console.warn('Lỗi đồng bộ ảnh từ Google Sheets:', err);
+      }
+    }
+
+    /* ===================================================================
+       HỘP THOẠI XEM ẢNH PHÓNG TO (LIGHTBOX)
+       =================================================================== */
+    const modal = document.getElementById('lightbox-modal');
+    const modalImg = document.getElementById('lightbox-img');
+    const modalAuthor = document.getElementById('lightbox-author');
+    const modalTime = document.getElementById('lightbox-time');
+    const modalNote = document.getElementById('lightbox-note');
+    const closeBtn = document.getElementById('lightbox-close-btn');
+
+    function openPhotoLightbox(index) {
+      const photo = allPhotos[index];
+      if (!photo || !photo.image) return;
+
+      modalImg.src = photo.image;
+      modalAuthor.textContent = `Người gửi: ${photo.author || 'Bạn học trò'}`;
+      modalTime.textContent = `Thời gian đăng: ${photo.time || 'Kỷ niệm thanh xuân'}`;
+
+      if (photo.caption && photo.caption.trim()) {
+        modalNote.textContent = `“${photo.caption}”`;
+        modalNote.style.display = 'block';
+      } else {
+        modalNote.style.display = 'none';
+      }
+
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeLightbox() {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      setTimeout(() => { modalImg.src = ''; }, 200);
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeLightbox();
+      });
+    }
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+
+    /* ===================================================================
+       KHỞI CHẠY HỆ THỐNG & ĐỒNG BỘ REAL-TIME
+       =================================================================== */
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Nạp ảnh từ bộ nhớ tạm để hiển thị ngay lập tức
+      allPhotos = getLocalPhotos();
+      renderPhotoGrid();
+
+      // 2. Nạp ảnh mới nhất từ Google Sheets
+      await syncPhotosFromRemote();
+
+      // 3. Lắng nghe tìm kiếm
+      const searchInput = document.getElementById('photo-search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          renderPhotoGrid(e.target.value);
+        });
+      }
+
+      // 4. Lắng nghe BroadcastChannel đồng bộ tức thì
+      try {
+        const syncChannel = new BroadcastChannel('co_duyen_anh_sync_channel');
+        syncChannel.onmessage = (event) => {
+          const msg = event.data;
+          if (!msg || !msg.action) return;
+          if (msg.action === 'ADD_PHOTOS' || msg.action === 'SYNC_ALL' || msg.action === 'DELETE_PHOTO') {
+            allPhotos = getLocalPhotos();
+            renderPhotoGrid(searchInput ? searchInput.value : '');
+            showToast('Đã đồng bộ ảnh mới nhất!');
+          }
+        };
+      } catch (e) {}
+
+      // 5. Tự động kiểm tra lại khi người dùng quay lại tab
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          syncPhotosFromRemote();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

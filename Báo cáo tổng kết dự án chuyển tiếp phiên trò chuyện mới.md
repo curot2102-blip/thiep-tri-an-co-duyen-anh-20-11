@@ -92,14 +92,28 @@ flowchart TD
 - **Giải mã ảnh bất đồng bộ (Async Image Decoding)**:
   - Thêm thuộc tính `decoding="async"` cho toàn bộ 26 khung ảnh cuộn phim 35mm, ảnh cô Duyên Anh và ảnh đóng góp mới, giải phóng hoàn toàn luồng chính (Main Thread).
 
+### 7. Trang Album Ảnh Kỷ Niệm 35mm Riêng Biệt (album.html)
+- **Thiết kế phong cách hoài niệm cổ điển**: 
+  - Giao diện phòng tối rọi phim (Darkroom Contact Sheet) kết hợp tông màu than ấm và vàng hổ phách Kodak (`#f59e0b`).
+  - Toàn bộ ảnh đóng góp từ học sinh được sắp xếp dưới dạng **Lưới ô ảnh tĩnh chia ngăn (Grid layout)**, không dùng hiệu ứng cuộn trượt ngang phức tạp, mang lại trải nghiệm hoài niệm, tĩnh lặng và trang trọng.
+  - Mỗi khung hình mô phỏng chính xác dải phim 35mm với dải răng cưa `KODAK 500T`, `EASTMAN SAFETY FILM` và số thứ tự phim `01A`, `02A`,...
+- **Bảng thông tin người đăng chi tiết (Metadata Plate)**:
+  - Tên học sinh đóng góp (icon người gửi), thời gian đăng và lời nhắn tâm tình trích dẫn trang nhã dưới từng tấm hình.
+- **Tính năng tìm kiếm & Phóng to (Lightbox)**:
+  - Thanh tìm kiếm tức thời theo tên bạn gửi hoặc nội dung chú thích.
+  - Chạm vào bất kỳ khung phim nào để mở cửa sổ phóng to toàn màn hình với đầy đủ chi tiết kỷ niệm.
+- **Đồng bộ thời gian thực 2 chiều**:
+  - Tự động nạp trực tiếp danh sách ảnh từ Google Sheets và bộ nhớ cục bộ.
+  - Lắng nghe `BroadcastChannel` để cập nhật tức thì ngay khi có bạn học trò mới đăng ảnh từ trang `donggop.html`.
+
 ---
 
 ## III. KẾT QUẢ KIỂM THỬ TỰ ĐỘNG (TEST SUITE)
 
 Dự án được bảo vệ bởi bộ kiểm thử tự động khép kín 5 tầng (Tier 1 đến Tier 5):
 - **Tệp thực thi**: `tests/run_tests.py`
-- **Tổng số ca kiểm thử**: **74 bài test** (F1-F17 Feature Suites)
-- **Kết quả**: **74/74 PASS (100% Thành công)** trong thời gian thực thi ~0.5 giây.
+- **Tổng số ca kiểm thử**: **75 bài test** (F1-F18 Feature Suites)
+- **Kết quả**: **75/75 PASS (100% Thành công)** trong thời gian thực thi ~0.6 giây.
 - **Kiểm toán độc lập (Teamwork Victory Audit)**: Phán quyết **VICTORY CONFIRMED**.
 
 ---
@@ -110,11 +124,12 @@ Dự án được bảo vệ bởi bộ kiểm thử tự động khép kín 5 t
 | :--- | :--- | :--- |
 | [index.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/index.html) | Trang web thiệp tri ân chính (6 giai đoạn scrollytelling, decoding async) | Đã cập nhật & Deploy |
 | [donggop.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/donggop.html) | Trang đóng góp ảnh/lời chúc & Bảng điều khiển Quản trị viên (lag-free mobile) | Đã cập nhật & Deploy |
+| [album.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/album.html) | Trang album ảnh kỷ niệm 35mm riêng biệt (phong cách hoài niệm, chia ô, thông tin người đăng) | Mới tạo & Deploy |
 | [script.js](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/script.js) | Logic hoạt họa 60fps, translate3d, cache kích thước, mobile particle culling | Đã cập nhật & Deploy |
 | [styles.css](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/styles.css) | Định kiểu giao diện, tối ưu GPU di động, phong bì 3D, responsive | Đã cập nhật & Deploy |
 | [Code.gs](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/Code.gs) | Mã nguồn Google Apps Script kết nối Google Sheets/Drive | Sẵn sàng dán vào Apps Script |
 | [wishes.json](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/wishes.json) | Dữ liệu tĩnh dự phòng khi ngoại tuyến | Hoạt động bình thường |
-| [tests/run_tests.py](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/tests/run_tests.py) | Bộ chạy kiểm thử tự động toàn hệ thống (73 tests) | 100% PASS |
+| [tests/run_tests.py](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/tests/run_tests.py) | Bộ chạy kiểm thử tự động toàn hệ thống (75 tests) | 100% PASS |
 
 ---
 

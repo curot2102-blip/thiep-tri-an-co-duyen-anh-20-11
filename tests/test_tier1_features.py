@@ -13,6 +13,7 @@ from PIL import Image
 from tests.helpers import (
     INDEX_HTML,
     DONGGOP_HTML,
+    ALBUM_HTML,
     STYLES_CSS,
     SCRIPT_JS,
     IMAGES_DIR,
@@ -523,6 +524,38 @@ class TestTier1Features(unittest.TestCase):
         # 4. Code.gs backend support
         self.assertIn('action === "resetHearts"', code_gs)
         self.assertIn('function resetHeartsInSheet', code_gs)
+
+    # --- F18: Dedicated Nostalgic 35mm Film Album Page ---
+    def test_f18_dedicated_nostalgic_film_album_page(self):
+        """
+        F18: Verify dedicated album.html page:
+        1. Standalone page with nostalgic 35mm film contact sheet grid
+        2. Sprocket markings, non-sliding layout (divided into cells/tiles)
+        3. Author metadata plate with contributor name, timestamp, and caption
+        4. Lightbox viewer for detailed photo inspection
+        5. Cross-linking between index.html, donggop.html, and album.html
+        """
+        album_content = read_workspace_file(ALBUM_HTML)
+        index_content = read_workspace_file(INDEX_HTML)
+        donggop_content = read_workspace_file(DONGGOP_HTML)
+
+        # 1. album.html structure
+        self.assertIn("film-grid", album_content)
+        self.assertIn("film-sprocket-bar", album_content)
+        self.assertIn("sprocket-code", album_content)
+        self.assertIn("lightbox-modal", album_content)
+        self.assertIn("co_duyen_anh_sync_channel", album_content)
+
+        # 2. Metadata plate
+        self.assertIn("film-metadata-plate", album_content)
+        self.assertIn("author-name-tag", album_content)
+        self.assertIn("metadata-time", album_content)
+
+        # 3. Cross-links
+        self.assertIn('href="album.html"', index_content)
+        self.assertIn('href="album.html"', donggop_content)
+        self.assertIn('href="index.html"', album_content)
+        self.assertIn('href="donggop.html"', album_content)
 
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ from PIL import Image
 WORKSPACE_DIR = Path(__file__).resolve().parent.parent
 INDEX_HTML = WORKSPACE_DIR / "index.html"
 DONGGOP_HTML = WORKSPACE_DIR / "donggop.html"
+ALBUM_HTML = WORKSPACE_DIR / "album.html"
 STYLES_CSS = WORKSPACE_DIR / "styles.css"
 SCRIPT_JS = WORKSPACE_DIR / "script.js"
 IMAGES_DIR = WORKSPACE_DIR / "images"

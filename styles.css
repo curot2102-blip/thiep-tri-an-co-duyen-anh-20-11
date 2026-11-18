@@ -1398,6 +1398,31 @@ body {
   box-sizing: border-box;
 }
 
+.action-btn.album-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  background: rgba(217, 119, 6, 0.15);
+  border: 1px solid var(--border-gold);
+  color: var(--accent-gold-light);
+  text-decoration: none;
+  font-size: 0.875rem;
+  padding: 12px 14px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: normal;
+  text-align: center;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.action-btn.album-btn:hover {
+  background: rgba(245, 158, 11, 0.25);
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
+}
+
 .action-btn.contribute-btn:hover {
   background: rgba(255, 255, 255, 0.16);
   border-color: var(--accent-gold-light);
