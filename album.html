@@ -973,10 +973,10 @@
         syncChannel.onmessage = (event) => {
           const msg = event.data;
           if (!msg || !msg.action) return;
-          if (msg.action === 'ADD_PHOTOS' || msg.action === 'SYNC_ALL' || msg.action === 'DELETE_PHOTO') {
+          if (msg.action === 'ADD_PHOTOS' || msg.action === 'SYNC_ALL' || msg.action === 'DELETE_PHOTO' || msg.action === 'RESET_TO_DEFAULT') {
             allPhotos = getLocalPhotos();
             renderPhotoGrid(searchInput ? searchInput.value : '');
-            showToast('Đã đồng bộ ảnh mới nhất!');
+            showToast(msg.action === 'RESET_TO_DEFAULT' ? 'Hệ thống đã được đặt lại về ban đầu!' : 'Đã đồng bộ ảnh mới nhất!');
           }
         };
       } catch (e) {}

@@ -157,6 +157,15 @@ function doPost(e) {
       });
     }
 
+    if (action === "resetToDefault" || action === "resetAll") {
+      resetSheetDataToDefault(ss);
+      return createJsonResponse({
+        status: "success",
+        message: "Đã đặt lại toàn bộ hệ thống về trạng thái ban đầu!",
+        hearts: 0
+      });
+    }
+
     if (action === "deleteWish" || action === "deletePhoto") {
       var deletedId = payload.id || "";
       var sheetName = (action === "deleteWish") ? SHEET_WISHES : SHEET_PHOTOS;
@@ -647,6 +656,32 @@ function resetHeartsInSheet(ss) {
     sheet.getRange(2, 3).setValue(Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss"));
   }
   return 0;
+}
+
+/**
+ * Đặt lại toàn bộ dữ liệu Sheets về trạng thái ban đầu:
+ * - Xóa sạch các dòng dữ liệu của Wishes và Photos (giữ lại dòng tiêu đề)
+ * - Đặt lại lượt tim về 0
+ */
+function resetSheetDataToDefault(ss) {
+  initSheetsIfNeeded(ss);
+
+  // 1. Dọn dẹp sheet Wishes (xóa từ dòng 2 trở đi nếu có)
+  var wishSheet = ss.getSheetByName(SHEET_WISHES);
+  if (wishSheet && wishSheet.getLastRow() > 1) {
+    wishSheet.deleteRows(2, wishSheet.getLastRow() - 1);
+  }
+
+  // 2. Dọn dẹp sheet Photos (xóa từ dòng 2 trở đi nếu có)
+  var photoSheet = ss.getSheetByName(SHEET_PHOTOS);
+  if (photoSheet && photoSheet.getLastRow() > 1) {
+    photoSheet.deleteRows(2, photoSheet.getLastRow() - 1);
+  }
+
+  // 3. Đặt lại lượt tim về 0
+  resetHeartsInSheet(ss);
+
+  return true;
 }
 
 /**

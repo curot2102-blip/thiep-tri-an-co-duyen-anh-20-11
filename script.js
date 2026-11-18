@@ -1076,6 +1076,9 @@ function initRealtimeSync() {
           case 'RESET_HEARTS':
             updateHeartCounter(0, true);
             break;
+          case 'RESET_TO_DEFAULT':
+            resetToDefaultLocally();
+            break;
           case 'SYNC_ALL':
             refreshAllData();
             break;
@@ -1289,6 +1292,23 @@ function removePhotoFromFilmStrip(id) {
       updateFilmDimensions();
     }
   }
+}
+
+async function resetToDefaultLocally() {
+  updateHeartCounter(0, true);
+  try {
+    localStorage.setItem('co_duyen_anh_hearts', '0');
+    localStorage.setItem('co_duyen_anh_photos', '[]');
+    localStorage.setItem('co_duyen_anh_deleted_ids', '[]');
+    const res = await fetch('wishes.json?_t=' + Date.now(), { cache: 'no-store' });
+    if (res.ok) {
+      const defaultWishes = await res.json();
+      localStorage.setItem('co_duyen_anh_wishes', JSON.stringify(defaultWishes));
+    }
+  } catch (e) {
+    console.warn('Lỗi khi tải wishes.json mặc định:', e);
+  }
+  refreshAllData();
 }
 
 function refreshAllData() {

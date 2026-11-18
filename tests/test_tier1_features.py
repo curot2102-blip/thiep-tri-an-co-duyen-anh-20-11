@@ -557,6 +557,39 @@ class TestTier1Features(unittest.TestCase):
         self.assertIn('href="index.html"', album_content)
         self.assertIn('href="donggop.html"', album_content)
 
+    # --- F19: Reset to Default Admin Tool and System Synchronization ---
+    def test_f19_reset_to_default_admin_and_cross_page_sync(self):
+        """
+        F19: Verify "Reset về ban đầu" (Reset to Default) tool:
+        1. Admin dashboard has btn-reset-default button with warning confirmation.
+        2. LocalStorage reset clears hearts, photos, pending lists and reloads wishes.json.
+        3. Realtime BroadcastChannel emits and handles RESET_TO_DEFAULT across index.html, album.html, donggop.html.
+        4. Code.gs backend provides resetToDefault action and resetSheetDataToDefault handler.
+        """
+        donggop_content = read_workspace_file(DONGGOP_HTML)
+        script_content = read_workspace_file(SCRIPT_JS)
+        album_content = read_workspace_file(ALBUM_HTML)
+        code_gs = read_workspace_file(CODE_GS)
+
+        # 1. Admin button in donggop.html
+        self.assertIn('id="btn-reset-default"', donggop_content)
+        self.assertIn('Đặt lại về ban đầu', donggop_content)
+        self.assertIn("btnResetDefault.addEventListener('click'", donggop_content)
+        self.assertIn("action: 'RESET_TO_DEFAULT'", donggop_content)
+        self.assertIn("action: 'resetToDefault'", donggop_content)
+
+        # 2. script.js listener and handler
+        self.assertIn("case 'RESET_TO_DEFAULT':", script_content)
+        self.assertIn("resetToDefaultLocally", script_content)
+        self.assertIn("wishes.json", script_content)
+
+        # 3. album.html listener
+        self.assertIn("RESET_TO_DEFAULT", album_content)
+
+        # 4. Code.gs backend
+        self.assertIn('action === "resetToDefault"', code_gs)
+        self.assertIn('function resetSheetDataToDefault', code_gs)
+
 
 if __name__ == "__main__":
     unittest.main()

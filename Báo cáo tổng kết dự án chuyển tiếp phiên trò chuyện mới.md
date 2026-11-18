@@ -106,14 +106,30 @@ flowchart TD
   - Tự động nạp trực tiếp danh sách ảnh từ Google Sheets và bộ nhớ cục bộ.
   - Lắng nghe `BroadcastChannel` để cập nhật tức thì ngay khi có bạn học trò mới đăng ảnh từ trang `donggop.html`.
 
+### 5. Nút đặt lại về ban đầu (Reset to Default) & Khôi phục hệ thống (Yêu cầu 5)
+- **Nút công cụ Quản trị viên `btn-reset-default`**:
+  - Đặt tại Bảng điều khiển Quản trị viên (`donggop.html`) với nhãn chuẩn mực: *"Đặt lại về ban đầu"*.
+  - Có hộp thoại cảnh báo bảo mật xác nhận 2 lớp rõ ràng trước khi thực hiện.
+- **Dọn dẹp và khôi phục trạng thái mặc định**:
+  - Đưa `co_duyen_anh_hearts` về `0`.
+  - Làm trống danh sách ảnh đóng góp thử nghiệm `co_duyen_anh_photos` (`[]`) và danh sách ID đã xóa `co_duyen_anh_deleted_ids`.
+  - Nạp lại lời chúc chuẩn ban đầu từ `wishes.json`.
+  - Dọn dẹp hàng đợi ngoại tuyến `pending_wishes` và `pending_photos`.
+- **Đồng bộ thời gian thực toàn hệ sinh thái trang web**:
+  - Phát tín hiệu `{ action: 'RESET_TO_DEFAULT', hearts: 0 }` qua kênh `BroadcastChannel('co_duyen_anh_sync_channel')`.
+  - Tự động cập nhật tức thì trên trang chính `index.html` (cuộn phim và danh thiếp lời chúc trở về mặc định, lượt tim về 0), trang album `album.html` (làm mới ô ảnh và hiện thông báo) và trang `donggop.html`.
+- **Hỗ trợ Backend Google Apps Script (`Code.gs`)**:
+  - Tiếp nhận lệnh `action: 'resetToDefault'` / `action: 'resetAll'`.
+  - Hàm `resetSheetDataToDefault(ss)` tự động dọn dẹp các dòng dữ liệu thử nghiệm trong sheet `Wishes` và `Photos`, đồng thời đưa sheet `Hearts` về 0.
+
 ---
 
 ## III. KẾT QUẢ KIỂM THỬ TỰ ĐỘNG (TEST SUITE)
 
 Dự án được bảo vệ bởi bộ kiểm thử tự động khép kín 5 tầng (Tier 1 đến Tier 5):
 - **Tệp thực thi**: `tests/run_tests.py`
-- **Tổng số ca kiểm thử**: **75 bài test** (F1-F18 Feature Suites)
-- **Kết quả**: **75/75 PASS (100% Thành công)** trong thời gian thực thi ~0.6 giây.
+- **Tổng số ca kiểm thử**: **76 bài test** (F1-F19 Feature Suites)
+- **Kết quả**: **76/76 PASS (100% Thành công)** trong thời gian thực thi ~0.6 giây.
 - **Kiểm toán độc lập (Teamwork Victory Audit)**: Phán quyết **VICTORY CONFIRMED**.
 
 ---
@@ -122,14 +138,14 @@ Dự án được bảo vệ bởi bộ kiểm thử tự động khép kín 5 t
 
 | Tên tệp | Vai trò | Trạng thái |
 | :--- | :--- | :--- |
-| [index.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/index.html) | Trang web thiệp tri ân chính (6 giai đoạn scrollytelling, decoding async) | Đã cập nhật & Deploy |
-| [donggop.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/donggop.html) | Trang đóng góp ảnh/lời chúc & Bảng điều khiển Quản trị viên (lag-free mobile) | Đã cập nhật & Deploy |
-| [album.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/album.html) | Trang album ảnh kỷ niệm 35mm riêng biệt (phong cách hoài niệm, chia ô, thông tin người đăng) | Mới tạo & Deploy |
-| [script.js](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/script.js) | Logic hoạt họa 60fps, translate3d, cache kích thước, mobile particle culling | Đã cập nhật & Deploy |
+| [index.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/index.html) | Trang web thiệp tri ân chính (6 giai đoạn scrollytelling, decoding async, reset listener) | Đã cập nhật & Deploy |
+| [donggop.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/donggop.html) | Trang đóng góp ảnh/lời chúc & Bảng điều khiển Quản trị viên (nút Đặt lại về ban đầu & Đặt lại lượt tim) | Đã cập nhật & Deploy |
+| [album.html](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/album.html) | Trang album ảnh kỷ niệm 35mm riêng biệt (phong cách hoài niệm, chia ô, thông tin người đăng, đồng bộ reset) | Đã cập nhật & Deploy |
+| [script.js](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/script.js) | Logic hoạt họa 60fps, translate3d, cache kích thước, xử lý RESET_TO_DEFAULT & RESET_HEARTS | Đã cập nhật & Deploy |
 | [styles.css](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/styles.css) | Định kiểu giao diện, tối ưu GPU di động, phong bì 3D, responsive | Đã cập nhật & Deploy |
-| [Code.gs](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/Code.gs) | Mã nguồn Google Apps Script kết nối Google Sheets/Drive | Sẵn sàng dán vào Apps Script |
-| [wishes.json](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/wishes.json) | Dữ liệu tĩnh dự phòng khi ngoại tuyến | Hoạt động bình thường |
-| [tests/run_tests.py](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/tests/run_tests.py) | Bộ chạy kiểm thử tự động toàn hệ thống (75 tests) | 100% PASS |
+| [Code.gs](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/Code.gs) | Mã nguồn Google Apps Script (hỗ trợ resetHearts, resetToDefault, deleteItem, Google Drive/Sheets) | Đã cập nhật & Deploy |
+| [wishes.json](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/wishes.json) | Dữ liệu tĩnh dự phòng chuẩn ban đầu khi ngoại tuyến và khi reset | Hoạt động bình thường |
+| [tests/run_tests.py](file:///g:/My%20Drive/H%C3%ACnh%20%E1%BA%A3nh%20k%E1%BB%B7%20ni%E1%BB%87m/%C3%80nh%20d%C3%ACm%20c%C3%B4%20Duy%C3%AAn%20Anh/Trang%20web%20k%E1%BB%B7%20ni%E1%BB%87m%20c%C3%B4%20Duy%C3%AAn%20Anh/tests/run_tests.py) | Bộ chạy kiểm thử tự động toàn hệ thống (76 tests F1-F19) | 100% PASS |
 
 ---
 
