@@ -1297,15 +1297,22 @@
       const seenExactUrls = new Set();
       const seenIds = new Set();
 
-      list.forEach((p, idx) => {
+      list.forEach((p) => {
         if (!p || !p.image) return;
         const id = String(p.id || '').trim();
+        // Lấy ID gốc bằng cách loại bỏ hậu tố -slot-X (do phiên bản trước từng sinh ra)
+        const baseId = id.replace(/-slot-\d+$/, '');
+        if (baseId && deletedIds.includes(baseId)) return;
         if (id && deletedIds.includes(id)) return;
+
+        // 1. Khử trùng lặp ID: nếu ID hoặc baseId đã xuất hiện thì chắc chắn là ảnh bị lặp, bỏ qua ngay
+        if (baseId && seenIds.has(baseId)) return;
+        if (id && seenIds.has(id)) return;
 
         const img = String(p.image).trim();
         const driveId = extractDriveId(img);
 
-        // 1. Khử trùng lặp ảnh: nếu cùng Google Drive ID
+        // 2. Khử trùng lặp ảnh: nếu cùng Google Drive ID
         if (driveId) {
           if (seenDriveIds.has(driveId)) return;
           seenDriveIds.add(driveId);
@@ -1316,14 +1323,10 @@
           seenExactUrls.add(imgKey);
         }
 
-        // 2. Bảo đảm ID là duy nhất tuyệt đối để không bị ghi đè hoặc xung đột
-        let finalId = id;
-        if (!finalId || seenIds.has(finalId)) {
-          finalId = (finalId || 'photo') + '-slot-' + idx;
-        }
-        seenIds.add(finalId);
+        if (baseId) seenIds.add(baseId);
+        if (id) seenIds.add(id);
 
-        result.push(Object.assign({}, p, { id: finalId }));
+        result.push(Object.assign({}, p, { id: baseId || id }));
       });
 
       return result;
@@ -1460,7 +1463,7 @@
                 </div>
               </div>
 
-              <!-- Bảng thông tin chân thẻ -->
+              <!-- Bảng thông tin chân thẻ (Thông tin người gửi & lời nhắn đã hiển thị trang trọng trên mặt khung phim) -->
               <div class="film-metadata-plate">
                 <div class="metadata-author-row">
                   <div class="metadata-time">${timeSafe}</div>
@@ -1473,7 +1476,6 @@
                     <span>${frameName}</span>
                   </div>
                 </div>
-                ${captionSafe ? `<div class="metadata-caption">&ldquo;${captionSafe}&rdquo;</div>` : ''}
               </div>
             </article>
           `;
@@ -1605,6 +1607,10 @@
             // Nạp remote trước (dữ liệu chuẩn từ Google Drive), kết hợp với các ảnh cục bộ chưa được đồng bộ
             const unsyncedLocal = allPhotos.filter(localP => {
               if (!localP || !localP.image) return false;
+              const lId = String(localP.id || '').replace(/-slot-\d+$/, '').trim();
+              if (lId && resolvedRemote.some(r => String(r.id || '').replace(/-slot-\d+$/, '').trim() === lId)) {
+                return false;
+              }
               const lDriveId = extractDriveId(localP.image);
               if (lDriveId) {
                 return !resolvedRemote.some(r => extractDriveId(r.image) === lDriveId);
