@@ -950,7 +950,7 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
 .pb-stickers-grid {
   display: grid;
   gap: 12px;
-  max-height: 420px;
+  max-height: 440px;
   overflow-y: auto;
   padding: 4px;
 }
@@ -960,23 +960,23 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
   grid-template-columns: 1fr;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .pb-stickers-grid.layout-wide {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   }
 }
 
 /* Chế độ hiển thị ô thẻ lớn cho Phần giữa (Dấu số & Biểu tượng) và Sticker khác */
 .pb-stickers-grid.layout-cards {
-  grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
 }
 
 .pb-sticker-item {
   background: rgba(18, 24, 38, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
   user-select: none;
   outline: none;
 }
@@ -988,7 +988,13 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
   transform: translateY(-2px);
 }
 
-/* Thẻ dạng rộng (Banner) */
+.pb-sticker-item.selected {
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.4), 0 8px 20px rgba(0, 0, 0, 0.4);
+  background: rgba(245, 158, 11, 0.1) !important;
+}
+
+/* Thẻ dạng rộng (Banner) với kích thước to rõ, nền giấy ngà tương phản cao */
 .pb-sticker-item.item-wide {
   padding: 12px 14px;
   display: flex;
@@ -1000,22 +1006,24 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
 
 .pb-sticker-item.item-wide .pb-sticker-preview-box {
   width: 100%;
-  height: 72px;
+  height: 96px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: 6px;
-  padding: 6px 12px;
+  background: #fbf7ee;
+  border: 1px solid rgba(217, 119, 6, 0.25);
+  border-radius: 8px;
+  padding: 8px 16px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .pb-sticker-item.item-wide .pb-sticker-img {
   max-width: 100%;
-  max-height: 60px;
+  max-height: 80px;
   width: auto;
   height: auto;
   object-fit: contain;
+  filter: contrast(1.1);
 }
 
 .pb-sticker-item.item-wide .pb-sticker-meta {
@@ -1039,7 +1047,12 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
   opacity: 0.9;
 }
 
-/* Thẻ dạng icon vuông lớn */
+.pb-sticker-item.selected .pb-sticker-hint {
+  color: #22c55e !important;
+  font-weight: 600;
+}
+
+/* Thẻ dạng icon vuông lớn với nền ngà tương phản */
 .pb-sticker-item.item-card {
   padding: 12px 8px;
   display: flex;
@@ -1047,24 +1060,25 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 110px;
+  min-height: 120px;
 }
 
 .pb-sticker-item.item-card .pb-sticker-preview-box {
-  width: 72px;
-  height: 72px;
+  width: 78px;
+  height: 78px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: 6px;
+  background: #fbf7ee;
+  border: 1px solid rgba(217, 119, 6, 0.2);
+  border-radius: 8px;
   padding: 6px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .pb-sticker-item.item-card .pb-sticker-img {
-  max-width: 60px;
-  max-height: 60px;
+  max-width: 66px;
+  max-height: 66px;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -1092,6 +1106,114 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+/* THANH ĐIỀU CHỈNH ITEM TIỆN DỤNG TRÊN ĐIỆN THOẠI & MÁY TÍNH */
+.pb-item-controls-bar {
+  margin-top: 12px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid var(--accent-gold);
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: pbSlideUp 0.2s ease-out;
+}
+
+@keyframes pbSlideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pb-controls-bar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 6px;
+}
+
+.pb-controls-bar-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pb-ctrl-btn-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.pb-ctrl-btn-close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pb-controls-bar-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+@media (min-width: 480px) {
+  .pb-controls-bar-buttons {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+.pb-ctrl-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 6px 4px;
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #f1f5f9;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  transition: all 0.15s ease;
+}
+
+.pb-ctrl-btn:hover,
+.pb-ctrl-btn:active {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--accent-gold);
+  color: #fff;
+  transform: scale(0.96);
+}
+
+.pb-ctrl-btn svg {
+  flex-shrink: 0;
+}
+
+.pb-ctrl-btn.pb-ctrl-btn-del {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.pb-ctrl-btn.pb-ctrl-btn-del:hover,
+.pb-ctrl-btn.pb-ctrl-btn-del:active {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #ef4444;
+  color: #fff;
 }
 
 .pb-sticker-name {

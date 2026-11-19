@@ -1355,8 +1355,8 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="photo-caption-input">Lời nhắn / chú thích khoảnh khắc (tùy chọn)</label>
-          <input type="text" id="photo-caption-input" class="form-input" placeholder="Kỷ niệm ngày bế giảng, giờ học Toán vui vẻ,...">
+          <label class="form-label" for="photo-caption-input">Lời nhắn gửi đến Cô (không giới hạn độ dài, tùy chọn)</label>
+          <textarea id="photo-caption-input" class="form-input form-textarea" rows="3" placeholder="Nhập lời nhắn gửi đến Cô (không giới hạn độ dài, có thể xuống dòng)..." style="resize: vertical; min-height: 80px;"></textarea>
         </div>
 
         <!-- BỘ CHỌN KHUNG PHIM 1 ẢNH (F7) -->
@@ -2640,14 +2640,16 @@
 
         const newPhotos = pendingWebPPhotos.map((p, i) => {
           const finalFrameId = normalizeFrameId((p.frameId && p.frameId !== 'none') ? p.frameId : activeFrameId);
-          const photoId = 'photo-' + Date.now() + '-' + i + '-' + Math.random().toString(36).substr(2, 6) + '-' + Math.floor(Math.random() * 100000);
+          const frameSuffix = (finalFrameId && finalFrameId !== 'none') ? ('-' + finalFrameId) : '';
+          const photoId = 'photo-' + Date.now() + '-' + i + frameSuffix + '-' + Math.random().toString(36).substr(2, 6) + '-' + Math.floor(Math.random() * 100000);
           savePhotoFrameDirect(photoId, finalFrameId);
+          const aspectWithFrame = (p.aspect || 'landscape') + (finalFrameId && finalFrameId !== 'none' ? (':' + finalFrameId) : '');
           return {
             id: photoId,
             author: author,
             caption: caption,
             image: p.base64,
-            aspect: p.aspect,
+            aspect: aspectWithFrame,
             frameId: finalFrameId,
             time: timeStr
           };

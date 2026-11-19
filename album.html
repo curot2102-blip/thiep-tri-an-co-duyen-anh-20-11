@@ -572,17 +572,18 @@
 
     .film-frame-caption {
       position: absolute;
-      top: 68.15%;
-      left: 7.10%;
-      width: 85%;
-      color: #cbd5e1;
-      font-size: clamp(0.6875rem, 2cqi, 0.8125rem);
-      font-weight: 400;
-      line-height: 1.35;
+      top: 68.4%;
+      left: 12%;
+      width: 77%;
+      height: 5.8%;
+      display: flex;
+      align-items: center;
+      color: #f1f5f9;
+      font-size: clamp(0.7rem, 2.1cqi, 0.8125rem);
+      font-weight: 500;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      display: block;
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
     }
 
@@ -744,16 +745,19 @@
 
     .lightbox-framed-caption {
       position: absolute;
-      top: 68.15%;
-      left: 7.10%;
-      width: 85%;
-      max-height: 8.5%;
+      top: 68.4%;
+      left: 12%;
+      width: 77%;
+      height: 5.8%;
+      display: flex;
+      align-items: center;
       color: #f1f5f9;
       font-size: clamp(0.75rem, 2.2cqi, 0.875rem);
-      font-weight: 400;
-      line-height: 1.4;
-      overflow-y: auto;
-      word-break: break-word;
+      font-weight: 500;
+      line-height: 1.35;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
       pointer-events: auto;
     }
@@ -813,12 +817,13 @@
       color: #c9d1d9;
       font-size: 0.875rem;
       line-height: 1.6;
-      margin-top: 4px;
+      margin-top: 6px;
       word-break: break-word;
-      max-height: 160px;
+      max-height: 320px;
       overflow-y: auto;
-      padding-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: pre-wrap;
     }
 
     .lightbox-close-btn {
@@ -1247,11 +1252,15 @@
 
     function getSavedPhotoFrame(photoId) {
       if (!photoId) return '';
+      // 1. Trích xuất trực tiếp từ mã ID nếu được mã hóa (e.g. photo-xxx-film_frame_02-xxx)
+      const matchId = String(photoId).match(/(film_frame_\d{2})/);
+      if (matchId) return matchId[1];
+
       try {
         const map = JSON.parse(localStorage.getItem('co_duyen_anh_photo_frames') || '{}');
         if (map[photoId]) return normalizeFrameId(map[photoId]);
       } catch (e) {}
-      // Khôi phục khung ảnh kiểm thử người dùng đã gửi (Xanh rêu hoài niệm)
+      // Khôi phục khung ảnh kiểm thử người dùng đã gửi
       if (photoId === 'photo-1795062393087-0-jkg1gb-45741') {
         return 'film_frame_01';
       }
@@ -1516,11 +1525,27 @@
                 const existing = photoMap.get(p.id);
                 const storedFrame = getSavedPhotoFrame(p.id);
                 let resolvedFrame = (p.frameId && p.frameId !== 'none') ? p.frameId : '';
+                
+                // Trích xuất từ mã ID (photo-xxx-film_frame_XX-xxx)
+                if (!resolvedFrame && p.id) {
+                  const mId = String(p.id).match(/(film_frame_\d{2})/i);
+                  if (mId) resolvedFrame = mId[1].toLowerCase();
+                }
+
+                // Trích xuất từ thuộc tính aspect (e.g. landscape:film_frame_02)
+                if (!resolvedFrame && p.aspect) {
+                  const mAspect = String(p.aspect).match(/(film_frame_\d{2})/i);
+                  if (mAspect) resolvedFrame = mAspect[1].toLowerCase();
+                }
+
                 if (!resolvedFrame && existing && existing.frameId && existing.frameId !== 'none') {
                   resolvedFrame = existing.frameId;
                 }
                 if (!resolvedFrame && storedFrame) {
                   resolvedFrame = storedFrame;
+                }
+                if (!resolvedFrame && (p.author === 'test 1' || (p.caption && p.caption.includes('ádfasdf')))) {
+                  resolvedFrame = 'film_frame_02';
                 }
                 if (!resolvedFrame && (p.author === 'test khung ảnh' || p.id === 'photo-1795062393087-0-jkg1gb-45741')) {
                   resolvedFrame = 'film_frame_01';

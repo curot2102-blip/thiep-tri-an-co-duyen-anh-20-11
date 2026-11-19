@@ -1034,6 +1034,7 @@
     setupCanvasInteractions();
     setupExportActions();
     setupZoomControls();
+    setupMobileItemControls();
 
     // Initial render
     renderCanvas();
@@ -1150,6 +1151,7 @@
     if (stepNum !== 3) {
       state.selectedItemId = null;
     }
+    updateItemControlsBar();
 
     // Cancel active burst when leaving step 2
     if (stepNum !== 2) {
@@ -1842,11 +1844,12 @@
 
   function createStickerItemEl(st, isWide) {
     const item = document.createElement('div');
-    item.className = 'pb-sticker-item ' + (isWide ? 'item-wide' : 'item-card');
+    const isSelected = state.decorations.some(d => d.stickerId === st.id);
+    item.className = 'pb-sticker-item ' + (isWide ? 'item-wide' : 'item-card') + (isSelected ? ' selected' : '');
     item.dataset.id = st.id;
     item.setAttribute('tabindex', '0');
     item.setAttribute('role', 'button');
-    item.setAttribute('aria-label', `Thêm ${st.name}`);
+    item.setAttribute('aria-label', `${isSelected ? 'Đang dùng' : 'Thêm'} ${st.name}`);
 
     if (isWide) {
       item.innerHTML = `
@@ -1855,7 +1858,7 @@
         </div>
         <div class="pb-sticker-meta">
           <span class="pb-sticker-name">${st.name}</span>
-          <span class="pb-sticker-hint">Chạm để gắn vào dải ảnh</span>
+          <span class="pb-sticker-hint">${isSelected ? '✓ Đang dùng trên dải ảnh (Chạm để gỡ)' : 'Chạm để gắn vào dải ảnh'}</span>
         </div>
       `;
     } else {
@@ -1880,6 +1883,48 @@
   }
 
   function addStickerItem(stickerDef) {
+    const isHeader = (stickerDef.category === 'header' || (stickerDef.tags && stickerDef.tags.includes('header')));
+    const isFooter = (stickerDef.category === 'footer' || (stickerDef.tags && stickerDef.tags.includes('footer')));
+
+    // Quy tắc người dùng yêu cầu: Phần trên và Phần dưới chỉ được chọn duy nhất 1 item
+    if (isHeader) {
+      const existingHeaderIdx = state.decorations.findIndex(d => d.category === 'header' || (d.tags && d.tags.includes('header')));
+      if (existingHeaderIdx !== -1) {
+        if (state.decorations[existingHeaderIdx].stickerId === stickerDef.id) {
+          // Bấm lại chính item đang chọn -> gỡ bỏ
+          state.decorations.splice(existingHeaderIdx, 1);
+          state.selectedItemId = null;
+          updateLayersList();
+          renderCanvas();
+          updateItemControlsBar();
+          const activeFilterBtn = document.querySelector('[data-sticker-filter].active');
+          renderStickersTray(activeFilterBtn ? activeFilterBtn.dataset.stickerFilter : 'header');
+          showToast(`Đã gỡ tiêu đề: ${stickerDef.name}`);
+          return;
+        }
+        // Thay thế tiêu đề cũ bằng tiêu đề mới
+        state.decorations.splice(existingHeaderIdx, 1);
+      }
+    } else if (isFooter) {
+      const existingFooterIdx = state.decorations.findIndex(d => d.category === 'footer' || (d.tags && d.tags.includes('footer')));
+      if (existingFooterIdx !== -1) {
+        if (state.decorations[existingFooterIdx].stickerId === stickerDef.id) {
+          // Bấm lại chính item đang chọn -> gỡ bỏ
+          state.decorations.splice(existingFooterIdx, 1);
+          state.selectedItemId = null;
+          updateLayersList();
+          renderCanvas();
+          updateItemControlsBar();
+          const activeFilterBtn = document.querySelector('[data-sticker-filter].active');
+          renderStickersTray(activeFilterBtn ? activeFilterBtn.dataset.stickerFilter : 'footer');
+          showToast(`Đã gỡ chi tiết chân khung: ${stickerDef.name}`);
+          return;
+        }
+        // Thay thế chi tiết chân khung cũ bằng chi tiết mới
+        state.decorations.splice(existingFooterIdx, 1);
+      }
+    }
+
     // Preload image
     const img = new Image();
     img.src = stickerDef.file;
@@ -1890,12 +1935,12 @@
       let initW = stickerDef.defaultWidth || 100;
       let initH = stickerDef.defaultHeight || 100;
 
-      if (stickerDef.category === 'header' || (stickerDef.tags && stickerDef.tags.includes('header'))) {
+      if (isHeader) {
         initX = frame.width / 2;
         initY = 190;
         initW = 320;
         initH = 110;
-      } else if (stickerDef.category === 'footer' || (stickerDef.tags && stickerDef.tags.includes('footer'))) {
+      } else if (isFooter) {
         initX = frame.width / 2;
         initY = 1950;
         initW = 300;
@@ -1943,6 +1988,7 @@
         type: 'sticker',
         name: stickerDef.name,
         category: stickerDef.category,
+        tags: stickerDef.tags || [],
         stickerId: stickerDef.id,
         img: img,
         x: initX,
@@ -1957,6 +2003,9 @@
       state.selectedItemId = newItem.id;
       updateLayersList();
       renderCanvas();
+      updateItemControlsBar();
+      const activeFilterBtn = document.querySelector('[data-sticker-filter].active');
+      renderStickersTray(activeFilterBtn ? activeFilterBtn.dataset.stickerFilter : (isHeader ? 'header' : (isFooter ? 'footer' : 'all')));
       showToast(`Đã thêm item: ${stickerDef.name}`);
     };
   }
@@ -2057,6 +2106,7 @@
         state.selectedItemId = item.id;
         updateLayersList();
         renderCanvas();
+        updateItemControlsBar();
       });
 
       row.querySelector('.btn-del-layer')?.addEventListener('click', (e) => {
@@ -2165,6 +2215,7 @@
       state.selectedItemId = hitItem.id;
       updateLayersList();
       renderCanvas();
+      updateItemControlsBar();
 
       canvas.setPointerCapture(e.pointerId);
       dragInteraction.active = true;
@@ -2180,6 +2231,7 @@
         state.selectedItemId = null;
         updateLayersList();
         renderCanvas();
+        updateItemControlsBar();
       }
     }
   }
@@ -2515,6 +2567,115 @@
     }
     if (displayEl) {
       displayEl.textContent = `${Math.round(state.zoom * 100)}%`;
+    }
+  }
+
+  function setupMobileItemControls() {
+    const bar = document.getElementById('item-controls-bar');
+    if (!bar) return;
+
+    document.getElementById('btn-ctrl-deselect')?.addEventListener('click', () => {
+      state.selectedItemId = null;
+      updateLayersList();
+      renderCanvas();
+      updateItemControlsBar();
+      const activeFilterBtn = document.querySelector('[data-sticker-filter].active');
+      renderStickersTray(activeFilterBtn ? activeFilterBtn.dataset.stickerFilter : 'all');
+    });
+
+    document.getElementById('btn-ctrl-scale-down')?.addEventListener('click', () => {
+      if (!state.selectedItemId) return;
+      const item = state.decorations.find(d => d.id === state.selectedItemId);
+      if (item) {
+        item.scale = Math.max(0.3, parseFloat((item.scale - 0.1).toFixed(2)));
+        renderCanvas();
+      }
+    });
+
+    document.getElementById('btn-ctrl-scale-up')?.addEventListener('click', () => {
+      if (!state.selectedItemId) return;
+      const item = state.decorations.find(d => d.id === state.selectedItemId);
+      if (item) {
+        item.scale = Math.min(3.5, parseFloat((item.scale + 0.1).toFixed(2)));
+        renderCanvas();
+      }
+    });
+
+    document.getElementById('btn-ctrl-rot-left')?.addEventListener('click', () => {
+      if (!state.selectedItemId) return;
+      const item = state.decorations.find(d => d.id === state.selectedItemId);
+      if (item) {
+        item.rotation -= (15 * Math.PI / 180);
+        renderCanvas();
+      }
+    });
+
+    document.getElementById('btn-ctrl-rot-right')?.addEventListener('click', () => {
+      if (!state.selectedItemId) return;
+      const item = state.decorations.find(d => d.id === state.selectedItemId);
+      if (item) {
+        item.rotation += (15 * Math.PI / 180);
+        renderCanvas();
+      }
+    });
+
+    document.getElementById('btn-ctrl-move-up')?.addEventListener('click', () => {
+      if (!state.selectedItemId) return;
+      const item = state.decorations.find(d => d.id === state.selectedItemId);
+      if (item) {
+        item.y = Math.max(30, item.y - 30);
+        renderCanvas();
+      }
+    });
+
+    document.getElementById('btn-ctrl-move-down')?.addEventListener('click', () => {
+      if (!state.selectedItemId) return;
+      const item = state.decorations.find(d => d.id === state.selectedItemId);
+      if (item) {
+        item.y = Math.min(state.currentFrame.height - 30, item.y + 30);
+        renderCanvas();
+      }
+    });
+
+    document.getElementById('btn-ctrl-center')?.addEventListener('click', () => {
+      if (!state.selectedItemId) return;
+      const item = state.decorations.find(d => d.id === state.selectedItemId);
+      if (item) {
+        item.x = state.currentFrame.width / 2;
+        renderCanvas();
+        showToast('Đã căn giữa item theo chiều ngang');
+      }
+    });
+
+    document.getElementById('btn-ctrl-delete')?.addEventListener('click', () => {
+      if (!state.selectedItemId) return;
+      const id = state.selectedItemId;
+      deleteItem(id);
+      updateItemControlsBar();
+      const activeFilterBtn = document.querySelector('[data-sticker-filter].active');
+      renderStickersTray(activeFilterBtn ? activeFilterBtn.dataset.stickerFilter : 'all');
+    });
+  }
+
+  function updateItemControlsBar() {
+    const bar = document.getElementById('item-controls-bar');
+    const titleEl = document.getElementById('item-controls-title');
+    if (!bar) return;
+
+    if (!state.selectedItemId || state.currentStep !== 3) {
+      bar.style.display = 'none';
+      return;
+    }
+
+    const item = state.decorations.find(d => d.id === state.selectedItemId);
+    if (!item) {
+      bar.style.display = 'none';
+      return;
+    }
+
+    bar.style.display = 'flex';
+    if (titleEl) {
+      titleEl.textContent = `Đang chọn: ${item.name || (item.type === 'text' ? 'Dòng chữ' : 'Sticker')}`;
     }
   }
 
