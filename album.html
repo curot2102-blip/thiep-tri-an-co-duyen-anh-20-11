@@ -1070,7 +1070,7 @@
         <line x1="17" y1="17" x2="22" y2="17"></line>
         <line x1="17" y1="7" x2="22" y2="7"></line>
       </svg>
-      <span>35mm Contact Sheet &bull; Lưu giữ thanh xuân</span>
+      <span>Memory &bull; Lưu giữ thanh xuân</span>
     </div>
     <h1 class="hero-title">Memory</h1>
     <p class="hero-desc">
@@ -1293,35 +1293,37 @@
       if (!Array.isArray(list)) return [];
       const deletedIds = getDeletedIds();
       const result = [];
-      const seenIds = new Set();
       const seenDriveIds = new Set();
-      const seenFingerprints = new Set();
+      const seenExactUrls = new Set();
+      const seenIds = new Set();
 
-      list.forEach(p => {
+      list.forEach((p, idx) => {
         if (!p || !p.image) return;
         const id = String(p.id || '').trim();
         if (id && deletedIds.includes(id)) return;
 
-        // 1. Kiểm tra trùng ID
-        if (id && seenIds.has(id)) return;
+        const img = String(p.image).trim();
+        const driveId = extractDriveId(img);
 
-        // 2. Kiểm tra trùng File ID Google Drive
-        const driveId = extractDriveId(p.image);
-        if (driveId && seenDriveIds.has(driveId)) return;
-
-        // 3. Kiểm tra trùng dấu vân tay nội dung (Người gửi + Lời nhắn + Thời gian)
-        const authorClean = String(p.author || '').trim().toLowerCase();
-        const captionClean = String(p.caption || '').trim().toLowerCase();
-        const timeClean = String(p.time || '').trim().toLowerCase();
-        if (authorClean && captionClean) {
-          const fp = `${authorClean}:::${captionClean}:::${timeClean}`;
-          if (seenFingerprints.has(fp)) return;
-          seenFingerprints.add(fp);
+        // 1. Khử trùng lặp ảnh: nếu cùng Google Drive ID
+        if (driveId) {
+          if (seenDriveIds.has(driveId)) return;
+          seenDriveIds.add(driveId);
+        } else if (img) {
+          // Nếu là Base64 hoặc URL khác: khử trùng theo URL/chuỗi ảnh
+          const imgKey = img.length > 120 ? img.substring(0, 60) + img.substring(img.length - 60) : img;
+          if (seenExactUrls.has(imgKey)) return;
+          seenExactUrls.add(imgKey);
         }
 
-        if (id) seenIds.add(id);
-        if (driveId) seenDriveIds.add(driveId);
-        result.push(p);
+        // 2. Bảo đảm ID là duy nhất tuyệt đối để không bị ghi đè hoặc xung đột
+        let finalId = id;
+        if (!finalId || seenIds.has(finalId)) {
+          finalId = (finalId || 'photo') + '-slot-' + idx;
+        }
+        seenIds.add(finalId);
+
+        result.push(Object.assign({}, p, { id: finalId }));
       });
 
       return result;
@@ -1599,8 +1601,24 @@
               return Object.assign({}, p, { frameId: resolvedFrame });
             }).filter(Boolean);
 
-            // Nạp remote trước (dữ liệu chuẩn), kết hợp với allPhotos cục bộ, rồi khử trùng lặp tuyệt đối
-            const combined = [...resolvedRemote, ...allPhotos];
+            // Nạp remote trước (dữ liệu chuẩn từ Google Drive), kết hợp với các ảnh cục bộ chưa được đồng bộ
+            const unsyncedLocal = allPhotos.filter(localP => {
+              if (!localP || !localP.image) return false;
+              const lDriveId = extractDriveId(localP.image);
+              if (lDriveId) {
+                return !resolvedRemote.some(r => extractDriveId(r.image) === lDriveId);
+              }
+              // Nếu là ảnh Base64 cục bộ: kiểm tra xem trên remote đã có ảnh cùng người gửi và lời nhắn chưa
+              const lAuthor = String(localP.author || '').trim();
+              const lCap = String(localP.caption || '').trim();
+              const alreadyOnRemote = resolvedRemote.some(r => 
+                String(r.author || '').trim() === lAuthor &&
+                String(r.caption || '').trim() === lCap
+              );
+              return !alreadyOnRemote;
+            });
+
+            const combined = [...resolvedRemote, ...unsyncedLocal];
             allPhotos = deduplicatePhotoList(combined);
             saveLocalPhotos(allPhotos);
             renderPhotoGrid(document.getElementById('photo-search-input') ? document.getElementById('photo-search-input').value : '');
@@ -1644,11 +1662,20 @@
           modalFramedBox.style.display = 'block';
         }
         if (modalImg) modalImg.style.display = 'none';
+        if (modalAuthor) modalAuthor.style.display = 'none';
+        if (modalNote) modalNote.style.display = 'none';
       } else {
         if (modalFramedBox) modalFramedBox.style.display = 'none';
         if (modalImg) {
           modalImg.src = imgSrc;
           modalImg.style.display = 'block';
+        }
+        if (modalAuthor) modalAuthor.style.display = 'block';
+        if (photo.caption && photo.caption.trim()) {
+          modalNote.textContent = photo.caption.trim();
+          modalNote.style.display = 'block';
+        } else {
+          modalNote.style.display = 'none';
         }
       }
 
@@ -1664,13 +1691,6 @@
         const cap = photo.caption && photo.caption.trim();
         framedCaption.textContent = cap ? `“${cap}”` : 'Kỷ niệm tri ân cô Duyên Anh';
         framedCaption.style.display = 'block';
-      }
-
-      if (photo.caption && photo.caption.trim()) {
-        modalNote.textContent = photo.caption.trim();
-        modalNote.style.display = 'block';
-      } else {
-        modalNote.style.display = 'none';
       }
 
       modal.classList.add('active');

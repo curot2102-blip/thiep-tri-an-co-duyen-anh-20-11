@@ -479,39 +479,57 @@
 
         <!-- Bảng Sticker -->
         <div class="pb-decor-panel active" id="decor-panel-stickers">
-          <div class="pb-section-nav" style="margin-bottom: 12px;">
-            <div class="pb-filter-pills" style="margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
-              <button type="button" class="pb-filter-pill active" data-sticker-filter="header">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -1px;"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-                Phần trên (Tiêu đề)
-              </button>
-              <button type="button" class="pb-filter-pill" data-sticker-filter="middle">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -1px;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                Phần giữa (Số ô &amp; Biểu tượng)
-              </button>
-              <button type="button" class="pb-filter-pill" data-sticker-filter="footer">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -1px;"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-                Phần dưới (Chi tiết chân khung)
-              </button>
-              <button type="button" class="pb-filter-pill" data-sticker-filter="vintage">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -1px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                Bưu điện &amp; Washi
-              </button>
-              <button type="button" class="pb-filter-pill" data-sticker-filter="school">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -1px;"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                Học trò &amp; 20/11
-              </button>
-              <button type="button" class="pb-filter-pill" data-sticker-filter="all">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -1px;"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                Tất cả item
-              </button>
-            </div>
+          <!-- THANH ĐIỀU HƯỚNG THEO TỪNG PHẦN: TRÊN -> GIỮA -> DƯỚI -> THÊM -->
+          <div class="pb-substep-flow" id="decor-substep-flow">
+            <button type="button" class="pb-substep-btn active" data-decor-substep="header">
+              <span class="pb-substep-num">1</span>
+              <div class="pb-substep-text-wrap">
+                <span class="pb-substep-label">Phần trên</span>
+                <span class="pb-substep-sub">Tiêu đề (chọn 1)</span>
+              </div>
+            </button>
+            <button type="button" class="pb-substep-btn" data-decor-substep="middle">
+              <span class="pb-substep-num">2</span>
+              <div class="pb-substep-text-wrap">
+                <span class="pb-substep-label">Phần giữa</span>
+                <span class="pb-substep-sub">Số ô &amp; Icon</span>
+              </div>
+            </button>
+            <button type="button" class="pb-substep-btn" data-decor-substep="footer">
+              <span class="pb-substep-num">3</span>
+              <div class="pb-substep-text-wrap">
+                <span class="pb-substep-label">Phần dưới</span>
+                <span class="pb-substep-sub">Chân khung (chọn 1)</span>
+              </div>
+            </button>
+            <button type="button" class="pb-substep-btn" data-decor-substep="extra">
+              <span class="pb-substep-num">4</span>
+              <div class="pb-substep-text-wrap">
+                <span class="pb-substep-label">Thêm</span>
+                <span class="pb-substep-sub">Washi &amp; Chữ</span>
+              </div>
+            </button>
+          </div>
+
+          <div class="pb-section-hint-box">
             <div class="pb-section-hint" id="sticker-section-hint">
-              Phần trên: Chọn tiêu đề nghệ thuật trang trí đầu dải ảnh (tự động căn giữa phía trên).
+              Phần trên: Chọn 1 tiêu đề nghệ thuật trang trí đầu dải ảnh (tự động căn giữa phía trên).
+            </div>
+            <!-- Sub-filters cho bước 4 Thêm -->
+            <div class="pb-extra-subfilters" id="extra-subfilters" style="display: none;">
+              <button type="button" class="pb-filter-pill active" data-extra-filter="vintage">✉ Bưu điện &amp; Washi</button>
+              <button type="button" class="pb-filter-pill" data-extra-filter="school">🎓 Học trò &amp; 20/11</button>
+              <button type="button" class="pb-filter-pill" data-extra-filter="text">✏ Viết chữ kỷ niệm</button>
+              <button type="button" class="pb-filter-pill" data-extra-filter="all">※ Tất cả item</button>
             </div>
           </div>
 
           <div class="pb-stickers-grid layout-wide" id="stickers-grid">
+            <!-- Render dynamically by photobooth.js -->
+          </div>
+
+          <!-- NÚT ĐIỀU HƯỚNG TỪNG PHẦN LIỀN MẠCH -->
+          <div class="pb-substep-nav-bar" id="pb-substep-nav-bar">
             <!-- Render dynamically by photobooth.js -->
           </div>
         </div>

@@ -1694,16 +1694,34 @@
       });
     });
 
-    // Sticker filters & tray
-    renderStickersTray('header');
-    const sFilters = document.querySelectorAll('[data-sticker-filter]');
-    sFilters.forEach(btn => {
+    // Điều hướng tiến trình trang trí tuần tự: Trên -> Giữa -> Dưới -> Thêm
+    state.decorSubstep = 'header';
+    state.extraSubfilter = 'vintage';
+
+    const subStepBtns = document.querySelectorAll('[data-decor-substep]');
+    subStepBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        sFilters.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderStickersTray(btn.dataset.stickerFilter);
+        setDecorSubstep(btn.dataset.decorSubstep);
       });
     });
+
+    const extraFilterBtns = document.querySelectorAll('[data-extra-filter]');
+    extraFilterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filterVal = btn.dataset.extraFilter;
+        if (filterVal === 'text') {
+          const tabText = document.querySelector('.pb-decor-tab[data-tab="text"]');
+          if (tabText) tabText.click();
+          return;
+        }
+        extraFilterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.extraSubfilter = filterVal;
+        renderStickersTray(filterVal);
+      });
+    });
+
+    setDecorSubstep('header');
 
     // Text Font selectors
     const fontBtns = document.querySelectorAll('.pb-font-btn');
@@ -1769,6 +1787,13 @@
     });
   }
 
+  const DECOR_SUBSTEP_HINTS = {
+    header: 'Phần trên (Bước 1/4): Chọn 1 tiêu đề nghệ thuật trang trí đầu dải ảnh (tự động căn giữa phía trên).',
+    middle: 'Phần giữa (Bước 2/4): Trang trí các ô ảnh bằng dấu số thứ tự (01 – 04) hoặc icon trang trí góc ảnh.',
+    footer: 'Phần dưới (Bước 3/4): Chọn 1 chi tiết nghệ thuật chân khung (thanh nhạc kỷ niệm, mã vạch, triện đỏ hoặc câu quote).',
+    extra: 'Trang trí thêm (Bước 4/4): Tự do dán tem thư washi, hoa tri ân hoặc viết chữ kỷ niệm của bạn lên dải ảnh.'
+  };
+
   const STICKER_SECTION_HINTS = {
     header: 'Phần trên: Chọn tiêu đề nghệ thuật trang trí đầu dải ảnh (tự động căn vị trí phía trên).',
     middle: 'Phần giữa: Chọn số thứ tự ô ảnh (01 – 04) hoặc biểu tượng trang trí giữa các ô.',
@@ -1777,6 +1802,95 @@
     school: 'Học trò & 20/11: Nón cử nhân, hoa tri ân, sách vở, bảng phấn và điểm 10.',
     all: 'Tất cả item: Toàn bộ bộ chi tiết trang trí phân chia theo từng phần rõ ràng.'
   };
+
+  function getCurrentStickerFilter() {
+    if (state.decorSubstep === 'extra') {
+      return state.extraSubfilter || 'vintage';
+    }
+    return state.decorSubstep || 'header';
+  }
+
+  function setDecorSubstep(substep) {
+    state.decorSubstep = substep;
+
+    // Cập nhật giao diện 4 nút tiến trình
+    const stepBtns = document.querySelectorAll('[data-decor-substep]');
+    stepBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.decorSubstep === substep);
+    });
+
+    // Cập nhật câu gợi ý
+    const hintEl = document.getElementById('sticker-section-hint');
+    if (hintEl) {
+      hintEl.textContent = DECOR_SUBSTEP_HINTS[substep] || DECOR_SUBSTEP_HINTS.header;
+    }
+
+    // Hiển thị/ẩn subfilters của bước 4
+    const extraSub = document.getElementById('extra-subfilters');
+    if (extraSub) {
+      extraSub.style.display = (substep === 'extra') ? 'flex' : 'none';
+    }
+
+    // Render tray theo filter tương ứng
+    renderStickersTray(getCurrentStickerFilter());
+
+    // Render thanh điều hướng chân trang
+    renderSubstepNavBar(substep);
+  }
+
+  function renderSubstepNavBar(substep) {
+    const navBar = document.getElementById('pb-substep-nav-bar');
+    if (!navBar) return;
+
+    if (substep === 'header') {
+      navBar.innerHTML = `
+        <button type="button" class="pb-btn pb-btn-primary pb-nav-full" id="btn-substep-to-middle">
+          <span>Tiếp tục: Sang Phần giữa (Số ô)</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      `;
+      document.getElementById('btn-substep-to-middle')?.addEventListener('click', () => setDecorSubstep('middle'));
+    } else if (substep === 'middle') {
+      navBar.innerHTML = `
+        <button type="button" class="pb-btn pb-btn-secondary" id="btn-substep-back-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span>Quay lại Phần trên</span>
+        </button>
+        <button type="button" class="pb-btn pb-btn-primary" id="btn-substep-to-footer">
+          <span>Tiếp tục: Sang Phần dưới</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      `;
+      document.getElementById('btn-substep-back-header')?.addEventListener('click', () => setDecorSubstep('header'));
+      document.getElementById('btn-substep-to-footer')?.addEventListener('click', () => setDecorSubstep('footer'));
+    } else if (substep === 'footer') {
+      navBar.innerHTML = `
+        <button type="button" class="pb-btn pb-btn-secondary" id="btn-substep-back-middle">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span>Quay lại Phần giữa</span>
+        </button>
+        <button type="button" class="pb-btn pb-btn-primary" id="btn-substep-to-extra">
+          <span>Tiếp tục: Trang trí thêm &amp; Chữ</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      `;
+      document.getElementById('btn-substep-back-middle')?.addEventListener('click', () => setDecorSubstep('middle'));
+      document.getElementById('btn-substep-to-extra')?.addEventListener('click', () => setDecorSubstep('extra'));
+    } else if (substep === 'extra') {
+      navBar.innerHTML = `
+        <button type="button" class="pb-btn pb-btn-secondary" id="btn-substep-back-footer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span>Quay lại Phần dưới</span>
+        </button>
+        <button type="button" class="pb-btn pb-btn-primary" id="btn-finish-to-step4">
+          <span>Hoàn thành &amp; Sang Bước 4: Xuất ảnh</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      `;
+      document.getElementById('btn-substep-back-footer')?.addEventListener('click', () => setDecorSubstep('footer'));
+      document.getElementById('btn-finish-to-step4')?.addEventListener('click', () => goToStep(4));
+    }
+  }
 
   function renderStickersTray(filter) {
     const grid = document.getElementById('stickers-grid');
@@ -1898,8 +2012,7 @@
           updateLayersList();
           renderCanvas();
           updateItemControlsBar();
-          const activeFilterBtn = document.querySelector('[data-sticker-filter].active');
-          renderStickersTray(activeFilterBtn ? activeFilterBtn.dataset.stickerFilter : 'header');
+          renderStickersTray(getCurrentStickerFilter());
           showToast(`Đã gỡ tiêu đề: ${stickerDef.name}`);
           return;
         }
@@ -1916,8 +2029,7 @@
           updateLayersList();
           renderCanvas();
           updateItemControlsBar();
-          const activeFilterBtn = document.querySelector('[data-sticker-filter].active');
-          renderStickersTray(activeFilterBtn ? activeFilterBtn.dataset.stickerFilter : 'footer');
+          renderStickersTray(getCurrentStickerFilter());
           showToast(`Đã gỡ chi tiết chân khung: ${stickerDef.name}`);
           return;
         }
@@ -2005,8 +2117,7 @@
       updateLayersList();
       renderCanvas();
       updateItemControlsBar();
-      const activeFilterBtn = document.querySelector('[data-sticker-filter].active');
-      renderStickersTray(activeFilterBtn ? activeFilterBtn.dataset.stickerFilter : (isHeader ? 'header' : (isFooter ? 'footer' : 'all')));
+      renderStickersTray(getCurrentStickerFilter());
       showToast(`Đã thêm item: ${stickerDef.name}`);
     };
   }
@@ -2587,8 +2698,7 @@
       updateLayersList();
       renderCanvas();
       updateItemControlsBar();
-      const activeFilterBtn = document.querySelector('[data-sticker-filter].active');
-      renderStickersTray(activeFilterBtn ? activeFilterBtn.dataset.stickerFilter : 'all');
+      renderStickersTray(getCurrentStickerFilter());
     });
 
     document.getElementById('btn-ctrl-scale-down')?.addEventListener('click', () => {
@@ -2660,8 +2770,7 @@
       const id = state.selectedItemId;
       deleteItem(id);
       updateItemControlsBar();
-      const activeFilterBtn = document.querySelector('[data-sticker-filter].active');
-      renderStickersTray(activeFilterBtn ? activeFilterBtn.dataset.stickerFilter : 'all');
+      renderStickersTray(getCurrentStickerFilter());
     });
   }
 
