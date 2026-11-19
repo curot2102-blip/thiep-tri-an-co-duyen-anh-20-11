@@ -2922,9 +2922,8 @@
               }).catch(() => {});
             }
 
-            renderAdminWishes();
-            renderAdminPhotos();
-            updateStats();
+            renderAdminDashboard();
+            renderFeed();
             alert('Đã đặt lại toàn bộ hệ thống về trạng thái ban đầu thành công!');
           } catch (err) {
             alert('Lỗi: ' + err.message);
