@@ -1176,6 +1176,28 @@ body {
   box-shadow: 0 10px 25px rgba(245, 158, 11, 0.5);
 }
 
+.heart-count-wrap {
+  display: inline-flex;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+  margin-left: 2px;
+}
+
+.heart-paren {
+  font-size: 0.72em;
+  font-weight: 500;
+  opacity: 0.75;
+  display: inline-block;
+  transform: translateY(-0.5px);
+  user-select: none;
+}
+
+#heart-count {
+  font-size: 0.88em;
+  font-weight: 700;
+  padding: 0 1px;
+}
+
 .action-btn.secondary {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--border-light);
