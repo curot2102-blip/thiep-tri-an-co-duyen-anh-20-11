@@ -1397,6 +1397,8 @@ body {
 
   .sub-letter-card {
     padding: 14px 14px !important;
+    flex-shrink: 0 !important;
+    min-height: fit-content !important;
   }
 
   .sub-letter-author {
@@ -2059,10 +2061,11 @@ body {
   max-height: 64vh;
   max-height: 64dvh;
   touch-action: pan-y;
+  overscroll-behavior: contain;
 }
 
 .sub-letters-deck::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 .sub-letters-deck::-webkit-scrollbar-thumb {
   background: var(--border-gold);
@@ -2071,6 +2074,8 @@ body {
 
 .sub-letter-card {
   position: relative;
+  flex-shrink: 0;
+  min-height: fit-content;
   background: radial-gradient(circle at 50% 15%, #ffffff 0%, #fffdf8 100%);
   border-radius: 12px;
   padding: 18px 20px;
@@ -2082,7 +2087,6 @@ body {
   cursor: pointer;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   user-select: none;
-  overflow: hidden;
 }
 
 .sub-letter-card::before {
