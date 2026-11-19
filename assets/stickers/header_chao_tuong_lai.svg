@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 110" width="320" height="110">
   <defs>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
-      .title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 23px; fill: #7A5110; letter-spacing: 0.08em; }
-      .sub { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; font-size: 11px; fill: #A67622; letter-spacing: 0.16em; }
+      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&amp;family=Playfair+Display:wght@800;900&amp;display=swap');
+      .title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 30px; fill: #7A5110; letter-spacing: 0.06em; }
+      .sub { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13.5px; fill: #A67622; letter-spacing: 0.14em; }
     </style>
   </defs>
-  <text x="160" y="34" text-anchor="middle" class="title">CHÀO</text>
-  <text x="160" y="64" text-anchor="middle" class="title">TƯƠNG LAI</text>
-  <line x1="100" y1="76" x2="220" y2="76" stroke="#A67622" stroke-width="0.8" opacity="0.4" />
-  <text x="160" y="94" text-anchor="middle" class="sub">TỎA SÁNG • 2026</text>
+  <text x="160" y="35" text-anchor="middle" class="title">CHÀO</text>
+  <text x="160" y="68" text-anchor="middle" class="title">TƯƠNG LAI</text>
+  <line x1="80" y1="79" x2="240" y2="79" stroke="#A67622" stroke-width="1.2" opacity="0.5" />
+  <text x="160" y="97" text-anchor="middle" class="sub">TỎA SÁNG • 2026</text>
 </svg>

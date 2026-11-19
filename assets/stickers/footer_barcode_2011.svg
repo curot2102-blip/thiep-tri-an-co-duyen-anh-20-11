@@ -2,7 +2,7 @@
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600&amp;display=swap');
-      .bc-text { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13px; fill: #1F1D24; letter-spacing: 0.25em; }
+      .bc-text { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 16px; font-weight: 700; fill: #1F1D24; letter-spacing: 0.25em; }
     </style>
   </defs>
   <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUEAAAAtCAYAAAAwT9mkAAAAAXNSR0IArs4c6QAAAbxJREFUeJzt1MtxE1EQBdA7yFkYeaUgcB6QCMQBgWDnYQehFcJhuIaNoWD8NJqRpmTsPmf5Pt1dvbgJAAAAlNMlydX7zc3w4rHP14eH7f3fZ5eXmw+rLl+m3Lf0Xe52u+234fmw/4+f20+t/6f2n1N/bN4kWa83n7s+18fWf837m/p/7v7G3i8x/5L7G2rNM6w/tf+x9f/X+ffNc+7597lIkq7Lx+HFqs/3JP8UXSXr328P3Tf17ePRP0v2n1F/bN4k6fpcz+31lvY36f/c/Y28X2T+Bff37K4xz7P6J/SfVP9QjRecf8zZ5t/j3cQ5Ad4kIQiUJgSB0oQgUJoQBEoTgkBpQhAoTQgCpQlBoDQhCJQmBIHShCBQmhAEShOCQGlCEChNCAKlCUGgNCEIlCYEgdKEIFCaEARKE4JAaUIQKE0IAqUJQaA0IQiUJgSB0oQgUJoQBEoTgkBpQhAoTQgCpQlBoDQhCJQmBIHSLpKk73M7vHhMdq2z1dPbQ/ctfZe75vnInyX7z6k/Nu+fu/74+q99f1P+z93f2Psl5l9yf627vX2f/pzSf0r9KTVeav4x55ofAAAAACBJfgEcKUwaIMkJywAAAABJRU5ErkJggg==" x="20" y="10" width="240" height="35" preserveAspectRatio="none"/>

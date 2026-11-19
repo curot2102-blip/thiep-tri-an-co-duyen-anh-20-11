@@ -1938,13 +1938,13 @@
       if (isHeader) {
         initX = frame.width / 2;
         initY = 190;
-        initW = 320;
-        initH = 110;
+        initW = 420;
+        initH = 144;
       } else if (isFooter) {
         initX = frame.width / 2;
         initY = 1950;
-        initW = 300;
-        initH = 85;
+        initW = 400;
+        initH = 110;
       } else if (stickerDef.id === 'slot_num_01' && frame.slots[0]) {
         initX = frame.slots[0].x + 40;
         initY = frame.slots[0].y + 40;

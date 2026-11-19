@@ -547,21 +547,21 @@
       max-width: 85%;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      color: #f8fafc;
+      color: #ffffff;
       font-size: clamp(0.75rem, 2.4cqi, 0.875rem);
-      font-weight: 500;
-      letter-spacing: 0.01em;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
     }
 
     .film-frame-author-icon {
       flex-shrink: 0;
-      opacity: 0.9;
-      color: #f1f5f9;
+      opacity: 0.95;
+      color: var(--accent-gold, #f59e0b);
     }
 
     .film-frame-author-name {
@@ -578,13 +578,15 @@
       height: 5.8%;
       display: flex;
       align-items: center;
-      color: #f1f5f9;
-      font-size: clamp(0.7rem, 2.1cqi, 0.8125rem);
-      font-weight: 500;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      color: var(--accent-gold-light, #fbbf24);
+      font-size: clamp(0.75rem, 2.3cqi, 0.875rem);
+      font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
     }
 
     .metadata-frame-tag {
@@ -751,14 +753,16 @@
       height: 5.8%;
       display: flex;
       align-items: center;
-      color: #f1f5f9;
-      font-size: clamp(0.75rem, 2.2cqi, 0.875rem);
-      font-weight: 500;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      color: var(--accent-gold-light, #fbbf24);
+      font-size: clamp(0.8125rem, 2.4cqi, 0.9375rem);
+      font-weight: 600;
       line-height: 1.35;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
       pointer-events: auto;
     }
 
@@ -1392,7 +1396,7 @@
                     <span class="film-frame-author-name">${authorSafe}</span>
                   </div>
                   <div class="film-frame-caption" title="${captionSafe || 'Kỷ niệm tri ân cô Duyên Anh'}">
-                    ${captionSafe || 'Kỷ niệm tri ân cô Duyên Anh'}
+                    ${captionSafe ? `&ldquo;${captionSafe}&rdquo;` : 'Kỷ niệm tri ân cô Duyên Anh'}
                   </div>
                 </div>
                 <div class="zoom-overlay-hint">
@@ -1406,7 +1410,7 @@
                 </div>
               </div>
 
-              <!-- Bảng thông tin chân thẻ -->
+              <!-- Bảng thông tin chân thẻ (Đối với ảnh có khung: thông tin đã hiện trên ảnh) -->
               <div class="film-metadata-plate">
                 <div class="metadata-author-row">
                   <div class="metadata-time">${timeSafe}</div>
@@ -1419,7 +1423,6 @@
                     <span>${frameName}</span>
                   </div>
                 </div>
-                ${captionSafe ? `<div class="metadata-caption" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&ldquo;${captionSafe}&rdquo;</div>` : ''}
               </div>
             </article>
           `;
@@ -1624,7 +1627,8 @@
         framedAuthor.textContent = `👤 ${photo.author || 'Bạn học trò'}`;
       }
       if (framedCaption) {
-        framedCaption.textContent = (photo.caption && photo.caption.trim()) ? photo.caption.trim() : 'Kỷ niệm tri ân cô Duyên Anh';
+        const cap = photo.caption && photo.caption.trim();
+        framedCaption.textContent = cap ? `“${cap}”` : 'Kỷ niệm tri ân cô Duyên Anh';
         framedCaption.style.display = 'block';
       }
 

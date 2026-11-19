@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 70" width="300" height="70">
   <defs>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600&amp;display=swap');
-      .song {{ font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13px; fill: #234726; }}
-      .time {{ font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; font-size: 11px; fill: #5B5566; }}
+      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&amp;display=swap');
+      .song { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; font-size: 16px; fill: #234726; }
+      .time { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13px; fill: #5B5566; }
     </style>
   </defs>
-  <text x="20" y="24" class="song">♫ Mong Ước Kỷ Niệm Xưa</text>
-  <text x="280" y="24" text-anchor="end" class="time">03:18</text>
+  <text x="16" y="24" class="song">♫ Mong Ước Kỷ Niệm Xưa</text>
+  <text x="284" y="24" text-anchor="end" class="time">03:18</text>
   <!-- Progress bar -->
-  <rect x="20" y="34" width="260" height="4" rx="2" fill="rgba(35, 71, 38, 0.2)"/>
-  <rect x="20" y="34" width="165" height="4" rx="2" fill="#234726"/>
-  <circle cx="185" cy="36" r="4" fill="#234726"/>
+  <rect x="16" y="34" width="268" height="5" rx="2.5" fill="rgba(35, 71, 38, 0.2)"/>
+  <rect x="16" y="34" width="170" height="5" rx="2.5" fill="#234726"/>
+  <circle cx="186" cy="36.5" r="5" fill="#234726"/>
   <!-- Controls -->
-  <path d="M 125 48 L 132 54 L 132 42 Z" fill="#234726"/>
-  <polygon points="144,44 156,51 144,58" fill="#234726"/>
-  <path d="M 175 48 L 168 54 L 168 42 Z" fill="#234726"/>
+  <path d="M 125 48 L 133 54 L 133 42 Z" fill="#234726"/>
+  <polygon points="144,43 158,51 144,59" fill="#234726"/>
+  <path d="M 175 48 L 167 54 L 167 42 Z" fill="#234726"/>
 </svg>

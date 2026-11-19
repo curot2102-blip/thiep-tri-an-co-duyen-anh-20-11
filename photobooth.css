@@ -996,34 +996,37 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
 
 /* Thẻ dạng rộng (Banner) với kích thước to rõ, nền giấy ngà tương phản cao */
 .pb-sticker-item.item-wide {
-  padding: 12px 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .pb-sticker-item.item-wide .pb-sticker-preview-box {
   width: 100%;
-  height: 96px;
+  height: 124px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fbf7ee;
-  border: 1px solid rgba(217, 119, 6, 0.25);
+  border: 1px solid rgba(217, 119, 6, 0.3);
   border-radius: 8px;
-  padding: 8px 16px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 6px 12px;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
 }
 
 .pb-sticker-item.item-wide .pb-sticker-img {
   max-width: 100%;
-  max-height: 80px;
+  max-height: 112px;
   width: auto;
   height: auto;
   object-fit: contain;
-  filter: contrast(1.1);
+  filter: contrast(1.15);
+  transform: scale(1.18);
+  transform-origin: center center;
 }
 
 .pb-sticker-item.item-wide .pb-sticker-meta {
@@ -1031,20 +1034,21 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
 }
 
 .pb-sticker-item.item-wide .pb-sticker-name {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: #f1f5f9;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
   text-align: center;
+  line-height: 1.3;
 }
 
 .pb-sticker-item.item-wide .pb-sticker-hint {
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   color: var(--accent-gold);
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .pb-sticker-item.selected .pb-sticker-hint {
@@ -1054,42 +1058,45 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
 
 /* Thẻ dạng icon vuông lớn với nền ngà tương phản */
 .pb-sticker-item.item-card {
-  padding: 12px 8px;
+  padding: 14px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 120px;
+  gap: 10px;
+  min-height: 140px;
 }
 
 .pb-sticker-item.item-card .pb-sticker-preview-box {
-  width: 78px;
-  height: 78px;
+  width: 96px;
+  height: 96px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fbf7ee;
-  border: 1px solid rgba(217, 119, 6, 0.2);
+  border: 1px solid rgba(217, 119, 6, 0.25);
   border-radius: 8px;
-  padding: 6px;
+  padding: 8px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
 
 .pb-sticker-item.item-card .pb-sticker-img {
-  max-width: 66px;
-  max-height: 66px;
+  max-width: 86px;
+  max-height: 86px;
   width: auto;
   height: auto;
   object-fit: contain;
+  transform: scale(1.1);
+  transform-origin: center center;
 }
 
 .pb-sticker-item.item-card .pb-sticker-name {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #e2e8f0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #f1f5f9;
   text-align: center;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 /* Tiêu đề phân cách nhóm khi xem Tất cả */
