@@ -1137,16 +1137,17 @@ body {
 }
 
 .tribute-actions {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  align-items: stretch;
   width: 100%;
   box-sizing: border-box;
 }
 
 .action-btn {
-  flex: 1 1 0;
+  width: 100%;
+  min-height: 46px;
   min-width: 0;
   background: linear-gradient(135deg, #d97706, #f59e0b);
   border: none;
@@ -1161,6 +1162,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   white-space: normal;
   line-height: 1.35;
   box-sizing: border-box;
@@ -1187,16 +1189,27 @@ body {
 }
 
 @media (max-width: 600px) {
-  .tribute-actions,
+  .tribute-actions {
+    gap: 10px;
+  }
   .tribute-extra-actions {
-    flex-direction: column !important;
-    gap: 12px !important;
-    width: 100% !important;
+    gap: 8px;
   }
   .action-btn {
-    width: 100%;
-    padding: 12px 16px;
-    font-size: 0.875rem;
+    padding: 10px 14px;
+    font-size: 0.8125rem;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 380px) {
+  .tribute-actions {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .tribute-extra-actions {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 }
 
@@ -1654,107 +1667,48 @@ body {
 }
 
 .tribute-extra-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
   margin-top: 14px;
   width: 100%;
   box-sizing: border-box;
 }
 
-.action-btn.contribute-btn {
-  flex: 1 1 180px;
-  min-width: 0;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--text-main);
+.tribute-extra-actions .action-btn {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.25;
+  border-radius: 9999px;
+  box-sizing: border-box;
   text-decoration: none;
-  font-size: 0.875rem;
-  padding: 12px 14px;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: normal;
-  text-align: center;
-  box-sizing: border-box;
+  background: rgba(14, 18, 27, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-sub);
+  box-shadow: none;
+  transform: none;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.action-btn.album-btn {
-  flex: 1 1 180px;
-  min-width: 0;
-  background: rgba(217, 119, 6, 0.15);
-  border: 1px solid var(--border-gold);
+.tribute-extra-actions .action-btn svg {
+  flex-shrink: 0;
+}
+
+.tribute-extra-actions .action-btn:hover {
+  border-color: var(--border-gold);
   color: var(--accent-gold-light);
-  text-decoration: none;
-  font-size: 0.875rem;
-  padding: 12px 14px;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: normal;
-  text-align: center;
-  box-sizing: border-box;
-  transition: all 0.2s ease;
-}
-
-.action-btn.album-btn:hover {
-  background: rgba(245, 158, 11, 0.25);
-  border-color: var(--accent-gold);
-  transform: translateY(-2px);
-}
-
-.action-btn.photobooth-btn {
-  flex: 1 1 180px;
-  min-width: 0;
-  background: rgba(245, 158, 11, 0.18);
-  border: 1px solid var(--border-gold);
-  color: var(--accent-gold-light);
-  text-decoration: none;
-  font-size: 0.875rem;
-  padding: 12px 14px;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: normal;
-  text-align: center;
-  box-sizing: border-box;
-  transition: all 0.2s ease;
-}
-
-.action-btn.photobooth-btn:hover {
-  background: rgba(245, 158, 11, 0.28);
-  border-color: var(--accent-gold);
-  transform: translateY(-2px);
-}
-
-.action-btn.contribute-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: var(--accent-gold-light);
-}
-
-.action-btn.wish-toggle-btn {
-  flex: 1 1 0;
-  min-width: 0;
-  background: rgba(245, 158, 11, 0.18);
-  border: 1px solid var(--border-gold);
-  color: var(--accent-gold-light);
-  font-size: 0.875rem;
-  padding: 12px 14px;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: normal;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.action-btn.wish-toggle-btn:hover {
-  background: rgba(245, 158, 11, 0.28);
-  border-color: var(--accent-gold);
+  background: rgba(245, 158, 11, 0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.15);
 }
 
 /* Biểu mẫu gửi lời chúc trực tiếp tại trang chính */
@@ -1990,18 +1944,19 @@ body {
     margin-bottom: 12px !important;
   }
 
-  .tribute-actions,
+  .tribute-actions {
+    gap: 8px !important;
+  }
+
   .tribute-extra-actions {
-    flex-direction: column !important;
-    gap: 10px !important;
-    width: 100% !important;
+    gap: 8px !important;
   }
 
   .action-btn {
     width: 100% !important;
-    padding: 12px 16px !important;
-    min-height: 44px !important;
-    font-size: 0.8125rem !important;
+    padding: 8px 12px !important;
+    min-height: 38px !important;
+    font-size: 0.775rem !important;
     white-space: normal !important;
     text-align: center !important;
     line-height: 1.35 !important;
@@ -2369,34 +2324,7 @@ body {
   }
 }
 
-/* ==========================================================================
-   TRIBUTE-EXTRA-ACTIONS: Nút điều hướng cuối index.html — phong cách đồng bộ
-   ========================================================================== */
 
-.tribute-extra-actions .action-btn.wish-toggle-btn,
-.tribute-extra-actions .action-btn.contribute-btn,
-.tribute-extra-actions .action-btn.album-btn,
-.tribute-extra-actions .action-btn.photobooth-btn {
-  background: rgba(14, 18, 27, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  color: var(--text-sub);
-  font-weight: 500;
-  font-size: 0.8125rem;
-  box-shadow: none;
-  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-}
-
-.tribute-extra-actions .action-btn.wish-toggle-btn:hover,
-.tribute-extra-actions .action-btn.contribute-btn:hover,
-.tribute-extra-actions .action-btn.album-btn:hover,
-.tribute-extra-actions .action-btn.photobooth-btn:hover {
-  border-color: var(--border-gold);
-  color: var(--accent-gold-light);
-  background: rgba(245, 158, 11, 0.08);
-  transform: none;
-  box-shadow: none;
-}
 
 
 /* ==========================================================================
