@@ -215,9 +215,19 @@ function handleAddWish(ss, payload) {
     imageUrl = processImageStorage(rawImage, "wish_" + id, author);
   }
 
+  var letterStyle = (payload.letterStyle || payload.style || "classic_botanical").toString().trim();
+  if (!letterStyle) letterStyle = "classic_botanical";
   var receivedAt = Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss");
 
-  // Ghi hàng mới vào trang tính: ID | Thời Gian | Tác Giả | Lời Chúc | Hình Ảnh | Thời Điểm Nhận
+  // Đảm bảo tiêu đề cột 7 nếu chưa có
+  if (sheet.getMaxColumns() < 7) {
+    sheet.insertColumnsAfter(sheet.getMaxColumns(), 7 - sheet.getMaxColumns());
+  }
+  if (sheet.getRange(1, 7).getValue() === "") {
+    sheet.getRange(1, 7).setValue("Phong Cách Thư");
+  }
+
+  // Ghi hàng mới vào trang tính: ID | Thời Gian | Tác Giả | Lời Chúc | Hình Ảnh | Thời Điểm Nhận | Phong Cách Thư
   // Khử độc formula injection nếu nội dung bắt đầu bằng =, +, -, @
   sheet.appendRow([
     id,
@@ -225,7 +235,8 @@ function handleAddWish(ss, payload) {
     sanitizeSpreadsheetCell(author),
     sanitizeSpreadsheetCell(wish),
     imageUrl,
-    receivedAt
+    receivedAt,
+    letterStyle
   ]);
 
   return {
@@ -233,6 +244,7 @@ function handleAddWish(ss, payload) {
     time: time,
     author: author,
     wish: wish,
+    letterStyle: letterStyle,
     image: imageUrl
   };
 }
@@ -350,12 +362,16 @@ function readWishesFromSheet(ss) {
   var lastRow = sheet.getLastRow();
   if (lastRow <= 1) return []; // Chỉ có dòng tiêu đề hoặc rỗng
 
-  // Bảo đảm trang tính có tối thiểu 6 cột để tránh lỗi vượt biên kích thước range
-  if (sheet.getMaxColumns() < 6) {
-    sheet.insertColumnsAfter(sheet.getMaxColumns(), 6 - sheet.getMaxColumns());
+  // Bảo đảm trang tính có tối thiểu 7 cột để lưu và đọc Phong Cách Thư
+  if (sheet.getMaxColumns() < 7) {
+    sheet.insertColumnsAfter(sheet.getMaxColumns(), 7 - sheet.getMaxColumns());
+  }
+  if (sheet.getRange(1, 7).getValue() === "") {
+    sheet.getRange(1, 7).setValue("Phong Cách Thư");
   }
 
-  var data = sheet.getRange(2, 1, lastRow - 1, 6).getValues();
+  var maxWishCols = Math.max(sheet.getLastColumn() || 7, 7);
+  var data = sheet.getRange(2, 1, lastRow - 1, maxWishCols).getValues();
   var wishes = [];
 
   for (var i = 0; i < data.length; i++) {
@@ -371,6 +387,8 @@ function readWishesFromSheet(ss) {
     var rawAuthor = unsanitizeSpreadsheetCell(String(row[2] || "").trim());
     var rawWish = unsanitizeSpreadsheetCell(String(row[3] || "").trim());
     var rawImage = String(row[4] || "").trim();
+    var letterStyle = (row.length >= 7 && row[6]) ? String(row[6]).trim() : "classic_botanical";
+    if (!letterStyle) letterStyle = "classic_botanical";
 
     // Dòng trống hoàn toàn không có lời chúc hay ảnh thì bỏ qua để không sinh lời chúc ma
     if (!rawWish && !rawImage) {
@@ -395,6 +413,7 @@ function readWishesFromSheet(ss) {
         time: time,
         author: author,
         wish: wish,
+        letterStyle: letterStyle,
         image: image
       });
     }
@@ -415,12 +434,15 @@ function readPhotosFromSheet(ss) {
   var lastRow = sheet.getLastRow();
   if (lastRow <= 1) return [];
 
-  // Bảo đảm trang tính có tối thiểu 7 cột để tránh lỗi vượt biên kích thước range
-  if (sheet.getMaxColumns() < 7) {
-    sheet.insertColumnsAfter(sheet.getMaxColumns(), 7 - sheet.getMaxColumns());
+  // Bảo đảm trang tính có tối thiểu 8 cột để đọc Mã Khung Phim
+  if (sheet.getMaxColumns() < 8) {
+    sheet.insertColumnsAfter(sheet.getMaxColumns(), 8 - sheet.getMaxColumns());
+  }
+  if (sheet.getRange(1, 8).getValue() === "") {
+    sheet.getRange(1, 8).setValue("Mã Khung Phim");
   }
 
-  var maxCols = Math.max(sheet.getLastColumn() || 7, 7);
+  var maxCols = Math.max(sheet.getLastColumn() || 8, 8);
   var data = sheet.getRange(2, 1, lastRow - 1, maxCols).getValues();
   var photos = [];
 

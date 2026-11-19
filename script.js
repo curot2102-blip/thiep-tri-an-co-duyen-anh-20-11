@@ -825,6 +825,7 @@ async function sendWishToGas(wish) {
       id: wish.id,
       author: wish.author,
       wish: wish.wish,
+      letterStyle: wish.letterStyle || wish.style || 'classic_botanical',
       time: wish.time,
       image: wish.image || ''
     };
@@ -1013,14 +1014,49 @@ function renderSubLetters() {
   });
 }
 
+const LETTER_STYLE_NAMES = {
+  'classic_botanical': 'Hoa cỏ cổ điển',
+  'sage_minimalist': 'Xô thơm tối giản',
+  'watercolor_blue': 'Xanh thủy mặc',
+  'vintage_parchment': 'Giấy da hoài niệm'
+};
+
+function getWishLetterStyle(wish) {
+  if (wish.letterStyle) return wish.letterStyle;
+  if (wish.style) return wish.style;
+  try {
+    const map = JSON.parse(localStorage.getItem('co_duyen_anh_wish_styles') || '{}');
+    if (wish.id && map[wish.id]) return map[wish.id];
+  } catch (e) {}
+  // Phân bố phong cách luân phiên tinh tế
+  const styles = ['classic_botanical', 'sage_minimalist', 'watercolor_blue', 'vintage_parchment'];
+  let hash = 0;
+  const str = wish.id || wish.author || '';
+  for (let i = 0; i < str.length; i++) hash = (hash * 31 + str.charCodeAt(i)) & 0xffffffff;
+  return styles[Math.abs(hash) % styles.length];
+}
+
+function saveWishStyleDirect(wishId, styleId) {
+  if (!wishId || !styleId) return;
+  try {
+    const map = JSON.parse(localStorage.getItem('co_duyen_anh_wish_styles') || '{}');
+    map[wishId] = styleId;
+    localStorage.setItem('co_duyen_anh_wish_styles', JSON.stringify(map));
+  } catch (e) {}
+}
+
 function createSubLetterCard(wish) {
+  const styleId = getWishLetterStyle(wish);
+  const styleName = LETTER_STYLE_NAMES[styleId] || 'Thiệp tri ân';
   const card = document.createElement('div');
-  card.className = 'sub-letter-card';
+  card.className = `sub-letter-card style-${styleId}`;
   card.setAttribute('data-id', wish.id || '');
+  card.setAttribute('data-letter-style', styleId);
   card.innerHTML = `
     <div class="sub-letter-card-header">
       <div class="sub-letter-author">${escapeHtml(wish.author || 'Bạn học trò')}</div>
       <div class="sub-letter-meta">
+        <span class="sub-letter-style-tag">${escapeHtml(styleName)}</span>
         <span class="sub-letter-time">${escapeHtml(wish.time || '')}</span>
         <div class="sub-letter-stamp" title="Tri ân 20.11">20.11</div>
       </div>
@@ -1260,6 +1296,23 @@ function initIndexWishForm() {
 
   const submitBtn = document.getElementById('index-wish-submit-btn');
 
+  // Khởi tạo bộ chọn phong cách giấy thư trên trang chính
+  const stylePickerCards = document.querySelectorAll('#index-letter-style-picker .style-picker-card');
+  const styleInput = document.getElementById('index-selected-letter-style');
+  stylePickerCards.forEach(card => {
+    card.addEventListener('click', () => {
+      stylePickerCards.forEach(c => {
+        c.classList.remove('selected');
+        c.setAttribute('aria-checked', 'false');
+        c.setAttribute('tabindex', '-1');
+      });
+      card.classList.add('selected');
+      card.setAttribute('aria-checked', 'true');
+      card.setAttribute('tabindex', '0');
+      if (styleInput) styleInput.value = card.getAttribute('data-style') || 'classic_botanical';
+    });
+  });
+
   if (toggleBtn && form) {
     toggleBtn.addEventListener('click', () => {
       const isHidden = form.style.display === 'none';
@@ -1296,12 +1349,18 @@ function initIndexWishForm() {
       const now = new Date();
       const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
+      const chosenStyleCard = document.querySelector('#index-letter-style-picker .style-picker-card.selected');
+      const chosenLetterStyle = (chosenStyleCard ? chosenStyleCard.getAttribute('data-style') : null) || (styleInput ? styleInput.value : 'classic_botanical');
+
       const newWish = {
         id: 'wish-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
         author: author,
         wish: wishText,
+        letterStyle: chosenLetterStyle,
         time: timeStr
       };
+
+      saveWishStyleDirect(newWish.id, chosenLetterStyle);
 
       // 1. Lưu ngay vào localStorage
       let wishes = [];

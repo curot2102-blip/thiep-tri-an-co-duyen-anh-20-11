@@ -2285,3 +2285,267 @@ body {
   color: var(--text-sub);
   font-size: 0.75rem;
 }
+
+
+/* ==========================================================================
+   SITE-NAV: Thanh điều hướng đồng bộ cho tất cả trang phụ
+   ========================================================================== */
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(14, 18, 27, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.site-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  min-height: 44px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  color: var(--text-sub);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
+  line-height: 1;
+}
+
+.site-nav-btn svg {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.site-nav-btn:hover {
+  border-color: var(--border-gold);
+  color: var(--accent-gold-light);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.site-nav-btn.active {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold-light);
+}
+
+.site-nav-btn.admin-pill {
+  border-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.site-nav-btn.admin-pill:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-sub);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 600px) {
+  .site-nav {
+    gap: 6px;
+    padding: 10px 12px;
+  }
+  .site-nav-btn {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    min-height: 40px;
+  }
+}
+
+/* ==========================================================================
+   TRIBUTE-EXTRA-ACTIONS: Nút điều hướng cuối index.html — phong cách đồng bộ
+   ========================================================================== */
+
+.tribute-extra-actions .action-btn.wish-toggle-btn,
+.tribute-extra-actions .action-btn.contribute-btn,
+.tribute-extra-actions .action-btn.album-btn,
+.tribute-extra-actions .action-btn.photobooth-btn {
+  background: rgba(14, 18, 27, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  color: var(--text-sub);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  box-shadow: none;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.tribute-extra-actions .action-btn.wish-toggle-btn:hover,
+.tribute-extra-actions .action-btn.contribute-btn:hover,
+.tribute-extra-actions .action-btn.album-btn:hover,
+.tribute-extra-actions .action-btn.photobooth-btn:hover {
+  border-color: var(--border-gold);
+  color: var(--accent-gold-light);
+  background: rgba(245, 158, 11, 0.08);
+  transform: none;
+  box-shadow: none;
+}
+
+
+/* ==========================================================================
+   PHONG CÁCH BỨC THƯ CON (SUB-LETTER CARDS)
+   Áp dụng 4 phong cách thư tinh tế, ấm áp cho các lời chúc bên dưới
+   ========================================================================== */
+
+.sub-letter-style-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.2;
+  border: 1px solid currentColor;
+  opacity: 0.85;
+}
+
+/* 1. Hoa cỏ cổ điển (Classic Botanical) */
+.sub-letter-card.style-classic_botanical {
+  background: radial-gradient(circle at 50% 15%, #ffffff 0%, #fffbf0 100%);
+  border-color: rgba(180, 83, 9, 0.3);
+}
+.sub-letter-card.style-classic_botanical::before {
+  border-color: rgba(180, 83, 9, 0.18);
+}
+.sub-letter-card.style-classic_botanical .sub-letter-author {
+  color: #78350f;
+}
+.sub-letter-card.style-classic_botanical .sub-letter-style-tag {
+  color: #b45309;
+  background: rgba(245, 158, 11, 0.08);
+}
+.sub-letter-card.style-classic_botanical .sub-letter-stamp {
+  background: radial-gradient(circle at 35% 35%, #ea580c 0%, #b45309 70%, #78350f 100%);
+  border-color: rgba(251, 191, 36, 0.6);
+}
+
+/* 2. Xô thơm tối giản (Sage Minimalist) */
+.sub-letter-card.style-sage_minimalist {
+  background: radial-gradient(circle at 50% 15%, #fafffa 0%, #f0fdf4 100%);
+  border-color: rgba(16, 185, 129, 0.32);
+}
+.sub-letter-card.style-sage_minimalist::before {
+  border-color: rgba(5, 150, 105, 0.2);
+}
+.sub-letter-card.style-sage_minimalist .sub-letter-author {
+  color: #065f46;
+}
+.sub-letter-card.style-sage_minimalist .sub-letter-style-tag {
+  color: #059669;
+  background: rgba(16, 185, 129, 0.08);
+}
+.sub-letter-card.style-sage_minimalist .sub-letter-stamp {
+  background: radial-gradient(circle at 35% 35%, #10b981 0%, #059669 70%, #064e3b 100%);
+  border-color: rgba(110, 231, 183, 0.6);
+}
+
+/* 3. Sắc xanh thủy mặc (Watercolor Blue) */
+.sub-letter-card.style-watercolor_blue {
+  background: radial-gradient(circle at 50% 15%, #f8fcff 0%, #f0f9ff 100%);
+  border-color: rgba(14, 165, 233, 0.32);
+}
+.sub-letter-card.style-watercolor_blue::before {
+  border-color: rgba(2, 132, 199, 0.2);
+}
+.sub-letter-card.style-watercolor_blue .sub-letter-author {
+  color: #0369a1;
+}
+.sub-letter-card.style-watercolor_blue .sub-letter-style-tag {
+  color: #0284c7;
+  background: rgba(14, 165, 233, 0.08);
+}
+.sub-letter-card.style-watercolor_blue .sub-letter-stamp {
+  background: radial-gradient(circle at 35% 35%, #38bdf8 0%, #0284c7 70%, #075985 100%);
+  border-color: rgba(186, 230, 253, 0.6);
+}
+
+/* 4. Giấy da hoài niệm (Vintage Parchment) */
+.sub-letter-card.style-vintage_parchment {
+  background: radial-gradient(circle at 50% 15%, #fffdfa 0%, #fef3c7 100%);
+  border-color: rgba(217, 119, 6, 0.35);
+}
+.sub-letter-card.style-vintage_parchment::before {
+  border-color: rgba(180, 83, 9, 0.25);
+}
+.sub-letter-card.style-vintage_parchment .sub-letter-author {
+  color: #854d0e;
+}
+.sub-letter-card.style-vintage_parchment .sub-letter-style-tag {
+  color: #d97706;
+  background: rgba(217, 119, 6, 0.08);
+}
+.sub-letter-card.style-vintage_parchment .sub-letter-stamp {
+  background: radial-gradient(circle at 35% 35%, #d97706 0%, #92400e 70%, #451a03 100%);
+  border-color: rgba(252, 211, 77, 0.6);
+}
+
+/* ==========================================================================
+   BỘ CHỌN PHONG CÁCH THIỆP THƯ (FORM PICKER)
+   ========================================================================== */
+
+.letter-style-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.style-picker-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: var(--text-sub);
+  font-family: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.style-picker-card:hover {
+  border-color: var(--border-gold);
+  color: var(--accent-gold-light);
+  background: rgba(245, 158, 11, 0.06);
+}
+
+.style-picker-card.selected {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold-light);
+  background: rgba(245, 158, 11, 0.12);
+  font-weight: 600;
+}
+
+.style-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  flex-shrink: 0;
+}
+
+.style-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
