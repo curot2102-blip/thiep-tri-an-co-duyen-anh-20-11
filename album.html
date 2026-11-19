@@ -747,7 +747,7 @@
       top: 68.15%;
       left: 7.10%;
       width: 85%;
-      max-height: 20%;
+      max-height: 8.5%;
       color: #f1f5f9;
       font-size: clamp(0.75rem, 2.2cqi, 0.875rem);
       font-weight: 400;
@@ -1599,13 +1599,8 @@
         framedAuthor.textContent = `👤 ${photo.author || 'Bạn học trò'}`;
       }
       if (framedCaption) {
-        if (photo.caption && photo.caption.trim()) {
-          framedCaption.textContent = photo.caption.trim();
-          framedCaption.style.display = 'block';
-        } else {
-          framedCaption.textContent = '';
-          framedCaption.style.display = 'none';
-        }
+        framedCaption.textContent = (photo.caption && photo.caption.trim()) ? photo.caption.trim() : 'Kỷ niệm tri ân cô Duyên Anh';
+        framedCaption.style.display = 'block';
       }
 
       if (photo.caption && photo.caption.trim()) {

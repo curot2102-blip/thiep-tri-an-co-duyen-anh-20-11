@@ -981,6 +981,7 @@
 
     // Image caches
     overlayCache: new Map(),
+    maskCache: new Map(),
     stickerImageCache: new Map()
   };
 
@@ -1288,13 +1289,23 @@
   }
 
   function preloadOverlayImage(frame) {
-    if (state.overlayCache.has(frame.id)) return;
-    const img = new Image();
-    img.src = frame.overlay;
-    img.onload = () => {
-      state.overlayCache.set(frame.id, img);
-      renderCanvas();
-    };
+    if (!state.overlayCache.has(frame.id)) {
+      const img = new Image();
+      img.src = frame.overlay;
+      img.onload = () => {
+        state.overlayCache.set(frame.id, img);
+        renderCanvas();
+      };
+    }
+    const maskSrc = frame.mask || frame.overlay.replace('.png', '_mask.png');
+    if (!state.maskCache.has(frame.id)) {
+      const maskImg = new Image();
+      maskImg.src = maskSrc;
+      maskImg.onload = () => {
+        state.maskCache.set(frame.id, maskImg);
+        renderCanvas();
+      };
+    }
   }
 
   // -----------------------------------------------------------------
@@ -1755,10 +1766,64 @@
     });
   }
 
+  const STICKER_SECTION_HINTS = {
+    header: 'Phần trên: Chọn tiêu đề nghệ thuật trang trí đầu dải ảnh (tự động căn vị trí phía trên).',
+    middle: 'Phần giữa: Chọn số thứ tự ô ảnh (01 – 04) hoặc biểu tượng trang trí giữa các ô.',
+    footer: 'Phần dưới: Chọn thanh nhạc kỷ niệm, mã vạch 20/11, mã QR hoặc con dấu triện đỏ.',
+    vintage: 'Bưu điện & Washi: Tem thư hoài niệm, nhành hoa vẽ tay và băng dán kraft retro.',
+    school: 'Học trò & 20/11: Nón cử nhân, hoa tri ân, sách vở, bảng phấn và điểm 10.',
+    all: 'Tất cả item: Toàn bộ bộ chi tiết trang trí phân chia theo từng phần rõ ràng.'
+  };
+
   function renderStickersTray(filter) {
     const grid = document.getElementById('stickers-grid');
     if (!grid) return;
     grid.innerHTML = '';
+
+    const hintEl = document.getElementById('sticker-section-hint');
+    if (hintEl) {
+      hintEl.textContent = STICKER_SECTION_HINTS[filter] || STICKER_SECTION_HINTS.all;
+    }
+
+    const isWideLayout = (filter === 'header' || filter === 'footer');
+    if (filter === 'all') {
+      grid.className = 'pb-stickers-grid layout-cards';
+    } else {
+      grid.className = 'pb-stickers-grid ' + (isWideLayout ? 'layout-wide' : 'layout-cards');
+    }
+
+    if (filter === 'all') {
+      // Phân chia theo từng phần rõ ràng khi xem Tất cả
+      const sections = [
+        { id: 'header', title: 'Phần trên (Tiêu đề dải ảnh)', isWide: true },
+        { id: 'middle', title: 'Phần giữa (Dấu số ô & Biểu tượng)', isWide: false },
+        { id: 'footer', title: 'Phần dưới (Thanh nhạc, Mã vạch & Triện đỏ)', isWide: true },
+        { id: 'vintage', title: 'Bưu điện & Washi Tape', isWide: false },
+        { id: 'school', title: 'Học trò & Tri ân 20/11', isWide: false }
+      ];
+
+      sections.forEach(sec => {
+        const items = state.stickers.filter(s => {
+          if (s.category === sec.id) return true;
+          if (Array.isArray(s.tags) && s.tags.includes(sec.id)) return true;
+          if (sec.id === 'vintage' && (s.category === 'vintage' || s.category === 'botanical' || s.category === 'love' || s.category === 'text' || s.category === 'decor')) return true;
+          if (sec.id === 'school' && (s.category === 'school' || (s.tags && s.tags.includes('school')))) return true;
+          return false;
+        });
+
+        if (items.length > 0) {
+          const secHeader = document.createElement('div');
+          secHeader.className = 'pb-sticker-section-header';
+          secHeader.textContent = sec.title;
+          grid.appendChild(secHeader);
+
+          items.forEach(st => {
+            grid.appendChild(createStickerItemEl(st, sec.isWide));
+          });
+        }
+      });
+      return;
+    }
 
     const filtered = state.stickers.filter(s => {
       if (!filter || filter === 'all') return true;
@@ -1771,27 +1836,47 @@
     });
 
     filtered.forEach(st => {
-      const item = document.createElement('div');
-      item.className = 'pb-sticker-item';
-      item.dataset.id = st.id;
-      item.setAttribute('tabindex', '0');
-      item.setAttribute('role', 'button');
-      item.setAttribute('aria-label', `Thêm sticker ${st.name}`);
+      grid.appendChild(createStickerItemEl(st, isWideLayout));
+    });
+  }
+
+  function createStickerItemEl(st, isWide) {
+    const item = document.createElement('div');
+    item.className = 'pb-sticker-item ' + (isWide ? 'item-wide' : 'item-card');
+    item.dataset.id = st.id;
+    item.setAttribute('tabindex', '0');
+    item.setAttribute('role', 'button');
+    item.setAttribute('aria-label', `Thêm ${st.name}`);
+
+    if (isWide) {
       item.innerHTML = `
-        <img class="pb-sticker-img" src="${st.file}" alt="${st.name}" loading="lazy">
+        <div class="pb-sticker-preview-box">
+          <img class="pb-sticker-img" src="${st.file}" alt="${st.name}" loading="lazy">
+        </div>
+        <div class="pb-sticker-meta">
+          <span class="pb-sticker-name">${st.name}</span>
+          <span class="pb-sticker-hint">Chạm để gắn vào dải ảnh</span>
+        </div>
+      `;
+    } else {
+      item.innerHTML = `
+        <div class="pb-sticker-preview-box">
+          <img class="pb-sticker-img" src="${st.file}" alt="${st.name}" loading="lazy">
+        </div>
         <span class="pb-sticker-name">${st.name}</span>
       `;
-      item.addEventListener('click', () => {
-        addStickerItem(st);
-      });
-      item.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          addStickerItem(st);
-        }
-      });
-      grid.appendChild(item);
+    }
+
+    item.addEventListener('click', () => {
+      addStickerItem(st);
     });
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        addStickerItem(st);
+      }
+    });
+    return item;
   }
 
   function addStickerItem(stickerDef) {
@@ -1805,23 +1890,49 @@
       let initW = stickerDef.defaultWidth || 100;
       let initH = stickerDef.defaultHeight || 100;
 
-      if (stickerDef.category === 'header') {
+      if (stickerDef.category === 'header' || (stickerDef.tags && stickerDef.tags.includes('header'))) {
         initX = frame.width / 2;
         initY = 190;
         initW = 320;
         initH = 110;
-      } else if (stickerDef.category === 'footer') {
+      } else if (stickerDef.category === 'footer' || (stickerDef.tags && stickerDef.tags.includes('footer'))) {
         initX = frame.width / 2;
         initY = 1950;
         initW = 300;
         initH = 85;
+      } else if (stickerDef.id === 'slot_num_01' && frame.slots[0]) {
+        initX = frame.slots[0].x + 40;
+        initY = frame.slots[0].y + 40;
+        initW = 60;
+        initH = 60;
+      } else if (stickerDef.id === 'slot_num_02' && frame.slots[1]) {
+        initX = frame.slots[1].x + 40;
+        initY = frame.slots[1].y + 40;
+        initW = 60;
+        initH = 60;
+      } else if (stickerDef.id === 'slot_num_03' && frame.slots[2]) {
+        initX = frame.slots[2].x + 40;
+        initY = frame.slots[2].y + 40;
+        initW = 60;
+        initH = 60;
+      } else if (stickerDef.id === 'slot_num_04' && frame.slots[3]) {
+        initX = frame.slots[3].x + 40;
+        initY = frame.slots[3].y + 40;
+        initW = 60;
+        initH = 60;
+      } else if (stickerDef.id === 'slot_khung_1_4') {
+        initX = frame.width / 2;
+        initY = 285;
+        initW = 160;
+        initH = 46;
       } else if (stickerDef.category === 'middle') {
-        const slotIdx = state.decorations.filter(d => d.category === 'middle').length % 4;
-        const targetSlot = (frame.slots && frame.slots[slotIdx]) ? frame.slots[slotIdx] : (frame.slots ? frame.slots[0] : { x: 95, y: 420 });
-        initX = targetSlot.x + 35;
-        initY = targetSlot.y + 35;
-        initW = 70;
-        initH = 70;
+        const middleCount = state.decorations.filter(d => d.category === 'middle').length;
+        const slotIdx = middleCount % 4;
+        const targetSlot = (frame.slots && frame.slots[slotIdx]) ? frame.slots[slotIdx] : (frame.slots ? frame.slots[0] : { x: 95, y: 420, width: 410, height: 328 });
+        initX = targetSlot.x + targetSlot.width - 45;
+        initY = targetSlot.y + targetSlot.height - 45;
+        initW = 75;
+        initH = 75;
       } else {
         initX = frame.width / 2;
         initY = frame.height / 2 + (Math.random() * 80 - 40);
@@ -2168,9 +2279,23 @@
     canvas.style.transform = `scale(${state.zoom})`;
     canvas.style.transformOrigin = 'center top';
 
-    // 1. LAYER 1: BACKGROUND
-    ctx.fillStyle = frame.bgColor || '#EDE0CF';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // 1. LAYER 1: BACKGROUND (KHOÉT CHÍNH XÁC THEO ĐƯỜNG VIỀN KHUNG CỦA PPTX)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const maskImg = state.maskCache.get(frame.id);
+
+    if (maskImg && maskImg.complete && maskImg.naturalWidth > 0) {
+      ctx.drawImage(maskImg, 0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = 'source-in';
+      ctx.fillStyle = frame.bgColor || '#EDE0CF';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = 'source-over';
+    } else {
+      frame.slots.forEach(slotDef => {
+        ctx.fillStyle = frame.bgColor || '#EDE0CF';
+        ctx.fillRect(slotDef.x * scale, slotDef.y * scale, slotDef.width * scale, slotDef.height * scale);
+      });
+      preloadOverlayImage(frame);
+    }
 
     // 2. LAYER 2: 4 PHOTO SLOTS
     frame.slots.forEach((slotDef, slotIdx) => {
@@ -2233,7 +2358,14 @@
       ctx.restore();
     });
 
-    // 5. LAYER 5: INTERACTIVE HANDLES (PREVIEW ONLY)
+    // 5. KHOÉT CHUẨN THEO VIỀN KHUNG (CLIP TOÀN BỘ THEO SILHOUETTE)
+    if (maskImg && maskImg.complete && maskImg.naturalWidth > 0) {
+      ctx.globalCompositeOperation = 'destination-in';
+      ctx.drawImage(maskImg, 0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    // 6. LAYER 6: INTERACTIVE HANDLES (PREVIEW ONLY)
     if (!isExport && state.selectedItemId && state.currentStep === 3) {
       const selected = state.decorations.find(d => d.id === state.selectedItemId);
       if (selected) {
@@ -2448,9 +2580,22 @@
       exportCanvas.width = frame.width * exportScale;
       exportCanvas.height = frame.height * exportScale;
 
-      // 1. Layer 1: Background
-      exportCtx.fillStyle = frame.bgColor || '#EDE0CF';
-      exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+      // 1. Layer 1: Background (Khoét chính xác theo đường viền khung của PPTX)
+      exportCtx.clearRect(0, 0, exportCanvas.width, exportCanvas.height);
+      const maskImg = state.maskCache.get(frame.id);
+
+      if (maskImg && maskImg.complete && maskImg.naturalWidth > 0) {
+        exportCtx.drawImage(maskImg, 0, 0, exportCanvas.width, exportCanvas.height);
+        exportCtx.globalCompositeOperation = 'source-in';
+        exportCtx.fillStyle = frame.bgColor || '#EDE0CF';
+        exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+        exportCtx.globalCompositeOperation = 'source-over';
+      } else {
+        frame.slots.forEach(slotDef => {
+          exportCtx.fillStyle = frame.bgColor || '#EDE0CF';
+          exportCtx.fillRect(slotDef.x * exportScale, slotDef.y * exportScale, slotDef.width * exportScale, slotDef.height * exportScale);
+        });
+      }
 
       // 2. Layer 2: 4 Photo slots
       frame.slots.forEach((slotDef, slotIdx) => {
@@ -2501,6 +2646,13 @@
 
         exportCtx.restore();
       });
+
+      // 5. Cắt chuẩn theo viền khung (khoét các góc cắt vé ngoài khung)
+      if (maskImg && maskImg.complete && maskImg.naturalWidth > 0) {
+        exportCtx.globalCompositeOperation = 'destination-in';
+        exportCtx.drawImage(maskImg, 0, 0, exportCanvas.width, exportCanvas.height);
+        exportCtx.globalCompositeOperation = 'source-over';
+      }
 
       exportCanvas.toBlob((blob) => {
         resolve(blob);

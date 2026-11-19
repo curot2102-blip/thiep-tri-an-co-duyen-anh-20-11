@@ -1184,11 +1184,12 @@ body {
 }
 
 .heart-paren {
-  font-size: 0.72em;
-  font-weight: 500;
-  opacity: 0.75;
+  font-size: 0.65em;
+  font-weight: 400;
+  opacity: 0.6;
   display: inline-block;
   transform: translateY(-0.5px);
+  margin: 0 1px;
   user-select: none;
 }
 
