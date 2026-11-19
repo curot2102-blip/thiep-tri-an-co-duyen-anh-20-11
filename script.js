@@ -736,16 +736,14 @@ async function syncWishesFromRemote() {
           if (Array.isArray(pendingPhotos)) {
             pendingPhotos.forEach(p => {
               if (p && p.id && !deletedIds.includes(p.id)) {
-                const pKey = (p.id || '') + '_' + (p.image ? p.image.substring(p.image.length - 35) : Math.random());
-                photoMap.set(pKey, p);
+                photoMap.set(p.id, p);
               }
             });
           }
-          // 2. Nạp toàn bộ ảnh từ Google Sheets (dùng key kết hợp ID + URL để tránh mất ảnh nếu trùng ID)
+          // 2. Nạp toàn bộ ảnh từ Google Sheets (dùng p.id chuẩn để chống nhân đôi ảnh)
           remotePhotos.forEach(p => {
             if (p && p.id && !deletedIds.includes(p.id)) {
-              const pKey = (p.id || '') + '_' + (p.image ? p.image.substring(p.image.length - 35) : Math.random());
-              photoMap.set(pKey, p);
+              photoMap.set(p.id, p);
             }
           });
 

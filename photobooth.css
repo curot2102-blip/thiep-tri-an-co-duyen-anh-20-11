@@ -1493,20 +1493,109 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
 @media (max-width: 1024px) {
   .pb-main-workspace {
     grid-template-columns: 1fr;
-    padding: 16px;
-    gap: 24px;
+    padding: 12px;
+    gap: 16px;
   }
 
   .pb-preview-col {
     position: static;
-    max-width: 480px;
+    max-width: 500px;
     margin: 0 auto;
     width: 100%;
   }
 
   .pb-canvas-wrapper {
-    max-height: 520px;
-    min-height: 400px;
+    max-height: 52vh;
+    min-height: 340px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Tối ưu hóa toàn diện cho điện thoại */
+  .pb-preview-col {
+    max-width: 100%;
+  }
+
+  .pb-canvas-wrapper {
+    max-height: 48vh;
+    min-height: 300px;
+    padding: 8px 4px;
+  }
+
+  #pb-canvas {
+    max-height: calc(48vh - 16px);
+  }
+
+  /* Nút xem 3D nổi bật và thuận tiện ngón tay */
+  .pb-btn-3d-toggle {
+    padding: 6px 12px;
+    font-size: 0.8125rem;
+    min-height: 36px;
+  }
+
+  /* Thanh điều khiển item nổi cố định góc dưới khi chọn sticker */
+  .pb-item-controls-bar {
+    position: sticky;
+    bottom: 12px;
+    z-index: 150;
+    margin-top: 10px;
+    background: rgba(13, 19, 33, 0.98);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid var(--accent-gold);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8);
+    padding: 10px;
+  }
+
+  .pb-ctrl-btn {
+    min-height: 46px;
+    font-size: 0.75rem;
+  }
+
+  /* Thanh bộ lọc cuộn ngang mượt mà bằng ngón tay */
+  .pb-filter-pills {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 6px;
+    gap: 8px;
+  }
+
+  .pb-filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pb-filter-pill {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 8px 14px;
+    font-size: 0.8125rem;
+  }
+
+  /* Thẻ tiêu đề rộng chiếm trọn chiều ngang màn hình điện thoại giúp chữ cực to */
+  .pb-sticker-item.item-wide {
+    grid-column: 1 / -1;
+    padding: 14px 12px;
+  }
+
+  .pb-sticker-item.item-wide .pb-sticker-preview-box {
+    height: 120px;
+  }
+
+  .pb-sticker-item.item-wide .pb-sticker-name {
+    font-size: 1rem;
+  }
+
+  .pb-sticker-item.item-card {
+    min-height: 125px;
+    padding: 10px 6px;
+  }
+
+  .pb-sticker-item.item-card .pb-sticker-preview-box {
+    width: 82px;
+    height: 82px;
   }
 }
 

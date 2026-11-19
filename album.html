@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Album Ảnh Kỷ Niệm 35mm - Cô Duyên Anh & Học Trò</title>
+  <title>Memory - Cô Duyên Anh</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1036,7 +1036,7 @@
         <line x1="17" y1="2" x2="17" y2="22"></line>
         <line x1="2" y1="12" x2="22" y2="12"></line>
       </svg>
-      <span>Album 35mm</span>
+      <span>Memory</span>
     </a>
     <a href="donggop.html" class="site-nav-btn">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1072,7 +1072,7 @@
       </svg>
       <span>35mm Contact Sheet &bull; Lưu giữ thanh xuân</span>
     </div>
-    <h1 class="hero-title">Cuốn phim kỷ niệm Cô Duyên Anh</h1>
+    <h1 class="hero-title">Memory</h1>
     <p class="hero-desc">
       Toàn bộ những khoảnh khắc thanh xuân và hình ảnh kỷ niệm do các bạn học trò đóng góp, được tráng rọi trong khung phim cổ điển với đầy đủ thông tin người gửi.
     </p>
@@ -1280,12 +1280,59 @@
       } catch (e) {}
     }
 
+    function extractDriveId(url) {
+      if (!url || typeof url !== 'string') return '';
+      const m1 = url.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
+      if (m1) return m1[1];
+      const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]{20,})/);
+      if (m2) return m2[1];
+      return '';
+    }
+
+    function deduplicatePhotoList(list) {
+      if (!Array.isArray(list)) return [];
+      const deletedIds = getDeletedIds();
+      const result = [];
+      const seenIds = new Set();
+      const seenDriveIds = new Set();
+      const seenFingerprints = new Set();
+
+      list.forEach(p => {
+        if (!p || !p.image) return;
+        const id = String(p.id || '').trim();
+        if (id && deletedIds.includes(id)) return;
+
+        // 1. Kiểm tra trùng ID
+        if (id && seenIds.has(id)) return;
+
+        // 2. Kiểm tra trùng File ID Google Drive
+        const driveId = extractDriveId(p.image);
+        if (driveId && seenDriveIds.has(driveId)) return;
+
+        // 3. Kiểm tra trùng dấu vân tay nội dung (Người gửi + Lời nhắn + Thời gian)
+        const authorClean = String(p.author || '').trim().toLowerCase();
+        const captionClean = String(p.caption || '').trim().toLowerCase();
+        const timeClean = String(p.time || '').trim().toLowerCase();
+        if (authorClean && captionClean) {
+          const fp = `${authorClean}:::${captionClean}:::${timeClean}`;
+          if (seenFingerprints.has(fp)) return;
+          seenFingerprints.add(fp);
+        }
+
+        if (id) seenIds.add(id);
+        if (driveId) seenDriveIds.add(driveId);
+        result.push(p);
+      });
+
+      return result;
+    }
+
     function getLocalPhotos() {
       try {
         const raw = localStorage.getItem('co_duyen_anh_photos');
         if (raw) {
           const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed)) return parsed;
+          if (Array.isArray(parsed)) return deduplicatePhotoList(parsed);
         }
       } catch (e) {}
       return [];
@@ -1293,7 +1340,8 @@
 
     function saveLocalPhotos(list) {
       try {
-        localStorage.setItem('co_duyen_anh_photos', JSON.stringify(list));
+        const clean = deduplicatePhotoList(list);
+        localStorage.setItem('co_duyen_anh_photos', JSON.stringify(clean));
       } catch (e) {}
     }
 
@@ -1513,63 +1561,49 @@
 
           if (Array.isArray(remotePhotos) && remotePhotos.length > 0) {
             const deletedIds = getDeletedIds();
-            const photoMap = new Map();
-
-            // 1. Giữ các ảnh trong bộ nhớ cục bộ - Khóa chuẩn bằng p.id
-            allPhotos.forEach(p => {
-              if (p && p.id && !deletedIds.includes(p.id)) {
-                photoMap.set(p.id, p);
+            const resolvedRemote = remotePhotos.map(p => {
+              if (!p || !p.id || deletedIds.includes(p.id)) return null;
+              const storedFrame = getSavedPhotoFrame(p.id);
+              let resolvedFrame = (p.frameId && p.frameId !== 'none') ? p.frameId : '';
+              
+              // Trích xuất từ mã ID (photo-xxx-film_frame_XX-xxx)
+              if (!resolvedFrame && p.id) {
+                const mId = String(p.id).match(/(film_frame_\d{2})/i);
+                if (mId) resolvedFrame = mId[1].toLowerCase();
               }
-            });
 
-            // 2. Nạp ảnh mới nhất từ Google Sheets và bảo tồn frameId tuyệt đối
-            remotePhotos.forEach(p => {
-              if (p && p.id && !deletedIds.includes(p.id)) {
-                const existing = photoMap.get(p.id);
-                const storedFrame = getSavedPhotoFrame(p.id);
-                let resolvedFrame = (p.frameId && p.frameId !== 'none') ? p.frameId : '';
-                
-                // Trích xuất từ mã ID (photo-xxx-film_frame_XX-xxx)
-                if (!resolvedFrame && p.id) {
-                  const mId = String(p.id).match(/(film_frame_\d{2})/i);
-                  if (mId) resolvedFrame = mId[1].toLowerCase();
-                }
-
-                // Trích xuất từ thuộc tính aspect (e.g. landscape:film_frame_02)
-                if (!resolvedFrame && p.aspect) {
-                  const mAspect = String(p.aspect).match(/(film_frame_\d{2})/i);
-                  if (mAspect) resolvedFrame = mAspect[1].toLowerCase();
-                }
-
-                if (!resolvedFrame && existing && existing.frameId && existing.frameId !== 'none') {
-                  resolvedFrame = existing.frameId;
-                }
-                if (!resolvedFrame && storedFrame) {
-                  resolvedFrame = storedFrame;
-                }
-                if (!resolvedFrame && (p.author === 'test 1' || (p.caption && p.caption.includes('ádfasdf')))) {
-                  resolvedFrame = 'film_frame_02';
-                }
-                if (!resolvedFrame && (p.author === 'test khung ảnh' || p.id === 'photo-1795062393087-0-jkg1gb-45741')) {
-                  resolvedFrame = 'film_frame_01';
-                }
-                resolvedFrame = normalizeFrameId(resolvedFrame);
-                if (!resolvedFrame) {
-                  resolvedFrame = 'none';
-                }
-
-                if (resolvedFrame !== 'none') {
-                  savePhotoFrame(p.id, resolvedFrame);
-                }
-
-                const merged = Object.assign({}, existing || {}, p, { frameId: resolvedFrame });
-                photoMap.set(p.id, merged);
+              // Trích xuất từ thuộc tính aspect (e.g. landscape:film_frame_02)
+              if (!resolvedFrame && p.aspect) {
+                const mAspect = String(p.aspect).match(/(film_frame_\d{2})/i);
+                if (mAspect) resolvedFrame = mAspect[1].toLowerCase();
               }
-            });
 
-            allPhotos = Array.from(photoMap.values());
+              if (!resolvedFrame && storedFrame) {
+                resolvedFrame = storedFrame;
+              }
+              if (!resolvedFrame && (p.author === 'test 1' || (p.caption && p.caption.includes('ádfasdf')))) {
+                resolvedFrame = 'film_frame_02';
+              }
+              if (!resolvedFrame && (p.author === 'test khung ảnh' || p.id === 'photo-1795062393087-0-jkg1gb-45741')) {
+                resolvedFrame = 'film_frame_01';
+              }
+              resolvedFrame = normalizeFrameId(resolvedFrame);
+              if (!resolvedFrame) {
+                resolvedFrame = 'none';
+              }
+
+              if (resolvedFrame !== 'none') {
+                savePhotoFrame(p.id, resolvedFrame);
+              }
+
+              return Object.assign({}, p, { frameId: resolvedFrame });
+            }).filter(Boolean);
+
+            // Nạp remote trước (dữ liệu chuẩn), kết hợp với allPhotos cục bộ, rồi khử trùng lặp tuyệt đối
+            const combined = [...resolvedRemote, ...allPhotos];
+            allPhotos = deduplicatePhotoList(combined);
             saveLocalPhotos(allPhotos);
-            renderPhotoGrid(document.getElementById('photo-search-input').value);
+            renderPhotoGrid(document.getElementById('photo-search-input') ? document.getElementById('photo-search-input').value : '');
           }
         }
       } catch (err) {
