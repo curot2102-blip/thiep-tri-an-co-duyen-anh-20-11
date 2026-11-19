@@ -570,6 +570,22 @@
       text-overflow: ellipsis;
     }
 
+    .film-frame-caption {
+      position: absolute;
+      top: 68.15%;
+      left: 7.10%;
+      width: 85%;
+      color: #cbd5e1;
+      font-size: clamp(0.6875rem, 2cqi, 0.8125rem);
+      font-weight: 400;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    }
+
     .metadata-frame-tag {
       display: inline-flex;
       align-items: center;
@@ -674,10 +690,10 @@
 
     .lightbox-framed-slot {
       position: absolute;
-      top: 8.66%;
-      left: 5.22%;
-      width: 89.83%;
-      height: 51.68%;
+      top: 9.17%;
+      left: 5.47%;
+      width: 89.06%;
+      height: 49.92%;
       z-index: 1;
       overflow: hidden;
       background: #000;
@@ -690,6 +706,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center top;
       display: block;
     }
 
@@ -702,6 +719,43 @@
       z-index: 2;
       pointer-events: none;
       display: block;
+    }
+
+    .lightbox-framed-plate {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .lightbox-framed-author {
+      position: absolute;
+      top: 61.54%;
+      left: 7.10%;
+      max-width: 85%;
+      color: #f8fafc;
+      font-size: clamp(0.8125rem, 2.5cqi, 0.95rem);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    .lightbox-framed-caption {
+      position: absolute;
+      top: 68.15%;
+      left: 7.10%;
+      width: 85%;
+      max-height: 20%;
+      color: #f1f5f9;
+      font-size: clamp(0.75rem, 2.2cqi, 0.875rem);
+      font-weight: 400;
+      line-height: 1.4;
+      overflow-y: auto;
+      word-break: break-word;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+      pointer-events: auto;
     }
 
     .lightbox-img {
@@ -1079,6 +1133,10 @@
             <img id="lightbox-framed-inner" class="lightbox-framed-inner" src="" alt="Ảnh kỷ niệm phóng to">
           </div>
           <img id="lightbox-framed-overlay" class="lightbox-framed-overlay" src="" alt="Khung phim kỷ niệm">
+          <div class="lightbox-framed-plate">
+            <div class="lightbox-framed-author" id="lightbox-framed-author"></div>
+            <div class="lightbox-framed-caption" id="lightbox-framed-caption"></div>
+          </div>
         </div>
         <!-- Chế độ 2: Ảnh nguyên bản tiêu chuẩn -->
         <img id="lightbox-img" class="lightbox-img" src="" alt="Ảnh kỷ niệm phóng to">
@@ -1315,7 +1373,7 @@
                   class="film-frame-overlay"
                   loading="lazy"
                 >
-                <!-- Hiển thị Tên trực tiếp trên mặt khung phim -->
+                <!-- Hiển thị Tên & Lời nhắn trên mặt khung phim -->
                 <div class="film-frame-text-plate">
                   <div class="film-frame-author">
                     <svg class="film-frame-author-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1324,6 +1382,7 @@
                     </svg>
                     <span class="film-frame-author-name">${authorSafe}</span>
                   </div>
+                  ${captionSafe ? `<div class="film-frame-caption" title="${captionSafe}">${captionSafe}</div>` : ''}
                 </div>
                 <div class="zoom-overlay-hint">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -1530,6 +1589,21 @@
 
       modalAuthor.textContent = `Người gửi: ${photo.author || 'Bạn học trò'}`;
       modalTime.textContent = photo.time || 'Kỷ niệm thanh xuân';
+
+      const framedAuthor = document.getElementById('lightbox-framed-author');
+      const framedCaption = document.getElementById('lightbox-framed-caption');
+      if (framedAuthor) {
+        framedAuthor.textContent = `👤 ${photo.author || 'Bạn học trò'}`;
+      }
+      if (framedCaption) {
+        if (photo.caption && photo.caption.trim()) {
+          framedCaption.textContent = photo.caption.trim();
+          framedCaption.style.display = 'block';
+        } else {
+          framedCaption.textContent = '';
+          framedCaption.style.display = 'none';
+        }
+      }
 
       if (photo.caption && photo.caption.trim()) {
         modalNote.textContent = photo.caption.trim();

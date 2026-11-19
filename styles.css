@@ -2596,6 +2596,59 @@ body {
   text-overflow: ellipsis;
 }
 
+.film-frame-caption {
+  position: absolute;
+  top: 68.15%;
+  left: 7.10%;
+  width: 85%;
+  color: #cbd5e1;
+  font-size: clamp(0.6875rem, 2cqi, 0.8125rem);
+  font-weight: 400;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.lightbox-framed-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.lightbox-framed-author {
+  position: absolute;
+  top: 61.54%;
+  left: 7.10%;
+  max-width: 85%;
+  color: #f8fafc;
+  font-size: clamp(0.8125rem, 2.5cqi, 0.95rem);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.lightbox-framed-caption {
+  position: absolute;
+  top: 68.15%;
+  left: 7.10%;
+  width: 85%;
+  max-height: 20%;
+  color: #f1f5f9;
+  font-size: clamp(0.75rem, 2.2cqi, 0.875rem);
+  font-weight: 400;
+  line-height: 1.4;
+  overflow-y: auto;
+  word-break: break-word;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  pointer-events: auto;
+}
+
 
 
 /* Lightbox Modal chi tiết chuẩn Anti-AI Slop (R1) */
