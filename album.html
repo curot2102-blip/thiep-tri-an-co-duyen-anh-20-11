@@ -1382,7 +1382,9 @@
                     </svg>
                     <span class="film-frame-author-name">${authorSafe}</span>
                   </div>
-                  ${captionSafe ? `<div class="film-frame-caption" title="${captionSafe}">${captionSafe}</div>` : ''}
+                  <div class="film-frame-caption" title="${captionSafe || 'Kỷ niệm tri ân cô Duyên Anh'}">
+                    ${captionSafe || 'Kỷ niệm tri ân cô Duyên Anh'}
+                  </div>
                 </div>
                 <div class="zoom-overlay-hint">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -1408,6 +1410,7 @@
                     <span>${frameName}</span>
                   </div>
                 </div>
+                ${captionSafe ? `<div class="metadata-caption" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&ldquo;${captionSafe}&rdquo;</div>` : ''}
               </div>
             </article>
           `;

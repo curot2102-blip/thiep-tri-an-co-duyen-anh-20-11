@@ -258,8 +258,8 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
   width: auto;
   height: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-  border-radius: 6px;
-  background-color: transparent;
+  border-radius: 4px;
+  background-color: #EDE0CF;
   cursor: default;
   touch-action: none;
 }

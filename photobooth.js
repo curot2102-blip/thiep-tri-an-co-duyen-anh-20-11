@@ -2168,8 +2168,9 @@
     canvas.style.transform = `scale(${state.zoom})`;
     canvas.style.transformOrigin = 'center top';
 
-    // 1. LAYER 1: BACKGROUND (CLEARED TO TRANSPARENT SO NỀN KHOÉT THEO VIỀN KHUNG)
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // 1. LAYER 1: BACKGROUND
+    ctx.fillStyle = frame.bgColor || '#EDE0CF';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // 2. LAYER 2: 4 PHOTO SLOTS
     frame.slots.forEach((slotDef, slotIdx) => {
@@ -2187,23 +2188,16 @@
       if (slot && slot.image) {
         drawCroppedPhoto(ctx, slot.image, slotX, slotY, slotW, slotH, slot.rotation);
       } else {
-        // Draw elegant placeholder khoét theo viền ô ảnh
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+        // Draw elegant placeholder
+        ctx.fillStyle = frame.bgColor ? (frame.bgColor + '26') : '#f5ede3';
         ctx.fillRect(slotX, slotY, slotW, slotH);
 
-        // Dashed border guide inside slot
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
-        ctx.lineWidth = 1.5 * scale;
-        ctx.setLineDash([5 * scale, 4 * scale]);
-        ctx.strokeRect(slotX + 1, slotY + 1, slotW - 2, slotH - 2);
-        ctx.setLineDash([]);
-
         // Placeholder text/icon
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-        ctx.font = `500 ${15 * scale}px "Be Vietnam Pro", sans-serif`;
+        ctx.fillStyle = 'rgba(255,255,255,0.45)';
+        ctx.font = `600 ${16 * scale}px "${frame.font || 'Be Vietnam Pro'}", sans-serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`Chạm chọn ảnh ô ${slotIdx + 1}`, slotX + slotW / 2, slotY + slotH / 2);
+        ctx.fillText(`Ô số ${slotIdx + 1}`, slotX + slotW / 2, slotY + slotH / 2);
       }
 
       ctx.restore();
