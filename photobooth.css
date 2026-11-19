@@ -972,60 +972,62 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
 }
 
 .pb-sticker-item {
-  background: rgba(18, 24, 38, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(22, 30, 48, 0.96), rgba(14, 18, 30, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
   user-select: none;
   outline: none;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
 }
 
 .pb-sticker-item:hover,
 .pb-sticker-item:focus-visible {
   border-color: var(--accent-gold);
-  background: rgba(245, 158, 11, 0.08);
+  background: linear-gradient(145deg, rgba(28, 38, 62, 0.98), rgba(18, 24, 40, 0.98));
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 12px rgba(245, 158, 11, 0.2);
 }
 
 .pb-sticker-item.selected {
   border-color: var(--accent-gold) !important;
-  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.4), 0 8px 20px rgba(0, 0, 0, 0.4);
-  background: rgba(245, 158, 11, 0.1) !important;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.45), 0 10px 25px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(145deg, rgba(40, 32, 20, 0.9), rgba(24, 20, 15, 0.95)) !important;
 }
 
 /* Thẻ dạng rộng (Banner) với kích thước to rõ, nền giấy ngà tương phản cao */
 .pb-sticker-item.item-wide {
-  padding: 14px 16px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .pb-sticker-item.item-wide .pb-sticker-preview-box {
   width: 100%;
-  height: 124px;
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fbf7ee;
-  border: 1px solid rgba(217, 119, 6, 0.3);
-  border-radius: 8px;
-  padding: 6px 12px;
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+  background: #fefcf7;
+  border: 1.5px solid rgba(217, 119, 6, 0.35);
+  border-radius: 10px;
+  padding: 8px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   overflow: hidden;
 }
 
 .pb-sticker-item.item-wide .pb-sticker-img {
   max-width: 100%;
-  max-height: 112px;
+  max-height: 126px;
   width: auto;
   height: auto;
   object-fit: contain;
-  filter: contrast(1.15);
-  transform: scale(1.18);
+  filter: contrast(1.15) drop-shadow(0 2.5px 4px rgba(0, 0, 0, 0.22));
+  transform: scale(1.22);
   transform-origin: center center;
 }
 
@@ -1038,17 +1040,19 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
 }
 
 .pb-sticker-item.item-wide .pb-sticker-name {
-  font-size: 1.05rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: #ffffff;
   text-align: center;
   line-height: 1.3;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 .pb-sticker-item.item-wide .pb-sticker-hint {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   color: var(--accent-gold);
   opacity: 0.95;
+  font-weight: 500;
 }
 
 .pb-sticker-item.selected .pb-sticker-hint {
@@ -1064,30 +1068,31 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 140px;
+  min-height: 145px;
 }
 
 .pb-sticker-item.item-card .pb-sticker-preview-box {
-  width: 96px;
-  height: 96px;
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fbf7ee;
-  border: 1px solid rgba(217, 119, 6, 0.25);
-  border-radius: 8px;
+  background: #fefcf7;
+  border: 1.5px solid rgba(217, 119, 6, 0.3);
+  border-radius: 10px;
   padding: 8px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85);
   overflow: hidden;
 }
 
 .pb-sticker-item.item-card .pb-sticker-img {
-  max-width: 86px;
-  max-height: 86px;
+  max-width: 90px;
+  max-height: 90px;
   width: auto;
   height: auto;
   object-fit: contain;
-  transform: scale(1.1);
+  filter: contrast(1.12) drop-shadow(0 2px 3.5px rgba(0, 0, 0, 0.18));
+  transform: scale(1.12);
   transform-origin: center center;
 }
 
@@ -1666,4 +1671,171 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
     font-size: 0.75rem;
     min-height: 40px;
   }
+}
+
+/* ===================================================================
+   CHẾ ĐỘ XEM 3D DẢI ẢNH CHÂN THỰC TRỰC TIẾP (F13)
+   =================================================================== */
+.pb-preview-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pb-btn-3d-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: var(--accent-gold);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.pb-btn-3d-toggle:hover {
+  background: rgba(245, 158, 11, 0.22);
+  border-color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+.pb-btn-3d-toggle.is-3d-active {
+  background: var(--accent-gold) !important;
+  color: #0b0f19 !important;
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.5);
+  font-weight: 700;
+}
+
+.pb-canvas-wrapper.is-3d-mode {
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+  background: radial-gradient(circle at center, #151d30 0%, #060911 100%) !important;
+  overflow: visible !important;
+  touch-action: none;
+}
+
+.pb-3d-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+  transition: transform 0.08s ease-out;
+  cursor: grab;
+}
+
+.pb-canvas-wrapper.is-3d-mode:active .pb-3d-stage {
+  cursor: grabbing;
+}
+
+.pb-canvas-wrapper.is-3d-mode #pb-canvas {
+  transform-style: preserve-3d;
+  filter: drop-shadow(25px 40px 60px rgba(0, 0, 0, 0.88)) drop-shadow(0 0 25px rgba(245, 158, 11, 0.18)) !important;
+  border-radius: 4px;
+}
+
+.pb-3d-sheen-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 4px;
+  mix-blend-mode: overlay;
+  opacity: 0.85;
+  transition: background 0.1s ease;
+  display: none;
+}
+
+.pb-canvas-wrapper.is-3d-mode .pb-3d-sheen-layer {
+  display: block;
+}
+
+.pb-3d-hud {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: rgba(11, 15, 25, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 8px;
+  padding: 6px 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.pb-3d-hud-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pb-3d-pill {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #0b0f19;
+  background: var(--accent-gold);
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.pb-3d-hint {
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.pb-3d-hud-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pb-3d-hud-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pb-3d-hud-btn:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.pb-3d-hud-btn.is-active {
+  background: rgba(245, 158, 11, 0.25);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.pb-3d-hud-close {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.pb-3d-hud-close:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #ef4444;
+  color: #ffffff;
 }

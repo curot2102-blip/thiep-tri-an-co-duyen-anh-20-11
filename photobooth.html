@@ -70,11 +70,45 @@
           </svg>
           <span>Xem trước trực tiếp</span>
         </div>
-        <div class="pb-preview-meta" id="preview-frame-dim">560 × 1320 px (16:9)</div>
+        <div class="pb-preview-header-actions">
+          <button type="button" class="pb-btn-3d-toggle" id="btn-toggle-3d" title="Bật/Tắt chế độ xem 3D trực tiếp sống động">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+            <span>Xem 3D</span>
+          </button>
+          <div class="pb-preview-meta" id="preview-frame-dim">560 × 1320 px (16:9)</div>
+        </div>
       </div>
 
       <div class="pb-canvas-wrapper" id="canvas-container">
-        <canvas id="pb-canvas"></canvas>
+        <!-- Bảng điều khiển tương tác 3D HUD (F13) -->
+        <div class="pb-3d-hud" id="pb-3d-hud" style="display: none;">
+          <div class="pb-3d-hud-info">
+            <span class="pb-3d-pill">3D LIVE</span>
+            <span class="pb-3d-hint">Kéo chuột/chạm để xoay dải ảnh</span>
+          </div>
+          <div class="pb-3d-hud-actions">
+            <button type="button" class="pb-3d-hud-btn" id="btn-3d-spin" title="Bật/Tắt tự động xoay 3D">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              <span>Tự xoay</span>
+            </button>
+            <button type="button" class="pb-3d-hud-btn" id="btn-3d-reset" title="Đặt lại góc nhìn chuẩn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+              <span>Căn góc</span>
+            </button>
+            <button type="button" class="pb-3d-hud-btn pb-3d-hud-close" id="btn-3d-close" title="Trở về chế độ 2D">
+              ✕ 2D
+            </button>
+          </div>
+        </div>
+
+        <div class="pb-3d-stage" id="pb-3d-stage">
+          <canvas id="pb-canvas"></canvas>
+          <div class="pb-3d-sheen-layer" id="pb-3d-sheen"></div>
+        </div>
       </div>
 
       <div class="pb-preview-tools">

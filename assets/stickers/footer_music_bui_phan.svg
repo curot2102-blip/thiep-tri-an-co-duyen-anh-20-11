@@ -1,18 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 70" width="300" height="70">
   <defs>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="1.8" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&amp;display=swap');
-      .song { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; font-size: 16px; fill: #A92B1C; }
-      .time { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13px; fill: #C4641C; }
+      .song { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; font-size: 17px; fill: #A92B1C; filter: url(#softShadow); }
+      .time { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13.5px; fill: #C4641C; }
     </style>
   </defs>
-  <text x="16" y="24" class="song">♫ Bụi Phấn</text>
-  <text x="284" y="24" text-anchor="end" class="time">20.11.2026</text>
-  <!-- Progress bar -->
-  <rect x="16" y="34" width="268" height="5" rx="2.5" fill="rgba(169, 43, 28, 0.2)"/>
-  <rect x="16" y="34" width="195" height="5" rx="2.5" fill="#A92B1C"/>
-  <circle cx="211" cy="36.5" r="5" fill="#A92B1C"/>
-  <!-- Controls -->
+  <text x="14" y="24" class="song">♫ Bụi Phấn</text>
+  <text x="286" y="24" text-anchor="end" class="time">20.11.2026</text>
+  <rect x="14" y="34" width="272" height="5.5" rx="2.75" fill="rgba(169, 43, 28, 0.2)"/>
+  <rect x="14" y="34" width="198" height="5.5" rx="2.75" fill="#A92B1C"/>
+  <circle cx="214" cy="36.75" r="5.5" fill="#A92B1C"/>
   <path d="M 125 48 L 133 54 L 133 42 Z" fill="#A92B1C"/>
   <polygon points="144,43 158,51 144,59" fill="#A92B1C"/>
   <path d="M 175 48 L 167 54 L 167 42 Z" fill="#A92B1C"/>

@@ -1,18 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" width="280" height="80">
   <defs>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600&amp;family=Playfair+Display:ital,wght@1,800&amp;display=swap');
-      .calli { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 800; font-size: 24px; fill: #1B3540; }
-      .sub { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13px; fill: #4B6B78; }
-      .seal-text { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 14px; fill: #FFFFFF; letter-spacing: 0.1em; }
+      .calli { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 800; font-size: 25px; fill: #1B3540; filter: url(#softShadow); }
+      .sub { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13.5px; fill: #4B6B78; }
+      .seal-text { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 14.5px; fill: #FFFFFF; letter-spacing: 0.1em; }
     </style>
   </defs>
-  <text x="20" y="36" class="calli">Ơn Thầy Nghĩa Cô</text>
-  <text x="20" y="60" class="sub">Kỷ niệm ngày 20 • 11</text>
-  <!-- Red seal stamp -->
-  <g transform="translate(195, 12)">
-    <rect x="0" y="0" width="65" height="56" rx="10" fill="#B91C1C" stroke="#991B1B" stroke-width="1.5"/>
-    <rect x="3" y="3" width="59" height="50" rx="8" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
-    <text x="32.5" y="34" text-anchor="middle" class="seal-text">TÔN SƯ</text>
+  <text x="20" y="37" class="calli">Ơn Thầy Nghĩa Cô</text>
+  <text x="20" y="61" class="sub">Kỷ niệm ngày 20 • 11</text>
+  <g transform="translate(195, 11)">
+    <rect x="0" y="0" width="66" height="58" rx="10" fill="#B91C1C" stroke="#991B1B" stroke-width="1.5" filter="url(#softShadow)"/>
+    <rect x="3" y="3" width="60" height="52" rx="8" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+    <text x="33" y="35" text-anchor="middle" class="seal-text">TÔN SƯ</text>
   </g>
 </svg>

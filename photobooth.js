@@ -1035,6 +1035,7 @@
     setupExportActions();
     setupZoomControls();
     setupMobileItemControls();
+    setup3DViewer();
 
     // Initial render
     renderCanvas();
@@ -2148,6 +2149,7 @@
   }
 
   function handlePointerDown(e) {
+    if (is3DActive) return;
     const pt = getCanvasVirtualCoords(e);
     const frame = state.currentFrame;
 
@@ -2400,11 +2402,17 @@
         const sh = item.height * item.scale * scale;
         ctx.drawImage(item.img, -sw / 2, -sh / 2, sw, sh);
       } else if (item.type === 'text') {
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        ctx.shadowBlur = 4 * scale;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 2 * scale;
         ctx.font = `${item.size * item.scale * scale}px "${item.font}", sans-serif`;
         ctx.fillStyle = item.color;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(item.text, 0, 0);
+        ctx.restore();
       }
 
       ctx.restore();
@@ -2798,11 +2806,17 @@
           const sh = item.height * item.scale * exportScale;
           exportCtx.drawImage(item.img, -sw / 2, -sh / 2, sw, sh);
         } else if (item.type === 'text') {
+          exportCtx.save();
+          exportCtx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+          exportCtx.shadowBlur = 4 * exportScale;
+          exportCtx.shadowOffsetX = 0;
+          exportCtx.shadowOffsetY = 2 * exportScale;
           exportCtx.font = `${item.size * item.scale * exportScale}px "${item.font}", sans-serif`;
           exportCtx.fillStyle = item.color;
           exportCtx.textAlign = 'center';
           exportCtx.textBaseline = 'middle';
           exportCtx.fillText(item.text, 0, 0);
+          exportCtx.restore();
         }
 
         exportCtx.restore();
@@ -2859,6 +2873,153 @@
       console.warn('Copy clipboard failed:', err);
       showToast('Trình duyệt không cho phép chép ảnh trực tiếp. Vui lòng bấm Tải ảnh PNG nhé!');
     }
+  }
+
+  // -----------------------------------------------------------------
+  // 14. CHẾ ĐỘ XEM PHOTOBOOTH 3D TRỰC TIẾP CHÂN THỰC (F13)
+  // -----------------------------------------------------------------
+  let is3DActive = false;
+  let isAutoSpinning = false;
+  let rotX = 10;
+  let rotY = -14;
+  let targetRotX = 10;
+  let targetRotY = -14;
+  let isDragging3D = false;
+  let startX = 0;
+  let startY = 0;
+  let anim3DId = null;
+
+  function setup3DViewer() {
+    const toggleBtn = document.getElementById('btn-toggle-3d');
+    const container = document.getElementById('canvas-container');
+    const stage = document.getElementById('pb-3d-stage');
+    const sheen = document.getElementById('pb-3d-sheen');
+    const hud = document.getElementById('pb-3d-hud');
+    const spinBtn = document.getElementById('btn-3d-spin');
+    const resetBtn = document.getElementById('btn-3d-reset');
+    const closeBtn = document.getElementById('btn-3d-close');
+
+    if (!toggleBtn || !container) return;
+
+    function loop3D() {
+      if (!is3DActive) return;
+
+      if (isAutoSpinning && !isDragging3D) {
+        targetRotY += 0.55;
+        if (targetRotY > 360) targetRotY -= 360;
+      }
+
+      // Nội suy làm mượt chuyển động xoay 3D
+      rotX += (targetRotX - rotX) * 0.14;
+      rotY += (targetRotY - rotY) * 0.14;
+
+      if (stage) {
+        stage.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+      }
+
+      if (sheen) {
+        // Ánh sáng bóng kính phản chiếu chuyển động theo góc xoay
+        const normAngle = (((rotY % 180) + 180) % 180);
+        const sheenPercent = Math.round((normAngle / 180) * 100);
+        sheen.style.background = `linear-gradient(${110 + rotY * 0.3}deg, transparent ${Math.max(0, sheenPercent - 32)}%, rgba(255, 255, 255, 0.28) ${sheenPercent}%, transparent ${Math.min(100, sheenPercent + 32)}%)`;
+      }
+
+      anim3DId = requestAnimationFrame(loop3D);
+    }
+
+    function set3DMode(active) {
+      is3DActive = active;
+      if (is3DActive) {
+        toggleBtn.classList.add('is-3d-active');
+        toggleBtn.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Đang xem 3D</span>
+        `;
+        container.classList.add('is-3d-mode');
+        if (hud) hud.style.display = 'flex';
+        if (sheen) sheen.style.display = 'block';
+
+        targetRotX = 10;
+        targetRotY = -14;
+        rotX = 10;
+        rotY = -14;
+
+        cancelAnimationFrame(anim3DId);
+        anim3DId = requestAnimationFrame(loop3D);
+        showToast('Đã bật xem 3D trực tiếp! Kéo chuột hoặc chạm để xoay dải ảnh.');
+      } else {
+        toggleBtn.classList.remove('is-3d-active');
+        toggleBtn.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          <span>Xem 3D</span>
+        `;
+        container.classList.remove('is-3d-mode');
+        if (hud) hud.style.display = 'none';
+        if (sheen) sheen.style.display = 'none';
+        if (stage) stage.style.transform = '';
+        cancelAnimationFrame(anim3DId);
+        isAutoSpinning = false;
+        if (spinBtn) spinBtn.classList.remove('is-active');
+      }
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      set3DMode(!is3DActive);
+    });
+
+    closeBtn?.addEventListener('click', () => {
+      set3DMode(false);
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      targetRotX = 10;
+      targetRotY = -14;
+      isAutoSpinning = false;
+      if (spinBtn) spinBtn.classList.remove('is-active');
+      showToast('Đã căn lại góc nhìn 3D chuẩn');
+    });
+
+    spinBtn?.addEventListener('click', () => {
+      isAutoSpinning = !isAutoSpinning;
+      spinBtn.classList.toggle('is-active', isAutoSpinning);
+      showToast(isAutoSpinning ? 'Đang bật tự động xoay 3D' : 'Đã tắt tự động xoay 3D');
+    });
+
+    // Kéo chuột hoặc ngón tay để xoay dải ảnh trong không gian 3D
+    container.addEventListener('pointerdown', (e) => {
+      if (!is3DActive) return;
+      if (e.target.closest('.pb-3d-hud')) return;
+      isDragging3D = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      container.setPointerCapture(e.pointerId);
+    });
+
+    container.addEventListener('pointermove', (e) => {
+      if (!is3DActive || !isDragging3D) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      targetRotY += dx * 0.45;
+      targetRotX = Math.max(-55, Math.min(55, targetRotX - dy * 0.45));
+      startX = e.clientX;
+      startY = e.clientY;
+    });
+
+    const stopDragging = (e) => {
+      if (isDragging3D) {
+        isDragging3D = false;
+        try { container.releasePointerCapture(e.pointerId); } catch (_) {}
+      }
+    };
+
+    container.addEventListener('pointerup', stopDragging);
+    container.addEventListener('pointercancel', stopDragging);
   }
 
 })();
