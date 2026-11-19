@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 70" width="300" height="70">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600&amp;display=swap');
+      .song {{ font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13px; fill: #A92B1C; }}
+      .time {{ font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 11px; fill: #C4641C; }}
+    </style>
+  </defs>
+  <text x="20" y="24" class="song">♫ Bụi Phấn</text>
+  <text x="280" y="24" text-anchor="end" class="time">20.11.2026</text>
+  <!-- Progress bar -->
+  <rect x="20" y="34" width="260" height="4" rx="2" fill="rgba(169, 43, 28, 0.2)"/>
+  <rect x="20" y="34" width="190" height="4" rx="2" fill="#A92B1C"/>
+  <circle cx="210" cy="36" r="4" fill="#A92B1C"/>
+  <!-- Controls -->
+  <path d="M 125 48 L 132 54 L 132 42 Z" fill="#A92B1C"/>
+  <polygon points="144,44 156,51 144,58" fill="#A92B1C"/>
+  <path d="M 175 48 L 168 54 L 168 42 Z" fill="#A92B1C"/>
+</svg>

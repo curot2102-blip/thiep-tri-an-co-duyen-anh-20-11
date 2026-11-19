@@ -2477,3 +2477,278 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ===================================================================
+   HỆ THỐNG KHUNG PHIM 1 ẢNH 35MM & LIGHTBOX ANTI-AI SLOP (R1)
+   =================================================================== */
+.film-card.single-frame-card {
+  background: #080a11;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+.film-composite-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1792 / 2400;
+  background: #030408;
+  overflow: hidden;
+  border-radius: 7px 7px 0 0;
+}
+
+.film-photo-slot {
+  position: absolute;
+  top: 8.66%;
+  left: 5.22%;
+  width: 89.83%;
+  height: 51.68%;
+  z-index: 1;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.film-photo-inner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.film-card:hover .film-photo-inner {
+  transform: scale(1.025);
+}
+
+.film-frame-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 2;
+  pointer-events: none;
+  display: block;
+}
+
+/* Hiển thị Tên & Nội dung trực tiếp trên Khung phim (R1) */
+.film-frame-text-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.film-frame-author {
+  position: absolute;
+  top: 61.54%;
+  left: 7.10%;
+  max-width: 85%;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #f8fafc;
+  font-size: clamp(0.75rem, 2.4cqi, 0.875rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.film-frame-author-icon {
+  flex-shrink: 0;
+  opacity: 0.9;
+  color: #f1f5f9;
+}
+
+.film-frame-author-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.film-frame-caption {
+  position: absolute;
+  top: 68.15%;
+  left: 3.57%;
+  width: 77.95%;
+  color: #e2e8f0;
+  font-size: clamp(0.6875rem, 2.1cqi, 0.8125rem);
+  font-weight: 400;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* Lightbox Modal chi tiết chuẩn Anti-AI Slop (R1) */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 10, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.lightbox-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-wrapper {
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.lightbox-media-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 88vw;
+  max-height: 72vh;
+  max-height: 72dvh;
+}
+
+.lightbox-framed-box {
+  position: relative;
+  width: min(88vw, 420px);
+  aspect-ratio: 1792 / 2400;
+  max-height: 72vh;
+  max-height: 72dvh;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0d1117;
+}
+
+.lightbox-framed-slot {
+  position: absolute;
+  top: 8.66%;
+  left: 5.22%;
+  width: 89.83%;
+  height: 51.68%;
+  z-index: 1;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-framed-inner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lightbox-framed-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 2;
+  pointer-events: none;
+  display: block;
+}
+
+.lightbox-caption-card {
+  background: #161b22;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 16px 20px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 560px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox-author-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lightbox-author {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #f0f6fc;
+  line-height: 1.4;
+}
+
+.lightbox-time {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #8b949e;
+  flex-shrink: 0;
+}
+
+.lightbox-note {
+  font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+  color: #c9d1d9;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-top: 4px;
+  word-break: break-word;
+  max-height: 160px;
+  overflow-y: auto;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lightbox-close-btn {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 40px;
+  height: 40px;
+  background: #161b22;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e6edf3;
+  font-size: 1.125rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  z-index: 10;
+}
+
+.lightbox-close-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: none;
+}

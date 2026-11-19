@@ -966,8 +966,10 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
 }
 
 .pb-sticker-img {
-  width: 52px;
-  height: 52px;
+  max-width: 76px;
+  max-height: 52px;
+  width: auto;
+  height: auto;
   object-fit: contain;
 }
 

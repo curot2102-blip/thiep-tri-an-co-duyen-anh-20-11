@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 70" width="280" height="70">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&amp;family=Be+Vietnam+Pro:wght@500&amp;display=swap');
+      .iso {{ font-family: 'Space Grotesk', monospace; font-weight: 600; font-size: 14px; fill: #8F2825; letter-spacing: 0.08em; }}
+      .sub {{ font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; font-size: 11px; fill: #B83B37; }}
+    </style>
+  </defs>
+  <!-- Mini camera icon -->
+  <g transform="translate(18, 22) scale(0.9)">
+    <rect x="0" y="6" width="26" height="18" rx="3" fill="none" stroke="#8F2825" stroke-width="1.8"/>
+    <circle cx="13" cy="15" r="5" fill="none" stroke="#8F2825" stroke-width="1.8"/>
+    <rect x="16" y="2" width="6" height="4" rx="1" fill="#8F2825"/>
+  </g>
+  <text x="56" y="34" class="iso">ISO 400 • 35MM • 2026</text>
+  <text x="56" y="52" class="sub">Lưu giữ khoảnh khắc đáng nhớ</text>
+</svg>

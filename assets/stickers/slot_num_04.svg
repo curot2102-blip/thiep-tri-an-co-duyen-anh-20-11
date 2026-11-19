@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="60" height="60">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600&amp;display=swap');
+      .num { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 20px; fill: #1F1D24; }
+    </style>
+  </defs>
+  <rect x="5" y="5" width="50" height="50" rx="8" fill="rgba(255,255,255,0.85)" stroke="#1F1D24" stroke-width="1.2" stroke-opacity="0.3"/>
+  <text x="30" y="37" text-anchor="middle" class="num">04</text>
+</svg>

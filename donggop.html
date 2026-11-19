@@ -907,10 +907,10 @@
 
     .preview-film-slot {
       position: absolute;
-      top: 9.083%;
-      left: 5.580%;
-      width: 88.839%;
-      height: 49.833%;
+      top: 8.66%;
+      left: 5.22%;
+      width: 89.83%;
+      height: 51.68%;
       z-index: 1;
       overflow: hidden;
       background: #000;
@@ -1380,46 +1380,46 @@
               <div class="frame-option-name">Không khung</div>
             </button>
 
-            <button type="button" class="frame-option-card" data-frame="film_frame_olive" role="radio" aria-checked="false" tabindex="-1" title="Xanh rêu hoài niệm">
+            <button type="button" class="frame-option-card" data-frame="film_frame_01" role="radio" aria-checked="false" tabindex="-1" title="Xanh rêu hoài niệm">
               <div class="frame-thumb-box">
-                <img src="assets/frames/film/film_frame_olive_thumb.webp" class="frame-thumb-img" alt="Xanh rêu" loading="lazy">
+                <img src="assets/frames/film/film_frame_01_thumb.webp" class="frame-thumb-img" alt="Xanh rêu" loading="lazy">
               </div>
               <div class="frame-option-name">Xanh rêu</div>
             </button>
 
-            <button type="button" class="frame-option-card" data-frame="film_frame_sepia" role="radio" aria-checked="false" tabindex="-1" title="Nâu ấm cà phê">
+            <button type="button" class="frame-option-card" data-frame="film_frame_02" role="radio" aria-checked="false" tabindex="-1" title="Xanh lam điện ảnh">
               <div class="frame-thumb-box">
-                <img src="assets/frames/film/film_frame_sepia_thumb.webp" class="frame-thumb-img" alt="Nâu ấm" loading="lazy">
+                <img src="assets/frames/film/film_frame_02_thumb.webp" class="frame-thumb-img" alt="Xanh lam" loading="lazy">
+              </div>
+              <div class="frame-option-name">Xanh lam</div>
+            </button>
+
+            <button type="button" class="frame-option-card" data-frame="film_frame_03" role="radio" aria-checked="false" tabindex="-1" title="Nâu ấm cà phê">
+              <div class="frame-thumb-box">
+                <img src="assets/frames/film/film_frame_03_thumb.webp" class="frame-thumb-img" alt="Nâu ấm" loading="lazy">
               </div>
               <div class="frame-option-name">Nâu ấm</div>
             </button>
 
-            <button type="button" class="frame-option-card" data-frame="film_frame_navy" role="radio" aria-checked="false" tabindex="-1" title="Xanh navy điện ảnh">
+            <button type="button" class="frame-option-card" data-frame="film_frame_04" role="radio" aria-checked="false" tabindex="-1" title="Xanh navy cổ điển">
               <div class="frame-thumb-box">
-                <img src="assets/frames/film/film_frame_navy_thumb.webp" class="frame-thumb-img" alt="Xanh navy" loading="lazy">
+                <img src="assets/frames/film/film_frame_04_thumb.webp" class="frame-thumb-img" alt="Xanh navy" loading="lazy">
               </div>
               <div class="frame-option-name">Xanh navy</div>
             </button>
 
-            <button type="button" class="frame-option-card" data-frame="film_frame_pop" role="radio" aria-checked="false" tabindex="-1" title="Retro rực rỡ">
+            <button type="button" class="frame-option-card" data-frame="film_frame_05" role="radio" aria-checked="false" tabindex="-1" title="Xanh trời thanh xuân">
               <div class="frame-thumb-box">
-                <img src="assets/frames/film/film_frame_pop_thumb.webp" class="frame-thumb-img" alt="Retro pop" loading="lazy">
-              </div>
-              <div class="frame-option-name">Retro pop</div>
-            </button>
-
-            <button type="button" class="frame-option-card" data-frame="film_frame_sky" role="radio" aria-checked="false" tabindex="-1" title="Xanh trời thanh xuân">
-              <div class="frame-thumb-box">
-                <img src="assets/frames/film/film_frame_sky_thumb.webp" class="frame-thumb-img" alt="Xanh trời" loading="lazy">
+                <img src="assets/frames/film/film_frame_05_thumb.webp" class="frame-thumb-img" alt="Xanh trời" loading="lazy">
               </div>
               <div class="frame-option-name">Xanh trời</div>
             </button>
 
-            <button type="button" class="frame-option-card" data-frame="film_frame_terracotta" role="radio" aria-checked="false" tabindex="-1" title="Hồng đất dịu dàng">
+            <button type="button" class="frame-option-card" data-frame="film_frame_06" role="radio" aria-checked="false" tabindex="-1" title="Đỏ vang nồng ấm">
               <div class="frame-thumb-box">
-                <img src="assets/frames/film/film_frame_terracotta_thumb.webp" class="frame-thumb-img" alt="Hồng đất" loading="lazy">
+                <img src="assets/frames/film/film_frame_06_thumb.webp" class="frame-thumb-img" alt="Đỏ vang" loading="lazy">
               </div>
-              <div class="frame-option-name">Hồng đất</div>
+              <div class="frame-option-name">Đỏ vang</div>
             </button>
           </div>
           <input type="hidden" id="selected-frame-input" name="selected_frame" value="none">
@@ -2228,6 +2228,15 @@
       // Render ngay dữ liệu có sẵn
       renderFeed();
 
+      // Khởi tạo ngay các bộ điều khiển giao diện (Tabs, Frame Selector, Upload, Forms)
+      initTabs();
+      initWishStylePicker();
+      initFrameSelector();
+      initMultiPhotoUpload();
+      initWishForm();
+      initPhotoForm();
+      initAdmin();
+
       // Tự động đồng bộ với dữ liệu wishes.json trên server/repository
       await syncWishesFromRemote();
 
@@ -2240,14 +2249,6 @@
 
       // Tự động kiểm tra định kỳ mỗi 15 giây
       setInterval(syncWishesFromRemote, 15000);
-
-      initTabs();
-      initWishStylePicker();
-      initFrameSelector();
-      initMultiPhotoUpload();
-      initWishForm();
-      initPhotoForm();
-      initAdmin();
     });
 
     // Chuyển tab biểu mẫu
@@ -2276,16 +2277,37 @@
       });
     }
 
-    // Danh mục tên các mẫu khung phim 1 ảnh (F7 & F8)
+    // Danh mục tên các mẫu khung phim 1 ảnh (R1)
     const FRAME_NAMES = {
       'none': 'Không khung',
+      'film_frame_01': 'Xanh rêu hoài niệm',
+      'film_frame_02': 'Xanh lam điện ảnh',
+      'film_frame_03': 'Nâu ấm cà phê',
+      'film_frame_04': 'Xanh navy cổ điển',
+      'film_frame_05': 'Xanh trời thanh xuân',
+      'film_frame_06': 'Đỏ vang nồng ấm',
+      // Ánh xạ tương thích ngược cho dữ liệu đã lưu với mã ID cũ
       'film_frame_olive': 'Xanh rêu hoài niệm',
       'film_frame_sepia': 'Nâu ấm cà phê',
-      'film_frame_navy': 'Xanh navy điện ảnh',
-      'film_frame_pop': 'Retro rực rỡ',
+      'film_frame_navy': 'Xanh navy cổ điển',
+      'film_frame_pop': 'Xanh lam điện ảnh',
       'film_frame_sky': 'Xanh trời thanh xuân',
-      'film_frame_terracotta': 'Hồng đất dịu dàng'
+      'film_frame_terracotta': 'Đỏ vang nồng ấm'
     };
+
+    const OLD_FRAME_MAP = {
+      'film_frame_olive': 'film_frame_01',
+      'film_frame_sepia': 'film_frame_03',
+      'film_frame_navy': 'film_frame_04',
+      'film_frame_pop': 'film_frame_02',
+      'film_frame_sky': 'film_frame_05',
+      'film_frame_terracotta': 'film_frame_06'
+    };
+
+    function normalizeFrameId(frameId) {
+      if (!frameId || frameId === 'none') return 'none';
+      return OLD_FRAME_MAP[frameId] || frameId;
+    }
     let selectedFrameId = 'none';
 
     function selectFrameOption(card, shouldFocus = false) {
@@ -2425,7 +2447,8 @@
 
       pendingWebPPhotos.forEach((item, idx) => {
         const card = document.createElement('div');
-        const frameId = item.frameId || selectedFrameId || 'none';
+        const rawFrameId = item.frameId || selectedFrameId || 'none';
+        const frameId = normalizeFrameId(rawFrameId);
         const frameName = FRAME_NAMES[frameId] || 'Không khung';
 
         if (frameId && frameId !== 'none') {
@@ -2616,7 +2639,7 @@
         const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
         const newPhotos = pendingWebPPhotos.map((p, i) => {
-          const finalFrameId = (p.frameId && p.frameId !== 'none') ? p.frameId : activeFrameId;
+          const finalFrameId = normalizeFrameId((p.frameId && p.frameId !== 'none') ? p.frameId : activeFrameId);
           const photoId = 'photo-' + Date.now() + '-' + i + '-' + Math.random().toString(36).substr(2, 6) + '-' + Math.floor(Math.random() * 100000);
           savePhotoFrameDirect(photoId, finalFrameId);
           return {
@@ -3168,7 +3191,7 @@
               <strong>${escapeHtml(p.author || 'Bạn học trò')}</strong>
               <div>${escapeHtml(p.time || '')}</div>
               ${p.caption ? `<div><em>${escapeHtml(p.caption)}</em></div>` : ''}
-              ${p.frameId && p.frameId !== 'none' ? `<div style="font-size:0.6875rem; color:var(--accent-gold); margin-top:2px;">Khung: ${escapeHtml(FRAME_NAMES[p.frameId] || p.frameId)}</div>` : ''}
+              ${p.frameId && p.frameId !== 'none' ? `<div style="font-size:0.6875rem; color:var(--accent-gold); margin-top:2px;">Khung: ${escapeHtml(FRAME_NAMES[normalizeFrameId(p.frameId)] || p.frameId)}</div>` : ''}
             </div>
             <button class="btn-delete-photo" data-id="${escapeHtml(p.id)}">Xóa ảnh</button>
           `;

@@ -476,7 +476,7 @@
       font-weight: 500;
     }
 
-    /* THẺ LỒNG KHUNG PHIM 1 ẢNH (F8) */
+    /* THẺ LỒNG KHUNG PHIM 1 ẢNH (R1) */
     .film-card.single-frame-card {
       background: #080a11;
       border: 1px solid var(--border-film);
@@ -494,10 +494,10 @@
 
     .film-photo-slot {
       position: absolute;
-      top: 9.083%;
-      left: 5.580%;
-      width: 88.839%;
-      height: 49.833%;
+      top: 8.66%;
+      left: 5.22%;
+      width: 89.83%;
+      height: 51.68%;
       z-index: 1;
       overflow: hidden;
       background: #000;
@@ -527,6 +527,62 @@
       z-index: 2;
       pointer-events: none;
       display: block;
+    }
+
+    /* Hiển thị Tên & Nội dung trực tiếp trên Khung phim (R1) */
+    .film-frame-text-plate {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .film-frame-author {
+      position: absolute;
+      top: 61.54%;
+      left: 7.10%;
+      max-width: 85%;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: #f8fafc;
+      font-size: clamp(0.75rem, 2.4cqi, 0.875rem);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    }
+
+    .film-frame-author-icon {
+      flex-shrink: 0;
+      opacity: 0.9;
+      color: #f1f5f9;
+    }
+
+    .film-frame-author-name {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .film-frame-caption {
+      position: absolute;
+      top: 68.15%;
+      left: 3.57%;
+      width: 77.95%;
+      color: #e2e8f0;
+      font-size: clamp(0.6875rem, 2.1cqi, 0.8125rem);
+      font-weight: 400;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
     }
 
     .metadata-frame-tag {
@@ -576,13 +632,13 @@
       line-height: 1.6;
     }
 
-    /* Modal phóng to ảnh toàn màn hình */
+    /* Modal phóng to ảnh toàn màn hình chuẩn Anti-AI Slop (R1) */
     .lightbox-modal {
       position: fixed;
       inset: 0;
-      background: rgba(3, 4, 7, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(4, 6, 10, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       z-index: 9999;
       display: flex;
       align-items: center;
@@ -626,17 +682,17 @@
       margin: 0 auto;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: #05070d;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #0d1117;
     }
 
     .lightbox-framed-slot {
       position: absolute;
-      top: 9.083%;
-      left: 5.580%;
-      width: 88.839%;
-      height: 49.833%;
+      top: 8.66%;
+      left: 5.22%;
+      width: 89.83%;
+      height: 51.68%;
       z-index: 1;
       overflow: hidden;
       background: #000;
@@ -669,91 +725,110 @@
       max-height: 72dvh;
       object-fit: contain;
       border-radius: 8px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
-      border: 2px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #0d1117;
     }
 
     .lightbox-caption-card {
-      background: rgba(15, 20, 30, 0.95);
-      border: 1px solid var(--border-gold);
-      border-radius: 10px;
-      padding: 12px 24px;
-      text-align: center;
+      background: #161b22;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 16px 20px;
+      text-align: left;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      max-width: 640px;
+      gap: 8px;
+      max-width: 560px;
       width: 100%;
       box-sizing: border-box;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .lightbox-author-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .lightbox-author {
       font-size: 0.9375rem;
-      font-weight: 600;
-      color: #ffffff;
+      font-weight: 500;
+      color: #f0f6fc;
+      line-height: 1.4;
     }
 
     .lightbox-time {
       font-family: 'Space Grotesk', monospace;
       font-size: 0.75rem;
-      color: var(--text-muted);
+      font-weight: 400;
+      color: #8b949e;
+      flex-shrink: 0;
     }
 
     .lightbox-note {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-style: italic;
-      color: var(--accent-gold-light);
-      font-size: 0.9375rem;
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-style: normal;
+      color: #c9d1d9;
+      font-size: 0.875rem;
+      line-height: 1.6;
       margin-top: 4px;
+      word-break: break-word;
+      max-height: 160px;
+      overflow-y: auto;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .lightbox-close-btn {
       position: absolute;
       top: -16px;
       right: -16px;
-      width: 44px;
-      height: 44px;
-      background: rgba(18, 22, 34, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-      font-size: 1.25rem;
+      width: 40px;
+      height: 40px;
+      background: #161b22;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e6edf3;
+      font-size: 1.125rem;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease;
       z-index: 10;
     }
 
     .lightbox-close-btn:hover {
-      background: #ef4444;
-      border-color: #ef4444;
-      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: none;
     }
 
     .lightbox-nav-btn {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      width: 44px;
-      height: 44px;
-      background: rgba(18, 22, 34, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: #ffffff;
+      width: 40px;
+      height: 40px;
+      background: #161b22;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e6edf3;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease;
       z-index: 10;
     }
 
     .lightbox-nav-btn:hover {
-      background: rgba(245, 158, 11, 0.25);
-      border-color: var(--accent-gold);
-      transform: translateY(-50%) scale(1.08);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-50%);
     }
 
     .lightbox-nav-btn.prev {
@@ -1025,8 +1100,10 @@
       </div>
 
       <div class="lightbox-caption-card">
-        <div class="lightbox-author" id="lightbox-author"></div>
-        <div class="lightbox-time" id="lightbox-time"></div>
+        <div class="lightbox-author-row">
+          <div class="lightbox-author" id="lightbox-author"></div>
+          <div class="lightbox-time" id="lightbox-time"></div>
+        </div>
         <div class="lightbox-note" id="lightbox-note" style="display: none;"></div>
       </div>
     </div>
@@ -1088,17 +1165,39 @@
     }
 
     /* ===================================================================
-       QUẢN LÝ DỮ LIỆU & RENDER LƯỚI KHUNG PHIM
+       QUẢN LÝ DỮ LIỆU & RENDER LƯỚI KHUNG PHIM (R1)
        =================================================================== */
     const FRAME_NAMES = {
       'none': 'Không khung',
+      'film_frame_01': 'Xanh rêu hoài niệm',
+      'film_frame_02': 'Xanh lam điện ảnh',
+      'film_frame_03': 'Nâu ấm cà phê',
+      'film_frame_04': 'Xanh navy cổ điển',
+      'film_frame_05': 'Xanh trời thanh xuân',
+      'film_frame_06': 'Đỏ vang nồng ấm',
+      // Ánh xạ tương thích ngược cho dữ liệu đã lưu với mã ID cũ
       'film_frame_olive': 'Xanh rêu hoài niệm',
       'film_frame_sepia': 'Nâu ấm cà phê',
-      'film_frame_navy': 'Xanh navy điện ảnh',
-      'film_frame_pop': 'Retro rực rỡ',
+      'film_frame_navy': 'Xanh navy cổ điển',
+      'film_frame_pop': 'Xanh lam điện ảnh',
       'film_frame_sky': 'Xanh trời thanh xuân',
-      'film_frame_terracotta': 'Hồng đất dịu dàng'
+      'film_frame_terracotta': 'Đỏ vang nồng ấm'
     };
+
+    const OLD_FRAME_MAP = {
+      'film_frame_olive': 'film_frame_01',
+      'film_frame_sepia': 'film_frame_03',
+      'film_frame_navy': 'film_frame_04',
+      'film_frame_pop': 'film_frame_02',
+      'film_frame_sky': 'film_frame_05',
+      'film_frame_terracotta': 'film_frame_06'
+    };
+
+    function normalizeFrameId(frameId) {
+      if (!frameId || frameId === 'none') return 'none';
+      return OLD_FRAME_MAP[frameId] || frameId;
+    }
+
     let allPhotos = [];
     let currentFilteredPhotos = [];
     let currentLightboxIndex = 0;
@@ -1107,11 +1206,11 @@
       if (!photoId) return '';
       try {
         const map = JSON.parse(localStorage.getItem('co_duyen_anh_photo_frames') || '{}');
-        if (map[photoId]) return map[photoId];
+        if (map[photoId]) return normalizeFrameId(map[photoId]);
       } catch (e) {}
       // Khôi phục khung ảnh kiểm thử người dùng đã gửi (Xanh rêu hoài niệm)
       if (photoId === 'photo-1795062393087-0-jkg1gb-45741') {
-        return 'film_frame_olive';
+        return 'film_frame_01';
       }
       return '';
     }
@@ -1200,10 +1299,11 @@
         }
 
         // Xác định mã khung ảnh bền vững (từ photo hoặc bộ nhớ cục bộ)
-        let frameId = (photo.frameId && photo.frameId !== 'none') ? photo.frameId : getSavedPhotoFrame(photo.id);
+        let rawFrameId = (photo.frameId && photo.frameId !== 'none') ? photo.frameId : getSavedPhotoFrame(photo.id);
+        let frameId = normalizeFrameId(rawFrameId);
         if (!frameId || frameId === 'none') {
           if (photo.author === 'test khung ảnh' || photo.id === 'photo-1795062393087-0-jkg1gb-45741') {
-            frameId = 'film_frame_olive';
+            frameId = 'film_frame_01';
             savePhotoFrame(photo.id, frameId);
           }
         }
@@ -1212,7 +1312,7 @@
           const frameName = escapeHtml(FRAME_NAMES[frameId] || 'Khung phim 35mm');
           return `
             <article class="film-card single-frame-card" data-idx="${index}" onclick="openPhotoLightbox(${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPhotoLightbox(${index});}" tabindex="0" role="button" aria-label="Xem ảnh từ ${authorSafe}">
-              <!-- Vùng hiển thị lồng khung phim 1 ảnh (F8) -->
+              <!-- Vùng hiển thị lồng khung phim 1 ảnh (R1) -->
               <div class="film-composite-wrapper">
                 <div class="film-photo-slot">
                   <img 
@@ -1230,6 +1330,19 @@
                   class="film-frame-overlay"
                   loading="lazy"
                 >
+                <!-- Hiển thị Tên & Lời nhắn rút gọn 1 dòng trực tiếp trên mặt khung phim (R1) -->
+                <div class="film-frame-text-plate">
+                  <div class="film-frame-author">
+                    <svg class="film-frame-author-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span class="film-frame-author-name">${authorSafe}</span>
+                  </div>
+                  <div class="film-frame-caption" title="${captionSafe}">
+                    ${captionSafe || 'Kỷ niệm tri ân cô Duyên Anh'}
+                  </div>
+                </div>
                 <div class="zoom-overlay-hint">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <circle cx="11" cy="11" r="8"></circle>
@@ -1237,30 +1350,22 @@
                     <line x1="11" y1="8" x2="11" y2="14"></line>
                     <line x1="8" y1="11" x2="14" y2="11"></line>
                   </svg>
-                  <span>Xem ảnh</span>
+                  <span>Xem chi tiết</span>
                 </div>
               </div>
 
-              <!-- Bảng thông tin người đăng -->
+              <!-- Bảng thông tin chân thẻ -->
               <div class="film-metadata-plate">
                 <div class="metadata-author-row">
-                  <div class="author-name-tag">
-                    <svg class="author-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                      <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    <span>${authorSafe}</span>
-                  </div>
                   <div class="metadata-time">${timeSafe}</div>
-                </div>
-                ${captionSafe ? `<div class="metadata-caption">&ldquo;${captionSafe}&rdquo;</div>` : ''}
-                <div class="metadata-frame-tag">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="2" y="2" width="20" height="20" rx="2"></rect>
-                    <line x1="7" y1="2" x2="7" y2="22"></line>
-                    <line x1="17" y1="2" x2="17" y2="22"></line>
-                  </svg>
-                  <span>${frameName}</span>
+                  <div class="metadata-frame-tag">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="2" width="20" height="20" rx="2"></rect>
+                      <line x1="7" y1="2" x2="7" y2="22"></line>
+                      <line x1="17" y1="2" x2="17" y2="22"></line>
+                    </svg>
+                    <span>${frameName}</span>
+                  </div>
                 </div>
               </div>
             </article>
@@ -1374,8 +1479,9 @@
                   resolvedFrame = storedFrame;
                 }
                 if (!resolvedFrame && (p.author === 'test khung ảnh' || p.id === 'photo-1795062393087-0-jkg1gb-45741')) {
-                  resolvedFrame = 'film_frame_olive';
+                  resolvedFrame = 'film_frame_01';
                 }
+                resolvedFrame = normalizeFrameId(resolvedFrame);
                 if (!resolvedFrame) {
                   resolvedFrame = 'none';
                 }
@@ -1422,8 +1528,9 @@
         imgSrc += '&sz=w1200';
       }
 
-      // Hỗ trợ hiển thị phóng to kèm khung phim nếu có frameId (F8)
-      const activeFrameId = (photo.frameId && photo.frameId !== 'none') ? photo.frameId : getSavedPhotoFrame(photo.id);
+      // Hỗ trợ hiển thị phóng to kèm khung phim nếu có frameId (R1)
+      const rawActiveFrameId = (photo.frameId && photo.frameId !== 'none') ? photo.frameId : getSavedPhotoFrame(photo.id);
+      const activeFrameId = normalizeFrameId(rawActiveFrameId);
       if (activeFrameId && activeFrameId !== 'none') {
         if (modalFramedBox && modalFramedInner && modalFramedOverlay) {
           modalFramedInner.src = imgSrc;
@@ -1440,10 +1547,10 @@
       }
 
       modalAuthor.textContent = `Người gửi: ${photo.author || 'Bạn học trò'}`;
-      modalTime.textContent = `Thời gian đăng: ${photo.time || 'Kỷ niệm thanh xuân'}`;
+      modalTime.textContent = photo.time || 'Kỷ niệm thanh xuân';
 
       if (photo.caption && photo.caption.trim()) {
-        modalNote.textContent = `“${photo.caption}”`;
+        modalNote.textContent = photo.caption.trim();
         modalNote.style.display = 'block';
       } else {
         modalNote.style.display = 'none';

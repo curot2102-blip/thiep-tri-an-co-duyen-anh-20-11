@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 84" width="280" height="84">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600&amp;display=swap');
+      .title { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13px; fill: #4E330B; letter-spacing: 0.05em; }
+      .sub { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; font-size: 11px; fill: #7A5418; }
+    </style>
+  </defs>
+  <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE0AAABNCAYAAADjCemwAAAAAXNSR0IArs4c6QAABFFJREFUeJztnE9oHFUcx7+/6ZIlu20sYqiLS3spPeSSbkLBQKHppZqSLBQNLR4sKoIXiRgvIhYpNL2UQj15sJTcrC0UdhdSApX01IWw2eSyhBiQlmiUbSF13VljknleVBoys/Pml/mzG3+fU5j3e7/5zYe8mTd/9lG2P6ngN0rdz82ZQ77n9UC2LzEFojf9zpsr1cnwO+n/AZHGQKQxEGkMYnYbXx8cRs/xAa0E0/cmsfJ4ye+6AiF95BjOnLuoFVuZf4TiTMG2zVZaz/EBnB39UCt5ufigbaR1p9LaxwXAm7QgGU2j889DiWmndrW19X5hfv3HcKvyhqu0y2OjqK4+2bbt1NB5vP3ep6wdVruwrwt00qmd1L79rMQeuXvrOh5O3d62rTt1GJdu3HHt6yqtuvoEqz//tG3b87WnnDpbiudrT3ccly5y9WQg0hiINAau57RTQ+d3nMN053CtjN0xvHTwFa2+rtK4V0knap1YP6DUF07ttEW//Pv3G/2JVNzCx06x8XXzqzsV/MWpY+D0CAZOj3C6hj9PK5WwUYI5oRMb38SriNHnTu1VYALgSdsNttKm702iXHyglWB5ccHvmgJjeXEBV8YvaMVWV1cc22ylrTxeaptbIy/U1p6hXPxh13nk6slApDEQaQxiUOq+30ktwqzfOTk1GMr/d0YAQIFk9YlsbyKDGM05tf/eqB+YqeCPcKuS4clCpDEQaQxEGgORxiD0G3YAGOyB1nuATbXRYVix+n8bCKAXLvgdMQQzp3Ah9CnHYA/2d3Uma5y+CtZYvtT42v+qvCHDk4FIY9D0nDaS6XwLBl7TS9X4Nl+C6VNdnsn2xY8qMs7qxCoLs4Vy4xF3X80vBAZ9Qk1e7L7IZiP5PVCPTBrIyBCMG1qhUFcBsKXJ8GQg0hiEPk+bqcDM9qo+Tt9No+H84D5EopjcWrkFsxzBfn1DhieDpv9ppLAEUlq3PHHL3PCtqhanqbTcnPlBeKW0DzI8GYg0BpE8GgoEZZUVYUwrFNG/LRMEIRAif1k8nEl8RIRrOrFK4bNC2fwm+KqaE/mFgAzVQTCSesFWR+AFaSBTDgYijYFIYyDSGIg0BrFsX2LK76QWYbZQMi/5ndcLw/2Jy4bCCdtGou9ypfokN3csiGUYgvoC0VsNOOF4bJba1ZNjGZ4MIp/cwqK6MvCbbmzg9WgQubR82bwJ4GbUdXjBVlr6yDF0p9JaCZYXF1Bbe+Z3XS2NrbQz5y5qrypwZfyCLz+daSciH56twD9PWl7Wic3PmROu0u7eum77I1nubyVbEYMwDqKjmuHu0h5O3bZdVWAvSfOKzNMYRH5OG84k3zVIfcnpq8jsjeJDwsilkWEdBAzd88k2ao1oRoqrtO7U4R3bdFcV2Ku4StNZe6fdUUSzgPpVNz7y4dkK5Ev1d7zE20qrzOt/w9tsVYG9iq204kzBccE1QeZpLEQaA5HGQKQJ4fA3yRgm8ca8Lk4AAAAASUVORK5CYII=" x="16" y="10" width="64" height="64"/>
+  <text x="96" y="38" class="title">ALBUM KỶ NIỆM 2026</text>
+  <text x="96" y="58" class="sub">Quét để xem lại ký ức</text>
+</svg>

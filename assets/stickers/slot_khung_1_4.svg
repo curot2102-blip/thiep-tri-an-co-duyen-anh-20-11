@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" width="160" height="44">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600&amp;display=swap');
+      .khung {{ font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 13px; fill: #C85A3F; letter-spacing: 0.05em; }}
+    </style>
+  </defs>
+  <rect x="2" y="2" width="156" height="40" rx="20" fill="rgba(200, 90, 63, 0.08)" stroke="#C85A3F" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="80" y="27" text-anchor="middle" class="khung">KHUNG 1 → 4 ♡</text>
+</svg>

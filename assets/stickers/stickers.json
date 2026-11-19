@@ -94,5 +94,486 @@
     "file": "assets/stickers/film_roll_mini.svg",
     "defaultWidth": 100,
     "defaultHeight": 78
+  },
+  {
+    "id": "header_trang_sach",
+    "name": "Tiêu đề: Trang Sách Thanh Xuân",
+    "category": "header",
+    "tags": [
+      "header",
+      "school"
+    ],
+    "file": "assets/stickers/header_trang_sach.svg",
+    "defaultWidth": 230,
+    "defaultHeight": 80
+  },
+  {
+    "id": "header_tri_an",
+    "name": "Tiêu đề: Tri Ân Người Lái Đò",
+    "category": "header",
+    "tags": [
+      "header",
+      "school"
+    ],
+    "file": "assets/stickers/header_tri_an.svg",
+    "defaultWidth": 230,
+    "defaultHeight": 80
+  },
+  {
+    "id": "header_ao_trang",
+    "name": "Tiêu đề: Một Thời Áo Trắng",
+    "category": "header",
+    "tags": [
+      "header",
+      "school"
+    ],
+    "file": "assets/stickers/header_ao_trang.svg",
+    "defaultWidth": 230,
+    "defaultHeight": 80
+  },
+  {
+    "id": "header_mua_ha",
+    "name": "Tiêu đề: Mùa Hạ Năm Ấy",
+    "category": "header",
+    "tags": [
+      "header",
+      "school"
+    ],
+    "file": "assets/stickers/header_mua_ha.svg",
+    "defaultWidth": 230,
+    "defaultHeight": 80
+  },
+  {
+    "id": "header_chao_tuong_lai",
+    "name": "Tiêu đề: Chào Tương Lai",
+    "category": "header",
+    "tags": [
+      "header"
+    ],
+    "file": "assets/stickers/header_chao_tuong_lai.svg",
+    "defaultWidth": 230,
+    "defaultHeight": 80
+  },
+  {
+    "id": "header_chuyen_bay",
+    "name": "Tiêu đề: Chuyến Bay Thanh Xuân",
+    "category": "header",
+    "tags": [
+      "header"
+    ],
+    "file": "assets/stickers/header_chuyen_bay.svg",
+    "defaultWidth": 230,
+    "defaultHeight": 80
+  },
+  {
+    "id": "header_thuy_mac",
+    "name": "Tiêu đề: Người Lái Đò Thầm Lặng",
+    "category": "header",
+    "tags": [
+      "header",
+      "school"
+    ],
+    "file": "assets/stickers/header_thuy_mac.svg",
+    "defaultWidth": 230,
+    "defaultHeight": 80
+  },
+  {
+    "id": "header_chap_canh",
+    "name": "Tiêu đề: Chắp Cánh Ước Mơ",
+    "category": "header",
+    "tags": [
+      "header"
+    ],
+    "file": "assets/stickers/header_chap_canh.svg",
+    "defaultWidth": 230,
+    "defaultHeight": 80
+  },
+  {
+    "id": "icon_hoa_trian",
+    "name": "Bó Hoa Tri Ân 20/11",
+    "category": "middle",
+    "tags": [
+      "middle",
+      "school"
+    ],
+    "file": "assets/stickers/icon_hoa_trian.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_sach_vo",
+    "name": "Sách Vở Học Trò",
+    "category": "middle",
+    "tags": [
+      "middle",
+      "school"
+    ],
+    "file": "assets/stickers/icon_sach_vo.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_non_cunhan_mini",
+    "name": "Nón Cử Nhân Mini",
+    "category": "middle",
+    "tags": [
+      "middle",
+      "school"
+    ],
+    "file": "assets/stickers/icon_non_cunhan_mini.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_but_viet",
+    "name": "Bút Viết Mực Tím",
+    "category": "middle",
+    "tags": [
+      "middle",
+      "school"
+    ],
+    "file": "assets/stickers/icon_but_viet.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_bang_phan",
+    "name": "Bảng Đen Phấn Trắng",
+    "category": "middle",
+    "tags": [
+      "middle",
+      "school"
+    ],
+    "file": "assets/stickers/icon_bang_phan.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_diem_10",
+    "name": "Bông Hoa Điểm 10",
+    "category": "middle",
+    "tags": [
+      "middle",
+      "school"
+    ],
+    "file": "assets/stickers/icon_diem_10.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_huyhieu_nhagiao",
+    "name": "Huy Hiệu Nhà Giáo",
+    "category": "middle",
+    "tags": [
+      "middle",
+      "school"
+    ],
+    "file": "assets/stickers/icon_huyhieu_nhagiao.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_maybay_giay",
+    "name": "Máy Bay Giấy Ước Mơ",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_maybay_giay.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_la_ban",
+    "name": "La Bàn Định Hướng",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_la_ban.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_balo",
+    "name": "Balo Hành Trình",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_balo.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_vali",
+    "name": "Vali Khởi Hành",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_vali.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_ve_maybay",
+    "name": "Vé Chuyến Bay Thanh Xuân",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_ve_maybay.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_mu_totnghiep",
+    "name": "Mũ Tốt Nghiệp Vàng Kim",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_mu_totnghiep.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_qua_diacau",
+    "name": "Quả Địa Cầu Tri Thức",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_qua_diacau.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_nhanh_truc",
+    "name": "Nhành Trúc Thanh Nhã",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_nhanh_truc.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_hoa_sen",
+    "name": "Hoa Sen Thủy Mặc",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_hoa_sen.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_may_luon",
+    "name": "Mây Lượn Cổ Điển",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_may_luon.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_canh_chim",
+    "name": "Cánh Chim Tự Do",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_canh_chim.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_la_nganhanh",
+    "name": "Lá Ngân Hạnh Vàng",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_la_nganhanh.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_song_nuoc",
+    "name": "Sóng Nước Mềm Mại",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_song_nuoc.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "icon_quat_giay",
+    "name": "Quạt Giấy Thư Pháp",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/icon_quat_giay.png",
+    "defaultWidth": 55,
+    "defaultHeight": 55
+  },
+  {
+    "id": "slot_num_01",
+    "name": "Số Ô Ảnh: 01",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/slot_num_01.svg",
+    "defaultWidth": 45,
+    "defaultHeight": 45
+  },
+  {
+    "id": "slot_num_02",
+    "name": "Số Ô Ảnh: 02",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/slot_num_02.svg",
+    "defaultWidth": 45,
+    "defaultHeight": 45
+  },
+  {
+    "id": "slot_num_03",
+    "name": "Số Ô Ảnh: 03",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/slot_num_03.svg",
+    "defaultWidth": 45,
+    "defaultHeight": 45
+  },
+  {
+    "id": "slot_num_04",
+    "name": "Số Ô Ảnh: 04",
+    "category": "middle",
+    "tags": [
+      "middle"
+    ],
+    "file": "assets/stickers/slot_num_04.svg",
+    "defaultWidth": 45,
+    "defaultHeight": 45
+  },
+  {
+    "id": "slot_khung_1_4",
+    "name": "Tem: KHUNG 1 → 4 ♡",
+    "category": "middle",
+    "tags": [
+      "middle",
+      "love"
+    ],
+    "file": "assets/stickers/slot_khung_1_4.svg",
+    "defaultWidth": 120,
+    "defaultHeight": 35
+  },
+  {
+    "id": "footer_barcode_2011",
+    "name": "Mã Vạch Kỷ Niệm 20.11",
+    "category": "footer",
+    "tags": [
+      "footer",
+      "school"
+    ],
+    "file": "assets/stickers/footer_barcode_2011.svg",
+    "defaultWidth": 180,
+    "defaultHeight": 52
+  },
+  {
+    "id": "footer_quote_trian",
+    "name": "Trích Dẫn: Một Chữ Cũng Là Thầy",
+    "category": "footer",
+    "tags": [
+      "footer",
+      "school"
+    ],
+    "file": "assets/stickers/footer_quote_trian.svg",
+    "defaultWidth": 220,
+    "defaultHeight": 55
+  },
+  {
+    "id": "footer_music_kyniem",
+    "name": "Thanh Nhạc: Mong Ước Kỷ Niệm Xưa",
+    "category": "footer",
+    "tags": [
+      "footer",
+      "school"
+    ],
+    "file": "assets/stickers/footer_music_kyniem.svg",
+    "defaultWidth": 220,
+    "defaultHeight": 52
+  },
+  {
+    "id": "footer_qr_album",
+    "name": "Mã QR: Album Kỷ Niệm 2026",
+    "category": "footer",
+    "tags": [
+      "footer"
+    ],
+    "file": "assets/stickers/footer_qr_album.svg",
+    "defaultWidth": 190,
+    "defaultHeight": 58
+  },
+  {
+    "id": "footer_film_iso",
+    "name": "Thông Số Phim ISO 400",
+    "category": "footer",
+    "tags": [
+      "footer",
+      "vintage"
+    ],
+    "file": "assets/stickers/footer_film_iso.svg",
+    "defaultWidth": 190,
+    "defaultHeight": 50
+  },
+  {
+    "id": "footer_rating_stars",
+    "name": "Đánh Giá: 100% Đáng Nhớ",
+    "category": "footer",
+    "tags": [
+      "footer"
+    ],
+    "file": "assets/stickers/footer_rating_stars.svg",
+    "defaultWidth": 180,
+    "defaultHeight": 50
+  },
+  {
+    "id": "footer_seal_ton_su",
+    "name": "Triện Đỏ Thư Pháp: Ơn Thầy Nghĩa Cô",
+    "category": "footer",
+    "tags": [
+      "footer",
+      "school"
+    ],
+    "file": "assets/stickers/footer_seal_ton_su.svg",
+    "defaultWidth": 190,
+    "defaultHeight": 56
+  },
+  {
+    "id": "footer_music_bui_phan",
+    "name": "Thanh Nhạc: Bụi Phấn 20/11",
+    "category": "footer",
+    "tags": [
+      "footer",
+      "school"
+    ],
+    "file": "assets/stickers/footer_music_bui_phan.svg",
+    "defaultWidth": 220,
+    "defaultHeight": 52
   }
 ]

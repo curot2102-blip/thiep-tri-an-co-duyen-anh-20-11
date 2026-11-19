@@ -1,322 +1,338 @@
 [
   {
-    "id": "pb_vintage_kraft",
-    "name": "Vintage Kraft Linen",
-    "badge": "16:9 Hoài niệm",
-    "description": "Tông màu be kraft ấm áp cổ điển với chân cam đất hoài niệm",
-    "aspectRatio": "16:9",
-    "width": 560,
-    "height": 1320,
+    "id": "pb_frame_01",
+    "name": "Trang sách thanh xuân (Tím)",
+    "badge": "5:4 Tím khói",
+    "description": "Tông màu tím khói thanh lịch gợi mở trang sách thanh xuân rực rỡ",
+    "aspectRatio": "5:4",
+    "width": 600,
+    "height": 2160,
     "slots": [
       {
-        "x": 56,
-        "y": 140,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 359,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 56,
-        "y": 414,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 718,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 56,
-        "y": 688,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 1076,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 56,
-        "y": 962,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 1435,
+        "width": 417,
+        "height": 334
       }
     ],
-    "bgColor": "#EDE0CF",
-    "footerColor": "#D1842A",
-    "textColor": "#3d2410",
-    "overlay": "assets/frames/photobooth/pb_vintage_kraft.png",
-    "thumb": "assets/frames/photobooth/pb_vintage_kraft_thumb.png"
-  },
-  {
-    "id": "pb_ocean_sky",
-    "name": "Ocean Sky Blue",
-    "badge": "16:9 Tươi mát",
-    "description": "Tông xanh da trời tươi mát điểm chân xanh đại dương sâu lắng",
-    "aspectRatio": "16:9",
-    "width": 560,
-    "height": 1320,
-    "slots": [
-      {
-        "x": 56,
-        "y": 140,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 414,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 688,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 962,
-        "width": 448,
-        "height": 250
-      }
-    ],
-    "bgColor": "#1B97CB",
-    "footerColor": "#058CC3",
+    "bgColor": "#514D7F",
+    "footerColor": "#6F638B",
     "textColor": "#ffffff",
-    "overlay": "assets/frames/photobooth/pb_ocean_sky.png",
-    "thumb": "assets/frames/photobooth/pb_ocean_sky_thumb.png"
+    "overlay": "assets/frames/photobooth/pb_frame_01.png",
+    "overlayWebp": "assets/frames/photobooth/pb_frame_01.webp",
+    "thumb": "assets/frames/photobooth/pb_frame_01_thumb.png",
+    "thumbWebp": "assets/frames/photobooth/pb_frame_01_thumb.webp"
   },
   {
-    "id": "pb_sage_mint",
-    "name": "Sage Mint Green",
-    "badge": "16:9 Dịu nhẹ",
-    "description": "Tông xanh xô thơm bạc hà dịu nhẹ với chân xanh lục bảo",
-    "aspectRatio": "16:9",
-    "width": 560,
-    "height": 1320,
+    "id": "pb_frame_02",
+    "name": "Tri ân người lái đò (Xanh hoàng gia)",
+    "badge": "5:4 Hoàng gia",
+    "description": "Tông xanh hoàng gia sang trọng tri ân công ơn người lái đò thầm lặng",
+    "aspectRatio": "5:4",
+    "width": 600,
+    "height": 2160,
     "slots": [
       {
-        "x": 56,
-        "y": 140,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 420,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 56,
-        "y": 414,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 752,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 56,
-        "y": 688,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 1096,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 56,
-        "y": 962,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 1435,
+        "width": 417,
+        "height": 334
       }
     ],
-    "bgColor": "#C0F0E4",
-    "footerColor": "#319B73",
-    "textColor": "#164230",
-    "overlay": "assets/frames/photobooth/pb_sage_mint.png",
-    "thumb": "assets/frames/photobooth/pb_sage_mint_thumb.png"
-  },
-  {
-    "id": "pb_pastel_ice",
-    "name": "Pastel Ice Blue",
-    "badge": "16:9 Băng tuyết",
-    "description": "Tông xanh băng tuyết pastel thanh lịch với chân xanh thẫm",
-    "aspectRatio": "16:9",
-    "width": 560,
-    "height": 1320,
-    "slots": [
-      {
-        "x": 56,
-        "y": 140,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 414,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 688,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 962,
-        "width": 448,
-        "height": 250
-      }
-    ],
-    "bgColor": "#C5F0FF",
-    "footerColor": "#036BA2",
-    "textColor": "#034164",
-    "overlay": "assets/frames/photobooth/pb_pastel_ice.png",
-    "thumb": "assets/frames/photobooth/pb_pastel_ice_thumb.png"
-  },
-  {
-    "id": "pb_peach_apricot",
-    "name": "Peach Warm Apricot",
-    "badge": "16:9 Ấm áp",
-    "description": "Tông cam đào mơ chín ấm áp với chân ngà trang nhã",
-    "aspectRatio": "16:9",
-    "width": 560,
-    "height": 1320,
-    "slots": [
-      {
-        "x": 56,
-        "y": 140,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 414,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 688,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 962,
-        "width": 448,
-        "height": 250
-      }
-    ],
-    "bgColor": "#FBC994",
-    "footerColor": "#FFF6F3",
-    "textColor": "#4a2505",
-    "overlay": "assets/frames/photobooth/pb_peach_apricot.png",
-    "thumb": "assets/frames/photobooth/pb_peach_apricot_thumb.png"
-  },
-  {
-    "id": "pb_dark_pine",
-    "name": "Dark Pine Teal",
-    "badge": "16:9 Sang trọng",
-    "description": "Tông xanh thông thẫm sang trọng với điểm nhấn vàng chanh",
-    "aspectRatio": "16:9",
-    "width": 560,
-    "height": 1320,
-    "slots": [
-      {
-        "x": 56,
-        "y": 140,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 414,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 688,
-        "width": 448,
-        "height": 250
-      },
-      {
-        "x": 56,
-        "y": 962,
-        "width": 448,
-        "height": 250
-      }
-    ],
-    "bgColor": "#214045",
-    "footerColor": "#FEE833",
+    "bgColor": "#103495",
+    "footerColor": "#7F66A7",
     "textColor": "#ffffff",
-    "overlay": "assets/frames/photobooth/pb_dark_pine.png",
-    "thumb": "assets/frames/photobooth/pb_dark_pine_thumb.png"
+    "overlay": "assets/frames/photobooth/pb_frame_02.png",
+    "overlayWebp": "assets/frames/photobooth/pb_frame_02.webp",
+    "thumb": "assets/frames/photobooth/pb_frame_02_thumb.png",
+    "thumbWebp": "assets/frames/photobooth/pb_frame_02_thumb.webp"
   },
   {
-    "id": "pb_vintage_wine",
-    "name": "Vintage Wine Burgundy",
-    "badge": "16:9 Cổ điển",
-    "description": "Tông đỏ vang nho nồng ấm hoài niệm với điểm nhấn vàng bơ",
-    "aspectRatio": "16:9",
-    "width": 560,
-    "height": 1320,
+    "id": "pb_frame_03",
+    "name": "Một thời áo trắng (Xanh ngọc lục bảo)",
+    "badge": "5:4 Lục bảo",
+    "description": "Tông xanh lục bảo tươi mát gợi nhớ tà áo trắng tinh khôi và sân trường đầy nắng",
+    "aspectRatio": "5:4",
+    "width": 600,
+    "height": 2160,
     "slots": [
       {
-        "x": 56,
-        "y": 140,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 420,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 56,
-        "y": 414,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 752,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 56,
-        "y": 688,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 1096,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 56,
-        "y": 962,
-        "width": 448,
-        "height": 250
+        "x": 95,
+        "y": 1435,
+        "width": 417,
+        "height": 334
       }
     ],
-    "bgColor": "#742310",
-    "footerColor": "#FEF68B",
+    "bgColor": "#1B4D3E",
+    "footerColor": "#2E755D",
     "textColor": "#ffffff",
-    "overlay": "assets/frames/photobooth/pb_vintage_wine.png",
-    "thumb": "assets/frames/photobooth/pb_vintage_wine_thumb.png"
+    "overlay": "assets/frames/photobooth/pb_frame_03.png",
+    "overlayWebp": "assets/frames/photobooth/pb_frame_03.webp",
+    "thumb": "assets/frames/photobooth/pb_frame_03_thumb.png",
+    "thumbWebp": "assets/frames/photobooth/pb_frame_03_thumb.webp"
   },
   {
-    "id": "pb_studio_burgundy",
-    "name": "Studio Burgundy Vintage",
-    "badge": "4:3 Phim Studio",
-    "description": "Dải phim 4:3 phong cách Studio cổ điển chuẩn quốc tế tông đỏ burgundy quý phái",
-    "aspectRatio": "4:3",
-    "width": 627,
-    "height": 1875,
+    "id": "pb_frame_04",
+    "name": "Mùa hạ năm ấy (Hồng đỏ phượng)",
+    "badge": "5:4 Hồng phượng",
+    "description": "Tông hồng đỏ cánh phượng nồng thắm lưu giữ ký ức mùa hạ chia tay mái trường",
+    "aspectRatio": "5:4",
+    "width": 600,
+    "height": 2160,
     "slots": [
       {
-        "x": 89,
-        "y": 120,
-        "width": 449,
-        "height": 338
+        "x": 95,
+        "y": 420,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 89,
-        "y": 482,
-        "width": 449,
-        "height": 338
+        "x": 95,
+        "y": 752,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 89,
-        "y": 844,
-        "width": 449,
-        "height": 338
+        "x": 95,
+        "y": 1096,
+        "width": 417,
+        "height": 334
       },
       {
-        "x": 89,
-        "y": 1206,
-        "width": 449,
-        "height": 338
+        "x": 95,
+        "y": 1435,
+        "width": 417,
+        "height": 334
       }
     ],
-    "bgColor": "#460005",
-    "footerColor": "#300004",
-    "textColor": "#fdf2e9",
-    "overlay": "assets/frames/photobooth/pb_studio_burgundy.png",
-    "thumb": "assets/frames/photobooth/pb_studio_burgundy_thumb.png"
+    "bgColor": "#8F2825",
+    "footerColor": "#B83B37",
+    "textColor": "#ffffff",
+    "overlay": "assets/frames/photobooth/pb_frame_04.png",
+    "overlayWebp": "assets/frames/photobooth/pb_frame_04.webp",
+    "thumb": "assets/frames/photobooth/pb_frame_04_thumb.png",
+    "thumbWebp": "assets/frames/photobooth/pb_frame_04_thumb.webp"
+  },
+  {
+    "id": "pb_frame_05",
+    "name": "Chào tương lai (Vàng kim)",
+    "badge": "5:4 Vàng kim",
+    "description": "Tông vàng kim rạng rỡ chúc mừng chặng đường tỏa sáng của học trò tương lai",
+    "aspectRatio": "5:4",
+    "width": 600,
+    "height": 2160,
+    "slots": [
+      {
+        "x": 95,
+        "y": 420,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 752,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 1096,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 1435,
+        "width": 417,
+        "height": 334
+      }
+    ],
+    "bgColor": "#B87D14",
+    "footerColor": "#8A5E0E",
+    "textColor": "#ffffff",
+    "overlay": "assets/frames/photobooth/pb_frame_05.png",
+    "overlayWebp": "assets/frames/photobooth/pb_frame_05.webp",
+    "thumb": "assets/frames/photobooth/pb_frame_05_thumb.png",
+    "thumbWebp": "assets/frames/photobooth/pb_frame_05_thumb.webp"
+  },
+  {
+    "id": "pb_frame_06",
+    "name": "Chuyến bay thanh xuân (Xanh cổ vịt)",
+    "badge": "5:4 Cổ vịt",
+    "description": "Tông xanh cổ vịt thanh tao cùng cánh máy bay giấy chở những hoài bão tuổi trẻ",
+    "aspectRatio": "5:4",
+    "width": 600,
+    "height": 2160,
+    "slots": [
+      {
+        "x": 95,
+        "y": 420,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 752,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 1096,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 1435,
+        "width": 417,
+        "height": 334
+      }
+    ],
+    "bgColor": "#1E4E6E",
+    "footerColor": "#2C6B94",
+    "textColor": "#ffffff",
+    "overlay": "assets/frames/photobooth/pb_frame_06.png",
+    "overlayWebp": "assets/frames/photobooth/pb_frame_06.webp",
+    "thumb": "assets/frames/photobooth/pb_frame_06_thumb.png",
+    "thumbWebp": "assets/frames/photobooth/pb_frame_06_thumb.webp"
+  },
+  {
+    "id": "pb_frame_07",
+    "name": "Người lái đò thầm lặng (Thủy mặc)",
+    "badge": "5:4 Thủy mặc",
+    "description": "Phong cách thủy mặc trầm ấm với nét mực thanh thoát khắc họa ơn thầy nghĩa cô",
+    "aspectRatio": "5:4",
+    "width": 600,
+    "height": 2160,
+    "slots": [
+      {
+        "x": 95,
+        "y": 420,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 752,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 1096,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 1435,
+        "width": 417,
+        "height": 334
+      }
+    ],
+    "bgColor": "#1F1D24",
+    "footerColor": "#4A4652",
+    "textColor": "#ffffff",
+    "overlay": "assets/frames/photobooth/pb_frame_07.png",
+    "overlayWebp": "assets/frames/photobooth/pb_frame_07.webp",
+    "thumb": "assets/frames/photobooth/pb_frame_07_thumb.png",
+    "thumbWebp": "assets/frames/photobooth/pb_frame_07_thumb.webp"
+  },
+  {
+    "id": "pb_frame_08",
+    "name": "Chắp cánh ước mơ (Đỏ cam)",
+    "badge": "5:4 Đỏ cam",
+    "description": "Tông đỏ cam ấm áp tượng trưng cho niềm tin và nhiệt huyết tuổi trẻ vươn xa",
+    "aspectRatio": "5:4",
+    "width": 600,
+    "height": 2160,
+    "slots": [
+      {
+        "x": 95,
+        "y": 420,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 752,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 1096,
+        "width": 417,
+        "height": 334
+      },
+      {
+        "x": 95,
+        "y": 1435,
+        "width": 417,
+        "height": 334
+      }
+    ],
+    "bgColor": "#A92B1C",
+    "footerColor": "#C4641C",
+    "textColor": "#ffffff",
+    "overlay": "assets/frames/photobooth/pb_frame_08.png",
+    "overlayWebp": "assets/frames/photobooth/pb_frame_08.webp",
+    "thumb": "assets/frames/photobooth/pb_frame_08_thumb.png",
+    "thumbWebp": "assets/frames/photobooth/pb_frame_08_thumb.webp"
   }
 ]

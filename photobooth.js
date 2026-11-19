@@ -13,156 +13,937 @@
   // 1. DATA CATALOGS (WITH OFFLINE/FALLBACK EMBEDDING)
   // -----------------------------------------------------------------
 
-  const SLOTS_16_9 = [
-    { x: 56, y: 140, width: 448, height: 250 },
-    { x: 56, y: 414, width: 448, height: 250 },
-    { x: 56, y: 688, width: 448, height: 250 },
-    { x: 56, y: 962, width: 448, height: 250 }
+  const SLOTS_5_4_FRAME_01 = [
+    { x: 95, y: 359, width: 417, height: 334 },
+    { x: 95, y: 718, width: 417, height: 334 },
+    { x: 95, y: 1076, width: 417, height: 334 },
+    { x: 95, y: 1435, width: 417, height: 334 }
   ];
 
-  const SLOTS_4_3 = [
-    { x: 89, y: 120, width: 449, height: 338 },
-    { x: 89, y: 482, width: 449, height: 338 },
-    { x: 89, y: 844, width: 449, height: 338 },
-    { x: 89, y: 1206, width: 449, height: 338 }
+  const SLOTS_5_4_STANDARD = [
+    { x: 95, y: 420, width: 417, height: 334 },
+    { x: 95, y: 752, width: 417, height: 334 },
+    { x: 95, y: 1096, width: 417, height: 334 },
+    { x: 95, y: 1435, width: 417, height: 334 }
   ];
 
-  const DEFAULT_FRAMES = [
+    const DEFAULT_FRAMES = [
     {
-      id: 'pb_vintage_kraft',
-      name: 'Vintage Kraft Linen',
-      badge: '16:9 Hoài niệm',
-      description: 'Tông màu be kraft ấm áp cổ điển với chân cam đất hoài niệm',
-      aspectRatio: '16:9',
-      width: 560,
-      height: 1320,
-      slots: SLOTS_16_9,
-      bgColor: '#EDE0CF',
-      footerColor: '#D1842A',
-      textColor: '#3d2410',
-      overlay: 'assets/frames/photobooth/pb_vintage_kraft.png',
-      thumb: 'assets/frames/photobooth/pb_vintage_kraft_thumb.png'
+      "id": "pb_frame_01",
+      "name": "Trang sách thanh xuân (Tím)",
+      "badge": "5:4 Tím khói",
+      "description": "Tông màu tím khói thanh lịch gợi mở trang sách thanh xuân rực rỡ",
+      "aspectRatio": "5:4",
+      "width": 600,
+      "height": 2160,
+      "slots": [
+        {
+          "x": 95,
+          "y": 359,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 718,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1076,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1435,
+          "width": 417,
+          "height": 334
+        }
+      ],
+      "bgColor": "#514D7F",
+      "footerColor": "#6F638B",
+      "textColor": "#ffffff",
+      "overlay": "assets/frames/photobooth/pb_frame_01.png",
+      "overlayWebp": "assets/frames/photobooth/pb_frame_01.webp",
+      "thumb": "assets/frames/photobooth/pb_frame_01_thumb.png",
+      "thumbWebp": "assets/frames/photobooth/pb_frame_01_thumb.webp"
     },
     {
-      id: 'pb_ocean_sky',
-      name: 'Ocean Sky Blue',
-      badge: '16:9 Tươi mát',
-      description: 'Tông xanh da trời tươi mát điểm chân xanh đại dương sâu lắng',
-      aspectRatio: '16:9',
-      width: 560,
-      height: 1320,
-      slots: SLOTS_16_9,
-      bgColor: '#1B97CB',
-      footerColor: '#058CC3',
-      textColor: '#ffffff',
-      overlay: 'assets/frames/photobooth/pb_ocean_sky.png',
-      thumb: 'assets/frames/photobooth/pb_ocean_sky_thumb.png'
+      "id": "pb_frame_02",
+      "name": "Tri ân người lái đò (Xanh hoàng gia)",
+      "badge": "5:4 Hoàng gia",
+      "description": "Tông xanh hoàng gia sang trọng tri ân công ơn người lái đò thầm lặng",
+      "aspectRatio": "5:4",
+      "width": 600,
+      "height": 2160,
+      "slots": [
+        {
+          "x": 95,
+          "y": 420,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 752,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1096,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1435,
+          "width": 417,
+          "height": 334
+        }
+      ],
+      "bgColor": "#103495",
+      "footerColor": "#7F66A7",
+      "textColor": "#ffffff",
+      "overlay": "assets/frames/photobooth/pb_frame_02.png",
+      "overlayWebp": "assets/frames/photobooth/pb_frame_02.webp",
+      "thumb": "assets/frames/photobooth/pb_frame_02_thumb.png",
+      "thumbWebp": "assets/frames/photobooth/pb_frame_02_thumb.webp"
     },
     {
-      id: 'pb_sage_mint',
-      name: 'Sage Mint Green',
-      badge: '16:9 Dịu nhẹ',
-      description: 'Tông xanh xô thơm bạc hà dịu nhẹ với chân xanh lục bảo',
-      aspectRatio: '16:9',
-      width: 560,
-      height: 1320,
-      slots: SLOTS_16_9,
-      bgColor: '#C0F0E4',
-      footerColor: '#319B73',
-      textColor: '#164230',
-      overlay: 'assets/frames/photobooth/pb_sage_mint.png',
-      thumb: 'assets/frames/photobooth/pb_sage_mint_thumb.png'
+      "id": "pb_frame_03",
+      "name": "Một thời áo trắng (Xanh ngọc lục bảo)",
+      "badge": "5:4 Lục bảo",
+      "description": "Tông xanh lục bảo tươi mát gợi nhớ tà áo trắng tinh khôi và sân trường đầy nắng",
+      "aspectRatio": "5:4",
+      "width": 600,
+      "height": 2160,
+      "slots": [
+        {
+          "x": 95,
+          "y": 420,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 752,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1096,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1435,
+          "width": 417,
+          "height": 334
+        }
+      ],
+      "bgColor": "#1B4D3E",
+      "footerColor": "#2E755D",
+      "textColor": "#ffffff",
+      "overlay": "assets/frames/photobooth/pb_frame_03.png",
+      "overlayWebp": "assets/frames/photobooth/pb_frame_03.webp",
+      "thumb": "assets/frames/photobooth/pb_frame_03_thumb.png",
+      "thumbWebp": "assets/frames/photobooth/pb_frame_03_thumb.webp"
     },
     {
-      id: 'pb_pastel_ice',
-      name: 'Pastel Ice Blue',
-      badge: '16:9 Băng tuyết',
-      description: 'Tông xanh băng tuyết pastel thanh lịch với chân xanh thẫm',
-      aspectRatio: '16:9',
-      width: 560,
-      height: 1320,
-      slots: SLOTS_16_9,
-      bgColor: '#C5F0FF',
-      footerColor: '#036BA2',
-      textColor: '#034164',
-      overlay: 'assets/frames/photobooth/pb_pastel_ice.png',
-      thumb: 'assets/frames/photobooth/pb_pastel_ice_thumb.png'
+      "id": "pb_frame_04",
+      "name": "Mùa hạ năm ấy (Hồng đỏ phượng)",
+      "badge": "5:4 Hồng phượng",
+      "description": "Tông hồng đỏ cánh phượng nồng thắm lưu giữ ký ức mùa hạ chia tay mái trường",
+      "aspectRatio": "5:4",
+      "width": 600,
+      "height": 2160,
+      "slots": [
+        {
+          "x": 95,
+          "y": 420,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 752,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1096,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1435,
+          "width": 417,
+          "height": 334
+        }
+      ],
+      "bgColor": "#8F2825",
+      "footerColor": "#B83B37",
+      "textColor": "#ffffff",
+      "overlay": "assets/frames/photobooth/pb_frame_04.png",
+      "overlayWebp": "assets/frames/photobooth/pb_frame_04.webp",
+      "thumb": "assets/frames/photobooth/pb_frame_04_thumb.png",
+      "thumbWebp": "assets/frames/photobooth/pb_frame_04_thumb.webp"
     },
     {
-      id: 'pb_peach_apricot',
-      name: 'Peach Warm Apricot',
-      badge: '16:9 Ấm áp',
-      description: 'Tông cam đào mơ chín ấm áp với chân ngà trang nhã',
-      aspectRatio: '16:9',
-      width: 560,
-      height: 1320,
-      slots: SLOTS_16_9,
-      bgColor: '#FBC994',
-      footerColor: '#FFF6F3',
-      textColor: '#4a2505',
-      overlay: 'assets/frames/photobooth/pb_peach_apricot.png',
-      thumb: 'assets/frames/photobooth/pb_peach_apricot_thumb.png'
+      "id": "pb_frame_05",
+      "name": "Chào tương lai (Vàng kim)",
+      "badge": "5:4 Vàng kim",
+      "description": "Tông vàng kim rạng rỡ chúc mừng chặng đường tỏa sáng của học trò tương lai",
+      "aspectRatio": "5:4",
+      "width": 600,
+      "height": 2160,
+      "slots": [
+        {
+          "x": 95,
+          "y": 420,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 752,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1096,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1435,
+          "width": 417,
+          "height": 334
+        }
+      ],
+      "bgColor": "#B87D14",
+      "footerColor": "#8A5E0E",
+      "textColor": "#ffffff",
+      "overlay": "assets/frames/photobooth/pb_frame_05.png",
+      "overlayWebp": "assets/frames/photobooth/pb_frame_05.webp",
+      "thumb": "assets/frames/photobooth/pb_frame_05_thumb.png",
+      "thumbWebp": "assets/frames/photobooth/pb_frame_05_thumb.webp"
     },
     {
-      id: 'pb_dark_pine',
-      name: 'Dark Pine Teal',
-      badge: '16:9 Sang trọng',
-      description: 'Tông xanh thông thẫm sang trọng với điểm nhấn vàng chanh',
-      aspectRatio: '16:9',
-      width: 560,
-      height: 1320,
-      slots: SLOTS_16_9,
-      bgColor: '#214045',
-      footerColor: '#FEE833',
-      textColor: '#ffffff',
-      overlay: 'assets/frames/photobooth/pb_dark_pine.png',
-      thumb: 'assets/frames/photobooth/pb_dark_pine_thumb.png'
+      "id": "pb_frame_06",
+      "name": "Chuyến bay thanh xuân (Xanh cổ vịt)",
+      "badge": "5:4 Cổ vịt",
+      "description": "Tông xanh cổ vịt thanh tao cùng cánh máy bay giấy chở những hoài bão tuổi trẻ",
+      "aspectRatio": "5:4",
+      "width": 600,
+      "height": 2160,
+      "slots": [
+        {
+          "x": 95,
+          "y": 420,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 752,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1096,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1435,
+          "width": 417,
+          "height": 334
+        }
+      ],
+      "bgColor": "#1E4E6E",
+      "footerColor": "#2C6B94",
+      "textColor": "#ffffff",
+      "overlay": "assets/frames/photobooth/pb_frame_06.png",
+      "overlayWebp": "assets/frames/photobooth/pb_frame_06.webp",
+      "thumb": "assets/frames/photobooth/pb_frame_06_thumb.png",
+      "thumbWebp": "assets/frames/photobooth/pb_frame_06_thumb.webp"
     },
     {
-      id: 'pb_vintage_wine',
-      name: 'Vintage Wine Burgundy',
-      badge: '16:9 Cổ điển',
-      description: 'Tông đỏ vang nho nồng ấm hoài niệm với điểm nhấn vàng bơ',
-      aspectRatio: '16:9',
-      width: 560,
-      height: 1320,
-      slots: SLOTS_16_9,
-      bgColor: '#742310',
-      footerColor: '#FEF68B',
-      textColor: '#ffffff',
-      overlay: 'assets/frames/photobooth/pb_vintage_wine.png',
-      thumb: 'assets/frames/photobooth/pb_vintage_wine_thumb.png'
+      "id": "pb_frame_07",
+      "name": "Người lái đò thầm lặng (Thủy mặc)",
+      "badge": "5:4 Thủy mặc",
+      "description": "Phong cách thủy mặc trầm ấm với nét mực thanh thoát khắc họa ơn thầy nghĩa cô",
+      "aspectRatio": "5:4",
+      "width": 600,
+      "height": 2160,
+      "slots": [
+        {
+          "x": 95,
+          "y": 420,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 752,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1096,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1435,
+          "width": 417,
+          "height": 334
+        }
+      ],
+      "bgColor": "#1F1D24",
+      "footerColor": "#4A4652",
+      "textColor": "#ffffff",
+      "overlay": "assets/frames/photobooth/pb_frame_07.png",
+      "overlayWebp": "assets/frames/photobooth/pb_frame_07.webp",
+      "thumb": "assets/frames/photobooth/pb_frame_07_thumb.png",
+      "thumbWebp": "assets/frames/photobooth/pb_frame_07_thumb.webp"
     },
     {
-      id: 'pb_studio_burgundy',
-      name: 'Studio Burgundy Vintage',
-      badge: '4:3 Phim Studio',
-      description: 'Dải phim 4:3 phong cách Studio cổ điển chuẩn quốc tế tông đỏ burgundy quý phái',
-      aspectRatio: '4:3',
-      width: 627,
-      height: 1875,
-      slots: SLOTS_4_3,
-      bgColor: '#460005',
-      footerColor: '#300004',
-      textColor: '#fdf2e9',
-      overlay: 'assets/frames/photobooth/pb_studio_burgundy.png',
-      thumb: 'assets/frames/photobooth/pb_studio_burgundy_thumb.png'
+      "id": "pb_frame_08",
+      "name": "Chắp cánh ước mơ (Đỏ cam)",
+      "badge": "5:4 Đỏ cam",
+      "description": "Tông đỏ cam ấm áp tượng trưng cho niềm tin và nhiệt huyết tuổi trẻ vươn xa",
+      "aspectRatio": "5:4",
+      "width": 600,
+      "height": 2160,
+      "slots": [
+        {
+          "x": 95,
+          "y": 420,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 752,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1096,
+          "width": 417,
+          "height": 334
+        },
+        {
+          "x": 95,
+          "y": 1435,
+          "width": 417,
+          "height": 334
+        }
+      ],
+      "bgColor": "#A92B1C",
+      "footerColor": "#C4641C",
+      "textColor": "#ffffff",
+      "overlay": "assets/frames/photobooth/pb_frame_08.png",
+      "overlayWebp": "assets/frames/photobooth/pb_frame_08.webp",
+      "thumb": "assets/frames/photobooth/pb_frame_08_thumb.png",
+      "thumbWebp": "assets/frames/photobooth/pb_frame_08_thumb.webp"
     }
   ];
 
-  const DEFAULT_STICKERS = [
-    { id: 'postmark_vintage', name: 'Dấu Bưu Điện Cổ', category: 'vintage', file: 'assets/stickers/postmark_vintage.svg', defaultWidth: 110, defaultHeight: 110 },
-    { id: 'stamp_gratitude', name: 'Tem Thư Tri Ân', category: 'vintage', file: 'assets/stickers/stamp_gratitude.svg', defaultWidth: 100, defaultHeight: 118 },
-    { id: 'botanical_branch', name: 'Nhành Hoa Vẽ Tay', category: 'botanical', file: 'assets/stickers/botanical_branch.svg', defaultWidth: 110, defaultHeight: 110 },
-    { id: 'graduation_cap', name: 'Nón Cử Nhân', category: 'school', file: 'assets/stickers/graduation_cap.svg', defaultWidth: 110, defaultHeight: 99 },
-    { id: 'washi_tape_blush', name: 'Băng Dán Hoa Hồng', category: 'washi', file: 'assets/stickers/washi_tape_blush.svg', defaultWidth: 140, defaultHeight: 43 },
-    { id: 'washi_tape_vintage', name: 'Băng Dán Kraft Retro', category: 'washi', file: 'assets/stickers/washi_tape_vintage.svg', defaultWidth: 140, defaultHeight: 43 },
-    { id: 'heart_delicate', name: 'Trái Tim Nét Mảnh', category: 'love', file: 'assets/stickers/heart_delicate.svg', defaultWidth: 90, defaultHeight: 90 },
-    { id: 'calligraphy_trian', name: 'Chữ Tri Ân Thư Pháp', category: 'text', file: 'assets/stickers/calligraphy_trian.svg', defaultWidth: 130, defaultHeight: 54 },
-    { id: 'calligraphy_kyniem', name: 'Chữ Kỷ Niệm Dấu Yêu', category: 'text', file: 'assets/stickers/calligraphy_kyniem.svg', defaultWidth: 130, defaultHeight: 54 },
-    { id: 'badge_2011', name: 'Huy Hiệu 20/11', category: 'school', file: 'assets/stickers/badge_2011.svg', defaultWidth: 100, defaultHeight: 100 },
-    { id: 'sparkle_minimal', name: 'Ánh Sao Lấp Lánh', category: 'decor', file: 'assets/stickers/sparkle_minimal.svg', defaultWidth: 80, defaultHeight: 80 },
-    { id: 'film_roll_mini', name: 'Cuộn Phim 35mm', category: 'vintage', file: 'assets/stickers/film_roll_mini.svg', defaultWidth: 100, defaultHeight: 78 }
+    const DEFAULT_STICKERS = [
+    {
+      "id": "postmark_vintage",
+      "name": "Dấu Bưu Điện Cổ",
+      "category": "vintage",
+      "file": "assets/stickers/postmark_vintage.svg",
+      "defaultWidth": 110,
+      "defaultHeight": 110
+    },
+    {
+      "id": "stamp_gratitude",
+      "name": "Tem Thư Tri Ân",
+      "category": "vintage",
+      "file": "assets/stickers/stamp_gratitude.svg",
+      "defaultWidth": 100,
+      "defaultHeight": 118
+    },
+    {
+      "id": "botanical_branch",
+      "name": "Nhành Hoa Vẽ Tay",
+      "category": "botanical",
+      "file": "assets/stickers/botanical_branch.svg",
+      "defaultWidth": 110,
+      "defaultHeight": 110
+    },
+    {
+      "id": "graduation_cap",
+      "name": "Nón Cử Nhân",
+      "category": "school",
+      "file": "assets/stickers/graduation_cap.svg",
+      "defaultWidth": 110,
+      "defaultHeight": 99
+    },
+    {
+      "id": "washi_tape_blush",
+      "name": "Băng Dán Hoa Hồng",
+      "category": "washi",
+      "file": "assets/stickers/washi_tape_blush.svg",
+      "defaultWidth": 140,
+      "defaultHeight": 43
+    },
+    {
+      "id": "washi_tape_vintage",
+      "name": "Băng Dán Kraft Retro",
+      "category": "washi",
+      "file": "assets/stickers/washi_tape_vintage.svg",
+      "defaultWidth": 140,
+      "defaultHeight": 43
+    },
+    {
+      "id": "heart_delicate",
+      "name": "Trái Tim Nét Mảnh",
+      "category": "love",
+      "file": "assets/stickers/heart_delicate.svg",
+      "defaultWidth": 90,
+      "defaultHeight": 90
+    },
+    {
+      "id": "calligraphy_trian",
+      "name": "Chữ Tri Ân Thư Pháp",
+      "category": "text",
+      "file": "assets/stickers/calligraphy_trian.svg",
+      "defaultWidth": 130,
+      "defaultHeight": 54
+    },
+    {
+      "id": "calligraphy_kyniem",
+      "name": "Chữ Kỷ Niệm Dấu Yêu",
+      "category": "text",
+      "file": "assets/stickers/calligraphy_kyniem.svg",
+      "defaultWidth": 130,
+      "defaultHeight": 54
+    },
+    {
+      "id": "badge_2011",
+      "name": "Huy Hiệu 20/11",
+      "category": "school",
+      "file": "assets/stickers/badge_2011.svg",
+      "defaultWidth": 100,
+      "defaultHeight": 100
+    },
+    {
+      "id": "sparkle_minimal",
+      "name": "Ánh Sao Lấp Lánh",
+      "category": "decor",
+      "file": "assets/stickers/sparkle_minimal.svg",
+      "defaultWidth": 80,
+      "defaultHeight": 80
+    },
+    {
+      "id": "film_roll_mini",
+      "name": "Cuộn Phim 35mm",
+      "category": "vintage",
+      "file": "assets/stickers/film_roll_mini.svg",
+      "defaultWidth": 100,
+      "defaultHeight": 78
+    },
+    {
+      "id": "header_trang_sach",
+      "name": "Tiêu đề: Trang Sách Thanh Xuân",
+      "category": "header",
+      "tags": [
+        "header",
+        "school"
+      ],
+      "file": "assets/stickers/header_trang_sach.svg",
+      "defaultWidth": 230,
+      "defaultHeight": 80
+    },
+    {
+      "id": "header_tri_an",
+      "name": "Tiêu đề: Tri Ân Người Lái Đò",
+      "category": "header",
+      "tags": [
+        "header",
+        "school"
+      ],
+      "file": "assets/stickers/header_tri_an.svg",
+      "defaultWidth": 230,
+      "defaultHeight": 80
+    },
+    {
+      "id": "header_ao_trang",
+      "name": "Tiêu đề: Một Thời Áo Trắng",
+      "category": "header",
+      "tags": [
+        "header",
+        "school"
+      ],
+      "file": "assets/stickers/header_ao_trang.svg",
+      "defaultWidth": 230,
+      "defaultHeight": 80
+    },
+    {
+      "id": "header_mua_ha",
+      "name": "Tiêu đề: Mùa Hạ Năm Ấy",
+      "category": "header",
+      "tags": [
+        "header",
+        "school"
+      ],
+      "file": "assets/stickers/header_mua_ha.svg",
+      "defaultWidth": 230,
+      "defaultHeight": 80
+    },
+    {
+      "id": "header_chao_tuong_lai",
+      "name": "Tiêu đề: Chào Tương Lai",
+      "category": "header",
+      "tags": [
+        "header"
+      ],
+      "file": "assets/stickers/header_chao_tuong_lai.svg",
+      "defaultWidth": 230,
+      "defaultHeight": 80
+    },
+    {
+      "id": "header_chuyen_bay",
+      "name": "Tiêu đề: Chuyến Bay Thanh Xuân",
+      "category": "header",
+      "tags": [
+        "header"
+      ],
+      "file": "assets/stickers/header_chuyen_bay.svg",
+      "defaultWidth": 230,
+      "defaultHeight": 80
+    },
+    {
+      "id": "header_thuy_mac",
+      "name": "Tiêu đề: Người Lái Đò Thầm Lặng",
+      "category": "header",
+      "tags": [
+        "header",
+        "school"
+      ],
+      "file": "assets/stickers/header_thuy_mac.svg",
+      "defaultWidth": 230,
+      "defaultHeight": 80
+    },
+    {
+      "id": "header_chap_canh",
+      "name": "Tiêu đề: Chắp Cánh Ước Mơ",
+      "category": "header",
+      "tags": [
+        "header"
+      ],
+      "file": "assets/stickers/header_chap_canh.svg",
+      "defaultWidth": 230,
+      "defaultHeight": 80
+    },
+    {
+      "id": "icon_hoa_trian",
+      "name": "Bó Hoa Tri Ân 20/11",
+      "category": "middle",
+      "tags": [
+        "middle",
+        "school"
+      ],
+      "file": "assets/stickers/icon_hoa_trian.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_sach_vo",
+      "name": "Sách Vở Học Trò",
+      "category": "middle",
+      "tags": [
+        "middle",
+        "school"
+      ],
+      "file": "assets/stickers/icon_sach_vo.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_non_cunhan_mini",
+      "name": "Nón Cử Nhân Mini",
+      "category": "middle",
+      "tags": [
+        "middle",
+        "school"
+      ],
+      "file": "assets/stickers/icon_non_cunhan_mini.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_but_viet",
+      "name": "Bút Viết Mực Tím",
+      "category": "middle",
+      "tags": [
+        "middle",
+        "school"
+      ],
+      "file": "assets/stickers/icon_but_viet.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_bang_phan",
+      "name": "Bảng Đen Phấn Trắng",
+      "category": "middle",
+      "tags": [
+        "middle",
+        "school"
+      ],
+      "file": "assets/stickers/icon_bang_phan.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_diem_10",
+      "name": "Bông Hoa Điểm 10",
+      "category": "middle",
+      "tags": [
+        "middle",
+        "school"
+      ],
+      "file": "assets/stickers/icon_diem_10.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_huyhieu_nhagiao",
+      "name": "Huy Hiệu Nhà Giáo",
+      "category": "middle",
+      "tags": [
+        "middle",
+        "school"
+      ],
+      "file": "assets/stickers/icon_huyhieu_nhagiao.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_maybay_giay",
+      "name": "Máy Bay Giấy Ước Mơ",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_maybay_giay.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_la_ban",
+      "name": "La Bàn Định Hướng",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_la_ban.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_balo",
+      "name": "Balo Hành Trình",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_balo.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_vali",
+      "name": "Vali Khởi Hành",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_vali.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_ve_maybay",
+      "name": "Vé Chuyến Bay Thanh Xuân",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_ve_maybay.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_mu_totnghiep",
+      "name": "Mũ Tốt Nghiệp Vàng Kim",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_mu_totnghiep.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_qua_diacau",
+      "name": "Quả Địa Cầu Tri Thức",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_qua_diacau.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_nhanh_truc",
+      "name": "Nhành Trúc Thanh Nhã",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_nhanh_truc.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_hoa_sen",
+      "name": "Hoa Sen Thủy Mặc",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_hoa_sen.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_may_luon",
+      "name": "Mây Lượn Cổ Điển",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_may_luon.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_canh_chim",
+      "name": "Cánh Chim Tự Do",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_canh_chim.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_la_nganhanh",
+      "name": "Lá Ngân Hạnh Vàng",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_la_nganhanh.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_song_nuoc",
+      "name": "Sóng Nước Mềm Mại",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_song_nuoc.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "icon_quat_giay",
+      "name": "Quạt Giấy Thư Pháp",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/icon_quat_giay.png",
+      "defaultWidth": 55,
+      "defaultHeight": 55
+    },
+    {
+      "id": "slot_num_01",
+      "name": "Số Ô Ảnh: 01",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/slot_num_01.svg",
+      "defaultWidth": 45,
+      "defaultHeight": 45
+    },
+    {
+      "id": "slot_num_02",
+      "name": "Số Ô Ảnh: 02",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/slot_num_02.svg",
+      "defaultWidth": 45,
+      "defaultHeight": 45
+    },
+    {
+      "id": "slot_num_03",
+      "name": "Số Ô Ảnh: 03",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/slot_num_03.svg",
+      "defaultWidth": 45,
+      "defaultHeight": 45
+    },
+    {
+      "id": "slot_num_04",
+      "name": "Số Ô Ảnh: 04",
+      "category": "middle",
+      "tags": [
+        "middle"
+      ],
+      "file": "assets/stickers/slot_num_04.svg",
+      "defaultWidth": 45,
+      "defaultHeight": 45
+    },
+    {
+      "id": "slot_khung_1_4",
+      "name": "Tem: KHUNG 1 → 4 ♡",
+      "category": "middle",
+      "tags": [
+        "middle",
+        "love"
+      ],
+      "file": "assets/stickers/slot_khung_1_4.svg",
+      "defaultWidth": 120,
+      "defaultHeight": 35
+    },
+    {
+      "id": "footer_barcode_2011",
+      "name": "Mã Vạch Kỷ Niệm 20.11",
+      "category": "footer",
+      "tags": [
+        "footer",
+        "school"
+      ],
+      "file": "assets/stickers/footer_barcode_2011.svg",
+      "defaultWidth": 180,
+      "defaultHeight": 52
+    },
+    {
+      "id": "footer_quote_trian",
+      "name": "Trích Dẫn: Một Chữ Cũng Là Thầy",
+      "category": "footer",
+      "tags": [
+        "footer",
+        "school"
+      ],
+      "file": "assets/stickers/footer_quote_trian.svg",
+      "defaultWidth": 220,
+      "defaultHeight": 55
+    },
+    {
+      "id": "footer_music_kyniem",
+      "name": "Thanh Nhạc: Mong Ước Kỷ Niệm Xưa",
+      "category": "footer",
+      "tags": [
+        "footer",
+        "school"
+      ],
+      "file": "assets/stickers/footer_music_kyniem.svg",
+      "defaultWidth": 220,
+      "defaultHeight": 52
+    },
+    {
+      "id": "footer_qr_album",
+      "name": "Mã QR: Album Kỷ Niệm 2026",
+      "category": "footer",
+      "tags": [
+        "footer"
+      ],
+      "file": "assets/stickers/footer_qr_album.svg",
+      "defaultWidth": 190,
+      "defaultHeight": 58
+    },
+    {
+      "id": "footer_film_iso",
+      "name": "Thông Số Phim ISO 400",
+      "category": "footer",
+      "tags": [
+        "footer",
+        "vintage"
+      ],
+      "file": "assets/stickers/footer_film_iso.svg",
+      "defaultWidth": 190,
+      "defaultHeight": 50
+    },
+    {
+      "id": "footer_rating_stars",
+      "name": "Đánh Giá: 100% Đáng Nhớ",
+      "category": "footer",
+      "tags": [
+        "footer"
+      ],
+      "file": "assets/stickers/footer_rating_stars.svg",
+      "defaultWidth": 180,
+      "defaultHeight": 50
+    },
+    {
+      "id": "footer_seal_ton_su",
+      "name": "Triện Đỏ Thư Pháp: Ơn Thầy Nghĩa Cô",
+      "category": "footer",
+      "tags": [
+        "footer",
+        "school"
+      ],
+      "file": "assets/stickers/footer_seal_ton_su.svg",
+      "defaultWidth": 190,
+      "defaultHeight": 56
+    },
+    {
+      "id": "footer_music_bui_phan",
+      "name": "Thanh Nhạc: Bụi Phấn 20/11",
+      "category": "footer",
+      "tags": [
+        "footer",
+        "school"
+      ],
+      "file": "assets/stickers/footer_music_bui_phan.svg",
+      "defaultWidth": 220,
+      "defaultHeight": 52
+    }
   ];
 
   // -----------------------------------------------------------------
@@ -172,7 +953,7 @@
   const state = {
     frames: DEFAULT_FRAMES,
     stickers: DEFAULT_STICKERS,
-    currentFrameId: 'pb_vintage_kraft',
+    currentFrameId: 'pb_frame_01',
     currentFrame: DEFAULT_FRAMES[0],
     currentStep: 1,
     activeSlotIndex: 0,
@@ -419,8 +1200,8 @@
   function setupFrameSelection() {
     renderFrameCards('all');
 
-    // Filter pills
-    const pills = document.querySelectorAll('.pb-filter-pill');
+    // Filter pills (scoped to step 1)
+    const pills = document.querySelectorAll('#step-panel-1 .pb-filter-pill[data-filter]');
     pills.forEach(pill => {
       pill.addEventListener('click', () => {
         pills.forEach(p => p.classList.remove('active'));
@@ -436,8 +1217,10 @@
     grid.innerHTML = '';
 
     const filtered = state.frames.filter(frame => {
-      if (filter === '16:9') return frame.aspectRatio === '16:9';
-      if (filter === '4:3') return frame.aspectRatio === '4:3';
+      if (!filter || filter === 'all') return true;
+      if (filter === '5:4') return frame.aspectRatio === '5:4';
+      if (filter === 'trian') return ['pb_frame_01', 'pb_frame_02', 'pb_frame_03', 'pb_frame_07'].includes(frame.id);
+      if (filter === 'thanhxuan') return ['pb_frame_04', 'pb_frame_05', 'pb_frame_06', 'pb_frame_08'].includes(frame.id);
       return true;
     });
 
@@ -979,7 +1762,12 @@
 
     const filtered = state.stickers.filter(s => {
       if (!filter || filter === 'all') return true;
-      return s.category === filter;
+      if (s.category === filter) return true;
+      if (Array.isArray(s.categories) && s.categories.includes(filter)) return true;
+      if (Array.isArray(s.tags) && s.tags.includes(filter)) return true;
+      if (filter === 'vintage' && (s.category === 'vintage' || s.category === 'botanical' || s.category === 'love' || s.category === 'text' || s.category === 'decor')) return true;
+      if (filter === 'school' && (s.category === 'school' || (s.tags && s.tags.includes('school')))) return true;
+      return false;
     });
 
     filtered.forEach(st => {
@@ -1373,11 +2161,11 @@
         drawCroppedPhoto(ctx, slot.image, slotX, slotY, slotW, slotH, slot.rotation);
       } else {
         // Draw elegant placeholder
-        ctx.fillStyle = frame.aspectRatio === '4:3' ? '#2d0407' : '#f5ede3';
+        ctx.fillStyle = frame.bgColor ? (frame.bgColor + '26') : '#f5ede3';
         ctx.fillRect(slotX, slotY, slotW, slotH);
 
         // Placeholder text/icon
-        ctx.fillStyle = frame.aspectRatio === '4:3' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
+        ctx.fillStyle = 'rgba(255,255,255,0.45)';
         ctx.font = `600 ${16 * scale}px "${frame.font || 'Be Vietnam Pro'}", sans-serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -1652,7 +2440,7 @@
         if (slot && slot.image) {
           drawCroppedPhoto(exportCtx, slot.image, slotX, slotY, slotW, slotH, slot.rotation);
         } else {
-          exportCtx.fillStyle = frame.aspectRatio === '4:3' ? '#2d0407' : '#f5ede3';
+          exportCtx.fillStyle = frame.bgColor ? (frame.bgColor + '26') : '#f5ede3';
           exportCtx.fillRect(slotX, slotY, slotW, slotH);
         }
 
