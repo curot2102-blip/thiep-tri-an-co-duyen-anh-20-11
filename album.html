@@ -382,6 +382,113 @@
       word-break: break-word;
     }
 
+    /* BANNER HƯỚNG DẪN KHUNG PHIM 35MM (F8) */
+    .album-guide-banner {
+      max-width: 1200px;
+      margin: 0 auto 24px auto;
+      background: rgba(14, 18, 27, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-left: 3px solid var(--accent-gold);
+      border-radius: 8px;
+      padding: 12px 16px;
+      box-sizing: border-box;
+      backdrop-filter: blur(8px);
+    }
+
+    .guide-banner-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .guide-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent-gold-light);
+      letter-spacing: 0.3px;
+    }
+
+    .guide-text {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: var(--text-sub);
+    }
+
+    .guide-text strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    /* THẺ LỒNG KHUNG PHIM 1 ẢNH (F8) */
+    .film-card.single-frame-card {
+      background: #080a11;
+      border: 1px solid var(--border-film);
+      border-radius: 8px;
+    }
+
+    .film-composite-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1792 / 2400;
+      background: #030408;
+      overflow: hidden;
+      border-radius: 7px 7px 0 0;
+    }
+
+    .film-photo-slot {
+      position: absolute;
+      top: 9.083%;
+      left: 5.580%;
+      width: 88.839%;
+      height: 49.833%;
+      z-index: 1;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .film-photo-inner {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .film-card:hover .film-photo-inner {
+      transform: scale(1.025);
+    }
+
+    .film-frame-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      z-index: 2;
+      pointer-events: none;
+      display: block;
+    }
+
+    .metadata-frame-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      color: var(--accent-gold);
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 4px;
+      padding: 4px 8px;
+      width: fit-content;
+    }
+
     /* Trạng thái trống (Không có ảnh) */
     .empty-state {
       grid-column: 1 / -1;
@@ -445,6 +552,61 @@
       align-items: center;
       gap: 16px;
       position: relative;
+    }
+
+    .lightbox-media-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 88vw;
+      max-height: 72vh;
+      max-height: 72dvh;
+    }
+
+    .lightbox-framed-box {
+      position: relative;
+      width: min(88vw, 420px);
+      aspect-ratio: 1792 / 2400;
+      max-height: 72vh;
+      max-height: 72dvh;
+      margin: 0 auto;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #05070d;
+    }
+
+    .lightbox-framed-slot {
+      position: absolute;
+      top: 9.083%;
+      left: 5.580%;
+      width: 88.839%;
+      height: 49.833%;
+      z-index: 1;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-framed-inner {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lightbox-framed-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      z-index: 2;
+      pointer-events: none;
+      display: block;
     }
 
     .lightbox-img {
@@ -514,6 +676,47 @@
       background: #ef4444;
       border-color: #ef4444;
       transform: scale(1.1);
+    }
+
+    .lightbox-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      background: rgba(18, 22, 34, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .lightbox-nav-btn:hover {
+      background: rgba(245, 158, 11, 0.25);
+      border-color: var(--accent-gold);
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .lightbox-nav-btn.prev {
+      left: -60px;
+    }
+
+    .lightbox-nav-btn.next {
+      right: -60px;
+    }
+
+    @media (max-width: 768px) {
+      .lightbox-nav-btn.prev {
+        left: 8px;
+      }
+      .lightbox-nav-btn.next {
+        right: 8px;
+      }
     }
 
     /* Toast thông báo */
@@ -651,6 +854,14 @@
     </a>
 
     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <a href="photobooth.html" class="nav-btn" style="border-color: var(--border-gold); color: var(--accent-gold-light);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="3"></rect>
+          <line x1="8" y1="2" x2="8" y2="22"></line>
+          <line x1="16" y1="2" x2="16" y2="22"></line>
+        </svg>
+        <span>Chụp Photobooth 4 ô</span>
+      </a>
       <a href="donggop.html" class="nav-btn primary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -702,6 +913,23 @@
     </div>
   </section>
 
+  <!-- Thanh ghi chú hướng dẫn lồng khung phim 35mm trang nhã (F8) -->
+  <section class="album-guide-banner" aria-label="Hướng dẫn xem cuốn phim kỷ niệm">
+    <div class="guide-banner-inner">
+      <div class="guide-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span>Khung phim kỷ niệm 35mm độc bản</span>
+      </div>
+      <p class="guide-text">
+        Mỗi bức ảnh kỷ niệm dưới đây được lưu giữ trong những mẫu <strong>khung phim 1 ảnh 35mm</strong> do chính bạn học trò lựa chọn khi đóng góp (hoặc định dạng cuộn phim cổ điển). Chạm vào bất kỳ khung ảnh nào để phóng to và ngắm trọn vẹn lời nhắn yêu thương gửi đến Cô.
+      </p>
+    </div>
+  </section>
+
   <!-- Lưới hiển thị các khung phim 35mm hoài niệm -->
   <main class="film-grid" id="film-grid">
     <!-- Render động các khung phim từ Google Sheets & localStorage -->
@@ -711,7 +939,30 @@
   <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true">
     <div class="lightbox-wrapper">
       <button id="lightbox-close-btn" class="lightbox-close-btn" aria-label="Đóng ảnh">✕</button>
-      <img id="lightbox-img" class="lightbox-img" src="" alt="Ảnh kỷ niệm phóng to">
+      <button id="lightbox-prev-btn" class="lightbox-nav-btn prev" aria-label="Ảnh trước" onclick="showPrevPhoto()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button id="lightbox-next-btn" class="lightbox-nav-btn next" aria-label="Ảnh tiếp theo" onclick="showNextPhoto()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+      
+      <!-- Vùng hiển thị ảnh (Hỗ trợ cả ảnh lồng khung phim và ảnh tiêu chuẩn) -->
+      <div class="lightbox-media-container" id="lightbox-media-container">
+        <!-- Chế độ 1: Lồng khung phim 1 ảnh -->
+        <div class="lightbox-framed-box" id="lightbox-framed-box" style="display: none;">
+          <div class="lightbox-framed-slot">
+            <img id="lightbox-framed-inner" class="lightbox-framed-inner" src="" alt="Ảnh kỷ niệm phóng to">
+          </div>
+          <img id="lightbox-framed-overlay" class="lightbox-framed-overlay" src="" alt="Khung phim kỷ niệm">
+        </div>
+        <!-- Chế độ 2: Ảnh nguyên bản tiêu chuẩn -->
+        <img id="lightbox-img" class="lightbox-img" src="" alt="Ảnh kỷ niệm phóng to">
+      </div>
+
       <div class="lightbox-caption-card">
         <div class="lightbox-author" id="lightbox-author"></div>
         <div class="lightbox-time" id="lightbox-time"></div>
@@ -778,7 +1029,18 @@
     /* ===================================================================
        QUẢN LÝ DỮ LIỆU & RENDER LƯỚI KHUNG PHIM
        =================================================================== */
+    const FRAME_NAMES = {
+      'none': 'Không khung',
+      'film_frame_olive': 'Xanh rêu hoài niệm',
+      'film_frame_sepia': 'Nâu ấm cà phê',
+      'film_frame_navy': 'Xanh navy điện ảnh',
+      'film_frame_pop': 'Retro rực rỡ',
+      'film_frame_sky': 'Xanh trời thanh xuân',
+      'film_frame_terracotta': 'Hồng đất dịu dàng'
+    };
     let allPhotos = [];
+    let currentFilteredPhotos = [];
+    let currentLightboxIndex = 0;
 
     function getLocalPhotos() {
       try {
@@ -812,6 +1074,8 @@
             (p.caption && p.caption.toLowerCase().includes(query))
           )
         : validPhotos;
+
+      currentFilteredPhotos = filtered;
 
       if (statText) {
         statText.textContent = `${filtered.length} khoảnh khắc thanh xuân`;
@@ -852,8 +1116,69 @@
           imgSrc += '&sz=w1200';
         }
 
+        // Kiểm tra xem ảnh có chọn mẫu khung phim 1 ảnh hay không (F8)
+        if (photo.frameId && photo.frameId !== 'none') {
+          const frameName = escapeHtml(FRAME_NAMES[photo.frameId] || 'Khung phim 35mm');
+          return `
+            <article class="film-card single-frame-card" data-idx="${index}" onclick="openPhotoLightbox(${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPhotoLightbox(${index});}" tabindex="0" role="button" aria-label="Xem ảnh từ ${authorSafe}">
+              <!-- Vùng hiển thị lồng khung phim 1 ảnh (F8) -->
+              <div class="film-composite-wrapper">
+                <div class="film-photo-slot">
+                  <img 
+                    src="${imgSrc}" 
+                    alt="Ảnh kỷ niệm từ ${authorSafe}" 
+                    class="film-photo-inner" 
+                    loading="lazy" 
+                    decoding="async"
+                    onerror="handleImageError(this, '${escapeHtml(photo.image)}')"
+                  >
+                </div>
+                <img 
+                  src="assets/frames/film/${escapeHtml(photo.frameId)}.png" 
+                  alt="${frameName}" 
+                  class="film-frame-overlay"
+                  loading="lazy"
+                >
+                <div class="zoom-overlay-hint">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                  </svg>
+                  <span>Xem ảnh</span>
+                </div>
+              </div>
+
+              <!-- Bảng thông tin người đăng -->
+              <div class="film-metadata-plate">
+                <div class="metadata-author-row">
+                  <div class="author-name-tag">
+                    <svg class="author-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>${authorSafe}</span>
+                  </div>
+                  <div class="metadata-time">${timeSafe}</div>
+                </div>
+                ${captionSafe ? `<div class="metadata-caption">&ldquo;${captionSafe}&rdquo;</div>` : ''}
+                <div class="metadata-frame-tag">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="20" rx="2"></rect>
+                    <line x1="7" y1="2" x2="7" y2="22"></line>
+                    <line x1="17" y1="2" x2="17" y2="22"></line>
+                  </svg>
+                  <span>${frameName}</span>
+                </div>
+              </div>
+            </article>
+          `;
+        }
+
+        // Định dạng cuộn phim 35mm tiêu chuẩn (nếu không chọn khung hoặc chọn 'none')
         return `
-          <article class="film-card" data-idx="${index}" onclick="openPhotoLightbox(${index})">
+          <article class="film-card" data-idx="${index}" onclick="openPhotoLightbox(${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPhotoLightbox(${index});}" tabindex="0" role="button" aria-label="Xem ảnh từ ${authorSafe}">
             <!-- Dải răng cưa trên -->
             <div class="film-sprocket-bar">
               <span class="sprocket-code">KODAK 500T</span>
@@ -950,7 +1275,13 @@
             remotePhotos.forEach(p => {
               if (p && p.id && !deletedIds.includes(p.id)) {
                 const key = (p.id || '') + '_' + (p.image ? p.image.substring(p.image.length - 35) : Math.random());
-                photoMap.set(key, p);
+                const existing = photoMap.get(key);
+                const merged = Object.assign({}, existing || {}, p);
+                // Giữ lại frameId được chọn cục bộ nếu bản ghi từ server chưa có
+                if (existing && existing.frameId && (!p.frameId || p.frameId === 'none')) {
+                  merged.frameId = existing.frameId;
+                }
+                photoMap.set(key, merged);
               }
             });
 
@@ -969,16 +1300,40 @@
        =================================================================== */
     const modal = document.getElementById('lightbox-modal');
     const modalImg = document.getElementById('lightbox-img');
+    const modalFramedBox = document.getElementById('lightbox-framed-box');
+    const modalFramedInner = document.getElementById('lightbox-framed-inner');
+    const modalFramedOverlay = document.getElementById('lightbox-framed-overlay');
     const modalAuthor = document.getElementById('lightbox-author');
     const modalTime = document.getElementById('lightbox-time');
     const modalNote = document.getElementById('lightbox-note');
     const closeBtn = document.getElementById('lightbox-close-btn');
 
     function openPhotoLightbox(index) {
-      const photo = allPhotos[index];
+      currentLightboxIndex = index;
+      const photo = (currentFilteredPhotos && currentFilteredPhotos[index]) ? currentFilteredPhotos[index] : allPhotos[index];
       if (!photo || !photo.image) return;
 
-      modalImg.src = photo.image;
+      let imgSrc = photo.image;
+      if (imgSrc.includes('drive.google.com/thumbnail') && !imgSrc.includes('sz=')) {
+        imgSrc += '&sz=w1200';
+      }
+
+      // Hỗ trợ hiển thị phóng to kèm khung phim nếu có frameId (F8)
+      if (photo.frameId && photo.frameId !== 'none') {
+        if (modalFramedBox && modalFramedInner && modalFramedOverlay) {
+          modalFramedInner.src = imgSrc;
+          modalFramedOverlay.src = `assets/frames/film/${photo.frameId}.png`;
+          modalFramedBox.style.display = 'block';
+        }
+        if (modalImg) modalImg.style.display = 'none';
+      } else {
+        if (modalFramedBox) modalFramedBox.style.display = 'none';
+        if (modalImg) {
+          modalImg.src = imgSrc;
+          modalImg.style.display = 'block';
+        }
+      }
+
       modalAuthor.textContent = `Người gửi: ${photo.author || 'Bạn học trò'}`;
       modalTime.textContent = `Thời gian đăng: ${photo.time || 'Kỷ niệm thanh xuân'}`;
 
@@ -993,21 +1348,49 @@
       modal.setAttribute('aria-hidden', 'false');
     }
 
+    function showNextPhoto() {
+      const list = (currentFilteredPhotos && currentFilteredPhotos.length > 0) ? currentFilteredPhotos : allPhotos;
+      if (!list || list.length === 0) return;
+      currentLightboxIndex = (currentLightboxIndex + 1) % list.length;
+      openPhotoLightbox(currentLightboxIndex);
+    }
+
+    function showPrevPhoto() {
+      const list = (currentFilteredPhotos && currentFilteredPhotos.length > 0) ? currentFilteredPhotos : allPhotos;
+      if (!list || list.length === 0) return;
+      currentLightboxIndex = (currentLightboxIndex - 1 + list.length) % list.length;
+      openPhotoLightbox(currentLightboxIndex);
+    }
+
     function closeLightbox() {
       modal.classList.remove('active');
       modal.setAttribute('aria-hidden', 'true');
-      setTimeout(() => { modalImg.src = ''; }, 200);
+      setTimeout(() => {
+        if (modalImg) modalImg.src = '';
+        if (modalFramedInner) modalFramedInner.src = '';
+        if (modalFramedOverlay) modalFramedOverlay.src = '';
+      }, 200);
     }
 
     if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    const prevBtn = document.getElementById('lightbox-prev-btn');
+    const nextBtn = document.getElementById('lightbox-next-btn');
+    if (prevBtn) prevBtn.addEventListener('click', showPrevPhoto);
+    if (nextBtn) nextBtn.addEventListener('click', showNextPhoto);
+
     if (modal) {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) closeLightbox();
       });
     }
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
+      if (!modal || !modal.classList.contains('active')) return;
+      if (e.key === 'Escape') {
         closeLightbox();
+      } else if (e.key === 'ArrowRight') {
+        showNextPhoto();
+      } else if (e.key === 'ArrowLeft') {
+        showPrevPhoto();
       }
     });
 

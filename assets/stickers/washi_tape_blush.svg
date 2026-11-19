@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 80" width="260" height="80">
+  <path d="M10 20 L250 20 L245 60 L15 60 Z" fill="#fecdd3" fill-opacity="0.88" stroke="#fb7185" stroke-width="1"/>
+  <path d="M10 20 L15 28 L9 36 L16 45 L11 53 L15 60" stroke="#f43f5e" stroke-width="1" fill="none" opacity="0.6"/>
+  <path d="M250 20 L244 28 L251 36 L243 45 L249 53 L245 60" stroke="#f43f5e" stroke-width="1" fill="none" opacity="0.6"/>
+  <circle cx="40" cy="40" r="3" fill="#ffffff" opacity="0.8"/>
+  <circle cx="80" cy="35" r="4" fill="#ffffff" opacity="0.8"/>
+  <circle cx="120" cy="45" r="3" fill="#ffffff" opacity="0.8"/>
+  <circle cx="160" cy="36" r="4" fill="#ffffff" opacity="0.8"/>
+  <circle cx="200" cy="42" r="3" fill="#ffffff" opacity="0.8"/>
+  <text x="130" y="44" font-family="'Dancing Script', cursive" font-size="14" font-weight="700" fill="#be123c" text-anchor="middle">nhớ mãi ơn Cô</text>
+</svg>

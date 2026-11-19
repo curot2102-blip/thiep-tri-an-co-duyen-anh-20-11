@@ -53,7 +53,8 @@ function doGet(e) {
       var hearts = getHeartsFromSheet(ss);
       return createJsonResponse({
         status: "success",
-        hearts: hearts
+        hearts: hearts,
+        serverTime: new Date().toISOString()
       }, callback);
     }
 
@@ -249,6 +250,7 @@ function handleAddPhoto(ss, payload) {
   var author = (payload.author || "").toString().trim() || "Bạn học trò";
   var caption = (payload.caption || "").toString().trim();
   var aspect = payload.aspect || "landscape";
+  var frameId = (payload.frameId || payload.frame || "none").toString().trim();
   var time = (payload.time || "").toString().trim() || Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm");
   var rawImage = payload.image || "";
   var imageUrl = "";
@@ -260,7 +262,7 @@ function handleAddPhoto(ss, payload) {
   imageUrl = processImageStorage(rawImage, "photo_" + id, author);
   var receivedAt = Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss");
 
-  // Ghi hàng mới vào trang tính: ID | Thời Gian | Người Đóng Góp | Ghi Chú | URL Ảnh | Định Dạng | Thời Điểm Nhận
+  // Ghi hàng mới vào trang tính: ID | Thời Gian | Người Đóng Góp | Ghi Chú | URL Ảnh | Định Dạng | Thời Điểm Nhận | Mã Khung Phim
   // Khử độc formula injection nếu nội dung bắt đầu bằng =, +, -, @
   sheet.appendRow([
     id,
@@ -269,7 +271,8 @@ function handleAddPhoto(ss, payload) {
     sanitizeSpreadsheetCell(caption),
     imageUrl,
     aspect,
-    receivedAt
+    receivedAt,
+    frameId
   ]);
 
   return {
@@ -278,7 +281,8 @@ function handleAddPhoto(ss, payload) {
     author: author,
     caption: caption,
     image: imageUrl,
-    aspect: aspect
+    aspect: aspect,
+    frameId: frameId
   };
 }
 
@@ -416,7 +420,8 @@ function readPhotosFromSheet(ss) {
     sheet.insertColumnsAfter(sheet.getMaxColumns(), 7 - sheet.getMaxColumns());
   }
 
-  var data = sheet.getRange(2, 1, lastRow - 1, 7).getValues();
+  var maxCols = Math.max(sheet.getLastColumn() || 7, 7);
+  var data = sheet.getRange(2, 1, lastRow - 1, maxCols).getValues();
   var photos = [];
 
   for (var i = 0; i < data.length; i++) {
@@ -433,6 +438,8 @@ function readPhotosFromSheet(ss) {
     var caption = unsanitizeSpreadsheetCell(String(row[3] || "").trim());
     var image = String(row[4] || "").trim();
     var aspect = String(row[5] || "").trim() || "landscape";
+    var frameId = (row.length >= 8 && row[7]) ? String(row[7]).trim() : "none";
+    if (!frameId) frameId = "none";
 
     // Bỏ qua dòng trống không có ảnh
     if (!image) {
@@ -454,7 +461,8 @@ function readPhotosFromSheet(ss) {
         author: author,
         caption: caption,
         image: image,
-        aspect: aspect
+        aspect: aspect,
+        frameId: frameId
       });
     }
   }
@@ -568,7 +576,8 @@ function initSheetsIfNeeded(ss) {
       "Ghi Chú",
       "URL / Dữ Liệu Hình Ảnh",
       "Định Dạng (Aspect)",
-      "Thời Điểm Nhận Hệ Thống"
+      "Thời Điểm Nhận Hệ Thống",
+      "Mã Khung Phim"
     ];
     photoSheet.appendRow(photoHeaders);
 
@@ -614,48 +623,86 @@ function getHeartsFromSheet(ss) {
 }
 
 /**
- * Tăng lượt tim và lưu vào trang tính Hearts
+ * Tăng lượt tim và lưu vào trang tính Hearts với cơ chế khóa độc quyền (LockService)
+ * chống Race Condition khi nhiều thiết bị thả tim đồng thời.
  */
 function incrementHeartsInSheet(ss, increment) {
-  var sheet = ss.getSheetByName(SHEET_HEARTS);
-  if (!sheet) {
-    initSheetsIfNeeded(ss);
-    sheet = ss.getSheetByName(SHEET_HEARTS);
+  var lock = LockService.getScriptLock();
+  var lockAcquired = false;
+  try {
+    // Chờ tối đa 10 giây để lấy khóa độc quyền
+    lock.waitLock(10000);
+    lockAcquired = true;
+  } catch (lockErr) {
+    Logger.log("Cảnh báo: Không thể lấy LockService trong 10s: " + lockErr.toString());
   }
-  if (!sheet || sheet.getLastRow() < 2) {
-    initSheetsIfNeeded(ss);
-    sheet = ss.getSheetByName(SHEET_HEARTS);
-  }
-  var val = (sheet && sheet.getLastRow() >= 2) ? sheet.getRange(2, 2).getValue() : 0;
-  var current = parseInt(val, 10);
-  if (isNaN(current)) current = 0;
-  var inc = parseInt(increment, 10);
-  if (isNaN(inc) || inc <= 0) inc = 1;
-  var newTotal = current + inc;
 
-  sheet.getRange(2, 2).setValue(newTotal);
-  sheet.getRange(2, 3).setValue(Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss"));
-  return newTotal;
+  try {
+    var sheet = ss.getSheetByName(SHEET_HEARTS);
+    if (!sheet) {
+      initSheetsIfNeeded(ss);
+      sheet = ss.getSheetByName(SHEET_HEARTS);
+    }
+    if (!sheet || sheet.getLastRow() < 2) {
+      initSheetsIfNeeded(ss);
+      sheet = ss.getSheetByName(SHEET_HEARTS);
+    }
+    var val = (sheet && sheet.getLastRow() >= 2) ? sheet.getRange(2, 2).getValue() : 0;
+    var current = parseInt(val, 10);
+    if (isNaN(current)) current = 0;
+    var inc = parseInt(increment, 10);
+    if (isNaN(inc) || inc <= 0) inc = 1;
+    var newTotal = current + inc;
+
+    sheet.getRange(2, 2).setValue(newTotal);
+    sheet.getRange(2, 3).setValue(Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss"));
+    SpreadsheetApp.flush(); // Đẩy dữ liệu ngay lập tức xuống sheet
+    return newTotal;
+  } finally {
+    if (lockAcquired) {
+      try {
+        lock.releaseLock();
+      } catch (releaseErr) {}
+    }
+  }
 }
 
 /**
- * Đặt lại tổng lượt tim về 0 trong trang tính Hearts
+ * Đặt lại tổng lượt tim về 0 trong trang tính Hearts với cơ chế khóa độc quyền (LockService)
  */
 function resetHeartsInSheet(ss) {
-  var sheet = ss.getSheetByName(SHEET_HEARTS);
-  if (!sheet) {
-    initSheetsIfNeeded(ss);
-    sheet = ss.getSheetByName(SHEET_HEARTS);
+  var lock = LockService.getScriptLock();
+  var lockAcquired = false;
+  try {
+    lock.waitLock(10000);
+    lockAcquired = true;
+  } catch (lockErr) {
+    Logger.log("Cảnh báo: Không thể lấy LockService trong 10s: " + lockErr.toString());
   }
-  if (!sheet || sheet.getLastRow() < 2) {
-    initSheetsIfNeeded(ss);
-    sheet = ss.getSheetByName(SHEET_HEARTS);
+
+  try {
+    var sheet = ss.getSheetByName(SHEET_HEARTS);
+    if (!sheet) {
+      initSheetsIfNeeded(ss);
+      sheet = ss.getSheetByName(SHEET_HEARTS);
+    }
+    if (!sheet || sheet.getLastRow() < 2) {
+      initSheetsIfNeeded(ss);
+      sheet = ss.getSheetByName(SHEET_HEARTS);
+    }
+    if (sheet && sheet.getLastRow() >= 2) {
+      sheet.getRange(2, 2).setValue(0);
+      sheet.getRange(2, 3).setValue(Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss"));
+      SpreadsheetApp.flush();
+    }
+    return 0;
+  } finally {
+    if (lockAcquired) {
+      try {
+        lock.releaseLock();
+      } catch (releaseErr) {}
+    }
   }
-  if (sheet && sheet.getLastRow() >= 2) {
-    sheet.getRange(2, 2).setValue(0);
-    sheet.getRange(2, 3).setValue(Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd HH:mm:ss"));
-  }
-  return 0;
 }
 
 /**

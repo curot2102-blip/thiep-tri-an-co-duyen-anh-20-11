@@ -1,0 +1,98 @@
+[
+  {
+    "id": "postmark_vintage",
+    "name": "Dấu Bưu Điện Cổ",
+    "category": "vintage",
+    "file": "assets/stickers/postmark_vintage.svg",
+    "defaultWidth": 110,
+    "defaultHeight": 110
+  },
+  {
+    "id": "stamp_gratitude",
+    "name": "Tem Thư Tri Ân",
+    "category": "vintage",
+    "file": "assets/stickers/stamp_gratitude.svg",
+    "defaultWidth": 100,
+    "defaultHeight": 118
+  },
+  {
+    "id": "botanical_branch",
+    "name": "Nhành Hoa Vẽ Tay",
+    "category": "botanical",
+    "file": "assets/stickers/botanical_branch.svg",
+    "defaultWidth": 110,
+    "defaultHeight": 110
+  },
+  {
+    "id": "graduation_cap",
+    "name": "Nón Cử Nhân",
+    "category": "school",
+    "file": "assets/stickers/graduation_cap.svg",
+    "defaultWidth": 110,
+    "defaultHeight": 99
+  },
+  {
+    "id": "washi_tape_blush",
+    "name": "Băng Dán Hoa Hồng",
+    "category": "washi",
+    "file": "assets/stickers/washi_tape_blush.svg",
+    "defaultWidth": 140,
+    "defaultHeight": 43
+  },
+  {
+    "id": "washi_tape_vintage",
+    "name": "Băng Dán Kraft Retro",
+    "category": "washi",
+    "file": "assets/stickers/washi_tape_vintage.svg",
+    "defaultWidth": 140,
+    "defaultHeight": 43
+  },
+  {
+    "id": "heart_delicate",
+    "name": "Trái Tim Nét Mảnh",
+    "category": "love",
+    "file": "assets/stickers/heart_delicate.svg",
+    "defaultWidth": 90,
+    "defaultHeight": 90
+  },
+  {
+    "id": "calligraphy_trian",
+    "name": "Chữ Tri Ân Thư Pháp",
+    "category": "text",
+    "file": "assets/stickers/calligraphy_trian.svg",
+    "defaultWidth": 130,
+    "defaultHeight": 54
+  },
+  {
+    "id": "calligraphy_kyniem",
+    "name": "Chữ Kỷ Niệm Dấu Yêu",
+    "category": "text",
+    "file": "assets/stickers/calligraphy_kyniem.svg",
+    "defaultWidth": 130,
+    "defaultHeight": 54
+  },
+  {
+    "id": "badge_2011",
+    "name": "Huy Hiệu 20/11",
+    "category": "school",
+    "file": "assets/stickers/badge_2011.svg",
+    "defaultWidth": 100,
+    "defaultHeight": 100
+  },
+  {
+    "id": "sparkle_minimal",
+    "name": "Ánh Sao Lấp Lánh",
+    "category": "decor",
+    "file": "assets/stickers/sparkle_minimal.svg",
+    "defaultWidth": 80,
+    "defaultHeight": 80
+  },
+  {
+    "id": "film_roll_mini",
+    "name": "Cuộn Phim 35mm",
+    "category": "vintage",
+    "file": "assets/stickers/film_roll_mini.svg",
+    "defaultWidth": 100,
+    "defaultHeight": 78
+  }
+]

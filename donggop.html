@@ -705,6 +705,162 @@
       background: #dc2626;
     }
 
+    /* Visual Frame Selector (F7) */
+    .frame-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .frame-option-card {
+      background: #080b12;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.15s ease, background 0.15s ease;
+      color: inherit;
+      font-family: inherit;
+      outline: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .frame-option-card:focus-visible {
+      outline: 2px solid var(--accent-gold);
+      outline-offset: 2px;
+    }
+
+    .frame-option-card:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: rgba(245, 158, 11, 0.04);
+    }
+
+    .frame-option-card.selected {
+      border-color: var(--accent-gold);
+      background: rgba(245, 158, 11, 0.08);
+      box-shadow: 0 0 0 1px var(--accent-gold);
+    }
+
+    .frame-thumb-box {
+      width: 100%;
+      aspect-ratio: 1792 / 2400;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #020408;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .frame-thumb-box.no-frame {
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      flex-direction: column;
+      gap: 4px;
+      color: var(--text-muted);
+    }
+
+    .frame-thumb-box.no-frame svg {
+      opacity: 0.6;
+    }
+
+    .frame-thumb-box .no-frame-text {
+      font-size: 0.625rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .frame-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .frame-option-name {
+      font-size: 0.6875rem;
+      color: var(--text-sub);
+      margin-top: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+      line-height: 1.2;
+    }
+
+    .frame-option-card.selected .frame-option-name {
+      color: var(--accent-gold-light);
+      font-weight: 600;
+    }
+
+    /* Live Preview with Frame (F7) */
+    .preview-card.has-frame {
+      aspect-ratio: 1792 / 2400 !important;
+      background: #04060a;
+    }
+
+    .preview-film-composite {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .preview-film-slot {
+      position: absolute;
+      top: 9.083%;
+      left: 5.580%;
+      width: 88.839%;
+      height: 49.833%;
+      z-index: 1;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .preview-film-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-film-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      z-index: 2;
+      pointer-events: none;
+      display: block;
+    }
+
+    .preview-card-frame-tag {
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      right: 4px;
+      padding: 4px 8px;
+      background: rgba(10, 14, 22, 0.88);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      font-size: 0.625rem;
+      color: var(--text-sub);
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 3;
+      pointer-events: none;
+    }
+
     /* Tabs điều hướng trong Admin Dashboard */
     .admin-nav-tabs {
       display: flex;
@@ -992,6 +1148,15 @@
       <span>Xem album 35mm</span>
     </a>
 
+    <a href="photobooth.html" class="nav-btn" style="border-color: var(--border-gold); color: var(--accent-gold-light);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="20" height="20" rx="3"></rect>
+        <line x1="8" y1="2" x2="8" y2="22"></line>
+        <line x1="16" y1="2" x2="16" y2="22"></line>
+      </svg>
+      <span>Chụp Photobooth 4 ô</span>
+    </a>
+
     <button id="btn-open-admin" class="nav-btn admin-pill" title="Khu vực Quản trị dành cho Trưởng nhóm">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -1068,6 +1233,72 @@
         <div class="form-group">
           <label class="form-label" for="photo-caption-input">Lời nhắn / chú thích khoảnh khắc (tùy chọn)</label>
           <input type="text" id="photo-caption-input" class="form-input" placeholder="Kỷ niệm ngày bế giảng, giờ học Toán vui vẻ,...">
+        </div>
+
+        <!-- BỘ CHỌN KHUNG PHIM 1 ẢNH (F7) -->
+        <div class="form-group" id="frame-selector-group">
+          <label class="form-label">
+            Chọn mẫu khung phim 1 ảnh kỷ niệm <span class="form-optional" style="font-size:0.75rem; color:var(--text-sub); font-weight:normal;">(Tùy chọn)</span>
+          </label>
+          <p class="form-hint" style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 8px; line-height: 1.4;">
+            Mẫu khung bạn chọn sẽ được lồng trang trọng vào ảnh khi xuất hiện trong Cuốn phim kỷ niệm (Album ảnh). Trên cuộn phim 35mm trang chính, ảnh vẫn hiển thị nguyên bản.
+          </p>
+          <div class="frame-options-grid" id="frame-options-grid" role="radiogroup" aria-label="Chọn khung phim 35mm">
+            <button type="button" class="frame-option-card selected" data-frame="none" role="radio" aria-checked="true" tabindex="0" title="Không khung (Ảnh nguyên bản)">
+              <div class="frame-thumb-box no-frame">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                <span class="no-frame-text">Gốc</span>
+              </div>
+              <div class="frame-option-name">Không khung</div>
+            </button>
+
+            <button type="button" class="frame-option-card" data-frame="film_frame_olive" role="radio" aria-checked="false" tabindex="-1" title="Xanh rêu hoài niệm">
+              <div class="frame-thumb-box">
+                <img src="assets/frames/film/film_frame_olive_thumb.webp" class="frame-thumb-img" alt="Xanh rêu" loading="lazy">
+              </div>
+              <div class="frame-option-name">Xanh rêu</div>
+            </button>
+
+            <button type="button" class="frame-option-card" data-frame="film_frame_sepia" role="radio" aria-checked="false" tabindex="-1" title="Nâu ấm cà phê">
+              <div class="frame-thumb-box">
+                <img src="assets/frames/film/film_frame_sepia_thumb.webp" class="frame-thumb-img" alt="Nâu ấm" loading="lazy">
+              </div>
+              <div class="frame-option-name">Nâu ấm</div>
+            </button>
+
+            <button type="button" class="frame-option-card" data-frame="film_frame_navy" role="radio" aria-checked="false" tabindex="-1" title="Xanh navy điện ảnh">
+              <div class="frame-thumb-box">
+                <img src="assets/frames/film/film_frame_navy_thumb.webp" class="frame-thumb-img" alt="Xanh navy" loading="lazy">
+              </div>
+              <div class="frame-option-name">Xanh navy</div>
+            </button>
+
+            <button type="button" class="frame-option-card" data-frame="film_frame_pop" role="radio" aria-checked="false" tabindex="-1" title="Retro rực rỡ">
+              <div class="frame-thumb-box">
+                <img src="assets/frames/film/film_frame_pop_thumb.webp" class="frame-thumb-img" alt="Retro pop" loading="lazy">
+              </div>
+              <div class="frame-option-name">Retro pop</div>
+            </button>
+
+            <button type="button" class="frame-option-card" data-frame="film_frame_sky" role="radio" aria-checked="false" tabindex="-1" title="Xanh trời thanh xuân">
+              <div class="frame-thumb-box">
+                <img src="assets/frames/film/film_frame_sky_thumb.webp" class="frame-thumb-img" alt="Xanh trời" loading="lazy">
+              </div>
+              <div class="frame-option-name">Xanh trời</div>
+            </button>
+
+            <button type="button" class="frame-option-card" data-frame="film_frame_terracotta" role="radio" aria-checked="false" tabindex="-1" title="Hồng đất dịu dàng">
+              <div class="frame-thumb-box">
+                <img src="assets/frames/film/film_frame_terracotta_thumb.webp" class="frame-thumb-img" alt="Hồng đất" loading="lazy">
+              </div>
+              <div class="frame-option-name">Hồng đất</div>
+            </button>
+          </div>
+          <input type="hidden" id="selected-frame-input" name="selected_frame" value="none">
         </div>
 
         <div class="form-group">
@@ -1711,6 +1942,7 @@
               caption: p.caption || '',
               image: p.image,
               aspect: p.aspect || 'landscape',
+              frameId: p.frameId || 'none',
               time: p.time
             })
           });
@@ -1771,6 +2003,7 @@
               caption: p.caption || '',
               image: p.image,
               aspect: p.aspect || 'landscape',
+              frameId: p.frameId || 'none',
               time: p.time
             })
           });
@@ -1884,6 +2117,7 @@
       setInterval(syncWishesFromRemote, 15000);
 
       initTabs();
+      initFrameSelector();
       initMultiPhotoUpload();
       initWishForm();
       initPhotoForm();
@@ -1913,6 +2147,68 @@
         btnWish.setAttribute('aria-selected', 'false');
         secPhoto.style.display = 'block';
         secWish.style.display = 'none';
+      });
+    }
+
+    // Danh mục tên các mẫu khung phim 1 ảnh (F7 & F8)
+    const FRAME_NAMES = {
+      'none': 'Không khung',
+      'film_frame_olive': 'Xanh rêu hoài niệm',
+      'film_frame_sepia': 'Nâu ấm cà phê',
+      'film_frame_navy': 'Xanh navy điện ảnh',
+      'film_frame_pop': 'Retro rực rỡ',
+      'film_frame_sky': 'Xanh trời thanh xuân',
+      'film_frame_terracotta': 'Hồng đất dịu dàng'
+    };
+    let selectedFrameId = 'none';
+
+    function selectFrameOption(card, shouldFocus = false) {
+      const cards = Array.from(document.querySelectorAll('.frame-option-card'));
+      const input = document.getElementById('selected-frame-input');
+      cards.forEach(c => {
+        c.classList.remove('selected');
+        c.setAttribute('aria-checked', 'false');
+        c.setAttribute('tabindex', '-1');
+      });
+      card.classList.add('selected');
+      card.setAttribute('aria-checked', 'true');
+      card.setAttribute('tabindex', '0');
+      if (shouldFocus) {
+        card.focus();
+      }
+      const frameId = card.getAttribute('data-frame') || 'none';
+      selectedFrameId = frameId;
+      if (input) input.value = frameId;
+
+      // Cập nhật frameId cho các ảnh đang chờ gửi để xem trước trực tiếp
+      pendingWebPPhotos.forEach(p => {
+        p.frameId = frameId;
+      });
+      renderPhotoPreviews();
+    }
+
+    function initFrameSelector() {
+      const cards = Array.from(document.querySelectorAll('.frame-option-card'));
+      if (!cards.length) return;
+
+      cards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+          selectFrameOption(card, false);
+        });
+
+        card.addEventListener('keydown', (e) => {
+          let targetIndex = -1;
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            targetIndex = (index + 1) % cards.length;
+          } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            targetIndex = (index - 1 + cards.length) % cards.length;
+          }
+          if (targetIndex !== -1 && cards[targetIndex]) {
+            selectFrameOption(cards[targetIndex], true);
+          }
+        });
       });
     }
 
@@ -1970,6 +2266,7 @@
                 id: 'temp-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
                 base64: webpData,
                 aspect: aspect,
+                frameId: selectedFrameId,
                 name: file.name
               });
 
@@ -2002,11 +2299,29 @@
 
       pendingWebPPhotos.forEach((item, idx) => {
         const card = document.createElement('div');
-        card.className = 'preview-card';
-        card.innerHTML = `
-          <img src="${escapeHtml(item.base64)}" alt="${escapeHtml(item.name || '')}">
-          <button type="button" class="preview-card-delete" data-id="${escapeHtml(item.id)}" title="Xóa ảnh này">✕</button>
-        `;
+        const frameId = item.frameId || selectedFrameId || 'none';
+        const frameName = FRAME_NAMES[frameId] || 'Không khung';
+
+        if (frameId && frameId !== 'none') {
+          card.className = 'preview-card has-frame';
+          card.innerHTML = `
+            <div class="preview-film-composite">
+              <div class="preview-film-slot">
+                <img src="${escapeHtml(item.base64)}" alt="${escapeHtml(item.name || '')}">
+              </div>
+              <img src="assets/frames/film/${escapeHtml(frameId)}.png" class="preview-film-overlay" alt="Khung phim">
+            </div>
+            <button type="button" class="preview-card-delete" data-id="${escapeHtml(item.id)}" title="Xóa ảnh này">✕</button>
+            <div class="preview-card-frame-tag">${escapeHtml(frameName)}</div>
+          `;
+        } else {
+          card.className = 'preview-card';
+          card.innerHTML = `
+            <img src="${escapeHtml(item.base64)}" alt="${escapeHtml(item.name || '')}">
+            <button type="button" class="preview-card-delete" data-id="${escapeHtml(item.id)}" title="Xóa ảnh này">✕</button>
+            <div class="preview-card-frame-tag">Không khung</div>
+          `;
+        }
 
         card.querySelector('.preview-card-delete').addEventListener('click', (e) => {
           e.stopPropagation();
@@ -2135,6 +2450,7 @@
           caption: caption,
           image: p.base64,
           aspect: p.aspect,
+          frameId: p.frameId || selectedFrameId || 'none',
           time: timeStr
         }));
 
@@ -2162,6 +2478,20 @@
 
         authorInput.value = '';
         captionInput.value = '';
+        selectedFrameId = 'none';
+        const frameInput = document.getElementById('selected-frame-input');
+        if (frameInput) frameInput.value = 'none';
+        document.querySelectorAll('.frame-option-card').forEach(c => {
+          if (c.getAttribute('data-frame') === 'none') {
+            c.classList.add('selected');
+            c.setAttribute('aria-checked', 'true');
+            c.setAttribute('tabindex', '0');
+          } else {
+            c.classList.remove('selected');
+            c.setAttribute('aria-checked', 'false');
+            c.setAttribute('tabindex', '-1');
+          }
+        });
         pendingWebPPhotos = [];
         renderPhotoPreviews();
 
@@ -2329,6 +2659,7 @@
           if (!confirm('Bạn có chắc chắn muốn đặt lại toàn bộ lượt thả tim về 0 trên tất cả thiết bị không?')) return;
           try {
             localStorage.setItem('co_duyen_anh_hearts', '0');
+            updateStats();
             if (syncChannel) {
               try { syncChannel.postMessage({ action: 'RESET_HEARTS', hearts: 0 }); } catch (e) {}
             }
@@ -2661,6 +2992,7 @@
               <strong>${escapeHtml(p.author || 'Bạn học trò')}</strong>
               <div>${escapeHtml(p.time || '')}</div>
               ${p.caption ? `<div><em>${escapeHtml(p.caption)}</em></div>` : ''}
+              ${p.frameId && p.frameId !== 'none' ? `<div style="font-size:0.6875rem; color:var(--accent-gold); margin-top:2px;">Khung: ${escapeHtml(FRAME_NAMES[p.frameId] || p.frameId)}</div>` : ''}
             </div>
             <button class="btn-delete-photo" data-id="${escapeHtml(p.id)}">Xóa ảnh</button>
           `;

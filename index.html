@@ -51,7 +51,33 @@
       <div class="env-part env-back"></div>
 
       <!-- 2. Bức thư bên trong - Nằm gọn trong phong bì, rút lên và mở phẳng 3D -->
-      <div class="env-letter" id="letter">
+      <div class="env-letter" id="letter" data-letter-style="classic_botanical">
+        <!-- Lớp nền lót hoa văn khung thư tinh tế -->
+        <div class="letter-texture-underlay" id="letter-texture-underlay" aria-hidden="true"></div>
+
+        <!-- Bộ chuyển đổi phong cách khung thư (Segmented Pill Switcher) -->
+        <nav class="letter-style-bar" id="letter-style-bar" aria-label="Bộ điều khiển phong cách khung thư">
+          <span class="style-bar-label">Phong cách:</span>
+          <div class="style-pills-group" role="radiogroup" aria-label="Danh sách phong cách khung thư">
+            <button type="button" class="style-pill active" data-style="classic_botanical" role="radio" aria-checked="true" tabindex="0" title="Hoa cỏ cổ điển">
+              <span class="style-pill-swatch" style="background: #eab308;"></span>
+              <span class="style-pill-text">Hoa cỏ cổ điển</span>
+            </button>
+            <button type="button" class="style-pill" data-style="sage_minimalist" role="radio" aria-checked="false" tabindex="-1" title="Xô thơm tối giản">
+              <span class="style-pill-swatch" style="background: #10b981;"></span>
+              <span class="style-pill-text">Xô thơm tối giản</span>
+            </button>
+            <button type="button" class="style-pill" data-style="watercolor_blue" role="radio" aria-checked="false" tabindex="-1" title="Sắc xanh thủy mặc">
+              <span class="style-pill-swatch" style="background: #0ea5e9;"></span>
+              <span class="style-pill-text">Sắc xanh thủy mặc</span>
+            </button>
+            <button type="button" class="style-pill" data-style="vintage_parchment" role="radio" aria-checked="false" tabindex="-1" title="Giấy da hoài niệm">
+              <span class="style-pill-swatch" style="background: #d97706;"></span>
+              <span class="style-pill-text">Giấy da hoài niệm</span>
+            </button>
+          </div>
+        </nav>
+
         <div class="paper-crease crease-1" id="crease-1"></div>
         <div class="paper-crease crease-2" id="crease-2"></div>
         
@@ -323,8 +349,17 @@
           <a href="donggop.html" class="action-btn contribute-btn">
             Thêm ảnh vào cuộn phim
           </a>
-          <a href="album.html" class="action-btn album-btn" style="background: rgba(217, 119, 6, 0.15); border-color: var(--border-gold); color: var(--accent-gold-light);">
+          <a href="album.html" class="action-btn album-btn">
             Xem album ảnh 35mm
+          </a>
+          <a href="photobooth.html" class="action-btn photobooth-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -3px; margin-right: 6px;">
+              <rect x="2" y="2" width="20" height="20" rx="3"></rect>
+              <circle cx="12" cy="12" r="3"></circle>
+              <line x1="8" y1="2" x2="8" y2="22"></line>
+              <line x1="16" y1="2" x2="16" y2="22"></line>
+            </svg>
+            Chụp ảnh photobooth 4 ô
           </a>
         </div>
 

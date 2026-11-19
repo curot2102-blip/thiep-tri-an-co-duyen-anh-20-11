@@ -21,13 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
   initIndexWishForm();
   initFinalTribute();
   initEnvelopeClick();
+  initLetterStyleSwitcher();
   initAnimationLoop();
 });
 
 function initEnvelopeClick() {
   const env = document.getElementById('envelope-wrapper');
   if (env) {
-    env.addEventListener('click', () => {
+    env.addEventListener('click', (e) => {
+      if (e.target && e.target.closest('#letter-style-bar')) {
+        return;
+      }
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       if (window.scrollY < maxScroll * 0.06) {
         window.scrollTo({ top: maxScroll * 0.15, behavior: 'smooth' });
@@ -35,6 +39,106 @@ function initEnvelopeClick() {
       }
     });
   }
+}
+
+/* ===================================================================
+   BỘ CHUYỂN ĐỔI PHONG CÁCH KHUNG THƯ (LETTER STYLE SWITCHER)
+   Quản lý lựa chọn 4 phong cách khung thư, lưu localStorage & phím tắt
+   =================================================================== */
+const LETTER_STYLES = [
+  'classic_botanical',
+  'sage_minimalist',
+  'watercolor_blue',
+  'vintage_parchment'
+];
+const LETTER_STYLE_STORAGE_KEY = 'co_duyen_anh_letter_style';
+const DEFAULT_LETTER_STYLE = 'classic_botanical';
+
+function applyLetterStyle(styleId, save = true) {
+  if (!LETTER_STYLES.includes(styleId)) {
+    styleId = DEFAULT_LETTER_STYLE;
+  }
+
+  const letter = document.getElementById('letter');
+  if (letter) {
+    letter.setAttribute('data-letter-style', styleId);
+  }
+
+  const pills = document.querySelectorAll('.letter-style-bar .style-pill');
+  pills.forEach(pill => {
+    const isCurrent = pill.getAttribute('data-style') === styleId;
+    pill.classList.toggle('active', isCurrent);
+    pill.setAttribute('aria-checked', isCurrent ? 'true' : 'false');
+    pill.setAttribute('tabindex', isCurrent ? '0' : '-1');
+  });
+
+  if (save) {
+    try {
+      localStorage.setItem(LETTER_STYLE_STORAGE_KEY, styleId);
+    } catch (e) {
+      console.warn('Cannot write to localStorage:', e);
+    }
+  }
+}
+
+function initLetterStyleSwitcher() {
+  const bar = document.getElementById('letter-style-bar');
+  if (!bar) return;
+
+  // Đọc từ localStorage hoặc dùng mặc định
+  let savedStyle = DEFAULT_LETTER_STYLE;
+  try {
+    const val = localStorage.getItem(LETTER_STYLE_STORAGE_KEY);
+    if (val && LETTER_STYLES.includes(val)) {
+      savedStyle = val;
+    }
+  } catch (e) {
+    console.warn('Cannot read from localStorage:', e);
+  }
+
+  // Áp dụng ngay phong cách đã lưu khi tải trang
+  applyLetterStyle(savedStyle, false);
+
+  // Bắt sự kiện click trên các nút pill
+  bar.addEventListener('click', (e) => {
+    const pill = e.target.closest('.style-pill');
+    if (!pill) return;
+    e.stopPropagation();
+    const styleId = pill.getAttribute('data-style');
+    if (styleId) {
+      applyLetterStyle(styleId, true);
+      if (typeof playSound === 'function') {
+        playSound('chime');
+      }
+    }
+  });
+
+  // Hỗ trợ điều hướng bằng phím mũi tên (ArrowLeft / ArrowRight) trong radiogroup
+  bar.addEventListener('keydown', (e) => {
+    const pills = Array.from(bar.querySelectorAll('.style-pill'));
+    const activeIdx = pills.findIndex(p => p.classList.contains('active'));
+    if (activeIdx === -1) return;
+
+    let nextIdx = -1;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      nextIdx = (activeIdx + 1) % pills.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      nextIdx = (activeIdx - 1 + pills.length) % pills.length;
+    }
+
+    if (nextIdx !== -1) {
+      e.preventDefault();
+      const nextPill = pills[nextIdx];
+      nextPill.focus();
+      const styleId = nextPill.getAttribute('data-style');
+      if (styleId) {
+        applyLetterStyle(styleId, true);
+        if (typeof playSound === 'function') {
+          playSound('chime');
+        }
+      }
+    }
+  });
 }
 
 /* ===================================================================
@@ -556,15 +660,19 @@ async function initWishesData() {
   // Luôn luôn đồng bộ mới nhất từ Google Apps Script / Google Sheets / wishes.json
   await syncWishesFromRemote();
 
-  // Tự động kiểm tra và đồng bộ khi người dùng quay lại tab
+  // Tự động kiểm tra và đồng bộ lời chúc khi người dùng quay lại tab
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
       syncWishesFromRemote();
     }
   });
 
-  // Tự động đồng bộ ngầm định kỳ mỗi 15 giây
-  setInterval(syncWishesFromRemote, 15000);
+  // Tự động đồng bộ ngầm định kỳ mỗi 30 giây khi tab đang active
+  setInterval(() => {
+    if (document.visibilityState === 'visible') {
+      syncWishesFromRemote();
+    }
+  }, 30000);
 }
 
 async function syncWishesFromRemote() {
@@ -847,6 +955,7 @@ async function flushPendingPhotosToGas() {
           caption: p.caption || '',
           image: p.image,
           aspect: p.aspect || 'landscape',
+          frameId: p.frameId || 'none',
           time: p.time
         })
       });
@@ -1129,8 +1238,11 @@ function initRealtimeSync() {
       refreshAllData();
     }
     if (e.key === 'co_duyen_anh_hearts') {
-      const countSpan = document.getElementById('heart-count');
-      if (countSpan) countSpan.textContent = e.newValue || '0';
+      const val = parseInt(e.newValue || '0', 10);
+      if (!isNaN(val)) {
+        serverHeartCount = val;
+        updateHeartDisplay();
+      }
     }
     if (e.key === GAS_CONFIG.STORAGE_KEY) {
       syncWishesFromRemote();
@@ -1361,46 +1473,218 @@ function escapeHtml(text) {
 }
 
 /* ===================================================================
-   3. TƯƠNG TÁC LỜI KẾT & LƯU LẠI MỤC TIM THỰC TẾ (PERSISTED HEARTS)
-   - Khởi tạo lượt tim bắt đầu từ 0 và lưu trữ bền bỉ trong localStorage
+   3. TƯƠNG TÁC LỜI KẾT & ĐỒNG BỘ THẢ TIM THỜI GIAN THỰC (REAL-TIME HEARTS)
+   - Nguồn chân lý duy nhất (Single Source of Truth): Server là chuẩn.
+   - Hiển thị trên DOM: serverHeartCount + localPendingHearts.
+   - Gom lượt bấm Optimistic UI với Debounce 1000ms.
+   - Polling thích ứng (Adaptive Polling): chu kỳ 9s khi tab visible, tạm dừng khi hidden.
+   - Cơ chế Dual-Mode Fallback bảo vệ giao diện khi backend chưa deploy version mới.
    =================================================================== */
-function updateHeartCounter(newCount, force = false) {
+
+// Trạng thái đồng bộ tim thời gian thực
+let serverHeartCount = 0;          // Số tim chính thức từ máy chủ
+let localPendingHearts = 0;        // Số lượt bấm cục bộ đang chờ gửi lên máy chủ
+let heartDebounceTimer = null;     // Bộ hẹn giờ debounce gom lượt bấm (1000ms)
+let heartPollingInterval = null;    // Bộ hẹn giờ Adaptive Polling (8-10s)
+let isHeartSyncing = false;        // Cờ đang thực hiện request POST
+let isGasHeartEndpointSupported = true; // Cờ kiểm tra tính tương thích Dual-Mode
+const HEART_POLLING_INTERVAL_MS = 9000; // 9 giây (tối ưu hóa hạn ngạch Google Apps Script)
+
+/**
+ * Cập nhật hiển thị số tim lên giao diện và lưu trữ cục bộ
+ */
+function updateHeartDisplay() {
   const countSpan = document.getElementById('heart-count');
-  const num = parseInt(newCount, 10);
-  if (isNaN(num)) return;
-  const current = parseInt(localStorage.getItem('co_duyen_anh_hearts') || '0', 10);
-  const finalNum = (force || num === 0) ? num : Math.max(num, current);
-  try {
-    localStorage.setItem('co_duyen_anh_hearts', finalNum.toString());
-  } catch (e) {}
+  const total = Math.max(0, serverHeartCount + localPendingHearts);
   if (countSpan) {
-    countSpan.textContent = finalNum.toString();
+    countSpan.textContent = total.toString();
   }
+  try {
+    localStorage.setItem('co_duyen_anh_hearts', total.toString());
+  } catch (e) {}
+  return total;
 }
 
-let pendingHeartClicks = 0;
-let heartSyncTimer = null;
+/**
+ * Cập nhật số tim từ nguồn bên ngoài (BroadcastChannel, Storage Event, hoặc Google Apps Script)
+ * Không sử dụng cơ chế ratchet Math.max để cho phép đồng bộ giảm khi quản trị viên reset.
+ */
+function updateHeartCounter(newCount, force = false) {
+  const num = parseInt(newCount, 10);
+  if (isNaN(num)) return;
 
-function flushHeartClicksToGas() {
-  if (pendingHeartClicks <= 0) return;
-  const countToSend = pendingHeartClicks;
-  pendingHeartClicks = 0;
+  if (force || num === 0) {
+    serverHeartCount = num;
+    localPendingHearts = 0;
+    if (heartDebounceTimer) {
+      clearTimeout(heartDebounceTimer);
+      heartDebounceTimer = null;
+    }
+  } else {
+    serverHeartCount = num;
+  }
+  updateHeartDisplay();
+}
+
+/**
+ * Truy vấn số tim chuẩn từ endpoint siêu nhẹ getHearts của Google Apps Script
+ */
+async function syncHeartsFromRemote() {
   const gasUrl = getGasWebAppUrl();
   if (!gasUrl) return;
 
-  fetch(gasUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ action: 'addHeart', count: countToSend })
-  }).then(res => res.json()).then(data => {
-    if (data && typeof data.hearts === 'number') {
-      updateHeartCounter(data.hearts);
-      if (syncChannel) {
-        try { syncChannel.postMessage({ action: 'UPDATE_HEARTS', hearts: data.hearts }); } catch (e) {}
-      }
+  try {
+    const sep = gasUrl.includes('?') ? '&' : '?';
+    const res = await fetch(`${gasUrl}${sep}action=getHearts&_t=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) return;
+
+    const data = await res.json();
+    if (data && data.status === 'success' && typeof data.hearts === 'number') {
+      isGasHeartEndpointSupported = true;
+      serverHeartCount = data.hearts;
+      updateHeartDisplay();
+    } else if (data && typeof data.hearts === 'number') {
+      isGasHeartEndpointSupported = true;
+      serverHeartCount = data.hearts;
+      updateHeartDisplay();
     }
-  }).catch(e => {
-    console.warn('Lỗi đồng bộ lượt tim lên Google Sheets:', e);
+  } catch (err) {
+    // Thầm lặng bỏ qua lỗi mạng tạm thời trong quá trình polling
+  }
+}
+
+/**
+ * Khởi động vòng lặp Adaptive Polling khi tab đang mở
+ */
+function startHeartPolling() {
+  stopHeartPolling();
+  if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
+    heartPollingInterval = setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        syncHeartsFromRemote();
+      }
+    }, HEART_POLLING_INTERVAL_MS);
+  }
+}
+
+/**
+ * Dừng Adaptive Polling khi tab bị ẩn để tiết kiệm hạn ngạch thực thi Apps Script
+ */
+function stopHeartPolling() {
+  if (heartPollingInterval) {
+    clearInterval(heartPollingInterval);
+    heartPollingInterval = null;
+  }
+}
+
+/**
+ * Đẩy toàn bộ các lượt bấm tim đang chờ lên Google Apps Script backend
+ */
+async function flushHeartClicksToGas() {
+  if (localPendingHearts <= 0 || isHeartSyncing) return;
+  const gasUrl = getGasWebAppUrl();
+  if (!gasUrl) return;
+
+  // Kiểm tra trạng thái kết nối mạng: nếu offline thì không gửi request vô ích
+  if (typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean' && !navigator.onLine) {
+    return;
+  }
+
+  if (!isGasHeartEndpointSupported) {
+    // Dual-Mode Fallback: lưu trữ cục bộ khi backend chưa hỗ trợ action addHeart
+    serverHeartCount += localPendingHearts;
+    localPendingHearts = 0;
+    updateHeartDisplay();
+    return;
+  }
+
+  const countToSend = localPendingHearts;
+  isHeartSyncing = true;
+  let requestSucceeded = false;
+
+  try {
+    const res = await fetch(gasUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'addHeart', count: countToSend })
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    if (data && data.status === 'success' && typeof data.hearts === 'number') {
+      requestSucceeded = true;
+      // Máy chủ đã cập nhật thành công (Backend phiên bản mới có LockService)
+      isGasHeartEndpointSupported = true;
+      serverHeartCount = data.hearts;
+      localPendingHearts = Math.max(0, localPendingHearts - countToSend);
+      const updatedTotal = updateHeartDisplay();
+
+      if (syncChannel) {
+        try {
+          syncChannel.postMessage({
+            action: 'UPDATE_HEARTS',
+            hearts: updatedTotal,
+            fromServer: true
+          });
+        } catch (e) {}
+      }
+    } else if (data && data.status === 'error') {
+      requestSucceeded = true;
+      // DUAL-MODE FALLBACK:
+      // Bắt mọi lỗi từ backend (bao gồm action không hợp lệ hoặc bản deploy cũ coi addHeart là addWish và báo thiếu nội dung lời chúc)
+      isGasHeartEndpointSupported = false;
+      console.warn('Google Apps Script Web App hiện tại chưa hỗ trợ action addHeart (' + (data.message || '') + '). Chuyển sang chế độ lưu trữ cục bộ dự phòng (Dual-Mode Fallback). Vui lòng cập nhật bản triển khai New Version theo hướng dẫn.');
+      serverHeartCount += countToSend;
+      localPendingHearts = Math.max(0, localPendingHearts - countToSend);
+      updateHeartDisplay();
+    } else {
+      console.warn('Phản hồi không xác định từ Apps Script addHeart:', data);
+    }
+  } catch (err) {
+    console.warn('Lỗi mạng khi đồng bộ lượt tim lên Google Apps Script:', err);
+    // Giữ nguyên localPendingHearts để tự động gửi lại khi có mạng
+  } finally {
+    isHeartSyncing = false;
+    // Chỉ gửi tiếp nếu request vừa rồi đã hoàn tất xử lý (không bị lỗi mạng) VÀ có thêm click mới VÀ endpoint được hỗ trợ
+    if (requestSucceeded && localPendingHearts > 0 && isGasHeartEndpointSupported) {
+      clearTimeout(heartDebounceTimer);
+      heartDebounceTimer = setTimeout(flushHeartClicksToGas, 1000);
+    }
+  }
+}
+
+/**
+ * Khởi tạo chu trình vòng đời đồng bộ tim (Lifecycle & Events)
+ */
+function initHeartSyncLifecycle() {
+  // 1. Đồng bộ ngay lần đầu khi tải trang
+  syncHeartsFromRemote();
+
+  // 2. Bắt đầu polling nếu tab đang active
+  startHeartPolling();
+
+  // 3. Quản lý trạng thái tab visibility
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      syncHeartsFromRemote();
+      if (localPendingHearts > 0) {
+        flushHeartClicksToGas();
+      }
+      startHeartPolling();
+    } else {
+      stopHeartPolling();
+    }
+  });
+
+  // 4. Kích hoạt khi có mạng trở lại
+  window.addEventListener('online', () => {
+    syncHeartsFromRemote();
+    if (localPendingHearts > 0) {
+      flushHeartClicksToGas();
+    }
   });
 }
 
@@ -1409,16 +1693,7 @@ function initFinalTribute() {
   const countSpan = document.getElementById('heart-count');
   const replayBtn = document.getElementById('replay-btn');
 
-  // Đặt lại lượt tim về 0 theo yêu cầu người dùng
-  const HEART_RESET_KEY = 'co_duyen_anh_hearts_reset_v2';
-  if (!localStorage.getItem(HEART_RESET_KEY)) {
-    try {
-      localStorage.setItem('co_duyen_anh_hearts', '0');
-      localStorage.setItem(HEART_RESET_KEY, 'true');
-    } catch (e) {}
-  }
-
-  // Khôi phục số tim thực tế đã lưu từ localStorage (bắt đầu từ 0, dọn sạch giá trị 999 cũ nếu có)
+  // Khởi tạo số tim ban đầu từ localStorage (dọn sạch giá trị 999 cũ nếu có)
   let savedHearts = localStorage.getItem('co_duyen_anh_hearts');
   if (savedHearts === null || savedHearts === '999' || savedHearts === '1000') {
     savedHearts = '0';
@@ -1426,35 +1701,37 @@ function initFinalTribute() {
       localStorage.setItem('co_duyen_anh_hearts', '0');
     } catch (e) {}
   }
-  const initialHearts = savedHearts !== null ? savedHearts : '0';
-  if (countSpan) {
-    countSpan.textContent = initialHearts;
-  }
+  const initialNum = parseInt(savedHearts || '0', 10);
+  serverHeartCount = isNaN(initialNum) ? 0 : initialNum;
+  localPendingHearts = 0;
+  updateHeartDisplay();
+
+  // Khởi động chu trình đồng bộ thời gian thực
+  initHeartSyncLifecycle();
 
   if (heartBtn && countSpan) {
     heartBtn.addEventListener('click', (e) => {
-      let count = parseInt(countSpan.textContent || '0', 10);
-      if (isNaN(count)) count = 0;
-      count++;
-      countSpan.textContent = count;
-      try {
-        localStorage.setItem('co_duyen_anh_hearts', count.toString());
-      } catch (err) {}
+      // 1. Optimistic UI: Tăng ngay lập tức số tim chờ gửi và cập nhật giao diện
+      localPendingHearts++;
+      const currentTotal = updateHeartDisplay();
       playSound('chime');
 
-      // 1. Phát tín hiệu Real-time NGAY LẬP TỨC sang tất cả các tab đang mở (không chờ mạng)
+      // 2. Phát tín hiệu thời gian thực NGAY LẬP TỨC sang tất cả các tab đang mở
       if (syncChannel) {
         try {
-          syncChannel.postMessage({ action: 'UPDATE_HEARTS', hearts: count });
+          syncChannel.postMessage({
+            action: 'UPDATE_HEARTS',
+            hearts: currentTotal,
+            fromServer: false
+          });
         } catch (syncErr) {}
       }
 
-      // 2. Gom lượt click và tự động đẩy lên Google Sheets sau 1.2s (Debounce tối ưu mạng)
-      pendingHeartClicks++;
-      clearTimeout(heartSyncTimer);
-      heartSyncTimer = setTimeout(flushHeartClicksToGas, 1200);
+      // 3. Gom lượt bấm và tự động đẩy lên Google Sheets sau 1000ms (Debounce tối ưu mạng)
+      clearTimeout(heartDebounceTimer);
+      heartDebounceTimer = setTimeout(flushHeartClicksToGas, 1000);
 
-      // 3. Tọa độ bay tim tối ưu cho cả chuột máy tính và chạm cảm ứng điện thoại
+      // 4. Hiệu ứng bay tim sinh động tối ưu cho chuột và cảm ứng
       const rect = heartBtn.getBoundingClientRect();
       const clickX = (e && typeof e.clientX === 'number' && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
       const clickY = (e && typeof e.clientY === 'number' && e.clientY > 0) ? e.clientY : (rect.top + rect.height / 2);

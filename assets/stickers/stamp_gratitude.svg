@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 260" width="220" height="260">
+  <rect x="12" y="12" width="196" height="236" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2.5" stroke-dasharray="4 6"/>
+  <rect x="24" y="24" width="172" height="212" fill="#fffbeb" stroke="#b45309" stroke-width="1.2"/>
+  <rect x="30" y="30" width="160" height="150" fill="#fef9c3" stroke="#d97706" stroke-width="0.8" opacity="0.6"/>
+  <path d="M110 50 C125 35 150 45 150 65 C150 90 110 115 110 115 C110 115 70 90 70 65 C70 45 95 35 110 50 Z" fill="#dc2626" opacity="0.85"/>
+  <circle cx="110" cy="75" r="8" fill="#ffffff" opacity="0.4"/>
+  <text x="110" y="155" font-family="'Playfair Display', serif" font-weight="700" font-size="14" fill="#78350f" text-anchor="middle">TRI ÂN</text>
+  <text x="110" y="172" font-family="'Dancing Script', cursive" font-size="15" fill="#b45309" text-anchor="middle">Cô Duyên Anh</text>
+  <text x="110" y="206" font-family="'Space Grotesk', monospace" font-size="18" font-weight="700" fill="#92400e" text-anchor="middle">20.11</text>
+  <text x="110" y="224" font-family="sans-serif" font-size="8" letter-spacing="1.5" fill="#b45309" text-anchor="middle">VIETNAM POST</text>
+</svg>

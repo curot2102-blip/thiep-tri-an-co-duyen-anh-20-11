@@ -236,6 +236,7 @@ body {
   border: 1px solid rgba(180, 83, 9, 0.2);
   border-radius: 10px;
   pointer-events: none;
+  z-index: 1;
 }
 
 /* Nếp gấp giấy mô phỏng lá thư thật gấp 3 */
@@ -259,6 +260,7 @@ body {
   width: 100%;
   transform-style: preserve-3d;
   will-change: transform;
+  z-index: 2;
 }
 
 .letter-sec-top {
@@ -364,6 +366,281 @@ body {
   font-family: 'Dancing Script', cursive;
   font-size: 1.35rem;
   color: #b45309;
+}
+
+/* ===================================================================
+   PHONG CÁCH KHUNG THƯ (LETTER FRAME THEMES) & UNDERLAY
+   Tối ưu hiển thị, chuẩn Anti-AI Slop, độ tương phản WCAG AAA (> 7:1)
+   =================================================================== */
+
+.letter-texture-underlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-image 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.env-letter.unfolded .letter-texture-underlay {
+  opacity: 1;
+}
+
+/* 1. Hoa cỏ cổ điển (Classic Botanical) */
+.env-letter[data-letter-style="classic_botanical"] .letter-texture-underlay {
+  background-image: 
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0.90) 30%, rgba(254, 250, 235, 0.68) 100%),
+    url('assets/frames/letter/classic_botanical.webp');
+}
+.env-letter[data-letter-style="classic_botanical"] {
+  border-color: rgba(180, 83, 9, 0.28);
+}
+.env-letter[data-letter-style="classic_botanical"]::before {
+  border-color: rgba(180, 83, 9, 0.22);
+}
+.env-letter[data-letter-style="classic_botanical"] .letter-header {
+  color: #78350f;
+}
+.env-letter[data-letter-style="classic_botanical"] .letter-recipient {
+  color: #b45309;
+}
+.env-letter[data-letter-style="classic_botanical"] .letter-body {
+  color: #1e293b;
+}
+.env-letter[data-letter-style="classic_botanical"] .letter-sign strong {
+  color: #b45309;
+}
+.env-letter[data-letter-style="classic_botanical"] .letter-sign {
+  border-top-color: rgba(180, 83, 9, 0.2);
+}
+.env-letter[data-letter-style="classic_botanical"] .letter-stamp {
+  background: radial-gradient(circle at 35% 35%, #ea580c 0%, #b45309 70%, #78350f 100%);
+  border-color: rgba(251, 191, 36, 0.6);
+  box-shadow: 0 4px 12px rgba(120, 53, 15, 0.4), inset 0 2px 3px rgba(255,255,255,0.4), inset 0 -2px 3px rgba(0,0,0,0.3);
+}
+
+/* 2. Xô thơm tối giản (Sage Minimalist) */
+.env-letter[data-letter-style="sage_minimalist"] .letter-texture-underlay {
+  background-image: 
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0.92) 30%, rgba(229, 249, 227, 0.65) 100%),
+    url('assets/frames/letter/sage_minimalist.webp');
+}
+.env-letter[data-letter-style="sage_minimalist"] {
+  border-color: rgba(16, 185, 129, 0.32);
+}
+.env-letter[data-letter-style="sage_minimalist"]::before {
+  border-color: rgba(5, 150, 105, 0.22);
+}
+.env-letter[data-letter-style="sage_minimalist"] .letter-header {
+  color: #065f46;
+}
+.env-letter[data-letter-style="sage_minimalist"] .letter-recipient {
+  color: #047857;
+}
+.env-letter[data-letter-style="sage_minimalist"] .letter-body {
+  color: #0f172a;
+}
+.env-letter[data-letter-style="sage_minimalist"] .letter-sign strong {
+  color: #047857;
+}
+.env-letter[data-letter-style="sage_minimalist"] .letter-sign {
+  border-top-color: rgba(16, 185, 129, 0.25);
+}
+.env-letter[data-letter-style="sage_minimalist"] .letter-stamp {
+  background: radial-gradient(circle at 35% 35%, #10b981 0%, #059669 70%, #064e3b 100%);
+  border-color: rgba(110, 231, 183, 0.6);
+  box-shadow: 0 4px 12px rgba(6, 78, 59, 0.4), inset 0 2px 3px rgba(255,255,255,0.4), inset 0 -2px 3px rgba(0,0,0,0.3);
+}
+
+/* 3. Sắc xanh thủy mặc (Watercolor Blue) */
+.env-letter[data-letter-style="watercolor_blue"] .letter-texture-underlay {
+  background-image: 
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0.92) 30%, rgba(235, 247, 252, 0.68) 100%),
+    url('assets/frames/letter/watercolor_blue.webp');
+}
+.env-letter[data-letter-style="watercolor_blue"] {
+  border-color: rgba(14, 165, 233, 0.35);
+}
+.env-letter[data-letter-style="watercolor_blue"]::before {
+  border-color: rgba(2, 132, 199, 0.22);
+}
+.env-letter[data-letter-style="watercolor_blue"] .letter-header {
+  color: #075985;
+}
+.env-letter[data-letter-style="watercolor_blue"] .letter-recipient {
+  color: #075985;
+}
+.env-letter[data-letter-style="watercolor_blue"] .letter-body {
+  color: #0f172a;
+}
+.env-letter[data-letter-style="watercolor_blue"] .letter-sign strong {
+  color: #075985;
+}
+.env-letter[data-letter-style="watercolor_blue"] .letter-sign {
+  border-top-color: rgba(14, 165, 233, 0.25);
+}
+.env-letter[data-letter-style="watercolor_blue"] .letter-stamp {
+  background: radial-gradient(circle at 35% 35%, #38bdf8 0%, #0284c7 70%, #075985 100%);
+  border-color: rgba(186, 230, 253, 0.6);
+  box-shadow: 0 4px 12px rgba(7, 89, 133, 0.4), inset 0 2px 3px rgba(255,255,255,0.4), inset 0 -2px 3px rgba(0,0,0,0.3);
+}
+
+/* 4. Giấy da hoài niệm (Vintage Parchment) */
+.env-letter[data-letter-style="vintage_parchment"] .letter-texture-underlay {
+  background-image: 
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0.90) 30%, rgba(252, 241, 228, 0.70) 100%),
+    url('assets/frames/letter/vintage_parchment.webp');
+}
+.env-letter[data-letter-style="vintage_parchment"] {
+  border-color: rgba(146, 64, 14, 0.38);
+}
+.env-letter[data-letter-style="vintage_parchment"]::before {
+  border-color: rgba(146, 64, 14, 0.28);
+}
+.env-letter[data-letter-style="vintage_parchment"] .letter-header {
+  color: #78350f;
+}
+.env-letter[data-letter-style="vintage_parchment"] .letter-recipient {
+  color: #92400e;
+}
+.env-letter[data-letter-style="vintage_parchment"] .letter-body {
+  color: #1c1917;
+}
+.env-letter[data-letter-style="vintage_parchment"] .letter-sign strong {
+  color: #78350f;
+}
+.env-letter[data-letter-style="vintage_parchment"] .letter-sign {
+  border-top-color: rgba(146, 64, 14, 0.25);
+}
+.env-letter[data-letter-style="vintage_parchment"] .letter-stamp {
+  background: radial-gradient(circle at 35% 35%, #d97706 0%, #92400e 70%, #451a03 100%);
+  border-color: rgba(252, 211, 77, 0.6);
+  box-shadow: 0 4px 12px rgba(69, 26, 3, 0.45), inset 0 2px 3px rgba(255,255,255,0.4), inset 0 -2px 3px rgba(0,0,0,0.3);
+}
+
+/* ===================================================================
+   BỘ ĐIỀU KHIỂN CHỌN PHONG CÁCH KHUNG THƯ (SEGMENTED PILL SWITCHER)
+   Chuẩn Anti-AI Slop: lưới 4px, hairline border 1px, neutral slate palette
+   =================================================================== */
+.letter-style-bar {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  user-select: none;
+}
+
+.env-letter.unfolded .letter-style-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: absolute;
+  bottom: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 4px 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  z-index: 100;
+  opacity: 1;
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+.style-bar-label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: #94a3b8;
+  letter-spacing: 0.2px;
+  text-transform: none;
+}
+
+.style-pills-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.style-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #cbd5e1;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  line-height: 1.25;
+}
+
+.style-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+
+.style-pill:focus-visible {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+}
+
+.style-pill.active {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.style-pill-swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.style-pill-text {
+  display: inline-block;
+}
+
+@media (max-width: 600px), (max-height: 600px) {
+  .env-letter.unfolded .letter-style-bar {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    margin: 0 auto 16px auto;
+    width: 100%;
+    justify-content: center;
+    border-radius: 12px;
+    padding: 8px;
+    box-sizing: border-box;
+    white-space: normal;
+  }
+  .style-pills-group {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+  }
+  .style-pill {
+    padding: 8px 12px;
+    font-size: 0.6875rem;
+    min-height: 28px;
+  }
 }
 
 /* Chỉ dẫn cuộn */
@@ -1378,6 +1655,7 @@ body {
 
 .tribute-extra-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 14px;
   margin-top: 14px;
   width: 100%;
@@ -1385,7 +1663,7 @@ body {
 }
 
 .action-btn.contribute-btn {
-  flex: 1 1 0;
+  flex: 1 1 180px;
   min-width: 0;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1403,7 +1681,7 @@ body {
 }
 
 .action-btn.album-btn {
-  flex: 1 1 0;
+  flex: 1 1 180px;
   min-width: 0;
   background: rgba(217, 119, 6, 0.15);
   border: 1px solid var(--border-gold);
@@ -1423,6 +1701,31 @@ body {
 
 .action-btn.album-btn:hover {
   background: rgba(245, 158, 11, 0.25);
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
+}
+
+.action-btn.photobooth-btn {
+  flex: 1 1 180px;
+  min-width: 0;
+  background: rgba(245, 158, 11, 0.18);
+  border: 1px solid var(--border-gold);
+  color: var(--accent-gold-light);
+  text-decoration: none;
+  font-size: 0.875rem;
+  padding: 12px 14px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: normal;
+  text-align: center;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.action-btn.photobooth-btn:hover {
+  background: rgba(245, 158, 11, 0.28);
   border-color: var(--accent-gold);
   transform: translateY(-2px);
 }

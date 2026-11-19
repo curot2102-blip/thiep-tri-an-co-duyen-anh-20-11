@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chụp Ảnh Photobooth 4 Ô — Tri Ân Cô Duyên Anh</title>
+  <meta name="description" content="Trang chụp ảnh photobooth dải 4 ô kỷ niệm tri ân cô Duyên Anh. Chọn mẫu khung, chụp camera đếm ngược hoặc tải ảnh, trang trí sticker và chữ, xuất ảnh in ấn độ nét cao.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="photobooth.css">
+</head>
+<body>
+
+  <!-- ===================================================================
+       HEADER THANH ĐIỀU HƯỚNG
+       =================================================================== -->
+  <header class="pb-header">
+    <div class="pb-header-inner">
+      <div class="pb-brand-group">
+        <a href="index.html" class="pb-back-btn" title="Quay lại thiệp tri ân chính">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Về trang chính</span>
+        </a>
+        <h1 class="pb-brand-title">
+          <span>Tri Ân Cô Duyên Anh</span>
+          <span class="pb-brand-badge">Photobooth 4 Ô</span>
+        </h1>
+      </div>
+
+      <nav class="pb-nav-links">
+        <a href="album.html" class="pb-nav-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+            <line x1="7" y1="2" x2="7" y2="22"></line>
+            <line x1="17" y1="2" x2="17" y2="22"></line>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+          </svg>
+          <span>Thư viện ảnh</span>
+        </a>
+        <a href="donggop.html" class="pb-nav-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span>Đóng góp ảnh</span>
+        </a>
+        <a href="photobooth.html" class="pb-nav-link active">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="3"></rect>
+            <circle cx="12" cy="12" r="3"></circle>
+            <line x1="8" y1="2" x2="8" y2="22"></line>
+            <line x1="16" y1="2" x2="16" y2="22"></line>
+          </svg>
+          <span>Photobooth</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===================================================================
+       KHÔNG GIAN LÀM VIỆC CHÍNH (2 CỘT)
+       =================================================================== -->
+  <main class="pb-main-workspace">
+
+    <!-- CỘT TRÁI: LIVE CANVAS PREVIEW -->
+    <aside class="pb-preview-col">
+      <div class="pb-preview-header">
+        <div class="pb-preview-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <span>Xem trước trực tiếp</span>
+        </div>
+        <div class="pb-preview-meta" id="preview-frame-dim">560 × 1320 px (16:9)</div>
+      </div>
+
+      <div class="pb-canvas-wrapper" id="canvas-container">
+        <canvas id="pb-canvas"></canvas>
+      </div>
+
+      <div class="pb-preview-tools">
+        <div class="pb-zoom-group">
+          <button type="button" class="pb-icon-btn" id="btn-zoom-out" title="Thu nhỏ xem trước" aria-label="Thu nhỏ xem trước">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <span class="pb-zoom-display" id="zoom-level">100%</span>
+          <button type="button" class="pb-icon-btn" id="btn-zoom-in" title="Phóng to xem trước" aria-label="Phóng to xem trước">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <button type="button" class="pb-icon-btn" id="btn-zoom-reset" title="Vừa khít màn hình" aria-label="Xem vừa khít màn hình">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="pb-preview-tip">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>Chạm/Kéo thả trực tiếp sticker &amp; chữ</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CỘT PHẢI: STEPPER CONTROLS -->
+    <section class="pb-controls-col">
+
+      <!-- STEPPER NAVIGATION BAR -->
+      <nav class="pb-stepper-nav" aria-label="Các bước thực hiện photobooth">
+        <button type="button" class="pb-step-tab active" data-step="1" aria-current="step">
+          <span class="pb-step-num">1</span>
+          <span class="step-title">Chọn mẫu</span>
+        </button>
+        <button type="button" class="pb-step-tab" data-step="2">
+          <span class="pb-step-num">2</span>
+          <span class="step-title">Nạp 4 ảnh</span>
+        </button>
+        <button type="button" class="pb-step-tab" data-step="3">
+          <span class="pb-step-num">3</span>
+          <span class="step-title">Trang trí</span>
+        </button>
+        <button type="button" class="pb-step-tab" data-step="4">
+          <span class="pb-step-num">4</span>
+          <span class="step-title">Xuất ảnh</span>
+        </button>
+      </nav>
+
+      <!-- ===============================================================
+           BƯỚC 1: CHỌN MẪU DẢI ẢNH
+           =============================================================== -->
+      <div class="pb-step-panel active" id="step-panel-1">
+        <div class="pb-panel-title-group">
+          <div>
+            <h2 class="pb-panel-heading">Bước 1: Chọn mẫu dải ảnh Photobooth</h2>
+            <p class="pb-panel-sub">Bộ sưu tập 8 mẫu dải ảnh thiết kế trang nhã (7 mẫu cinematic 16:9 và 1 mẫu studio 4:3).</p>
+          </div>
+        </div>
+
+        <div class="pb-filter-pills">
+          <button type="button" class="pb-filter-pill active" data-filter="all">Tất cả mẫu (8)</button>
+          <button type="button" class="pb-filter-pill" data-filter="16:9">Dải 16:9 Cinematic (7)</button>
+          <button type="button" class="pb-filter-pill" data-filter="4:3">Dải 4:3 Studio Phim (1)</button>
+        </div>
+
+        <div class="pb-frames-grid" id="frames-grid">
+          <!-- Render dynamically by photobooth.js -->
+        </div>
+
+        <div class="pb-step-footer-nav" style="justify-content: flex-end;">
+          <button type="button" class="pb-btn pb-btn-primary" id="btn-to-step-2">
+            <span>Tiếp tục: Nạp 4 ảnh</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           BƯỚC 2: NẠP 4 ẢNH (CAMERA & UPLOAD)
+           =============================================================== -->
+      <div class="pb-step-panel" id="step-panel-2">
+        <div class="pb-panel-title-group">
+          <div>
+            <h2 class="pb-panel-heading">Bước 2: Nạp 4 ảnh cho dải photobooth</h2>
+            <p class="pb-panel-sub">Chụp trực tiếp qua webcam/điện thoại hoặc tải tệp ảnh từ máy cho 4 ô ảnh.</p>
+          </div>
+        </div>
+
+        <!-- Thanh 4 ô ảnh xem trước -->
+        <div class="pb-slots-bar" id="slots-bar">
+          <div class="pb-slot-card active" data-slot="0" tabindex="0" role="button" aria-label="Chọn ô ảnh số 1">
+            <div class="pb-slot-thumb-box" id="slot-thumb-0">
+              <svg class="pb-slot-empty-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+            <div class="pb-slot-label">Ô số 1</div>
+            <div class="pb-slot-status" id="slot-status-0">Chưa có ảnh</div>
+          </div>
+
+          <div class="pb-slot-card" data-slot="1" tabindex="0" role="button" aria-label="Chọn ô ảnh số 2">
+            <div class="pb-slot-thumb-box" id="slot-thumb-1">
+              <svg class="pb-slot-empty-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+            <div class="pb-slot-label">Ô số 2</div>
+            <div class="pb-slot-status" id="slot-status-1">Chưa có ảnh</div>
+          </div>
+
+          <div class="pb-slot-card" data-slot="2" tabindex="0" role="button" aria-label="Chọn ô ảnh số 3">
+            <div class="pb-slot-thumb-box" id="slot-thumb-2">
+              <svg class="pb-slot-empty-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+            <div class="pb-slot-label">Ô số 3</div>
+            <div class="pb-slot-status" id="slot-status-2">Chưa có ảnh</div>
+          </div>
+
+          <div class="pb-slot-card" data-slot="3" tabindex="0" role="button" aria-label="Chọn ô ảnh số 4">
+            <div class="pb-slot-thumb-box" id="slot-thumb-3">
+              <svg class="pb-slot-empty-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+            <div class="pb-slot-label">Ô số 4</div>
+            <div class="pb-slot-status" id="slot-status-3">Chưa có ảnh</div>
+          </div>
+        </div>
+
+        <!-- Khung xem và chụp ảnh WebRTC -->
+        <div class="pb-camera-box">
+          <div class="pb-viewfinder-container">
+            <video id="camera-video" playsinline autoplay muted></video>
+
+            <!-- 4 góc ngắm máy ảnh -->
+            <div class="pb-viewfinder-corner tl"></div>
+            <div class="pb-viewfinder-corner tr"></div>
+            <div class="pb-viewfinder-corner bl"></div>
+            <div class="pb-viewfinder-corner br"></div>
+
+            <!-- Chớp sáng khi chụp -->
+            <div class="pb-camera-flash" id="camera-flash"></div>
+
+            <!-- Chữ số đếm ngược -->
+            <div class="pb-camera-countdown" id="camera-countdown">3</div>
+
+            <!-- Thông báo nhắc tạo dáng -->
+            <div class="pb-camera-prompt" id="camera-prompt">Tạo dáng chuẩn bị chụp nhé!</div>
+          </div>
+
+          <!-- Thông báo lỗi khi camera bị chặn quyền -->
+          <div class="pb-camera-error-banner" id="camera-error-banner">
+            <strong>Lưu ý quyền camera:</strong> Trình duyệt chưa cấp quyền truy cập camera hoặc đang mở tệp trực tiếp (file://). Bạn có thể bấm nút <strong>"Tải ảnh từ máy"</strong> bên dưới để chọn ảnh có sẵn nạp vào 4 ô nhé!
+          </div>
+
+          <!-- Thanh điều khiển camera -->
+          <div class="pb-camera-controls-bar">
+            <div class="pb-camera-options">
+              <button type="button" class="pb-btn pb-btn-secondary" id="btn-camera-toggle" title="Lật camera trước/sau">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0-3-3m3 3-3 3M4 8l3-3M4 8l3 3"></path>
+                </svg>
+                <span id="label-camera-facing">Camera trước</span>
+              </button>
+
+              <button type="button" class="pb-btn pb-btn-secondary" id="btn-mirror-toggle" title="Lật gương xem trước">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m14 18 4-4-4-4"></path>
+                  <path d="m10 6-4 4 4 4"></path>
+                </svg>
+                <span>Lật gương</span>
+              </button>
+
+              <div class="pb-btn-group-toggle" id="countdown-toggle-group">
+                <button type="button" class="pb-toggle-opt" data-seconds="0">0s</button>
+                <button type="button" class="pb-toggle-opt active" data-seconds="3">3s</button>
+                <button type="button" class="pb-toggle-opt" data-seconds="5">5s</button>
+              </div>
+            </div>
+
+            <!-- Các nút chụp ảnh -->
+            <div class="pb-shutter-actions">
+              <button type="button" class="pb-btn pb-btn-primary" id="btn-snap-single" style="flex: 1;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span id="label-snap-single">Chụp ảnh ô số 1</span>
+              </button>
+
+              <button type="button" class="pb-btn pb-btn-burst" id="btn-snap-burst" title="Tự động đếm ngược chụp lần lượt 4 kiểu ảnh cho cả 4 ô">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+                <span>Chụp liên hoàn 4 kiểu (Auto Burst)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phương thức nạp tệp từ máy tính / điện thoại -->
+        <div class="pb-upload-alternatives">
+          <div>
+            <div class="pb-upload-desc">Tải ảnh có sẵn từ máy tính hoặc thư viện điện thoại:</div>
+          </div>
+
+          <div class="pb-slot-tools">
+            <input type="file" id="input-file-single" accept="image/*" style="display: none;">
+            <input type="file" id="input-file-batch" accept="image/*" multiple style="display: none;">
+
+            <button type="button" class="pb-btn pb-btn-secondary" id="btn-upload-single">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span id="label-upload-single">Nạp ảnh ô 1</span>
+            </button>
+
+            <button type="button" class="pb-btn pb-btn-secondary" id="btn-upload-batch">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="2.18"></rect>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+              <span>Nạp cả 4 ảnh</span>
+            </button>
+
+            <button type="button" class="pb-btn pb-btn-secondary" id="btn-rotate-slot" title="Xoay ảnh ô đang chọn 90 độ">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+              </svg>
+              <span>Xoay 90°</span>
+            </button>
+
+            <button type="button" class="pb-btn pb-btn-danger" id="btn-clear-slot" title="Xóa ảnh ở ô đang chọn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Xóa ô này</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Điều hướng chân trang -->
+        <div class="pb-step-footer-nav">
+          <button type="button" class="pb-btn pb-btn-secondary" id="btn-step-2-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Quay lại chọn mẫu</span>
+          </button>
+
+          <button type="button" class="pb-btn pb-btn-primary" id="btn-to-step-3">
+            <span>Tiếp tục: Trang trí dải ảnh</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           BƯỚC 3: TRANG TRÍ (STICKER & VĂN BẢN)
+           =============================================================== -->
+      <div class="pb-step-panel" id="step-panel-3">
+        <div class="pb-panel-title-group">
+          <div>
+            <h2 class="pb-panel-heading">Bước 3: Trang trí Sticker &amp; Viết chữ</h2>
+            <p class="pb-panel-sub">Tự do kéo thả, xoay và chỉnh kích thước sticker hoặc dòng chữ trên dải ảnh.</p>
+          </div>
+        </div>
+
+        <!-- Tabs chuyển đổi công cụ trang trí -->
+        <div class="pb-decor-tabs">
+          <button type="button" class="pb-decor-tab active" data-tab="stickers">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span>Sticker nét mảnh (12)</span>
+          </button>
+
+          <button type="button" class="pb-decor-tab" data-tab="text">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="4 7 4 4 20 4 20 7"></polyline>
+              <line x1="9" y1="20" x2="15" y2="20"></line>
+              <line x1="12" y1="4" x2="12" y2="20"></line>
+            </svg>
+            <span>Thêm chữ kỷ niệm</span>
+          </button>
+
+          <button type="button" class="pb-decor-tab" data-tab="layers">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            <span id="label-layers-count">Các lớp trang trí (0)</span>
+          </button>
+        </div>
+
+        <!-- Bảng Sticker -->
+        <div class="pb-decor-panel active" id="decor-panel-stickers">
+          <div class="pb-filter-pills" style="margin-bottom: 4px;">
+            <button type="button" class="pb-filter-pill active" data-sticker-filter="all">Tất cả</button>
+            <button type="button" class="pb-filter-pill" data-sticker-filter="vintage">Bưu điện &amp; Phim</button>
+            <button type="button" class="pb-filter-pill" data-sticker-filter="washi">Băng dán Washi</button>
+            <button type="button" class="pb-filter-pill" data-sticker-filter="school">Học trò &amp; 20/11</button>
+            <button type="button" class="pb-filter-pill" data-sticker-filter="text">Chữ thư pháp</button>
+          </div>
+
+          <div class="pb-stickers-grid" id="stickers-grid">
+            <!-- Render dynamically by photobooth.js -->
+          </div>
+        </div>
+
+        <!-- Bảng Thêm Chữ -->
+        <div class="pb-decor-panel" id="decor-panel-text">
+          <div class="pb-text-tool-form">
+            <div class="pb-form-group">
+              <label class="pb-form-label" for="input-custom-text">Nội dung dòng chữ:</label>
+              <input type="text" id="input-custom-text" class="pb-input-text" placeholder="Ví dụ: Kỷ niệm 20-11 dấu yêu, Tên lớp..." maxlength="80">
+            </div>
+
+            <div class="pb-form-group">
+              <label class="pb-form-label">Kiểu chữ (Font):</label>
+              <div class="pb-fonts-grid">
+                <button type="button" class="pb-font-btn active" data-font="Dancing Script" style="font-family: 'Dancing Script', cursive; font-size: 1.125rem;">
+                  Dancing Script (Thư pháp bay bổng)
+                </button>
+                <button type="button" class="pb-font-btn" data-font="Playfair Display" style="font-family: 'Playfair Display', serif; font-size: 0.9375rem;">
+                  Playfair Display (Cổ điển trang trọng)
+                </button>
+                <button type="button" class="pb-font-btn" data-font="Be Vietnam Pro" style="font-family: 'Be Vietnam Pro', sans-serif; font-size: 0.875rem;">
+                  Be Vietnam Pro (Thanh lịch hiện đại)
+                </button>
+                <button type="button" class="pb-font-btn" data-font="Space Grotesk" style="font-family: 'Space Grotesk', monospace; font-size: 0.875rem;">
+                  Space Grotesk (Máy phim Retro)
+                </button>
+              </div>
+            </div>
+
+            <div class="pb-form-group">
+              <label class="pb-form-label">Màu chữ:</label>
+              <div class="pb-color-presets">
+                <div class="pb-color-dot active" data-color="#ffffff" style="background: #ffffff;" title="Trắng tinh khôi" tabindex="0" role="button" aria-label="Màu trắng tinh khôi"></div>
+                <div class="pb-color-dot" data-color="#f59e0b" style="background: #f59e0b;" title="Vàng Gold hổ phách" tabindex="0" role="button" aria-label="Màu vàng Gold hổ phách"></div>
+                <div class="pb-color-dot" data-color="#78350f" style="background: #78350f;" title="Nâu gỗ hoài niệm" tabindex="0" role="button" aria-label="Màu nâu gỗ hoài niệm"></div>
+                <div class="pb-color-dot" data-color="#18181b" style="background: #18181b;" title="Đen mun" tabindex="0" role="button" aria-label="Màu đen mun"></div>
+                <div class="pb-color-dot" data-color="#dc2626" style="background: #dc2626;" title="Đỏ son truyền thống" tabindex="0" role="button" aria-label="Màu đỏ son truyền thống"></div>
+                <div class="pb-color-dot" data-color="#047857" style="background: #047857;" title="Xanh ngọc bích" tabindex="0" role="button" aria-label="Màu xanh ngọc bích"></div>
+              </div>
+            </div>
+
+            <div class="pb-form-group">
+              <label class="pb-form-label">Cỡ chữ: <span class="pb-range-val" id="text-size-display">28px</span></label>
+              <div class="pb-range-wrap">
+                <input type="range" class="pb-range-slider" id="input-text-size" min="16" max="72" value="28">
+              </div>
+            </div>
+
+            <button type="button" class="pb-btn pb-btn-primary" id="btn-add-text-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Thêm dòng chữ vào dải ảnh</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bảng Quản lý Lớp (Layers) -->
+        <div class="pb-decor-panel" id="decor-panel-layers">
+          <div class="pb-layers-list" id="layers-list">
+            <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.875rem;">
+              Chưa có sticker hoặc văn bản nào được thêm. Hãy chọn thẻ "Sticker" hoặc "Thêm chữ" để bắt đầu trang trí!
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px;">
+            <button type="button" class="pb-btn pb-btn-secondary" id="btn-layer-up" title="Đưa lớp được chọn lên trên">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+              <span>Lên trên</span>
+            </button>
+
+            <button type="button" class="pb-btn pb-btn-secondary" id="btn-layer-down" title="Đưa lớp được chọn xuống dưới">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+              <span>Xuống dưới</span>
+            </button>
+
+            <button type="button" class="pb-btn pb-btn-danger" id="btn-clear-all-decor" title="Xóa toàn bộ sticker và chữ đã thêm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Xóa tất cả</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Điều hướng chân trang -->
+        <div class="pb-step-footer-nav">
+          <button type="button" class="pb-btn pb-btn-secondary" id="btn-step-3-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Quay lại nạp ảnh</span>
+          </button>
+
+          <button type="button" class="pb-btn pb-btn-primary" id="btn-to-step-4">
+            <span>Tiếp tục: Xem trước &amp; Tải về</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           BƯỚC 4: XEM TRƯỚC & TẢI VỀ
+           =============================================================== -->
+      <div class="pb-step-panel" id="step-panel-4">
+        <div class="pb-panel-title-group">
+          <div>
+            <h2 class="pb-panel-heading">Bước 4: Xem trước &amp; Tải ảnh photobooth</h2>
+            <p class="pb-panel-sub">Dải ảnh photobooth hoàn chỉnh sẵn sàng tải về với độ nét cao 2x DPI in ấn tiêu chuẩn.</p>
+          </div>
+        </div>
+
+        <!-- Bảng tóm tắt thông số -->
+        <div class="pb-export-summary-box">
+          <div>
+            <div class="pb-summary-stat-val" id="summary-frame-name">Vintage Kraft</div>
+            <div class="pb-summary-stat-label">Mẫu khung đã chọn</div>
+          </div>
+          <div>
+            <div class="pb-summary-stat-val" id="summary-photos-count">4 / 4</div>
+            <div class="pb-summary-stat-label">Ảnh đã nạp vào dải</div>
+          </div>
+          <div>
+            <div class="pb-summary-stat-val" id="summary-decor-count">0</div>
+            <div class="pb-summary-stat-label">Sticker &amp; Chữ trang trí</div>
+          </div>
+        </div>
+
+        <!-- Nhóm nút xuất tệp -->
+        <div class="pb-export-buttons-group">
+          <button type="button" class="pb-btn pb-btn-primary pb-export-main-btn" id="btn-export-png">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Tải ảnh PNG chất lượng cao (In ấn sắc nét)</span>
+          </button>
+
+          <div class="pb-export-secondary-row">
+            <button type="button" class="pb-btn pb-btn-secondary" id="btn-export-jpeg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>Tải ảnh JPEG tối ưu</span>
+            </button>
+
+            <button type="button" class="pb-btn pb-btn-secondary" id="btn-copy-clipboard">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Sao chép vào Clipboard</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Lời khuyên in ấn -->
+        <div class="pb-export-tip-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0; margin-top: 4px;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <div>
+            <strong>Lời khuyên in ấn:</strong> Tệp ảnh PNG được kết xuất ở độ phân giải siêu nét (1120 × 2640 px cho tỷ lệ 16:9 hoặc 1254 × 3750 px cho tỷ lệ 4:3) tương đương chuẩn in ảnh 300 DPI kích thước dải phim 2 × 6 inch kinh điển. Bạn có thể mang ra hiệu ảnh in làm kỷ niệm lưu giữ bền lâu!
+          </div>
+        </div>
+
+        <!-- Nút làm lại -->
+        <div style="display: flex; justify-content: center; margin-top: 8px;">
+          <button type="button" class="pb-btn pb-btn-secondary" id="btn-reset-booth">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <polyline points="23 20 23 14 17 14"></polyline>
+              <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+            </svg>
+            <span>Chụp dải ảnh mới / Làm lại từ đầu</span>
+          </button>
+        </div>
+
+        <!-- Điều hướng chân trang -->
+        <div class="pb-step-footer-nav">
+          <button type="button" class="pb-btn pb-btn-secondary" id="btn-step-4-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Quay lại trang trí</span>
+          </button>
+
+          <a href="donggop.html" class="pb-btn pb-btn-secondary">
+            <span>Đóng góp ảnh này vào Album</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Thông báo Toast -->
+  <div class="pb-toast" id="pb-toast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-gold);">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>
+    <span id="toast-message">Đã sao chép vào bộ nhớ tạm!</span>
+  </div>
+
+  <script src="photobooth.js"></script>
+</body>
+</html>

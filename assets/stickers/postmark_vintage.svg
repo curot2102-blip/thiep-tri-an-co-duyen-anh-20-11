@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <path id="textCircle" d="M 100, 100 m -65, 0 a 65,65 0 1,1 130,0 a 65,65 0 1,1 -130,0" />
+  </defs>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#b45309" stroke-width="2.5" stroke-dasharray="6 4" opacity="0.85"/>
+  <circle cx="100" cy="100" r="78" fill="none" stroke="#b45309" stroke-width="1.5" opacity="0.9"/>
+  <circle cx="100" cy="100" r="52" fill="none" stroke="#b45309" stroke-width="1" opacity="0.75"/>
+  <text font-family="'Space Grotesk', monospace, sans-serif" font-size="10.5" font-weight="600" fill="#b45309" letter-spacing="1.5">
+    <textPath href="#textCircle" startOffset="5%">★ TRI ÂN CÔ DUYÊN ANH ★ KỶ NIỆM 20.11</textPath>
+  </text>
+  <line x1="40" y1="90" x2="160" y2="90" stroke="#b45309" stroke-width="1.5" opacity="0.7"/>
+  <line x1="40" y1="110" x2="160" y2="110" stroke="#b45309" stroke-width="1.5" opacity="0.7"/>
+  <text x="100" y="103" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#b45309" text-anchor="middle">20 • 11</text>
+  <text x="100" y="128" font-family="'Playfair Display', serif" font-style="italic" font-size="10" fill="#b45309" text-anchor="middle">Special Edition</text>
+</svg>

@@ -1,0 +1,322 @@
+[
+  {
+    "id": "pb_vintage_kraft",
+    "name": "Vintage Kraft Linen",
+    "badge": "16:9 Hoài niệm",
+    "description": "Tông màu be kraft ấm áp cổ điển với chân cam đất hoài niệm",
+    "aspectRatio": "16:9",
+    "width": 560,
+    "height": 1320,
+    "slots": [
+      {
+        "x": 56,
+        "y": 140,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 414,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 688,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 962,
+        "width": 448,
+        "height": 250
+      }
+    ],
+    "bgColor": "#EDE0CF",
+    "footerColor": "#D1842A",
+    "textColor": "#3d2410",
+    "overlay": "assets/frames/photobooth/pb_vintage_kraft.png",
+    "thumb": "assets/frames/photobooth/pb_vintage_kraft_thumb.png"
+  },
+  {
+    "id": "pb_ocean_sky",
+    "name": "Ocean Sky Blue",
+    "badge": "16:9 Tươi mát",
+    "description": "Tông xanh da trời tươi mát điểm chân xanh đại dương sâu lắng",
+    "aspectRatio": "16:9",
+    "width": 560,
+    "height": 1320,
+    "slots": [
+      {
+        "x": 56,
+        "y": 140,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 414,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 688,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 962,
+        "width": 448,
+        "height": 250
+      }
+    ],
+    "bgColor": "#1B97CB",
+    "footerColor": "#058CC3",
+    "textColor": "#ffffff",
+    "overlay": "assets/frames/photobooth/pb_ocean_sky.png",
+    "thumb": "assets/frames/photobooth/pb_ocean_sky_thumb.png"
+  },
+  {
+    "id": "pb_sage_mint",
+    "name": "Sage Mint Green",
+    "badge": "16:9 Dịu nhẹ",
+    "description": "Tông xanh xô thơm bạc hà dịu nhẹ với chân xanh lục bảo",
+    "aspectRatio": "16:9",
+    "width": 560,
+    "height": 1320,
+    "slots": [
+      {
+        "x": 56,
+        "y": 140,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 414,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 688,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 962,
+        "width": 448,
+        "height": 250
+      }
+    ],
+    "bgColor": "#C0F0E4",
+    "footerColor": "#319B73",
+    "textColor": "#164230",
+    "overlay": "assets/frames/photobooth/pb_sage_mint.png",
+    "thumb": "assets/frames/photobooth/pb_sage_mint_thumb.png"
+  },
+  {
+    "id": "pb_pastel_ice",
+    "name": "Pastel Ice Blue",
+    "badge": "16:9 Băng tuyết",
+    "description": "Tông xanh băng tuyết pastel thanh lịch với chân xanh thẫm",
+    "aspectRatio": "16:9",
+    "width": 560,
+    "height": 1320,
+    "slots": [
+      {
+        "x": 56,
+        "y": 140,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 414,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 688,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 962,
+        "width": 448,
+        "height": 250
+      }
+    ],
+    "bgColor": "#C5F0FF",
+    "footerColor": "#036BA2",
+    "textColor": "#034164",
+    "overlay": "assets/frames/photobooth/pb_pastel_ice.png",
+    "thumb": "assets/frames/photobooth/pb_pastel_ice_thumb.png"
+  },
+  {
+    "id": "pb_peach_apricot",
+    "name": "Peach Warm Apricot",
+    "badge": "16:9 Ấm áp",
+    "description": "Tông cam đào mơ chín ấm áp với chân ngà trang nhã",
+    "aspectRatio": "16:9",
+    "width": 560,
+    "height": 1320,
+    "slots": [
+      {
+        "x": 56,
+        "y": 140,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 414,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 688,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 962,
+        "width": 448,
+        "height": 250
+      }
+    ],
+    "bgColor": "#FBC994",
+    "footerColor": "#FFF6F3",
+    "textColor": "#4a2505",
+    "overlay": "assets/frames/photobooth/pb_peach_apricot.png",
+    "thumb": "assets/frames/photobooth/pb_peach_apricot_thumb.png"
+  },
+  {
+    "id": "pb_dark_pine",
+    "name": "Dark Pine Teal",
+    "badge": "16:9 Sang trọng",
+    "description": "Tông xanh thông thẫm sang trọng với điểm nhấn vàng chanh",
+    "aspectRatio": "16:9",
+    "width": 560,
+    "height": 1320,
+    "slots": [
+      {
+        "x": 56,
+        "y": 140,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 414,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 688,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 962,
+        "width": 448,
+        "height": 250
+      }
+    ],
+    "bgColor": "#214045",
+    "footerColor": "#FEE833",
+    "textColor": "#ffffff",
+    "overlay": "assets/frames/photobooth/pb_dark_pine.png",
+    "thumb": "assets/frames/photobooth/pb_dark_pine_thumb.png"
+  },
+  {
+    "id": "pb_vintage_wine",
+    "name": "Vintage Wine Burgundy",
+    "badge": "16:9 Cổ điển",
+    "description": "Tông đỏ vang nho nồng ấm hoài niệm với điểm nhấn vàng bơ",
+    "aspectRatio": "16:9",
+    "width": 560,
+    "height": 1320,
+    "slots": [
+      {
+        "x": 56,
+        "y": 140,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 414,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 688,
+        "width": 448,
+        "height": 250
+      },
+      {
+        "x": 56,
+        "y": 962,
+        "width": 448,
+        "height": 250
+      }
+    ],
+    "bgColor": "#742310",
+    "footerColor": "#FEF68B",
+    "textColor": "#ffffff",
+    "overlay": "assets/frames/photobooth/pb_vintage_wine.png",
+    "thumb": "assets/frames/photobooth/pb_vintage_wine_thumb.png"
+  },
+  {
+    "id": "pb_studio_burgundy",
+    "name": "Studio Burgundy Vintage",
+    "badge": "4:3 Phim Studio",
+    "description": "Dải phim 4:3 phong cách Studio cổ điển chuẩn quốc tế tông đỏ burgundy quý phái",
+    "aspectRatio": "4:3",
+    "width": 627,
+    "height": 1875,
+    "slots": [
+      {
+        "x": 89,
+        "y": 120,
+        "width": 449,
+        "height": 338
+      },
+      {
+        "x": 89,
+        "y": 482,
+        "width": 449,
+        "height": 338
+      },
+      {
+        "x": 89,
+        "y": 844,
+        "width": 449,
+        "height": 338
+      },
+      {
+        "x": 89,
+        "y": 1206,
+        "width": 449,
+        "height": 338
+      }
+    ],
+    "bgColor": "#460005",
+    "footerColor": "#300004",
+    "textColor": "#fdf2e9",
+    "overlay": "assets/frames/photobooth/pb_studio_burgundy.png",
+    "thumb": "assets/frames/photobooth/pb_studio_burgundy_thumb.png"
+  }
+]
