@@ -2896,6 +2896,7 @@
             localStorage.setItem('co_duyen_anh_hearts', '0');
             localStorage.setItem('co_duyen_anh_photos', '[]');
             localStorage.setItem('co_duyen_anh_deleted_ids', '[]');
+            localStorage.setItem(VISITOR_KEY, '[]');
             localStorage.setItem(GAS_CONFIG.PENDING_WISHES_KEY, '[]');
             localStorage.setItem(GAS_CONFIG.PENDING_PHOTOS_KEY, '[]');
 
@@ -3132,6 +3133,10 @@
     function renderAdminDashboard() {
       const wishes = getWishes();
       const photos = getPhotos();
+      let visitors = [];
+      try {
+        visitors = JSON.parse(localStorage.getItem(VISITOR_KEY) || '[]');
+      } catch (e) {}
 
       // Thống kê tổng hợp
       updateStats();
@@ -3233,19 +3238,21 @@
 
       // TAB 3: Nhật ký khách vào
       const visitorBox = document.getElementById('visitor-log');
-      visitorBox.innerHTML = '';
-      if (visitors.length === 0) {
-        visitorBox.innerHTML = '<div style="color: var(--text-muted);">Chưa có lượt truy cập ghi nhận</div>';
-      } else {
-        visitors.forEach(v => {
-          const div = document.createElement('div');
-          div.className = 'visitor-item';
-          div.innerHTML = `
-            <span><strong>${escapeHtml(v.name || 'Khách truy cập')}</strong> (${escapeHtml(v.device || '')})</span>
-            <span>${escapeHtml(v.time || '')}</span>
-          `;
-          visitorBox.appendChild(div);
-        });
+      if (visitorBox) {
+        visitorBox.innerHTML = '';
+        if (!visitors || visitors.length === 0) {
+          visitorBox.innerHTML = '<div style="color: var(--text-muted); padding: 12px;">Chưa có lượt truy cập ghi nhận</div>';
+        } else {
+          visitors.forEach(v => {
+            const div = document.createElement('div');
+            div.className = 'visitor-item';
+            div.innerHTML = `
+              <span><strong>${escapeHtml(v.name || 'Khách truy cập')}</strong> (${escapeHtml(v.device || '')})</span>
+              <span>${escapeHtml(v.time || '')}</span>
+            `;
+            visitorBox.appendChild(div);
+          });
+        }
       }
     }
 
