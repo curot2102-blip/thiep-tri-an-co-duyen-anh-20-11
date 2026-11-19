@@ -1036,6 +1036,7 @@
     setupZoomControls();
     setupMobileItemControls();
     setup3DViewer();
+    setupFullscreenPreview();
 
     // Initial render
     renderCanvas();
@@ -1284,6 +1285,9 @@
 
     // Preload overlay image
     preloadOverlayImage(found);
+
+    // Tự động thích ứng màu sắc nổi bật cho các item Tiêu đề và Chân khung theo mẫu khung vừa chọn
+    updateAdaptiveDecorationsForFrame(found);
 
     if (shouldRender) {
       renderCanvas();
@@ -1787,6 +1791,232 @@
     });
   }
 
+  const FRAME_RECOMMENDED_HEADERS = {
+    pb_frame_01: 'header_trang_sach',
+    pb_frame_02: 'header_tri_an',
+    pb_frame_03: 'header_ao_trang',
+    pb_frame_04: 'header_mua_ha',
+    pb_frame_05: 'header_chao_tuong_lai',
+    pb_frame_06: 'header_chuyen_bay',
+    pb_frame_07: 'header_thuy_mac',
+    pb_frame_08: 'header_chap_canh'
+  };
+
+  const FRAME_COLOR_PALETTES = {
+    pb_frame_01: {
+      isLight: false,
+      c_main: '#FFFFFF',
+      c_sub: '#FDE047',
+      c_line: '#C084FC',
+      shadowColor: '#000000',
+      shadowOpacity: '0.75'
+    },
+    pb_frame_02: {
+      isLight: false,
+      c_main: '#FDE047',
+      c_sub: '#FFFFFF',
+      c_line: '#60A5FA',
+      shadowColor: '#000000',
+      shadowOpacity: '0.85'
+    },
+    pb_frame_03: {
+      isLight: true,
+      c_main: '#14532D',
+      c_sub: '#854D0E',
+      c_line: '#166534',
+      shadowColor: '#FFFFFF',
+      shadowOpacity: '0.85'
+    },
+    pb_frame_04: {
+      isLight: false,
+      c_main: '#FFFFFF',
+      c_sub: '#FEF08A',
+      c_line: '#FB7185',
+      shadowColor: '#000000',
+      shadowOpacity: '0.75'
+    },
+    pb_frame_05: {
+      isLight: true,
+      c_main: '#78350F',
+      c_sub: '#B45309',
+      c_line: '#D97706',
+      shadowColor: '#FFFFFF',
+      shadowOpacity: '0.7'
+    },
+    pb_frame_06: {
+      isLight: false,
+      c_main: '#FFFFFF',
+      c_sub: '#6EE7B7',
+      c_line: '#34D399',
+      shadowColor: '#000000',
+      shadowOpacity: '0.75'
+    },
+    pb_frame_07: {
+      isLight: false,
+      c_main: '#FFFFFF',
+      c_sub: '#FDE68A',
+      c_line: '#94A3B8',
+      shadowColor: '#000000',
+      shadowOpacity: '0.85'
+    },
+    pb_frame_08: {
+      isLight: false,
+      c_main: '#FFFFFF',
+      c_sub: '#FDE047',
+      c_line: '#FB923C',
+      shadowColor: '#000000',
+      shadowOpacity: '0.75'
+    }
+  };
+
+  const HEADER_TEMPLATES = {
+    header_ao_trang: {
+      l1: 'MỘT THỜI',
+      l2: 'ÁO TRẮNG',
+      sub: 'NẮNG SỚM SÂN TRƯỜNG'
+    },
+    header_mua_ha: {
+      l1: 'MÙA HẠ',
+      l2: 'NĂM ẤY',
+      sub: 'THỜI GIAN TRÔI • KỶ NIỆM Ở LẠI'
+    },
+    header_chao_tuong_lai: {
+      l1: 'CHÀO',
+      l2: 'TƯƠNG LAI',
+      sub: 'TỎA SÁNG • 2026'
+    },
+    header_chuyen_bay: {
+      l1: 'CHUYẾN BAY',
+      l2: 'THANH XUÂN',
+      sub: 'HÀNH TRÌNH TUỔI TRẺ'
+    },
+    header_thuy_mac: {
+      l1: 'NGƯỜI LÁI ĐÒ',
+      l2: 'THẦM LẶNG',
+      sub: 'CHUYẾN ĐÒ TRI THỨC 20 • 11'
+    },
+    header_chap_canh: {
+      l1: 'CHẮP CÁNH',
+      l2: 'ƯỚC MƠ',
+      sub: 'HÀNH TRÌNH TRI THỨC'
+    },
+    header_trang_sach: {
+      l1: 'TRANG SÁCH',
+      l2: 'THANH XUÂN',
+      sub: 'KÝ ỨC ĐẸP • 2026'
+    },
+    header_tri_an: {
+      l1: 'TRI ÂN',
+      l2: 'NGƯỜI LÁI ĐÒ',
+      sub: 'KÍNH TẶNG • 20.11'
+    }
+  };
+
+  function getAdaptiveStickerSvg(stickerDef, frame) {
+    if (!stickerDef) return '';
+    const frameId = (frame && frame.id) ? frame.id : (state.currentFrameId || 'pb_frame_01');
+    const palette = FRAME_COLOR_PALETTES[frameId] || FRAME_COLOR_PALETTES['pb_frame_01'];
+
+    if (stickerDef.id in HEADER_TEMPLATES) {
+      const t = HEADER_TEMPLATES[stickerDef.id];
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 110" width="320" height="110">
+  <defs>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2.2" stdDeviation="2.2" flood-color="${palette.shadowColor}" flood-opacity="${palette.shadowOpacity}"/>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&amp;family=Playfair+Display:wght@800;900&amp;display=swap');
+      .title { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 33px; fill: ${palette.c_main}; letter-spacing: 0.05em; filter: url(#softShadow); }
+      .sub { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; font-size: 13.5px; fill: ${palette.c_sub}; letter-spacing: 0.15em; filter: url(#softShadow); }
+    </style>
+  </defs>
+  <text x="160" y="36" text-anchor="middle" class="title">${t.l1}</text>
+  <text x="160" y="70" text-anchor="middle" class="title">${t.l2}</text>
+  <line x1="70" y1="80" x2="250" y2="80" stroke="${palette.c_line}" stroke-width="1.4" opacity="0.8" />
+  <text x="160" y="98" text-anchor="middle" class="sub">${t.sub}</text>
+</svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.trim());
+    }
+
+    if (stickerDef.id === 'footer_quote_trian') {
+      const quoteColor = palette.isLight ? '#14532D' : '#FDE047';
+      const subColor = palette.isLight ? '#475569' : '#FFFFFF';
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
+  <defs>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="${palette.shadowColor}" flood-opacity="${palette.shadowOpacity}"/>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&amp;family=Playfair+Display:ital,wght@1,800&amp;display=swap');
+      .quote { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 800; font-size: 26px; fill: ${quoteColor}; filter: url(#softShadow); }
+      .sub { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; font-size: 13px; fill: ${subColor}; letter-spacing: 0.14em; filter: url(#softShadow); }
+    </style>
+  </defs>
+  <text x="160" y="38" text-anchor="middle" class="quote">“ Một chữ cũng là thầy ”</text>
+  <line x1="60" y1="51" x2="260" y2="51" stroke="${palette.c_line}" stroke-width="1.2" opacity="0.6"/>
+  <text x="160" y="70" text-anchor="middle" class="sub">— NGÀY NHÀ GIÁO VIỆT NAM 20.11 —</text>
+</svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.trim());
+    }
+
+    if (stickerDef.id === 'footer_music_kyniem' || stickerDef.id === 'footer_music_bui_phan') {
+      const isBuiPhan = (stickerDef.id === 'footer_music_bui_phan');
+      const songTitle = isBuiPhan ? 'Bụi Phấn • Thầy Cô 20/11' : 'Mong Ước Kỷ Niệm Xưa';
+      const titleColor = palette.isLight ? '#1E293B' : '#FFFFFF';
+      const barFill = palette.isLight ? '#D97706' : '#F59E0B';
+      const subColor = palette.isLight ? '#64748B' : '#FDE047';
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
+  <defs>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1.8" stdDeviation="1.8" flood-color="${palette.shadowColor}" flood-opacity="${palette.shadowOpacity}"/>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&amp;display=swap');
+      .title { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; font-size: 14.5px; fill: ${titleColor}; letter-spacing: 0.05em; filter: url(#softShadow); }
+      .time { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 11.5px; fill: ${subColor}; filter: url(#softShadow); }
+    </style>
+  </defs>
+  <polygon points="40,25 56,35 40,45" fill="${barFill}" filter="url(#softShadow)" />
+  <text x="70" y="39" class="title">${songTitle}</text>
+  <rect x="40" y="52" width="240" height="5" rx="2.5" fill="rgba(255,255,255,0.25)" />
+  <rect x="40" y="52" width="140" height="5" rx="2.5" fill="${barFill}" />
+  <circle cx="180" cy="54.5" r="5" fill="#FFFFFF" />
+  <text x="40" y="70" class="time">02:11</text>
+  <text x="280" y="70" text-anchor="end" class="time">04:30</text>
+</svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.trim());
+    }
+
+    return stickerDef.file;
+  }
+
+  function updateAdaptiveDecorationsForFrame(frame) {
+    if (!frame) return;
+    state.decorations.forEach(item => {
+      if (item.type === 'sticker') {
+        const stickerDef = state.stickers.find(s => s.id === item.stickerId);
+        if (stickerDef && (stickerDef.id in HEADER_TEMPLATES || stickerDef.id.startsWith('footer_'))) {
+          const adaptiveSrc = getAdaptiveStickerSvg(stickerDef, frame);
+          if (adaptiveSrc) {
+            const newImg = new Image();
+            newImg.src = adaptiveSrc;
+            newImg.onload = () => {
+              item.img = newImg;
+              renderCanvas();
+            };
+          }
+        }
+      }
+    });
+
+    if (state.currentStep === 3) {
+      renderStickersTray(getCurrentStickerFilter());
+    }
+  }
+
   const DECOR_SUBSTEP_HINTS = {
     header: 'Phần trên (Bước 1/4): Chọn 1 tiêu đề nghệ thuật trang trí đầu dải ảnh (tự động căn giữa phía trên).',
     middle: 'Phần giữa (Bước 2/4): Trang trí các ô ảnh bằng dấu số thứ tự (01 – 04) hoặc icon trang trí góc ảnh.',
@@ -1952,6 +2182,13 @@
       return false;
     });
 
+    if (filter === 'header') {
+      const recId = FRAME_RECOMMENDED_HEADERS[state.currentFrameId];
+      if (recId) {
+        filtered.sort((a, b) => (a.id === recId ? -1 : (b.id === recId ? 1 : 0)));
+      }
+    }
+
     filtered.forEach(st => {
       grid.appendChild(createStickerItemEl(st, isWideLayout));
     });
@@ -1960,26 +2197,32 @@
   function createStickerItemEl(st, isWide) {
     const item = document.createElement('div');
     const isSelected = state.decorations.some(d => d.stickerId === st.id);
-    item.className = 'pb-sticker-item ' + (isWide ? 'item-wide' : 'item-card') + (isSelected ? ' selected' : '');
+    const isRecommended = (FRAME_RECOMMENDED_HEADERS[state.currentFrameId] === st.id);
+    item.className = 'pb-sticker-item ' + (isWide ? 'item-wide' : 'item-card') + (isSelected ? ' selected' : '') + (isRecommended ? ' recommended-item' : '');
     item.dataset.id = st.id;
     item.setAttribute('tabindex', '0');
     item.setAttribute('role', 'button');
     item.setAttribute('aria-label', `${isSelected ? 'Đang dùng' : 'Thêm'} ${st.name}`);
 
+    const imgSrc = getAdaptiveStickerSvg(st, state.currentFrame);
+
     if (isWide) {
       item.innerHTML = `
         <div class="pb-sticker-preview-box">
-          <img class="pb-sticker-img" src="${st.file}" alt="${st.name}" loading="lazy">
+          <img class="pb-sticker-img" src="${imgSrc}" alt="${st.name}" loading="lazy">
         </div>
         <div class="pb-sticker-meta">
-          <span class="pb-sticker-name">${st.name}</span>
-          <span class="pb-sticker-hint">${isSelected ? '✓ Đang dùng trên dải ảnh (Chạm để gỡ)' : 'Chạm để gắn vào dải ảnh'}</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="pb-sticker-name">${st.name}</span>
+            ${isRecommended ? '<span class="pb-recommend-badge">Khuyên dùng</span>' : ''}
+          </div>
+          <span class="pb-sticker-hint">${isSelected ? '✓ Đang dùng trên dải ảnh (Chạm để gỡ)' : (isRecommended ? '✨ Tối ưu màu sắc nổi bật nhất cho khung này' : 'Chạm để gắn vào dải ảnh')}</span>
         </div>
       `;
     } else {
       item.innerHTML = `
         <div class="pb-sticker-preview-box">
-          <img class="pb-sticker-img" src="${st.file}" alt="${st.name}" loading="lazy">
+          <img class="pb-sticker-img" src="${imgSrc}" alt="${st.name}" loading="lazy">
         </div>
         <span class="pb-sticker-name">${st.name}</span>
       `;
@@ -2038,9 +2281,9 @@
       }
     }
 
-    // Preload image
+    // Preload image with adaptive styling
     const img = new Image();
-    img.src = stickerDef.file;
+    img.src = getAdaptiveStickerSvg(stickerDef, state.currentFrame);
     img.onload = () => {
       const frame = state.currentFrame;
       let initX = frame.width / 2;
@@ -2665,12 +2908,12 @@
     }
 
     btnZoomIn?.addEventListener('click', () => {
-      state.zoom = Math.min(2.0, state.zoom + 0.15);
+      state.zoom = Math.min(2.5, state.zoom + 0.2);
       applyZoom(zoomDisplay);
     });
 
     btnZoomOut?.addEventListener('click', () => {
-      state.zoom = Math.max(0.5, state.zoom - 0.15);
+      state.zoom = Math.max(0.5, state.zoom - 0.2);
       applyZoom(zoomDisplay);
     });
 
@@ -2684,9 +2927,86 @@
     if (canvas) {
       canvas.style.transform = `scale(${state.zoom})`;
     }
+    const container = document.getElementById('canvas-container');
+    if (container) {
+      if (state.zoom > 1.0) {
+        container.style.overflow = 'auto';
+        container.style.cursor = 'grab';
+      } else {
+        container.style.overflow = 'hidden';
+        container.style.cursor = 'default';
+      }
+    }
     if (displayEl) {
       displayEl.textContent = `${Math.round(state.zoom * 100)}%`;
     }
+  }
+
+  function setupFullscreenPreview() {
+    const modal = document.getElementById('pb-fullscreen-modal');
+    const btnOpen = document.getElementById('btn-preview-fullscreen');
+    const btnClose = document.getElementById('btn-fs-close');
+    const backdrop = document.getElementById('pb-fs-backdrop');
+    const fsImg = document.getElementById('pb-fs-img');
+    const fsStage = document.getElementById('pb-fs-stage');
+    const btnZoomIn = document.getElementById('btn-fs-zoom-in');
+    const btnZoomOut = document.getElementById('btn-fs-zoom-out');
+    const btnZoomReset = document.getElementById('btn-fs-zoom-reset');
+    const zoomValEl = document.getElementById('fs-zoom-display');
+
+    if (!modal || !btnOpen) return;
+
+    let fsZoom = 1.0;
+
+    function applyFsZoom() {
+      if (fsStage) {
+        fsStage.style.transform = `scale(${fsZoom.toFixed(2)})`;
+      }
+      if (zoomValEl) {
+        zoomValEl.textContent = `${Math.round(fsZoom * 100)}%`;
+      }
+    }
+
+    function openFsModal() {
+      if (!canvas) return;
+      fsZoom = 1.0;
+      applyFsZoom();
+      fsImg.src = canvas.toDataURL('image/png', 1.0);
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      showToast('Đang xem trước phóng to dải ảnh Photobooth');
+    }
+
+    function closeFsModal() {
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+      if (fsImg) fsImg.src = '';
+    }
+
+    btnOpen.addEventListener('click', openFsModal);
+    btnClose?.addEventListener('click', closeFsModal);
+    backdrop?.addEventListener('click', closeFsModal);
+
+    btnZoomIn?.addEventListener('click', () => {
+      fsZoom = Math.min(3.0, fsZoom + 0.25);
+      applyFsZoom();
+    });
+
+    btnZoomOut?.addEventListener('click', () => {
+      fsZoom = Math.max(0.5, fsZoom - 0.25);
+      applyFsZoom();
+    });
+
+    btnZoomReset?.addEventListener('click', () => {
+      fsZoom = 1.0;
+      applyFsZoom();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        closeFsModal();
+      }
+    });
   }
 
   function setupMobileItemControls() {
@@ -3050,6 +3370,12 @@
         if (hud) hud.style.display = 'flex';
         if (sheen) sheen.style.display = 'block';
 
+        const backFace = document.getElementById('pb-3d-back-face');
+        if (backFace && canvas) {
+          backFace.style.width = canvas.offsetWidth + 'px';
+          backFace.style.height = canvas.offsetHeight + 'px';
+        }
+
         targetRotX = 10;
         targetRotY = -14;
         rotX = 10;
@@ -3072,6 +3398,11 @@
         if (hud) hud.style.display = 'none';
         if (sheen) sheen.style.display = 'none';
         if (stage) stage.style.transform = '';
+        const backFace = document.getElementById('pb-3d-back-face');
+        if (backFace) {
+          backFace.style.width = '';
+          backFace.style.height = '';
+        }
         cancelAnimationFrame(anim3DId);
         isAutoSpinning = false;
         if (spinBtn) spinBtn.classList.remove('is-active');

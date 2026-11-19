@@ -1972,6 +1972,212 @@ button:focus-visible, [tabindex="0"]:focus-visible, a:focus-visible {
   transform-style: preserve-3d;
   filter: drop-shadow(25px 40px 60px rgba(0, 0, 0, 0.88)) drop-shadow(0 0 25px rgba(245, 158, 11, 0.18)) !important;
   border-radius: 4px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(1px);
+}
+
+.pb-3d-back-face {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateY(180deg) translateZ(1px);
+  background: #ffffff !important;
+  border-radius: 4px;
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+  display: none;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.pb-canvas-wrapper.is-3d-mode .pb-3d-back-face {
+  display: block;
+}
+
+.pb-btn-fullscreen-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 6px;
+  color: var(--accent-gold);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-left: 4px;
+}
+
+.pb-btn-fullscreen-toggle:hover {
+  background: rgba(245, 158, 11, 0.22);
+  border-color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+/* ===================================================================
+   HỘP THOẠI PHÓNG TO XEM TRƯỚC PHOTOBOOTH (FULLSCREEN LIGHTBOX)
+   =================================================================== */
+
+.pb-fullscreen-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pbModalFadeIn 0.2s ease-out;
+}
+
+@keyframes pbModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.pb-fs-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 7, 13, 0.88);
+  backdrop-filter: blur(10px);
+}
+
+.pb-fs-container {
+  position: relative;
+  z-index: 2;
+  width: min(94vw, 720px);
+  height: min(94vh, 94dvh);
+  display: flex;
+  flex-direction: column;
+  background: #090d16;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 14px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+}
+
+.pb-fs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(15, 23, 42, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pb-fs-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pb-fs-pill {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #0b0f19;
+  background: var(--accent-gold);
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.pb-fs-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.pb-fs-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pb-fs-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pb-fs-btn:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.pb-fs-zoom-val {
+  min-width: 44px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+.pb-fs-close {
+  width: 32px;
+  height: 32px;
+  margin-left: 6px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pb-fs-close:hover {
+  background: rgba(239, 68, 68, 0.3);
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+.pb-fs-body {
+  flex: 1;
+  position: relative;
+  overflow: auto;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+  touch-action: pan-x pan-y;
+}
+
+.pb-fs-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s ease-out;
+  user-select: none;
+}
+
+#pb-fs-img {
+  max-width: 100%;
+  max-height: calc(94vh - 120px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
 }
 
 .pb-3d-sheen-layer {

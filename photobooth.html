@@ -107,6 +107,7 @@
 
         <div class="pb-3d-stage" id="pb-3d-stage">
           <canvas id="pb-canvas"></canvas>
+          <div class="pb-3d-back-face" id="pb-3d-back-face" aria-hidden="true"></div>
           <div class="pb-3d-sheen-layer" id="pb-3d-sheen"></div>
         </div>
       </div>
@@ -129,6 +130,15 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
             </svg>
+          </button>
+          <button type="button" class="pb-btn-fullscreen-toggle" id="btn-preview-fullscreen" title="Phóng to xem trước dải ảnh sắc nét" aria-label="Phóng to xem trước">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <polyline points="9 21 3 21 3 15"></polyline>
+              <line x1="21" y1="3" x2="14" y2="10"></line>
+              <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+            <span>Phóng to</span>
           </button>
         </div>
 
@@ -746,6 +756,37 @@
 
     </section>
   </main>
+
+  <!-- HỘP THOẠI PHÓNG TO XEM TRƯỚC PHOTOBOOTH TOÀN MÀN HÌNH -->
+  <div class="pb-fullscreen-modal" id="pb-fullscreen-modal" style="display: none;" role="dialog" aria-modal="true" aria-label="Xem trước dải ảnh phóng to">
+    <div class="pb-fs-backdrop" id="pb-fs-backdrop"></div>
+    <div class="pb-fs-container">
+      <div class="pb-fs-header">
+        <div class="pb-fs-title-group">
+          <span class="pb-fs-pill">HD PREVIEW</span>
+          <span class="pb-fs-title">Xem trước dải ảnh Photobooth</span>
+        </div>
+        <div class="pb-fs-actions">
+          <button type="button" class="pb-fs-btn" id="btn-fs-zoom-out" title="Thu nhỏ xem trước" aria-label="Thu nhỏ">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <span class="pb-fs-zoom-val" id="fs-zoom-display">100%</span>
+          <button type="button" class="pb-fs-btn" id="btn-fs-zoom-in" title="Phóng to xem trước" aria-label="Phóng to">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <button type="button" class="pb-fs-btn" id="btn-fs-zoom-reset" title="Đặt lại kích thước chuẩn" aria-label="Kích thước chuẩn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+          </button>
+          <button type="button" class="pb-fs-close" id="btn-fs-close" title="Đóng chế độ phóng to" aria-label="Đóng">✕</button>
+        </div>
+      </div>
+      <div class="pb-fs-body" id="pb-fs-body">
+        <div class="pb-fs-stage" id="pb-fs-stage">
+          <img id="pb-fs-img" src="" alt="Dải ảnh photobooth phóng to sắc nét">
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Thông báo Toast -->
   <div class="pb-toast" id="pb-toast">
